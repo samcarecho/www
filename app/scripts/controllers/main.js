@@ -1,10 +1,17 @@
 'use strict';
 
-angular.module('atadosAngularApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+var app = angular.module('atadosAngularApp');
+
+app.controller('MainCtrl', function ($scope) {
+  $scope.awesomeThings = [
+  'HTML5 Boilerplate',
+  'AngularJS',
+  'Karma'
+  ];
+});
+
+app.controller('TranslateCtrl', ['$translate', '$scope', function ($translate, $scope) {
+  $scope.changeLanguage = function (langKey) {
+    $translate.uses(langKey);
+  };
+}]);

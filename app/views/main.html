@@ -1,9 +1,10 @@
 <div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
+  <h3>{{ 'HEADLINE' | translate }}</h3>
   <ul>
       <li ng-repeat="thing in awesomeThings">{{thing}}</li>
   </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3>
+  <div ng-controller="TranslateCtrl">
+    <button ng-click="changeLanguage('pt_BR')">Portugues</button>
+    <button ng-click="changeLanguage('en_US')">English</button>
+  </div>
 </div>
