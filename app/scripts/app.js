@@ -1,12 +1,12 @@
 'use strict';
 
-var app = angular.module('atados', ['pascalprecht.translate']);
+var app = angular.module('atadosApp', ['pascalprecht.translate']);
 
 app.config(function ($routeProvider) {
   $routeProvider
   .when('/', {
     templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
+    controller: 'MainController'
   })
   .otherwise({
     redirectTo: '/'

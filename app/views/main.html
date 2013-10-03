@@ -1,45 +1,49 @@
 <div class="navbar navbar-inverse navbar-fixed-top" bs-navbar>
   <div class="navbar-inner">
-    <div class="navbar-flags" ng-controller="TranslateCtrl">
+    <div class="navbar-flags" ng-controller="TranslateController">
       <a ng-click="changeLanguage('pt_BR')"><img class="flag flag-br" alt="Portugues Brasileiro"></a>
       <a ng-click="changeLanguage('en_US')"><img class="flag flag-us" alt="American English"></a>
     </div>
 
     <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-
       <a class="brand" href="/"></a>
       <div class="nav-collapse collapse">
-        <form class="navbar-search" action="" method="get">
-          <input type="text" class="search-query" name="q" value="" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}">
-        </form>
-        <div  class="nav pull-right">
-          <button class="login btn btn-primary">Sign in</a>
+        <div ng-controller="SearchNavController">
+          <form class="navbar-search" action="" method="get">
+            <input ng-model="input" type="text" class="search-query" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}">
+          </form>
+          <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BUTTON</button>
         </div>
 
-        <ul class="nav pull-right">
-          <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">username {{ user.name }}<span class="caret"></span></a>
-          <ul class="dropdown-menu" style="left:auto; right:0">
-            <li>
-            <div style="padding:3px 15px; margin-bottom:12px">
-              <span style="display:block; text-transform:uppercase">{{ user.name }}</span>
-              <span style="display:block">{{ user.email }}</span>
-            </div>
-            </li>{{ volunteer_session.get_absolute_url }}
-            <li><a href="">My profile</a></li>
-            <li class="divider"></li>
-            <li><a href="">Edit my information</a></li>
-            <li class="divider"></li>
-            <li> <a class="logout" href="#">Sign out</a></li>
+        <div ng-controller="AuthController">
+          <div class="nav pull-right">
+            <button ng-click="login()" class="btn btn-primary" translate>LOGIN_BUTTON</button>
+          </div>
+
+          <ul class="nav pull-right">
+            <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ user.name }}<span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left:auto; right:0">
+              <li>
+              <div style="padding:3px 15px; margin-bottom:12px">
+                <span style="display:block; text-transform:uppercase">{{ user.name }}</span>
+                <span style="display:block">{{ user.email }}</span>
+              </div>
+              </li>{{ volunteer_session.get_absolute_url }}
+              <li><a href="">My profile</a></li>
+              <li class="divider"></li>
+              <li><a href="">Edit my information</a></li>
+              <li class="divider"></li>
+              <li> <a class="logout" href="#">Sign out</a></li>
+            </ul>
+            </li>
           </ul>
-          </li>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+<div ng-controller="CauseController"> 
+  <p>Hello this is what you are searching {{ input }}</p>
 </div>
