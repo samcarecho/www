@@ -1,10 +1,11 @@
+$atadosSprite: "../images/atados-sprite.png";
+$flags: "../images/flags.png";
 $iconSpritePath: "../images/glyphicons-halflings.png";
 $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
-$flags: "../images/flags.png";
-$atadosSprite: "../images/atados-sprite.png";
 
-@import "bootstrap-sass/lib/bootstrap";
+// @import "bootstrap-sass/lib/bootstrap";
 
+// Atados color
 $blue:#69d1e8;
 $grayDarker:#222;
 $grayDark:#333;
@@ -119,21 +120,11 @@ ul.feed {
 
 .navbar {
   .brand {
-    background:url($atadosSprite) no-repeat 0 0;
-    width:145px;
+    background:url($atadosSprite) no-repeat;
+    width:136px;
     height:45px;
-    overflow:hidden;
-    text-indent:-999em;
     padding:0;
-    margin:10px 54px 0 0px;
-  }
-}
-
-@media (max-width: 979px) {
-  .navbar {
-    .brand {
-      margin-left:20px;
-    }
+    margin:10px 30px 0px 0px;
   }
 }
 
@@ -1137,7 +1128,6 @@ ul.feed {
   }
 }
 
-
 .flag {
   width: 16px;
   height: 11px;
@@ -1148,3 +1138,12 @@ ul.feed {
 .flag.flag-es {background-position: -32px 0}
 .flag.flag-mx {background-position: 0 -11px}
 .flag.flag-us {background-position: -16px -11px}
+
+.navbar-flags {
+  margin:15px;
+  position:absolute;
+}
+
+.search-query {
+  width: 250px;
+}

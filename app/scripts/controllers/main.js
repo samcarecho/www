@@ -4,9 +4,6 @@ var app = angular.module('atados');
 
 app.controller('MainCtrl', function ($scope) {
   $scope.awesomeThings = [
-  'HTML5 Boilerplate',
-  'AngularJS',
-  'Karma'
   ];
 });
 
