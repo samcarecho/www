@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('atadosAngularApp');
+var app = angular.module('atados');
 
 app.controller('MainCtrl', function ($scope) {
   $scope.awesomeThings = [

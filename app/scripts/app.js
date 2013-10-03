@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('atadosAngularApp', ['pascalprecht.translate']);
+var app = angular.module('atados', ['pascalprecht.translate']);
 
 app.config(function ($routeProvider) {
   $routeProvider
