@@ -15,6 +15,19 @@ $grayLighter:#eee;
 $blueDark:#12bad1;
 $orange:#f28730;
 
+body {
+  padding-top: 86px;
+  padding-bottom: 40px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.modal-body {
+  max-height: 1000px;  
+}                      
+
 p.block-message {
   padding:10px;
   text-align:center;

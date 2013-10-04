@@ -2,10 +2,17 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('MainController', function ($scope) {
-  $scope.awesomeThings = [
-  ];
-});
+function MainController($scope) {
+  $scope.site = {
+    name : "Atados - Juntando gente Boa",
+    copyright: "",
+    programmer: "Marjori Pomarole (marjori@atados.com.br)"
+  };
+
+  $scope.search = function () {
+    console.log("Trying to search for " + $scope.input);
+  };
+};
 
 function TranslateController ($translate, $scope) {
   $scope.changeLanguage = function (langKey) {
@@ -14,11 +21,6 @@ function TranslateController ($translate, $scope) {
 }
 
 function SearchNavController ($scope) {
-  $scope.search = function () {
-    console.log("Trying to search for " + $scope.input);
-  };
-
-  console.log("Trying to search for " + $scope.input);
 }
 
 function AuthController ($scope) {

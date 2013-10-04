@@ -8,28 +8,22 @@
     <div class="container">
       <a class="brand" href="/"></a>
       <div class="nav-collapse collapse">
-        <div ng-controller="SearchNavController">
-          <form class="navbar-search" action="" method="get">
-            <input ng-model="input" type="text" class="search-query" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}">
-          </form>
-          <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BUTTON</button>
-        </div>
-
-        <div ng-controller="AuthController">
-          <div class="nav pull-right">
-            <button ng-click="login()" class="btn btn-primary" translate>LOGIN_BUTTON</button>
-          </div>
+        <form class="navbar-search" action="" method="get">
+          <input ng-model="input" type="text" class="search-query" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}">
+        </form>
+        <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BUTTON</button>
+        <button ng-click="login()" class="btn btn-primary" translate>LOGIN_BUTTON</button>
 
           <ul class="nav pull-right">
             <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ user.name }}<span class="caret"></span></a>
-            <ul class="dropdown-menu" style="left:auto; right:0">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">hello {{ user.name }}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
               <li>
-              <div style="padding:3px 15px; margin-bottom:12px">
-                <span style="display:block; text-transform:uppercase">{{ user.name }}</span>
-                <span style="display:block">{{ user.email }}</span>
+              <div>
+                <span>{{ user.name }}</span>
+                <span>{{ user.email }}</span>
               </div>
-              </li>{{ volunteer_session.get_absolute_url }}
+              </li>
               <li><a href="">My profile</a></li>
               <li class="divider"></li>
               <li><a href="">Edit my information</a></li>
@@ -38,12 +32,54 @@
             </ul>
             </li>
           </ul>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div ng-controller="CauseController"> 
+<div class="container">
   <p>Hello this is what you are searching {{ input }}</p>
 </div>
+
+<div class="container" ng-controller"MessagesController">
+  <div class="messages">
+    <div class="alert alert-success alert-dismissable">
+      <strong>Boa!</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="footer" class="well">
+    <div class="row-fluid">
+      <div class="span3 logo">
+        <div>
+          {{ site.name }}
+        </div>
+      </div>
+      <div class="span3">
+        <h4>{{ site.name }}</h4>
+        <ul>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Colabore</a></li>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Novidades</a></li>
+        </ul>
+      </div>
+      <h4>Social</h4>
+      <ul>
+        <li><a href="http://www.atados.com.br/blog/">Blog</a></li>
+        <li><a href="https://www.facebook.com/atadosjuntandogenteboa">Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="footer-legal" class="text-center">
+  <ul>
+    <li><a href="{{ terms.url }}">Termos de Serviço</a></li>
+    <li><a href="{{ privacy.url }}">Privacidade</a></li>
+    <li id="copyright">&copy; 2013 {{ site.name }}</li>
+  </ul>
+</div><!-- /#footer-legal -->
