@@ -3,8 +3,6 @@ $flags: "../images/flags.png";
 $iconSpritePath: "../images/glyphicons-halflings.png";
 $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
-// @import "bootstrap-sass/lib/bootstrap";
-
 // Atados color
 $blue:#69d1e8;
 $grayDarker:#222;
@@ -14,31 +12,6 @@ $grayLight:#999;
 $grayLighter:#eee;
 $blueDark:#12bad1;
 $orange:#f28730;
-
-html, body {
-  height: 100%;
-}
-
-/* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Negative indent footer by it's height */
-  margin: 0 auto -190px;
-}
-
-.main {
-  padding-top: 68px;
-}
-
-.centered {
-  text-align: center;
-}
-
-.modal-body {
-  max-height: 1000px;  
-}                      
 
 p.block-message {
   padding:10px;
@@ -247,10 +220,8 @@ footer {
   }
 }
 
-.page-header.centered {
-  & > h1 {
-    text-align:center;
-  }
+.centered {
+  text-align:center;
 }
 
 #volunteer-sign-up,
@@ -1151,5 +1122,5 @@ footer {
 }
 
 .search-query {
-  width: 250px;
+  width: 350px;
 }

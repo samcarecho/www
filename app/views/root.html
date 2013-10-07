@@ -1,4 +1,4 @@
-<header class="navbar navbar-inverse navbar-fixed-top" bs-navbar>
+<header class="navbar navbar-inverse navbar-static-top" bs-navbar>
   <div class="navbar-inner">
     <div class="navbar-flags">
       <a ng-click="changeLanguage('pt_BR')"><img class="flag flag-br" alt="Portugues Brasileiro"></a>
@@ -11,16 +11,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+
       <a class="brand" href="#"></a>
+
       <div class="nav-collapse collapse">
         <form class="navbar-search" action="" method="get">
           <input ng-model="input" type="text" class="search-query" placeholder="{{'SEARCH_PLACEHOLDER'|translate}}">
         </form>
         <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BUTTON</button>
 
-        <ul class="nav pull-right">
+        <ul class="nav pull-right" ng-show="userLoggedIn">
           <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">hello {{ user.name }}<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user.name }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
             <div>
@@ -41,15 +43,25 @@
   </div>
 </header>
 
-<div class="main container" ui-view>
-  <p>Hello this is what you are searching {{ input }}</p>
-  <div ng-controller"MessagesController">
-    <div class="messages">
-      <div class="alert alert-success alert-dismissable">
-        <strong>Boa!</strong> {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      </div>
-    </div>
+<div class="container">
+
+  <div class="well well-small centered" ng-controller="LoginController">
+    <div class="alert alert-error" ng-show="loginError" translate>USER_PASS_INCORRECT</div>
+    Entre na sua conta ou <a class="btn" ui-sref="root.signup">cadastre-se!</a>
+    <form>
+      <input type='text' ng-model='user.username' placeholder="{{'USERNAME'|translate}}"/>
+      <input type='password' ng-model='user.password' placeholder="{{'PASSWORD'|translate}}"/>
+      <button class="btn btn-primary" ng-click="login()" translate>LOGIN_BUTTON</button>
+    </form>
+  </div>
+
+  <div class="alert alert-success alert-dismissable messages" ng-controller="MessagesController" ng-show="hasMessages">
+    <strong>Boa!</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  </div>
+
+  <div ui-view>
+    <p>Hello this is what you are searching {{ input }}</p>
   </div>
 </div>
 

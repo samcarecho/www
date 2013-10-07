@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('atadosApp', ['ui.router', 'pascalprecht.translate']);
+var app = angular.module('atadosApp', ['ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -13,9 +13,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       url: '',
       templateUrl: 'views/landing.html'
     })
-    .state('root.login', {
-      url: '/login',
-      templateUrl: 'views/login.html'
+    .state('root.signup', {
+      url: '/signup',
+      templateUrl: 'views/signup-start.html'
+    })
+    .state('root.signup.nonprofit', {
+      url: '/nonprofit',
+      templateUrl: 'views/signup-nonprofit.html'
+    })
+    .state('root.signup.volunteer', {
+      url: '/signup/volunteer',
+      templateUrl: 'views/signup-volunteer.html'
     });
 });
 
