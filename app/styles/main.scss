@@ -15,9 +15,22 @@ $grayLighter:#eee;
 $blueDark:#12bad1;
 $orange:#f28730;
 
-body {
-  padding-top: 86px;
-  padding-bottom: 40px;
+html, body {
+  height: 100%;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -190px;
+}
+
+
+#wrap > .container {
+  padding-top: 68px;
 }
 
 .centered {
@@ -141,66 +154,47 @@ ul.feed {
   }
 }
 
-.breadcrumb {
-  background:none;
-  padding:0;
-  margin:0;
+#push, #footer {
+  height: 192px;
+}
 
-  li {
-    &:after {
-      color:#ccc;
-      padding:0 5px 0 10px;
-      content:"/";
+footer {
+
+  #footer {
+    
+    a {
+      color:#999;
     }
-    &.active {
-      &:after {
-        content:"";
-        padding:0;
+
+    .logo {
+      width:180px;
+
+      div {
+        margin-top:55px;
+        text-align:center;
+      }
+    }
+
+    ul {
+      margin-left:0;
+
+      li {
+        list-style:none;
       }
     }
   }
-}
 
-#footer {
-  padding:25px 10px 25px 40px;
-  margin-top:20px;
-  
-  a {
-    color:#999;
-  }
-
-  .logo {
-    width:180px;
-
-    div {
-      margin-top:55px;
-      text-align:center;
-      color:#999;
-    }
-  }
-
-  ul {
-    margin-left:0;
-
+  #footer-legal {
     li {
-      list-style:none;
-    }
-  }
-}
+      display:inline;
 
-#footer-legal {
-  margin-bottom: 18px;
+      & + li {
+        margin-left:2px;
 
-  li {
-    color:#999;
-    display:inline;
-
-    & + li {
-      margin-left:2px;
-
-      &:before {
-        padding-right:5px;
-        content: "·";
+        &:before {
+          padding-right:5px;
+          content: "·";
+        }
       }
     }
   }

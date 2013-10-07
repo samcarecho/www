@@ -2,17 +2,64 @@
 
 var app = angular.module('atadosApp');
 
-function MainController($scope) {
-  $scope.site = {
+app.factory('Site', function() {
+  return {
     name : "Atados - Juntando gente Boa",
     copyright: "",
-    programmer: "Marjori Pomarole (marjori@atados.com.br)"
+    termsOfService: "",
+    privacy: "",
+    team: [{ name: "Marjori Pomarole", email: "marjori@atados.com.br", photo: "URL here", description: "Hi I am the programmer", facebook: "marjoripomarole"}]
   };
+});
 
-  $scope.search = function () {
-    console.log("Trying to search for " + $scope.input);
+app.factory('Session', function($resource) {
+    return $resource('/api/sessions');
+});
+
+app.factory('Volunteer', function() {
+  return {message: "Im'a data from a service"};
+});
+
+app.factory('Nonprofit', function() {
+  return {message: "Im'a data from a service"};
+});
+
+app.factory('Cause', function() {
+  return {message: "Im'a data from a service"};
+});
+
+app.directive("Nonprofit", function() {
+  return {
+    restrict: "E",
+    scope: {},
+    template: '<div></div>'
   };
-};
+});
+
+app.controller('MainController', function($scope, Site) {
+  $scope.site = Site;
+});
+
+app.controller('LoginController', function($scope, $rootScope, $location, Session) {
+  $scope.user = {username: '', password: ''};
+
+  $scope.login = function() {
+    console.log("pressed login button");
+    /*$scope.user = Session.save($scope.user, function(success) {
+      $rootScope.loggedIn = true;
+      $location.path('/');
+    }, function(error) {
+      $scope.loginError = true;
+    });*/
+  };
+});
+
+app.controller('LogoutController', function($scope, $rootScope, $location, Session) {
+});
+
+app.controller('NonprofitController', function($scope, $rootScope, $location, Session) {
+});
+
 
 function TranslateController ($translate, $scope) {
   $scope.changeLanguage = function (langKey) {
@@ -74,3 +121,7 @@ function NonprofitListController($scope) {
 function NonprofitViewController($scope) {
 
 }
+
+// TODO
+// create directive for Nonprofit, ato and volunteer,
+// create service for seesion, nonprofit, user, volunteer, ato information
