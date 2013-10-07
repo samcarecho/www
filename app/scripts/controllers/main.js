@@ -36,8 +36,11 @@ app.directive("Nonprofit", function() {
   };
 });
 
-app.controller('MainController', function($scope, Site) {
+app.controller('MainController', function($scope, $translate, Site) {
   $scope.site = Site;
+  $scope.changeLanguage = function (langKey) {
+    $translate.uses(langKey);
+  };
 });
 
 app.controller('LoginController', function($scope, $rootScope, $location, Session) {
@@ -61,11 +64,7 @@ app.controller('NonprofitController', function($scope, $rootScope, $location, Se
 });
 
 
-function TranslateController ($translate, $scope) {
-  $scope.changeLanguage = function (langKey) {
-    $translate.uses(langKey);
-  };
-}
+
 
 function SearchNavController ($scope) {
 }

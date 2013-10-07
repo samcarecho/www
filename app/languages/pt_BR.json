@@ -2,5 +2,8 @@
   "HEADLINE": "Oi! Esse é o meu aplicativo massa.",
   "SEARCH_PLACEHOLDER": "Procure por causas que fazem o bem!",
   "SEARCH_BUTTON": "Procurar",
-  "LOGIN_BUTTON": "Entrar"
+  "LOGIN_BUTTON": "Entrar",
+  "USERNAME" : "Nome do Usuário",
+  "PASSWORD" : "Senha",
+  "USER_PASS_INCORRECT": "Nome do usuario ou senha incorreta"
 }

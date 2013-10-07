@@ -2,5 +2,8 @@
   "HEADLINE": "Hello there, This is my awesome app!",
   "SEARCH_PLACEHOLDER": "Start searching for good causes!",
   "SEARCH_BUTTON": "Search",
-  "LOGIN_BUTTON": "Login"
+  "LOGIN_BUTTON": "Login",
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "USER_PASS_INCORRECT": "Username and/or Password Incorrect"
 }

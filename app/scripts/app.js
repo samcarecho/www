@@ -1,20 +1,24 @@
 'use strict';
 
-var app = angular.module('atadosApp', ['ui.router']);
+var app = angular.module('atadosApp', ['ui.router', 'pascalprecht.translate']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('landing', {
+    .state('root', {
       url: '',
-      templateurl: 'views/landing.html'
+      templateUrl: 'views/root.html',
+      controller: 'MainController'
     })
-    .state('login', {
+    .state('root.landing', {
+      url: '',
+      templateUrl: 'views/landing.html'
+    })
+    .state('root.login', {
       url: '/login',
-      templateurl: 'views/login.html'
+      templateUrl: 'views/login.html'
     });
 });
 
-/*
 app.config(['$translateProvider', function($translateProvider) {
   $translateProvider.useStaticFilesLoader({
     prefix: '/languages/',
@@ -22,4 +26,4 @@ app.config(['$translateProvider', function($translateProvider) {
   });
 
   $translateProvider.preferredLanguage('pt_BR');
-}]);*/
+}]);
