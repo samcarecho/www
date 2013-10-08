@@ -1,4 +1,4 @@
-<header class="navbar navbar-inverse navbar-static-top" bs-navbar>
+<div class="navbar navbar-inverse navbar-static-top" bs-navbar>
   <div class="navbar-inner">
     <div class="navbar-flags">
       <a ng-click="changeLanguage('pt_BR')"><img class="flag flag-br" alt="Portugues Brasileiro"></a>
@@ -41,7 +41,7 @@
       </div>
     </div>
   </div>
-</header>
+</div>
 
 <div class="container">
 
@@ -64,34 +64,3 @@
     <p>Hello this is what you are searching {{ input }}</p>
   </div>
 </div>
-
-<footer>
-  <div id="footer" class="well">
-    <div class="container">
-      <div class="span3 logo">
-        <div>{{ site.name }}</div>
-      </div>
-      <div class="span3">
-        <h4>{{ site.name }}</h4>
-        <ul>
-          <li><a href="#">Sobre</a></li>
-          <li><a href="#">Colabore</a></li>
-          <li><a href="#">Contato</a></li>
-          <li><a href="#">Novidades</a></li>
-        </ul>
-      </div>
-      <h4>Social</h4>
-      <ul>
-        <li><a href="http://www.atados.com.br/blog/">Blog</a></li>
-        <li><a href="https://www.facebook.com/atadosjuntandogenteboa">Facebook</a></li>
-      </ul>
-    </div>
-  </div>
-  <div id="footer-legal" class="centered">
-    <ul>
-      <li><a href="{{ terms.url }}">Termos de Serviço</a></li>
-      <li><a href="{{ privacy.url }}">Privacidade</a></li>
-      <li id="copyright">&copy; 2013 {{ site.name }}</li>
-    </ul>
-  </div><!-- /#footer-legal -->
-</footer>
