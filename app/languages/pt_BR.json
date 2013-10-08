@@ -1,9 +1,14 @@
 {
   "HEADLINE": "Oi! Esse é o meu aplicativo massa.",
   "SEARCH_PLACEHOLDER": "Procure por causas que fazem o bem!",
-  "SEARCH_BUTTON": "Procurar",
-  "LOGIN_BUTTON": "Entrar",
+  "SEARCH_BTN": "Procurar",
+  "LOGIN_BTN": "Entrar",
+  "LOGIN_BTN_FACEBOOK": "Entrar com Facebook",
   "USERNAME" : "Nome do Usuário",
   "PASSWORD" : "Senha",
-  "USER_PASS_INCORRECT": "Nome do usuario ou senha incorreta"
+  "PASSWORD_CONFIRM" : "Confirme senha",
+  "USER_PASS_INCORRECT": "Nome do usuario ou senha incorreta",
+  "WANT_TO_BE_VOLUNTEER": "Eu quero ser voluntário!",
+  "REPRESENT_NONPROFIT": "Eu represento uma ONG!",
+  "REGISTER_NONPROFIT_BTN": "Registre sua ONG e crie seu ato!"
 }

@@ -2,7 +2,8 @@
 
 var app = angular.module('atadosApp', ['ngCookies', 'ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap']);
 
-app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
   var access = routingConfig.accessLevels;
 
@@ -10,7 +11,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
     .state('root', {
       url: '/',
       templateUrl: 'views/root.html',
-      controller: 'MainController'
+      controller: 'AppController'
     })
     .state('root.landing', {
       url: '/',
@@ -35,8 +36,32 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
 
   $urlRouterProvider.otherwise('404');
 
-  $locationProvider.html5Mode(true);
-  $locationProvider.hashPrefix = '!';
+  $locationProvider.html5Mode(true).hashPrefix('!');
+}]);
+
+app.config(['$httpProvider', function ($httpProvider) {
+  var interceptor = ['$location', '$q', function($location, $q) {
+    function success(response) {
+      return response;
+    }
+
+    function error(response) {
+      // This is when the user is not logged in
+      if (response.status === 401) {
+        $location.path('/404');
+        return $q.reject(respose);
+      }
+      else {
+        return $q.reject(response);
+      }
+    }
+
+    return function(promise) {
+      return promise.then(success, error);
+    }
+  }];
+
+  $httpProvider.responseInterceptors.push(interceptor);
 }]);
 
 app.config(['$translateProvider', function($translateProvider) {
@@ -47,3 +72,18 @@ app.config(['$translateProvider', function($translateProvider) {
 
   $translateProvider.preferredLanguage('pt_BR');
 }]);
+
+
+app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
+  $rootScope.$on("$routeChangeStart", function (event, next, current) {
+    $rootScope.error = null;
+    if (!Auth.authorize(next.access)) {
+      if (Auth.isLooggedIn()) {
+        $location.path('/');
+      } else {
+        $location.path('/login');
+      }
+    }
+  });
+}]);
+

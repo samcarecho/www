@@ -1,9 +1,14 @@
 {
   "HEADLINE": "Hello there, This is my awesome app!",
-  "SEARCH_PLACEHOLDER": "Start searching for good causes!",
-  "SEARCH_BUTTON": "Search",
-  "LOGIN_BUTTON": "Login",
-  "USERNAME": "Username",
+  "LOGIN_BTN": "Log in",
+  "LOGIN_BTN_FACEBOOK": "Log in with Facebook",
   "PASSWORD": "Password",
-  "USER_PASS_INCORRECT": "Username and/or Password Incorrect"
+  "PASSWORD_CONFIRM": "Confirm password",
+  "SEARCH_BTN": "Search",
+  "SEARCH_PLACEHOLDER": "Start searching for good causes!",
+  "USERNAME": "Username",
+  "USER_PASS_INCORRECT": "Username and/or Password Incorrect",
+  "WANT_TO_BE_VOLUNTEER": "I want to be a volunteer!",
+  "REPRESENT_NONPROFIT": "I represent a Nonprofit",
+  "REGISTER_NONPROFIT_BTN": "Register you Nonprofit and create a project!"
 }
