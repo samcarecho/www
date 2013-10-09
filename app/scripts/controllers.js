@@ -21,7 +21,7 @@ app.controller('AppController', function($scope, $translate, Site) {
   $scope.site = Site;
 });
 
-app.controller('LoginController', function($scope, $rootScope, $location, Auth) {
+app.controller('LoginController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
   $scope.username = '';
   $scope.password = '';
   $scope.rememberme = false;
@@ -44,21 +44,25 @@ app.controller('LoginController', function($scope, $rootScope, $location, Auth) 
   };
 
   $scope.loginOauth = function (provider) {
-    toastr.info('Trying login through Facebook');
-    $location.path('/auth/' + provider)
+    toastr.info('Trying login through ' + provider);
+    //$location.path('/auth/' + provider)
   };
-});
 
-app.controller('VolunteerSignupController', ['$rootScope', '$scope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
+  $scope.forgotPassword = function () {
+    console.log('You forgot password :(');
+  };
+}]);
+
+app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
   $scope.role = Auth.userRoles.volunteer;
   $scope.userRoles = Auth.userRoles;
-  $scope.volunteer = {username: '', email: '', password: '', passwordConfirm: ''};
 
-  $scope.$watch('volunteer.password + volunteer.passwordConfirm', function() {
-    $scope.passwordDoesNotMatch = $scope.volunteer.password !== $scope.volunteer.passwordConfirm;
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
   });
-
   $scope.signup = function () {
+
+    console.log("This is working");
     Auth.signup({
         username: $scope.username,
         password: $scope.password,
@@ -70,5 +74,9 @@ app.controller('VolunteerSignupController', ['$rootScope', '$scope', '$location'
       function (error) {
         toastr.error('Error on volunteer signup ' + error);
       });
+  };
+
+  $scope.signupOauth = function (provider) {
+    toastr.info('Trying signup through ' + provider);
   };
 }]);

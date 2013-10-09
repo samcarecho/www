@@ -37,57 +37,10 @@
 
 <div class="container">
 
-  <div ng-if="!loggedUser"> 
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="span6" ng-controller="LoginController">
-          <div class="area">
-            <form novalidate class="form-horizontal" name="loginForm" ng-submit="login()">
-              <div class="heading">
-                <h4 class="form-heading" translate>ALREADY_HAVE_ACCOUNT</h4>
-              </div>
-              <div class="control-group">
-                <input required type='text' name='username' ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}"/>
-                <span class="label label-important" ng-show="loginForm.username.$error.minlength"> Muito curto! </span>
-              </div>
-              <div class="control-group">
-                <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
-                <span class="label label-important" ng-show="loginForm.password.$error.minlength"> Muito curto! </span>
-              </div>
-              <label class="checkbox"><input ng-model="rememberme" type="checkbox">{{'REMEMBER'|translate}}</label>
-              <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success" translate>LOGIN_BTN</button>
-              <a ng-click="forgotPassword()" class="btn btn-link" translate>FORGOT_PASSWORD</a>
-            </form> 
-              <button class="btn btn-facebook" ng-click="loginOauth('facebook')"><span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}</button>
-            </div>                           
-          </div>
-          <div class="span6" ng-controller="VolunteerSignupController">
-            <div class="area">
-              <form novalidate class="form-horizontal" name="volunteerSignupForm" ng-submit="signup()">
-                <div class="heading">
-                  <h4 class="form-heading" translate>WANT_TO_BE_VOLUNTEER</h4>
-                </div>
-                <div class="control-group">
-                  <input type='text' name="username" ng-model='volunteer.username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}" required/>
-                  <div class="label label-important" ng-show="volunteerSignupForm.username.$error.minlength"> Nome de usuário muito curto </div>
-                </div>
-                <div class="control-group">
-                  <input type='email' name="email" ng-model='volunteer.email' placeholder="Email" required/>
-                  <div class="label label-important" ng-show="volunteerSignupForm.$dirty && volunteerSignupForm.email.$invalid"> Email inválido </div>
-                </div>
-                <div class="control-group">
-                  <input type='password' required ng-model='volunteer.password' placeholder="{{'PASSWORD'|translate}}"/>
-                  <input type='password' required ng-model='volunteer.passwordConfirm' placeholder="{{'PASSWORD_CONFIRM'|translate}}"/>
-                  <div class="label label-important" ng-show="passwordDoesNotMatch"> Senhas tem que ser igual! </div>
-                </div>
-                <div class="control-group">
-                  <button type="submit" ng-disabled="volunteerSignupForm.$invalid" class="btn btn-primary" translate>SIGNUP_BTN</button>
-                  </div>  
-                </form> 
-                <button class="btn btn-facebook" ng-click="signupOauth('facebook')"><span class="icon-facebook-sign" /> {{'REGISTER_BTN_FACEBOOK'|translate}}</button>
-              </div>                            
-            </div>
-          </div>
+  <div ng-if="!loggedUser" class="row-fluid">
+    <div class="span12">
+      <login class="span6"></login>
+      <volunteersignup class="span6"></volunteersignup>
     </div>
   </div>
 
