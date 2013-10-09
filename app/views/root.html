@@ -37,14 +37,13 @@
 
 <div class="container">
 
-  <div ng-if="!loggedUser" class="row-fluid">
-    <div class="span12">
+  <div ui-view>
+    <div ng-if="!loggedUser" class="row-fluid">
       <login class="span6"></login>
       <volunteersignup class="span6"></volunteersignup>
     </div>
-  </div>
-
-  <div class="span12" ui-view>
-    <p>Está procurando por ..... {{ input }}</p>
+    <div ng-if="!loggedUser" class="row-fluid">
+      <nonprofitsignup class="span12"></nonprofitsignup>
+    </div>
   </div>
 </div>

@@ -65,6 +65,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
     console.log("This is working");
     Auth.signup({
         username: $scope.username,
+        email: $scope.email,
         password: $scope.password,
         role: $scope.role
       },
@@ -78,5 +79,30 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
 
   $scope.signupOauth = function (provider) {
     toastr.info('Trying signup through ' + provider);
+  };
+}]);
+
+app.controller('NonprofitSignupController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
+  $scope.role = Auth.userRoles.nonprofit;
+  $scope.userRoles = Auth.userRoles;
+
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
+  });
+  $scope.signup = function () {
+
+    console.log("This is working");
+    Auth.signup({
+        username: $scope.username,
+        email: $scope.email,
+        password: $scope.password,
+        role: $scope.role
+      },
+      function () {
+        $location.path('/');
+      },
+      function (error) {
+        toastr.error('Error on nonprofit signup ' + error);
+      });
   };
 }]);

@@ -14,22 +14,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       templateUrl: 'views/root.html',
       controller: 'AppController'
     })
-    .state('root.landing', {
-      url: '/',
-      templateUrl: 'views/landing.html'
-    })
-    .state('root.signup', {
-      url: 'signup',
-      templateUrl: 'views/signup-start.html'
-    })
-    .state('root.signup.nonprofit', {
-      url: 'nonprofit',
-      templateUrl: 'views/signup-nonprofit.html'
-    })
-    .state('root.signup.volunteer', {
-      url: 'volunteer',
-      templateUrl: 'views/signup-volunteer.html'
-    })
     .state('root.404', {
       url: '404',
       templateUrl: 'views/404.html'

@@ -20,6 +20,16 @@ app.directive("volunteersignup", function() {
   };
 });
 
+app.directive("nonprofitsignup", function() {
+  return {
+    restrict: "E",
+    scope: {},
+    controller: 'NonprofitSignupController',
+    templateUrl: 'views/signup-nonprofit.html'
+  };
+});
+
+
 // TODO
 /*app.directive('ensureUnique', ['$http', function($http) {
   return {
