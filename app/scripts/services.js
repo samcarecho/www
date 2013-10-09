@@ -18,6 +18,8 @@ app.factory('Auth', function($http, $cookieStore){
   var userRoles = routingConfig.userRoles;
   var currentUser = $cookieStore.get('user') || { username: '', role: userRoles.public };
 
+  var apiUrl = "http://localhost:8000";
+
   $cookieStore.remove('user');
 
   function changeUser(user) {
@@ -30,28 +32,31 @@ app.factory('Auth', function($http, $cookieStore){
          role = currentUser.role;
        }
 
-        return accessLevel.bitMask & role.bitMask;
+      return accessLevel.bitMask & role.bitMask;
     },
     isLoggedIn: function(user) {
-        if (user === undefined) {
-          user = currentUser;
-        }
-        return user.role.title == userRoles.user.title || user.role.title == userRoles.admin.title;
+      if (user === undefined) {
+        user = currentUser;
+      }
+      return user.role.title == userRoles.user.title || user.role.title == userRoles.admin.title;
     },
-    register: function(user, success, error) {
-      $http.post('/register', user).success(function(res) {
+    signup: function(user, success, error) {
+      console.log("signup for user " + user);
+      $http.post(apiUrl + '/signup', user).success(function(res) {
         changeUser(res);
         success();
       }).error(error);
     },
     login: function(user, success, error) {
-      $http.post('/login', user).success(function(user){
+      console.log("login for user ");
+      console.log(user);
+      $http.post(apiUrl + '/login', user).success(function(user){
         changeUser(user);
         success(user);
       }).error(error);
     },
     logout: function(success, error) {
-      $http.post('/logout').success(function(){
+      $http.post(apiUrl + '/logout').success(function(){
         changeUser({
           username: '',
         role: userRoles.public
@@ -62,13 +67,5 @@ app.factory('Auth', function($http, $cookieStore){
     accessLevels: accessLevels,
     userRoles: userRoles,
     user: currentUser
-  };
-});
-
-app.factory('Users', function($http) {
-  return {
-    getAll: function(success, error) {
-      $http.get('/users').success(success).error(error);
-    }
   };
 });

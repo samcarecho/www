@@ -1,14 +1,25 @@
 {
+  "ALREADY_HAVE_ACCOUNT": "I already have an account!",
+  "FORGOT_PASSWORD": "Forgot my password",
   "HEADLINE": "Hello there, This is my awesome app!",
+  "HELP": "Help!",
+  "IS_A": "is a",
+  "I_AGREE": "I agree with your ",
   "LOGIN_BTN": "Log in",
   "LOGIN_BTN_FACEBOOK": "Log in with Facebook",
+  "NONPROFIT": "Nonprofit",
   "PASSWORD": "Password",
   "PASSWORD_CONFIRM": "Confirm password",
+  "REGISTER_BTN_FACEBOOK": "Register with Facebook",
+  "REGISTER_NONPROFIT_BTN": "Register you Nonprofit and create a project!",
+  "REMEMBER": "Remember me",
+  "REPRESENT_NONPROFIT": "I represent a Nonprofit",
   "SEARCH_BTN": "Search",
   "SEARCH_PLACEHOLDER": "Start searching for good causes!",
+  "SIGNUP_BTN": "Sign up",
+  "TERMS_OF_SERVICE": "Terms of service",
   "USERNAME": "Username",
   "USER_PASS_INCORRECT": "Username and/or Password Incorrect",
-  "WANT_TO_BE_VOLUNTEER": "I want to be a volunteer!",
-  "REPRESENT_NONPROFIT": "I represent a Nonprofit",
-  "REGISTER_NONPROFIT_BTN": "Register you Nonprofit and create a project!"
+  "VOLUNTEER": "Volunteer",
+  "WANT_TO_BE_VOLUNTEER": "I want to be a volunteer!"
 }

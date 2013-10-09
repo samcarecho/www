@@ -1,5 +1,7 @@
 'use strict';
 
+toastr.options.closeButton = true;
+
 var app = angular.module('atadosApp');
 
 app.controller('AppController', function($scope, $translate, Site) {
@@ -7,57 +9,66 @@ app.controller('AppController', function($scope, $translate, Site) {
     $translate.uses(langKey);
   };
 
-  $scope.site = Site;
-  $scope.userLoggedIn = false;
-
-  $scope.user  = { name: "Marjori Pomarole", email: "marjoripomarole@gmail.com" };
-});
-
-app.controller('LoginController', function($scope, $rootScope, $location) {
-  $scope.user = {username: '', password: ''};
-
-  $scope.login = function() {
-    toastr.clear();
-    // 1. Check valid username
-    var username = $scope.user.username;
-    if (username === '') {
-      toastr.error("Falta o nome do usuario!");
-    } else if (username.length < 5) {
-      toastr.error("Nome do usuário tem que ter mais de 5 caracteres");
-    }
-    // 2. Check for password
-    var password = $scope.user.password;
-    if (password === '') {
-      toastr.error("Falta a senha!");
-    } else if (password.length < 8) {
-      toastr.error("Senha tem que ter mais de 8 caracteres");
-    }
+  // Uncomment this if you want to test a user profile
+  // $scope.loggedUser = testUser;
+  var testUser = { 
+    name: 'Marjori Pomarole',
+    email: 'marjoripomarole@gmail.com',
+    username: 'marjoripomarole',
+    type: 'NONPROFIT'
   };
 
-  $scope.$watch('user.username', function (newValue, oldValue, scope) {
-    toastr.clear();
-    console.log(scope);
-    if (newValue.length < 5) {
-      toastr.error("Nome do usuário tem que ter mais de 5 caracteres");
+  $scope.site = Site;
+});
+
+app.controller('LoginController', function($scope, $rootScope, $location, Auth) {
+  $scope.username = '';
+  $scope.password = '';
+  $scope.rememberme = false;
+
+  $scope.login = function() {
+    if ( !($scope.password && $scope.username)) {
+      return;
     }
+
+    Auth.login({
+        username: $scope.username,
+        password: $scope.password,
+        rememberme: $scope.rememberme
+      }, function (response) {
+        toastr.error('Success on login ' + response);
+        $location.path('/');
+      }, function (error) {
+        toastr.error('Failed to login ' + error);
+      });
+  };
+
+  $scope.loginOauth = function (provider) {
+    toastr.info('Trying login through Facebook');
+    $location.path('/auth/' + provider)
+  };
+});
+
+app.controller('VolunteerSignupController', ['$rootScope', '$scope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
+  $scope.role = Auth.userRoles.volunteer;
+  $scope.userRoles = Auth.userRoles;
+  $scope.volunteer = {username: '', email: '', password: '', passwordConfirm: ''};
+
+  $scope.$watch('volunteer.password + volunteer.passwordConfirm', function() {
+    $scope.passwordDoesNotMatch = $scope.volunteer.password !== $scope.volunteer.passwordConfirm;
   });
-});
 
-app.controller('SignupController', function($scope, $rootScope, $location) {
-
-});
-
-
-app.controller('MessagesController', function($scope, $rootScope, $location) {
-  $scope.message = "";
-
-  if ($scope.message !== "") {
-    $scope.hasMessages = true;
-  }
-});
-
-// TODO
-// create directive for Nonprofit, ato and volunteer,
-// create service for seesion, nonprofit, user, volunteer, ato information
-//
-//
+  $scope.signup = function () {
+    Auth.signup({
+        username: $scope.username,
+        password: $scope.password,
+        role: $scope.role
+      },
+      function () {
+        $location.path('/');
+      },
+      function (error) {
+        toastr.error('Error on volunteer signup ' + error);
+      });
+  };
+}]);
