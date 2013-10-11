@@ -2,6 +2,10 @@
   <div class="heading">
     <h4 class="form-heading" translate>ALREADY_HAVE_ACCOUNT</h4>
   </div>
+
+  <div class="control-group">
+    <button class="btn btn-facebook" ng-click="loginOauth('facebook')"><span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}</button>
+  </div>
   <div class="control-group">
     <input required type='text' name='username' ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}"/>
     <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
@@ -10,8 +14,8 @@
     <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
     <div class="label label-important" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
   </div>
-  <label class="checkbox"><input ng-model="rememberme" type="checkbox">{{'REMEMBER'|translate}}</label>
+  <div class="label label-important">{{ error }}</div>
+  <label class="checkbox"><input ng-model="remember" type="checkbox">{{'REMEMBER'|translate}}</label>
   <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success" translate>LOGIN_BTN</button>
   <a ng-click="forgotPassword()" class="btn btn-link" translate>FORGOT_PASSWORD</a>
 </form> 
-<button class="btn btn-facebook" ng-click="loginOauth('facebook')"><span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}</button>

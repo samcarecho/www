@@ -4,7 +4,7 @@ toastr.options.closeButton = true;
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', function($scope, $translate, Site) {
+app.controller('AppController', function($scope, $translate, Site, Auth) {
   $scope.changeLanguage = function (langKey) {
     $translate.uses(langKey);
   };
@@ -18,13 +18,30 @@ app.controller('AppController', function($scope, $translate, Site) {
     type: 'NONPROFIT'
   };
 
+
+
   $scope.site = Site;
 });
+
+app.controller('LoginSignupModalController', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+  $scope.show = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'views/loginSignupModal.html'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+}]);
 
 app.controller('LoginController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
   $scope.username = '';
   $scope.password = '';
-  $scope.rememberme = false;
+  $scope.remember = true;
+
 
   $scope.login = function() {
     if ( !($scope.password && $scope.username)) {
@@ -34,12 +51,13 @@ app.controller('LoginController', ['$scope', '$rootScope', '$location', 'Auth', 
     Auth.login({
         username: $scope.username,
         password: $scope.password,
-        rememberme: $scope.rememberme
+        remember: 'True'
       }, function (response) {
-        toastr.error('Success on login ' + response);
-        $location.path('/');
+        toastr.success('Oi ' + Auth.user + '!');
+        $rootScope.loggedUser = Auth.user;
+        $scope.error = null;
       }, function (error) {
-        toastr.error('Failed to login ' + error);
+        $scope.error = "Usuário ou senha estão errados :(";
       });
   };
 
@@ -57,9 +75,38 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
   $scope.role = Auth.userRoles.volunteer;
   $scope.userRoles = Auth.userRoles;
 
+  function checkInvalid() {
+    $scope.invalidForm =  $scope.signupForm.$invalid ||
+      $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
+  };
+
+  $scope.$watch('username + password + passwordConfirm + email', function() {
+    checkInvalid();
+  });
+
+  $scope.$watch('username', function (value) {
+    Auth.isUsernameUsed(value, function (response) {
+      $scope.usernameError = null;
+      checkInvalid();
+    }, function (error) {
+      $scope.usernameError = "Usuário já existe.";
+    });
+  });
+
+  $scope.$watch('email', function (value) {
+    Auth.isEmailUsed(value, function (response) {
+      $scope.emailError = null;
+      checkInvalid();
+    }, function (error) {
+      $scope.emailError = "Email já existe.";
+    });
+  });
+
+
   $scope.$watch('password + passwordConfirm', function() {
     $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
   });
+
   $scope.signup = function () {
 
     console.log("This is working");

@@ -50,3 +50,9 @@ $orange:#f28730;
 form input.ng-valid {
   border: 1px solid green;
 }
+
+.modal {
+    width: 860px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: -430px;
+}
