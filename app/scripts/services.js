@@ -4,11 +4,11 @@ var app = angular.module('atadosApp');
 
 app.factory('Site', function() {
   return {
-    name : "Atados - Juntando gente Boa",
-    copyright: "",
-    termsOfService: "",
-    privacy: "",
-    team: [{ name: "Marjori Pomarole", email: "marjori@atados.com.br", photo: "URL here", description: "Hi I am the programmer", facebook: "marjoripomarole"}]
+    name : 'Atados - Juntando gente Boa',
+    copyright: '',
+    termsOfService: '',
+    privacy: '',
+    team: [{ name: 'Marjori Pomarole', email: 'marjori@atados.com.br', photo: 'URL here', description: 'Hi I am the programmer', facebook: 'marjoripomarole'}]
   };
 });
 
@@ -19,11 +19,11 @@ app.factory('Auth', function($http, $resource) {
 
   return {
     isUsernameUsed: function (username, success, error) {
-      $http.get(apiUrl + "check_username/?username=" + username)
+      $http.get(apiUrl + 'check_username/?username=' + username)
         .success(function (response) {success(response);}).error(error);
     },
     isEmailUsed: function (email, success, error) {
-      $http.get(apiUrl + "check_email/?email=" + email)
+      $http.get(apiUrl + 'check_email/?email=' + email)
         .success(function (response) {success(response);}).error(error);
     },
     getCurrentUser: function (success, error) {

@@ -28,7 +28,7 @@ app.controller('AppController', function($scope, $rootScope, $translate, Site, A
 
   $scope.logout = function () {
     Auth.logout();
-    $rootScope.$emit('userLoggedOut', "HAHA");
+    $rootScope.$emit('userLoggedOut', 'HAHA');
   };
 });
 
@@ -66,7 +66,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', function($sco
         }
       );
           }, function (error) {
-      $scope.error = "Usuário ou senha estão errados :(";
+      $scope.error = 'Usuário ou senha estão errados :(';
     });
   };
 
@@ -96,7 +96,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
         $scope.usernameError = null;
         checkInvalid();
       }, function (error) {
-        $scope.usernameError = "Usuário já existe.";
+        $scope.usernameError = 'Usuário já existe.';
       });
     }
   });
@@ -106,7 +106,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
         $scope.emailError = null;
         checkInvalid();
       }, function (error) {
-        $scope.emailError = "Email já existe.";
+        $scope.emailError = 'Email já existe.';
       });
     }
   });
@@ -139,9 +139,9 @@ app.controller('NonprofitSignupController', ['$scope', '$rootScope', '$location'
 
 app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.project = {
-    name: "Movimento Boa Praça",
-    shortDescription: "This is a short description...",
-    city: "São Paulo",
-    state: "State",
+    name: 'Movimento Boa Praça',
+    shortDescription: 'This is a short description...',
+    city: 'São Paulo',
+    state: 'State',
   };
 }]);
