@@ -60,3 +60,12 @@ app.config(['$httpProvider', function ($httpProvider) {
 
   $httpProvider.responseInterceptors.push(securityInterceptor);
 }]);
+
+app.config(['$translateProvider', function($translateProvider) {
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/languages/',
+    suffix: '.json'
+  });
+
+  $translateProvider.preferredLanguage('pt_BR');
+}]);
