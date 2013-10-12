@@ -138,16 +138,25 @@ app.controller('NonprofitSignupController', ['$scope', '$rootScope', '$location'
 
     console.log('This is working');
     Auth.signup({
-        username: $scope.username,
-        email: $scope.email,
-        password: $scope.password,
-        role: $scope.role
-      },
-      function () {
-        $location.path('/');
-      },
-      function (error) {
-        toastr.error('Error on nonprofit signup ' + error);
-      });
+      username: $scope.username,
+      email: $scope.email,
+      password: $scope.password,
+      role: $scope.role
+    },
+    function () {
+      $location.path('/');
+    },
+    function (error) {
+      toastr.error('Error on nonprofit signup ' + error);
+    });
+  };
+}]);
+
+app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope, $rootScope) {
+  $scope.project = {
+    name: "Movimento Boa Praça",
+    shortDescription: "This is a short description...",
+    city: "São Paulo",
+    state: "State",
   };
 }]);

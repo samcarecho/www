@@ -1,0 +1,22 @@
+<li ng-repear="project in projects">
+  <div class="thumbnail" style="padding: 0">
+    <div style="padding:4px">
+      <img alt="300x200" style="width: 100%" src="http://placehold.it/200x150">
+    </div>
+    <div class="caption">
+      <h2>{{ project.name }}</h2>
+      <p>{{ project.shortDescription }}</p>
+      <p><i class="icon icon-map-marker"></i> {{ project.city }}, {{ project.state }}</p>
+    </div>
+    <div class="modal-footer" style="text-align: left">
+      <div class="progress progress-striped active" style="background: #ddd">
+        <div class="bar" style="width: 60%;"></div>
+      </div>
+      <div class="row-fluid">
+        <div class="span4"><b>60%</b><br/><small>FUNDED</small></div>
+        <div class="span4"><b><i class="icon-user"></i>10</b><br/><small>voluntários</small></div>
+        <div class="span4"><b>18</b><br/><small>dias para acabar</small></div>
+      </div>
+    </div>
+  </div>
+</li>
