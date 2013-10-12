@@ -12,12 +12,19 @@ app.factory('Site', function() {
   };
 });
 
-app.factory('Auth', function($http, $resource) {
+app.factory('Auth', function($http) {
 
   var apiUrl = constants.apiServerAddress;
   var currentUser;
 
   return {
+    resetPassword: function (email, success, error) {
+      console.log("reseting " + email);
+      $http.post(apiUrl + 'reset_password/', email)
+        .success( function(response){
+           success();
+        }).error(error);
+    },
     isUsernameUsed: function (username, success, error) {
       $http.get(apiUrl + 'check_username/?username=' + username)
         .success(function (response) {success(response);}).error(error);
@@ -45,7 +52,7 @@ app.factory('Auth', function($http, $resource) {
       return currentUser ? true : false;
     },
     signup: function(user, success, error) {
-      $http.post(apiUrl + 'signup/', user).success( function(res) {
+      $http.put(apiUrl + 'create/volunteer/', user).success( function(response) {
         success();
       }).error(error);
     },
@@ -64,7 +71,7 @@ app.factory('Auth', function($http, $resource) {
            $.cookie('access_token', response.access_token);
          }
          success();
-       }).error(error);
+      }).error(error);
      },
     logout: function() {
       $.removeCookie('access_token');

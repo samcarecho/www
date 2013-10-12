@@ -1,11 +1,12 @@
-<form novalidate class="form-horizontal" name="signupForm" ng-submit="signup()">
-  <div class="heading">
-    <h4 class="form-heading" translate>WANT_TO_BE_VOLUNTEER</h4>
-  </div>
+<div class="heading">
+  <h4 class="form-heading" translate>WANT_TO_BE_VOLUNTEER</h4>
+</div>
 
-  <div class="control-group">
-    <button class="btn btn-facebook" ng-click="signupOauth('facebook')"><span class="icon-facebook-sign" /> {{'REGISTER_BTN_FACEBOOK'|translate}}</button>
-  </div>
+<div class="control-group">
+  <button class="btn btn-facebook" ng-click="signupOauth('facebook')"><span class="icon-facebook-sign" /> {{'REGISTER_BTN_FACEBOOK'|translate}}</button>
+</div>
+
+<form novalidate class="form-horizontal" name="signupForm" ng-submit="signup()">
   <div class="control-group">
     <input type='text' name="username" ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}" required/>
     <div class="label label-important" ng-show="signupForm.username.$error.minlength"> Nome de usuário muito curto </div>
@@ -24,4 +25,3 @@
   </div>
   <button type="submit" ng-disabled="invalidForm" class="btn btn-primary" translate>SIGNUP_BTN</button>
 </form> 
-

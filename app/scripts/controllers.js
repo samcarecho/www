@@ -4,7 +4,8 @@ toastr.options.closeButton = true;
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', function($scope, $rootScope, $translate, Site, Auth) {
+app.controller('AppController',
+    function($scope, $rootScope, $translate, $modal, Site, Auth) {
   $scope.changeLanguage = function (langKey) {
     $translate.uses(langKey);
   };
@@ -18,6 +19,13 @@ app.controller('AppController', function($scope, $rootScope, $translate, Site, A
     }
   );
 
+  $scope.showLoginModal = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'views/loginSignupModal.html',
+      controller: 'LoginSignupModalController'
+    });
+  };
+
   $rootScope.$on('userLoggedIn', function(event, user) {
     $scope.loggedUser = user;
   });
@@ -28,23 +36,32 @@ app.controller('AppController', function($scope, $rootScope, $translate, Site, A
 
   $scope.logout = function () {
     Auth.logout();
-    $rootScope.$emit('userLoggedOut', 'HAHA');
+    $rootScope.$emit('userLoggedOut');
   };
 });
 
-app.controller('LoginSignupModalController', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
-  $scope.show = function () {
-    var modalInstance = $modal.open({
-      templateUrl: 'views/loginSignupModal.html'
-    });
-  };
+app.controller('LoginSignupModalController', ['$scope', '$modal', '$location', function($scope, $modal, $location) {
 }]);
 
 app.controller('LoginController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
 
+  $scope.showForgotPassword = false;
   $scope.username = '';
   $scope.password = '';
   $scope.remember = true;
+
+  $scope.resetEmail = '';
+  $scope.invalidEmail = true;
+
+  $scope.$watch('resetEmail', function (value) {
+    Auth.isEmailUsed(value, function (response) {
+        $scope.emailError = 'Email não existe.';
+        $scope.invalidEmail = true;
+      }, function (error) {
+        $scope.emailError = null;
+        $scope.invalidEmail = false;
+      });
+  });
 
   $scope.login = function() {
     if ( !($scope.password && $scope.username)) {
@@ -61,22 +78,27 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', function($sco
           toastr.success('Oi ' + user.username  + '!');
           $rootScope.$emit('userLoggedIn', user);
           $scope.error = null;
-        }, function (error) {
-          console.log(error);
-        }
+        }, function (error) {}
       );
-          }, function (error) {
+    }, function (error) {
       $scope.error = 'Usuário ou senha estão errados :(';
     });
   };
 
   $scope.loginOauth = function (provider) {
-    toastr.info('Trying login through ' + provider);
+    console.log('Trying login through ' + provider);
   };
 
-  // TODO
   $scope.forgotPassword = function () {
-    console.log('You forgot password :(');
+    $scope.showForgotPassword = !$scope.showForgotPassword
+  };
+
+  $scope.resetPassword = function () {
+    Auth.resetPassword($scope.resetEmail,  function (response) {
+      toastr.info("Por favor cheque seu email para pegar sua senha.");
+    }, function (error) {
+      toastr.error("Sua senha não pode ser reset. Por favor mande um email para o administrador marjori@atados.com.br");
+    });
   };
 }]);
 
@@ -113,20 +135,23 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
 
   $scope.$watch('password + passwordConfirm', function() {
     $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
+    checkInvalid();
   });
 
   $scope.signup = function () {
-    Auth.signup({
-        username: $scope.username,
-        email: $scope.email,
-        password: $scope.password
-      },
-      function (response) {
-        $location.path('/');
-      },
-      function (error) {
-        toastr.error('Error on volunteer signup ' + error);
+    if ($scope.signupForm.$valid) {
+      Auth.signup({
+          username: $scope.username,
+          email: $scope.email,
+          password: $scope.password
+        },
+        function (response) {
+          $location.path('/');
+        },
+        function (error) {
+          toastr.error('Error on volunteer signup ' + error);
       });
+    }
   };
 
   $scope.facebookSignup = function (provider) {

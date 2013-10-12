@@ -1,11 +1,12 @@
-<form novalidate class="form-horizontal" name="loginForm" ng-submit="login()">
-  <div class="heading">
-    <h4 class="form-heading" translate>ALREADY_HAVE_ACCOUNT</h4>
-  </div>
+<div class="heading">
+  <h4 class="form-heading" translate>ALREADY_HAVE_ACCOUNT</h4>
+</div>
 
-  <div class="control-group">
-    <button class="btn btn-facebook" ng-click="loginOauth('facebook')"><span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}</button>
-  </div>
+<div class="control-group">
+  <button class="btn btn-facebook" ng-click="loginOauth('facebook')"><span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}</button>
+</div>
+
+<form novalidate class="form-horizontal" name="loginForm" ng-submit="login()">
   <div class="control-group">
     <input required type='text' name='username' ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}"/>
     <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
@@ -19,3 +20,12 @@
   <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success" translate>LOGIN_BTN</button>
   <a ng-click="forgotPassword()" class="btn btn-link" translate>FORGOT_PASSWORD</a>
 </form> 
+
+<div ng-show="showForgotPassword"> 
+  <p>Digite seu email para resetar sua senha</p>
+  <div>
+    <input type="text" ng-model='resetEmail' placeholder="Email"/>
+  </div>
+  <span class="label label-important">{{ emailError }}</span>
+  <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()" translate>RESET_BTN</button>
+</div>

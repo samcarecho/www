@@ -20,8 +20,8 @@
         </form>
         <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
 
-        <div ng-if="!loggedUser" class="nav pull-right" ng-controller="LoginSignupModalController">
-          <button class="btn btn-primary" ng-click="show()" translate>LOGIN_BTN</button>
+        <div ng-if="!loggedUser" class="nav pull-right">
+          <button class="btn btn-primary" ng-click="showLoginModal()" translate>LOGIN_BTN</button>
         </div>
         <ul class="nav pull-right" ng-show="loggedUser">
           <li class="dropdown">
