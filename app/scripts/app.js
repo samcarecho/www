@@ -21,14 +21,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     .state('admin', {
       url: '/admin',
       template: '<h1>This is a restricited area</h1>',
-      resolve: { 
+      resolve: {
         requireAdminUser: function (Auth) {
-          toastr.error("We need a admin for this " + Auth.user);
+          toastr.error('We need a admin for this ' + Auth.user);
           var deferred = $q.defer();
           $timeout(function() {
-             deferred.resolve('Hello!');
-           }, 1000);
-          return deferred.promise; 
+            deferred.resolve('Hello!');
+          }, 1000);
+          return deferred.promise;
         }
       }
     });
@@ -46,7 +46,7 @@ app.config(['$httpProvider', function ($httpProvider) {
     }
 
     function error(response) {
-      toastr.warning("response status " + response.status);
+      toastr.warning('response status ' + response.status);
       // This is when the user is not logged in
       if (response.status === 401) {
         return $q.reject(response);
@@ -58,7 +58,7 @@ app.config(['$httpProvider', function ($httpProvider) {
 
     return function(promise) {
       return promise.then(success, error);
-    }
+    };
   }];
 
   $httpProvider.responseInterceptors.push(securityInterceptor);
@@ -87,7 +87,7 @@ app.run(['$http', function($http){
 }]);
 
 app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
-  $rootScope.$on("$routeChangeStart", function (event, next, current) {
+  $rootScope.$on('$routeChangeStart', function (event, next, current) {
     $rootScope.error = null;
     if (!Auth.authorize(next.access)) {
       if (Auth.isLooggedIn()) {
