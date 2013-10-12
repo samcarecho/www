@@ -1,12 +1,10 @@
 'use strict';
 
 var app = angular.module('atadosApp',
-    ['ngCookies', 'ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap']);
+    ['ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap']);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-  var access = routingConfig.accessLevels;
 
   $stateProvider
     .state('root', {
@@ -46,7 +44,6 @@ app.config(['$httpProvider', function ($httpProvider) {
     }
 
     function error(response) {
-      toastr.warning('response status ' + response.status);
       // This is when the user is not logged in
       if (response.status === 401) {
         return $q.reject(response);
@@ -63,39 +60,3 @@ app.config(['$httpProvider', function ($httpProvider) {
 
   $httpProvider.responseInterceptors.push(securityInterceptor);
 }]);
-
-app.config(['$translateProvider', function($translateProvider) {
-  $translateProvider.useStaticFilesLoader({
-    prefix: '/languages/',
-    suffix: '.json'
-  });
-
-  $translateProvider.preferredLanguage('pt_BR');
-
-}]);
-
-
-app.run(['$http', function($http){
-/*
-  $http.get("http://myproject.localhacks.com:8000/login/")
-      .success( function(response, status, headers, config) {
-        var token = $(response).find('input[name=csrfmiddlewaretoken]').val();
-        document.cookie ="csrftoken=" + token;
-        $http.defaults.headers.post['X-CSRFToken'] = token;
-      }).error("There was an error yo");
-*/
-}]);
-
-app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
-  $rootScope.$on('$routeChangeStart', function (event, next, current) {
-    $rootScope.error = null;
-    if (!Auth.authorize(next.access)) {
-      if (Auth.isLooggedIn()) {
-        $location.path('/');
-      } else {
-        $location.path('/login');
-      }
-    }
-  });
-}]);
-

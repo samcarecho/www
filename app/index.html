@@ -47,11 +47,9 @@
 
     <script src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://underscorejs.org/underscore.js"></script>
 
     <!-- build:js scripts/modules.js -->
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
@@ -62,12 +60,12 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/jquery.cookie.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/constants.js"></script>
     <script src="scripts/controllers.js"></script>
     <script src="scripts/directives.js"></script>
     <script src="scripts/filters.js"></script>
-    <script src="scripts/routingConfig.js"></script>
     <script src="scripts/services.js"></script>
     <!-- endbuild -->
   </body>

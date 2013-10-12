@@ -23,13 +23,13 @@
         <div ng-if="!loggedUser" class="nav pull-right" ng-controller="LoginSignupModalController">
           <button class="btn btn-primary" ng-click="show()" translate>LOGIN_BTN</button>
         </div>
-        <ul class="nav pull-right" ng-if="loggedUser">
+        <ul class="nav pull-right" ng-show="loggedUser">
           <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> |  {{ loggedUser.name }}<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> | {{ loggedUser.first_name }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="">My profile</a></li>
             <li class="divider"></li>
-            <li> <a class="logout" href="#">Sign out</a></li>
+            <li> <a ng-click="logout()">Sign out</a></li>
           </ul>
           </li>
         </ul>
