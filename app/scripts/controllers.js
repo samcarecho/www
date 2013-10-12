@@ -11,14 +11,12 @@ app.controller('AppController', function($scope, $translate, Site, Auth) {
 
   // Uncomment this if you want to test a user profile
   // $scope.loggedUser = testUser;
-  var testUser = { 
+  var testUser = {
     name: 'Marjori Pomarole',
     email: 'marjoripomarole@gmail.com',
     username: 'marjoripomarole',
     type: 'NONPROFIT'
   };
-
-
 
   $scope.site = Site;
 });
@@ -57,7 +55,7 @@ app.controller('LoginController', ['$scope', '$rootScope', '$location', 'Auth', 
         $rootScope.loggedUser = Auth.user;
         $scope.error = null;
       }, function (error) {
-        $scope.error = "Usuário ou senha estão errados :(";
+        $scope.error = 'Usuário ou senha estão errados :(';
       });
   };
 
@@ -78,7 +76,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
   function checkInvalid() {
     $scope.invalidForm =  $scope.signupForm.$invalid ||
       $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
-  };
+  }
 
   $scope.$watch('username + password + passwordConfirm + email', function() {
     checkInvalid();
@@ -89,7 +87,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
       $scope.usernameError = null;
       checkInvalid();
     }, function (error) {
-      $scope.usernameError = "Usuário já existe.";
+      $scope.usernameError = 'Usuário já existe.';
     });
   });
 
@@ -98,7 +96,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
       $scope.emailError = null;
       checkInvalid();
     }, function (error) {
-      $scope.emailError = "Email já existe.";
+      $scope.emailError = 'Email já existe.';
     });
   });
 
@@ -109,7 +107,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
 
   $scope.signup = function () {
 
-    console.log("This is working");
+    console.log('This is working');
     Auth.signup({
         username: $scope.username,
         email: $scope.email,
@@ -138,7 +136,7 @@ app.controller('NonprofitSignupController', ['$scope', '$rootScope', '$location'
   });
   $scope.signup = function () {
 
-    console.log("This is working");
+    console.log('This is working');
     Auth.signup({
         username: $scope.username,
         email: $scope.email,
