@@ -20,7 +20,7 @@ app.factory('Auth', function($http) {
   return {
     resetPassword: function (email, success, error) {
       console.log("reseting " + email);
-      $http.post(apiUrl + 'reset_password/', email)
+      $http.post(apiUrl + 'password_reset/', {email: email})
         .success( function(response){
            success();
         }).error(error);
@@ -74,6 +74,7 @@ app.factory('Auth', function($http) {
       }).error(error);
      },
     logout: function() {
+      delete $http.defaults.headers.common['Authorization'];
       $.removeCookie('access_token');
       currentUser = null;
       $http.post(apiUrl + 'logout/');
