@@ -10,6 +10,7 @@
     "toastr": "~2.0.1",
     "angular-resource": "~1.0.7",
     "angular-cookies": "~1.0.7",
+    "angular-facebook": "~0.1.1",
     "angular-sanitize": "~1.0.7",
     "angular-translate": "~1.1.0",
     "angular-translate-loader-static-files": "~0.1.4",

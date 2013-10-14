@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('atadosApp',
-    ['ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap']);
+    ['ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook']);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -57,6 +57,10 @@ app.config(['$httpProvider', function ($httpProvider) {
   }];
 
   $httpProvider.responseInterceptors.push(securityInterceptor);
+}]);
+
+app.config(['FacebookProvider', function(FacebookProvider) {
+   FacebookProvider.init('307143646092581');
 }]);
 
 app.config(['$translateProvider', function($translateProvider) {

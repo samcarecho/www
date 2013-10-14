@@ -4,8 +4,9 @@ toastr.options.closeButton = true;
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController',
-    function($scope, $rootScope, $translate, $modal, Site, Auth) {
+app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal', 'Site', 'Auth', 'Facebook',
+  function($scope, $rootScope, $translate, $modal, Site, Auth, Facebook) {
+
   $scope.changeLanguage = function (langKey) {
     $translate.uses(langKey);
   };
@@ -28,7 +29,7 @@ app.controller('AppController',
   $scope.openLoginModal = function() { 
     modalInstance = $modal.open({
       templateUrl: 'views/loginSignupModal.html'
-  });
+    });
   }
 
   $scope.logout = function () {
@@ -81,19 +82,53 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     });
   };
 
-  $scope.loginOauth = function (provider) {
-    console.log('Trying login through ' + provider);
-  };
-
   $scope.forgotPassword = function () {
     $scope.showForgotPassword = !$scope.showForgotPassword
   };
 
   $scope.resetPassword = function () {
     Auth.resetPassword($scope.resetEmail,  function (response) {
-      toastr.info("Por favor cheque seu email para pegar sua senha.");
+      toastr.info("Por favor cheque seu email para receber sua nova senha.");
     }, function (error) {
-      toastr.error("Sua senha não pode ser reset. Por favor mande um email para o administrador marjori@atados.com.br");
+      toastr.error("Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br");
+    });
+  };
+
+  $scope.$watch(function() {
+    return Facebook.isReady(); 
+  }, function(newVal) {
+    $scope.facebookReady = true;
+  });
+
+  $scope.facebookLogin = function () {
+    Facebook.getLoginStatus(function (response) {
+      if (response.status != 'connected') {
+        Facebook.login(function(response) {
+          if (response.status == 'connected') {
+            Auth.facebookLogin(response.authResponse,
+              function () {
+                console.log("Now get the access token")
+              }, function () {
+                console.log("Error")
+              });
+            $scope.me();
+          }
+        });
+      } else {
+        Auth.facebookLogin(response.authResponse,
+          function () {
+            console.log("Now get the access token")
+          }, function () {
+            console.log("Error")
+          });
+        $scope.me();
+      } 
+    });
+  };
+
+ $scope.me = function() {
+    Facebook.api('/me', function(response) {
+      $rootScope.$emit('userLoggedIn', response);
     });
   };
 }]);

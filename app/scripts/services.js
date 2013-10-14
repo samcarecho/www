@@ -18,6 +18,15 @@ app.factory('Auth', function($http) {
   var currentUser;
 
   return {
+    facebookLogin: function (facebookAuthData, success, error) {
+      $http.post(apiUrl + 'facebook/', facebookAuthData)
+        .success( function(response){
+           console.log(response);
+           success();
+        }).error(error);
+
+      // Get access token and send it to Django to login the user and then call currentUser
+    },
     resetPassword: function (email, success, error) {
       console.log("reseting " + email);
       $http.post(apiUrl + 'password_reset/', {email: email})
@@ -30,8 +39,10 @@ app.factory('Auth', function($http) {
         .success(function (response) {success(response);}).error(error);
     },
     isEmailUsed: function (email, success, error) {
-      $http.get(apiUrl + 'check_email/?email=' + email)
-        .success(function (response) {success(response);}).error(error);
+      if (email) {
+        $http.get(apiUrl + 'check_email/?email=' + email)
+          .success(function (response) {success(response);}).error(error);
+      }
     },
     getCurrentUser: function (success, error) {
      if (currentUser) return currentUser;
