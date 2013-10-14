@@ -19,31 +19,27 @@ app.controller('AppController',
     }
   );
 
-  $scope.showLoginModal = function () {
-    var modalInstance = $modal.open({
-      templateUrl: 'views/loginSignupModal.html',
-      controller: 'LoginSignupModalController'
-    });
-  };
-
+  var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {
     $scope.loggedUser = user;
+    modalInstance.close();
   });
-  $rootScope.$on('userLoggedOut', function(user) {
-    toastr.info('Tchau!', $scope.loggedUser.username);
-    $scope.loggedUser = null;
+
+  $scope.openLoginModal = function() { 
+    modalInstance = $modal.open({
+      templateUrl: 'views/loginSignupModal.html'
   });
+  }
 
   $scope.logout = function () {
+    toastr.info('Tchau!', $scope.loggedUser.username);
     Auth.logout();
-    $rootScope.$emit('userLoggedOut');
+    $scope.loggedUser = null;
   };
-});
-
-app.controller('LoginSignupModalController', ['$scope', '$modal', '$location', function($scope, $modal, $location) {
 }]);
 
-app.controller('LoginController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
+app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
+  function($scope, $rootScope, Auth, Facebook) {
 
   $scope.showForgotPassword = false;
   $scope.username = '';
