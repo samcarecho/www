@@ -12,14 +12,11 @@ app.factory('Site', function() {
   };
 });
 
-
 app.factory('Auth', function($http) {
   
   function setAuthHeader(accessToken) {
     if (accessToken) {
        $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-    } else {
-      toastr.error("Could not set access token for authorization"); // TODO(mpomarole) : if debug
     }
   }
 
