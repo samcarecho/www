@@ -52,8 +52,6 @@ app.factory('Auth', function($http) {
       }
     },
     getCurrentUser: function (success, error) {
-     if (currentUser) return currentUser;
-
      var token = $.cookie('access_token');
 
      if (token) {
@@ -87,7 +85,7 @@ app.factory('Auth', function($http) {
          if (user.remember) {
            $.cookie('access_token', response.access_token);
          }
-         success();
+         success(response);
       }).error(error);
      },
     logout: function() {

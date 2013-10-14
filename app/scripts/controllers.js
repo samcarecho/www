@@ -69,14 +69,15 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
       username: $scope.username,
       password: $scope.password,
       remember: $scope.remember,
-    }, function () {
+    }, function (response) {
       Auth.getCurrentUser(
         function (user) { 
           toastr.success('Oi!', user.username);
           $rootScope.$emit('userLoggedIn', user);
-          $scope.error = null;
-        }, function (error) {}
-      );
+          // $scope.error = null;
+        }, function (error) {
+          toastr.error(error);
+        });
     }, function (error) {
       $scope.error = 'Usuário ou senha estão errados :(';
     });
@@ -134,7 +135,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
+app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
   function checkInvalid() {
     $scope.invalidForm =  $scope.signupForm.$invalid ||
       $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
@@ -178,10 +179,10 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
           password: $scope.password
         },
         function (response) {
-          $location.path('/');
+          // TODO(mpomarole) : redirect user to his new profile page
         },
         function (error) {
-          toastr.error('Error on volunteer signup ' + error);
+          toastr.error(error);
       });
     }
   };
@@ -191,7 +192,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', '$location'
   };
 }]);
 
-app.controller('NonprofitSignupController', ['$scope', '$rootScope', '$location', 'Auth', function($scope, $rootScope, $location, Auth) {
+app.controller('NonprofitSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
 }]);
 
 app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope, $rootScope) {

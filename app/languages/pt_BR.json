@@ -18,9 +18,11 @@
   "SEARCH_BTN": "Procurar",
   "SEARCH_PLACEHOLDER": "Procure por causas que fazem o bem!",
   "SIGNUP_BTN": "Criar conta",
+  "SIGNOUT_BTN": "Sair",
   "TERMS_OF_SERVICE": "Termos de Serviço",
   "USERNAME" : "Nome do Usuário",
   "USER_PASS_INCORRECT": "Nome do usuario ou senha incorreta",
   "VOLUNTEER": "Voluntário",
-  "WANT_TO_BE_VOLUNTEER": "Eu quero ser voluntário!"
+  "WANT_TO_BE_VOLUNTEER": "Eu quero ser voluntário!",
+  "PROFILE_BTN": "Meu perfil"
 }
