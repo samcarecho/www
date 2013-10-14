@@ -80,6 +80,8 @@ app.factory('Auth', function($http) {
       }).success( function(response){
          setAuthHeader(response.access_token);
          if (user.remember) {
+           $.cookie('access_token', response.access_token, { expires: 30, path: '/' });
+         } else {
            $.cookie('access_token', response.access_token);
          }
          success(response);
