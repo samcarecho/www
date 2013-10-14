@@ -1,24 +1,41 @@
-{
+{,
   "name": "Atados",
   "version": "0.0.0",
+  "homepage": "www.atados.com.br",
+  "authors": [
+    "Rogério Yokomizor <rogerio@atados.com.br>",
+    "Marjori Pomarole <marjori@atados.com.br>"
+  ],
+  "description": "Connecting volunteers with NGOs",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "angular": "~1.0.7",
-    "json3": "~3.2.4",
-    "jquery": "~1.9.1",
-    "bootstrap-sass": "~2.3.1",
-    "es5-shim": "~2.0.8",
-    "toastr": "~2.0.1",
-    "angular-resource": "~1.0.7",
-    "angular-cookies": "~1.0.7",
+    "angular-bootstrap": "~0.6.0",
+    "angular-cookies": "1.2.0-rc.3",
     "angular-facebook": "~0.1.1",
-    "angular-sanitize": "~1.0.7",
+    "angular-i18n": "~1.0.8",
+    "angular-sanitize": "~1.0.8",
+    "angular-resource": "~1.0.8",
+    "angular-translate-loader-static-files": "~0.1.5",
     "angular-translate": "~1.1.0",
-    "angular-translate-loader-static-files": "~0.1.4",
     "angular-ui-router": "~0.2.0",
-    "angular-bootstrap": "~0.6.0"
+    "angular-ui": "~0.4.0",
+    "angular": "1.2.0-rc.3",
+    "bootstrap-sass": "~3.0.0",
+    "es5-shim": "~2.1.0",
+    "json3": "~3.2.5",
+    "toastr": "~2.0.1"
   },
   "devDependencies": {
-    "angular-mocks": "~1.0.7",
-    "angular-scenario": "~1.0.7"
+    "angular-mocks": "~1.0.8",
+    "angular-scenario": "~1.0.8"
   }
 }
