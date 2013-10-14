@@ -12,20 +12,27 @@ app.factory('Site', function() {
   };
 });
 
+
 app.factory('Auth', function($http) {
+  
+  function setAuthHeader(accessToken) {
+    if (accessToken) {
+       $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+    } else {
+      toastr.error("Could not set access token for authorization"); // TODO(mpomarole) : if debug
+    }
+  }
 
   var apiUrl = constants.apiServerAddress;
   var currentUser;
 
   return {
     facebookLogin: function (facebookAuthData, success, error) {
-      $http.post(apiUrl + 'facebook/', facebookAuthData)
-        .success( function(response){
-           console.log(response);
-           success();
-        }).error(error);
-
-      // Get access token and send it to Django to login the user and then call currentUser
+      $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
+        setAuthHeader(response.access_token);
+         $.cookie('access_token', response.access_token);
+         success(response.user);
+      }).error(error);
     },
     resetPassword: function (email, success, error) {
       console.log("reseting " + email);
@@ -50,8 +57,7 @@ app.factory('Auth', function($http) {
      var token = $.cookie('access_token');
 
      if (token) {
-       $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-       
+       setAuthHeader(token);
        $http.get(apiUrl + 'current_user/')
         .success(function (response) {
           currentUser = response;
@@ -77,7 +83,7 @@ app.factory('Auth', function($http) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: $.param(user)
       }).success( function(response){
-         $http.defaults.headers.common['Authorization'] = 'Bearer ' + response.access_token;
+         setAuthHeader(response.access_token);
          if (user.remember) {
            $.cookie('access_token', response.access_token);
          }
@@ -85,10 +91,10 @@ app.factory('Auth', function($http) {
       }).error(error);
      },
     logout: function() {
-      delete $http.defaults.headers.common['Authorization'];
-      $.removeCookie('access_token');
-      currentUser = null;
       $http.post(apiUrl + 'logout/');
+      currentUser = null;
+      $.removeCookie('access_token');
+      delete $http.defaults.headers.common['Authorization'];
     },
     user: currentUser
   };

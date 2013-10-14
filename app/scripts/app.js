@@ -61,6 +61,8 @@ app.config(['$httpProvider', function ($httpProvider) {
 
 app.config(['FacebookProvider', function(FacebookProvider) {
    FacebookProvider.init('307143646092581');
+   FacebookProvider.setLocale('pt_BR');
+   FacebookProvider.setCookie(false);
 }]);
 
 app.config(['$translateProvider', function($translateProvider) {

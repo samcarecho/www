@@ -72,7 +72,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     }, function () {
       Auth.getCurrentUser(
         function (user) { 
-          toastr.success('Oi ' + user.username  + '!');
+          toastr.success('Oi!', user.username);
           $rootScope.$emit('userLoggedIn', user);
           $scope.error = null;
         }, function (error) {}
@@ -100,35 +100,36 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     $scope.facebookReady = true;
   });
 
+  function sendFacebookCredentials(authResponse) {
+    Auth.facebookLogin(authResponse,
+      function (user) {
+        $rootScope.$emit('userLoggedIn', user);
+        console.log(user);
+      }, function (error) {
+        toastr.error(error)
+      });
+  } 
+
   $scope.facebookLogin = function () {
     Facebook.getLoginStatus(function (response) {
       if (response.status != 'connected') {
-        Facebook.login(function(response) {
-          if (response.status == 'connected') {
-            Auth.facebookLogin(response.authResponse,
-              function () {
-                console.log("Now get the access token")
-              }, function () {
-                console.log("Error")
-              });
-            $scope.me();
+        Facebook.login(function(loginResponse) {
+          console.log(response);
+          console.log(loginResponse);
+          if (loginResponse.status == 'connected') {
+            sendFacebookCredentials(loginResponse.authResponse);
+          } else if (response.status == 'not_authorized') {
+            // Here now use needs to authorize the app to be used with Facebook
           }
         });
       } else {
-        Auth.facebookLogin(response.authResponse,
-          function () {
-            console.log("Now get the access token")
-          }, function () {
-            console.log("Error")
-          });
-        $scope.me();
-      } 
-    });
-  };
-
- $scope.me = function() {
-    Facebook.api('/me', function(response) {
-      $rootScope.$emit('userLoggedIn', response);
+        console.log(response);
+        if (response.authResponse) {
+          sendFacebookCredentials(response.authResponse);
+        } else {
+          toastr.error("Could not get facebook credentials");
+        }
+      }  
     });
   };
 }]);

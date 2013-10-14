@@ -20,9 +20,6 @@
         </form>
         <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
 
-        <div ng-if="!loggedUser" class="nav pull-right">
-          <button class="btn btn-primary" ng-click="openLoginModal()" translate>LOGIN_BTN</button>
-        </div>
         <ul class="nav pull-right" ng-show="loggedUser">
           <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> | {{ loggedUser.first_name }}<span class="caret"></span></a>
@@ -33,6 +30,9 @@
           </ul>
           </li>
         </ul>
+        <div ng-if="!loggedUser" class="nav pull-right">
+          <button class="btn btn-primary" ng-click="openLoginModal()" translate>LOGIN_BTN</button>
+        </div>
       </div>
     </div>
   </div>
