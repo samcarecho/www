@@ -22,11 +22,11 @@
 
         <ul class="nav pull-right" ng-show="loggedUser">
           <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> | {{ loggedUser.first_name }}<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="" translate>PROFILE_BTN</a></li>
+            <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
             <li class="divider"></li>
-            <li> <a ng-click="logout()" translate>SIGNOUT_BTN</a></li>
+            <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
           </ul>
           </li>
         </ul>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="container">
-  <div ui-view>
+  <div ui-view class="main">
     {{ input }}
   </div>
 </div>

@@ -56,3 +56,11 @@ form input.ng-valid {
     /* must be half of the width, minus scrollbar on the left (30px) */
     margin-left: -430px;
 }
+
+.main {
+  padding: 30px;
+}
+
+.navbar-inverse .nav>li>a {
+  color: #fff;
+}

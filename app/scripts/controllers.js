@@ -14,7 +14,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   $scope.site = Site;
   Auth.getCurrentUser(
     function (user) { 
-      $scope.loggedUser = user;
+      $rootScope.loggedUser = user;
     }, function (error) {
       console.log(error);
     }
@@ -22,7 +22,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
 
   var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {
-    $scope.loggedUser = user;
+    $rootScope.loggedUser = user;
     modalInstance.close();
   });
 
@@ -33,9 +33,9 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   }
 
   $scope.logout = function () {
-    toastr.info('Tchau!', $scope.loggedUser.username);
+    toastr.info('Tchau!', $rootScope.loggedUser.username);
     Auth.logout();
-    $scope.loggedUser = null;
+    $rootScope.loggedUser = null;
   };
 }]);
 
@@ -202,4 +202,12 @@ app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope,
     city: 'São Paulo',
     state: 'State',
   };
+}]);
+
+app.controller('VolunteerController', ['$scope', '$rootScope', '$stateParams', 'Restangular', function($scope, $rootScope, $stateParams, Restangular) {
+  $scope.volunteer  = Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
+    $scope.volunteer = response;
+  }, function(response) {
+    toastr.error("Voluntário não encontrado");
+  });
 }]);

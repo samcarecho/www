@@ -1,40 +1,42 @@
 'use strict';
 
+// TODO(mpomarole): Move all hardcoded values to constants file;
+
 var app = angular.module('atadosApp',
-    ['ngResource', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook']);
+    ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook']);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider
     .state('root', {
-      url: '/',
-      templateUrl: 'views/root.html',
+      url: '',
+      abstract: true,
+      templateUrl: '/views/root.html',
       controller: 'AppController'
     })
-    .state('root.404', {
-      url: '404',
-      templateUrl: 'views/404.html'
+    .state('root.home', {
+      url: '/',
+      template: '{{ input }}'
     })
-    .state('admin', {
-      url: '/admin',
-      template: '<h1>This is a restricited area</h1>',
-      resolve: {
-        requireAdminUser: function (Auth) {
-          toastr.error('We need a admin for this ' + Auth.user);
-          var deferred = $q.defer();
-          $timeout(function() {
-            deferred.resolve('Hello!');
-          }, 1000);
-          return deferred.promise;
-        }
-      }
+    .state('root.404', {
+      url: '/404',
+      templateUrl: '/views/404.html'
+    })
+    .state('root.volunteer', {
+      url: '/voluntario/:username',
+      templateUrl: '/views/volunteerProfile.html',
+      controller: 'VolunteerController'
     });
+
+  $urlRouterProvider.when('/test', '/test1');
+  // $urlRouterProvider.otherwise('/');
 
   $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 
 app.config(['$httpProvider', function ($httpProvider) {
+
   var securityInterceptor = ['$location', '$q', function($location, $q) {
 
     function success(response) {
@@ -72,4 +74,9 @@ app.config(['$translateProvider', function($translateProvider) {
   });
 
   $translateProvider.preferredLanguage('pt_BR');
+}]);
+
+app.config(['RestangularProvider', function(RestangularProvider) {
+  RestangularProvider.setBaseUrl('http://api.atados.com.br:8000/v1');
+  RestangularProvider.setRequestSuffix('/.json');
 }]);
