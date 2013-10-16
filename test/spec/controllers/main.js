@@ -1,22 +1,22 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: AppController', function () {
 
   // load the controller's module
-  beforeEach(module('atadosAngularApp'));
+  beforeEach(module('atadosApp'));
 
-  var MainCtrl,
+  var AppController,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    AppController = $controller('AppController', {
       $scope: scope
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('shold have the site name on the scope', function () {
+    expect(scope.site.name).toBe('Atados - Juntando gente Boa');
   });
 });

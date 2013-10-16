@@ -13,6 +13,18 @@ module.exports = function(config) {
     files: [
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/jquery/jquery.js',
+      'app/bower_components/underscore/underscore.js',
+      'app/bower_components/restangular/dist/restangular.js',
+      'app/bower_components/angular-i18n/angular-locale_pt-br.js',
+      'app/bower_components/angular-i18n/angular-locale_en-us.js',
+      'app/bower_components/angular-translate/angular-translate.js',
+      'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      'app/bower_components/angular-ui-router/release/angular-ui-router.js',
+      'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+      'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'app/bower_components/angular-facebook/lib/angular-facebook.js',
+      'app/bower_components/toastr/toastr.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
@@ -42,7 +54,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
