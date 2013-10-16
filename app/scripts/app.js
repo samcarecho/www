@@ -78,5 +78,6 @@ app.config(['$translateProvider', function($translateProvider) {
 
 app.config(['RestangularProvider', function(RestangularProvider) {
   RestangularProvider.setBaseUrl('http://api.atados.com.br:8000/v1');
+  RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
 }]);

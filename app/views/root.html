@@ -1,45 +1,30 @@
 <div class="navbar navbar-inverse navbar-static-top" bs-navbar>
   <div class="navbar-inner">
-    <!--<div class="navbar-flags">
-      <a ng-click="changeLanguage('pt_BR')"><img class="flag flag-br" alt="Portugues Brasileiro"></a>
-      <a ng-click="changeLanguage('en_US')"><img class="flag flag-us" alt="American English"></a>
-    </div>-->
-
-    <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-
+    <div >
       <a class="brand" href="#"></a>
 
-      <div class="nav-collapse collapse">
-        <form class="navbar-search">
-          <input ng-model="input" type="text" class="search-query" placeholder="{{'SEARCH_PLACEHOLDER'|translate}}">
-        </form>
-        <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
+      <form class="navbar-search pull-center">
+        <input ng-model="input" type="text" class="search-query" placeholder="{{'SEARCH_PLACEHOLDER'|translate}}">
+      </form>
+      <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
 
-        <ul class="nav pull-right" ng-show="loggedUser">
-          <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
-            <li class="divider"></li>
-            <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
-          </ul>
-          </li>
+      <ul class="nav pull-right" ng-show="loggedUser">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
+          <li class="divider"></li>
+          <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
         </ul>
-        <div ng-if="!loggedUser" class="nav pull-right">
-          <button class="btn btn-primary" ng-click="openLoginModal()" translate>LOGIN_BTN</button>
-        </div>
+        </li>
+      </ul>
+      <div ng-if="!loggedUser" class="nav pull-right">
+        <button class="btn btn-primary" ng-click="openLoginModal()" translate>LOGIN_BTN</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div ui-view class="main">
-    {{ input }}
-  </div>
+<div >
+  <div ui-view class="main"></div>
 </div>

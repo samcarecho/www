@@ -1,14 +1,30 @@
-<div class="row">
-  <div class="span3">
-    <div class="pa-sidebar well well-small">
-      <ul class="nav nav-list">
-        <li class="nav-header">{{ volunteer.first_name }}</li>
-      </ul>
-      <hr>
-    </div>
+<div class="span6">
+  <div class="pa-sidebar well well-small">
+    <ul class="nav nav-list">
+
+      <img alt="200x150" style="width: 100%" src="http://placehold.it/200x150">
+      <li class="nav-header">{{ volunteer.first_name }} {{volunteer.last_name}}</li>
+      <li class="nav-header">{{ volunteer.username }}</li>
+      <li class="nav-header">{{ volunteer.email }}</li>
+      <li class="nav-header">{{ volunteer.phone }}</li>
+    </ul>
+    <hr>
   </div>
-  <div class="span9">
-    <div><label>Name</label><input type="text" ng-model="user.name" /></div>
-    <div><label>Email</label><input type="text" ng-model="user.email" /></div>
-  </div>
+</div>
+<div class="span6">
+  <form novalidate class="form-horizontal" name="volunteerProfileForm" ng-submit="saveVolunteer()">
+    <label translate>FIRST_NAME</label><input type="text" ng-model="volunteer.first_name" />
+    <label translate>LAST_NAME</label><input type="text" ng-model="volunteer.last_name" />
+    <label translate>EMAIL</label><input type="text" ng-model="volunteer.email" />
+    <label translate>PHONE</label><input type="text" ng-model="volunteer.phone" />
+    <label translate>ADDRESS_LINE</label><input type="text" ng-model="volunteer.address.addressline" />
+    <label translate>ADDRESS_NUMBER</label><input type="text" ng-model="volunteer.address.addressnumber" />
+    <label translate>ZIPCODE</label><input type="text" ng-model="volunteer.address.zipcode" />
+    <label translate>CITY</label><input type="text" ng-model="volunteer.address.city" />
+    <label translate>STATE</label><input type="text" ng-model="volunteer.address.state" />
+    <label translate>NEIGHBORHOOD</label><input type="text" ng-model="volunteer.address.neighborhood" />
+    <label translate>CAUSES</label><input type="text" ng-model="volunteer.causes" />
+    <label translate>Skills</label><input type="text" ng-model="volunteer.skills" />
+    <button type="submit" class="btn btn-success" ng-disabled="invalidForm" translate>SAVE</button>
+  </form>
 </div>

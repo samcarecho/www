@@ -25,4 +25,19 @@
   "VOLUNTEER": "Volunteer",
   "WANT_TO_BE_VOLUNTEER": "I want to be a volunteer!",
   "PROFILE_BTN": "My profile"
+  "FIRST_NAME": "Nome",
+  "LAST_NAME": "Sobrenome",
+  "EMAIL": "Email",
+  "CAUSES": "Causes",
+  "SKILLS": "Skills",
+  "ADDRESS": "Address",
+  "ADDRESS_LINE": "Street",
+  "ADDRESS_NUMBER": "Number",
+  "NEIGHBORHOOD": "Neighborhood",
+  "STATE": "State",
+  "CITY": "City",
+  "SUBURB": "Suburb",
+  "ZIPCODE": "Zipcode",
+  "PHONE": "Phone",
+  "SAVE": "Save"
 }

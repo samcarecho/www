@@ -15,10 +15,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   Auth.getCurrentUser(
     function (user) { 
       $rootScope.loggedUser = user;
-    }, function (error) {
-      console.log(error);
-    }
-  );
+    }, function (error) {});
 
   var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {

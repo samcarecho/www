@@ -24,5 +24,20 @@
   "USER_PASS_INCORRECT": "Nome do usuario ou senha incorreta",
   "VOLUNTEER": "Voluntário",
   "WANT_TO_BE_VOLUNTEER": "Eu quero ser voluntário!",
-  "PROFILE_BTN": "Meu perfil"
+  "PROFILE_BTN": "Meu perfil",
+  "FIRST_NAME": "Nome",
+  "LAST_NAME": "Sobrenome",
+  "EMAIL": "Email",
+  "CAUSES": "Causas",
+  "SKILLS": "Habilidades",
+  "ADDRESS": "Endereço",
+  "ADDRESS_LINE": "Rua",
+  "ADDRESS_NUMBER": "Número",
+  "NEIGHBORHOOD": "Bairo",
+  "STATE": "Estado",
+  "CITY": "Cidade",
+  "SUBURB": "Zona",
+  "ZIPCODE": "CEP",
+  "PHONE": "Telefone",
+  "SAVE": "Salvar"
 }
