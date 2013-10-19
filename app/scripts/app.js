@@ -39,7 +39,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       }
     });
 
-  $urlRouterProvider.when('/test', '/test1');
+  // $urlRouterProvider.when('/test', '/test1');
   // $urlRouterProvider.otherwise('/');
 
   $locationProvider.html5Mode(true).hashPrefix('!');
