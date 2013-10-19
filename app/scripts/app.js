@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO(mpomarole): Move all hardcoded values to constants file;
-
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook']);
 
@@ -56,9 +54,9 @@ app.config(['$httpProvider', function ($httpProvider) {
       if (response.status === 401) {
         return $q.reject(response);
       } else if (response.status === 403) {
-        $.removeCookie('access_token');
-        $.removeCookie('csrftoken');
-        $.removeCookie('sessionid');
+        $.removeCookie(constants.accessTokenCookie);
+        $.removeCookie(constants.csrfCookie);
+        $.removeCookie(constants.sessionIdCookie);
         return $q.reject(response);
       }
       else {
@@ -75,8 +73,8 @@ app.config(['$httpProvider', function ($httpProvider) {
 }]);
 
 app.config(['FacebookProvider', function(FacebookProvider) {
-   FacebookProvider.init('307143646092581');
-   FacebookProvider.setLocale('pt_BR');
+   FacebookProvider.init(constants.facebookClientId);
+   FacebookProvider.setLocale(constants.locale);
    FacebookProvider.setCookie(false);
 }]);
 
@@ -90,7 +88,7 @@ app.config(['$translateProvider', function($translateProvider) {
 }]);
 
 app.config(['RestangularProvider', function(RestangularProvider) {
-  RestangularProvider.setBaseUrl('http://api.atados.com.br:8000/v1');
+  RestangularProvider.setBaseUrl(constants.apiServerAddress);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
 }]);

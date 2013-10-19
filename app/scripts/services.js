@@ -27,7 +27,7 @@ app.factory('Auth', function($http) {
     facebookLogin: function (facebookAuthData, success, error) {
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
-         $.cookie('access_token', response.access_token);
+         $.cookie(constants.accessTokenCookie, response.access_token);
          success(response.user);
       }).error(error);
     },
@@ -49,7 +49,7 @@ app.factory('Auth', function($http) {
       }
     },
     getCurrentUser: function (success, error) {
-     var token = $.cookie('access_token');
+     var token = $.cookie(constants.accessTokenCookie);
 
      if (token) {
        setAuthHeader(token);
@@ -82,9 +82,9 @@ app.factory('Auth', function($http) {
       }).success( function(response){
          setAuthHeader(response.access_token);
          if (user.remember) {
-           $.cookie('access_token', response.access_token, { expires: 30, path: '/' });
+           $.cookie(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
          } else {
-           $.cookie('access_token', response.access_token);
+           $.cookie(constants.accessTokenCookie, response.access_token);
          }
          success(response);
       }).error(error);
@@ -92,7 +92,7 @@ app.factory('Auth', function($http) {
     logout: function() {
       $http.post(apiUrl + 'logout/');
       currentUser = null;
-      $.removeCookie('access_token');
+      $.removeCookie(constants.accessTokenCookie);
       delete $http.defaults.headers.common['Authorization'];
     },
     user: currentUser
