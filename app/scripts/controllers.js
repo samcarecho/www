@@ -26,9 +26,15 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     modalInstance.close();
   });
 
-  $scope.openLoginModal = function() { 
+  $scope.openVolunteerPortalModal = function() { 
     modalInstance = $modal.open({
-      templateUrl: '/views/loginSignupModal.html'
+      templateUrl: '/views/volunteerPortalModal.html'
+    });
+  }
+
+  $scope.openNonprofitPortalModal = function () {
+    modalInstance = $modal.open({
+      templateUrl: '/views/nonprofitPortalModal.html'
     });
   }
 
