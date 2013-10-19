@@ -10,12 +10,12 @@
   <div class="control-group">
     <input type='text' name="username" ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}" required/>
     <div class="label label-important" ng-show="signupForm.username.$error.minlength"> Nome de usuário muito curto </div>
-    <div class="label label-important">{{ usernameError }}</div>
+    <div class="label label-important">{{usernameError}}</div>
   </div>
   <div class="control-group">
     <input type='email' name="email" ng-model='email' placeholder="Email" required/>
     <div class="label label-important" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"> Email inválido </div>
-    <div class="label label-important">{{ emailError }}</div>
+    <div class="label label-important">{{emailError}}</div>
   </div>
   <div class="control-group">
     <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>

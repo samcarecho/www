@@ -1,6 +1,7 @@
 'use strict';
 
 toastr.options.closeButton = true;
+toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
@@ -15,7 +16,9 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   Auth.getCurrentUser(
     function (user) { 
       $rootScope.loggedUser = user;
-    }, function (error) {});
+      window.user = user
+    }, function (error) {
+    });
 
   var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {
@@ -25,7 +28,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
 
   $scope.openLoginModal = function() { 
     modalInstance = $modal.open({
-      templateUrl: 'views/loginSignupModal.html'
+      templateUrl: '/views/loginSignupModal.html'
     });
   }
 
@@ -104,7 +107,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
         $rootScope.$emit('userLoggedIn', user);
         console.log(user);
       }, function (error) {
-        toastr.error(error)
+        toastr.error(error);
       });
   } 
 
@@ -201,10 +204,74 @@ app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope,
   };
 }]);
 
-app.controller('VolunteerController', ['$scope', '$rootScope', '$stateParams', 'Restangular', function($scope, $rootScope, $stateParams, Restangular) {
-  $scope.volunteer  = Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
+app.controller('VolunteerController',
+    ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+
+  $scope.invalidForm = true;
+  $scope.passwordDoesNotMatch = true;
+  
+  Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
+    $scope.volunteer.id = $scope.volunteer.username;
+    if ($scope.volunteer.image_url) {
+      $scope.image = $scope.volunteer.image_url;
+    } else {
+      $scope.image = "http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png";
+    }
+    delete $scope.volunteer.image_url;
   }, function(response) {
-    toastr.error("Voluntário não encontrado");
+    $state.transitionTo('root.home');
+    toastr.error('Voluntário não encontrado');
   });
+
+  $scope.saveVolunteer = function () {
+    $scope.volunteer.patch().then( function (response) {
+      toastr.success("Perfil salvo!", $scope.volunteer.username);
+    }, function (error) {
+      toastr.error("Problema em salvar seu perfil :(");
+    });
+  };
+
+  function checkInvalid () {
+    $scope.invalidForm = $scope.emailError || $scope.passwordDoesNotMatch;
+  }
+
+  $scope.checkInvalid = function(form) {
+    $scope.invalidForm |= form.$invalid;
+    checkInvalid();
+  };
+
+  $scope.$watch('volunteer.user.email', function (value) {
+    if (value != $rootScope.loggedUser.user.email) {
+      $scope.emailError = "";
+    }
+    else if (value != $rootScope.loggedUser.user.email) {
+      Auth.isEmailUsed(value, function (response) {
+        $scope.emailError = null;
+      }, function (error) {
+        $scope.emailError = 'Email já existe.';
+      });
+    }
+  });
+
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
+    checkInvalid();
+  });
+
+  $scope.uploadFile = function(files) {
+    if (files) {
+      var fd = new FormData();
+      fd.append("file", files[0]);
+      window.fd = files[0];
+      $http.post("http://api.atados.com.br:8000/v1/upload_volunteer_image/", fd, {
+          headers: {'Content-Type': undefined },
+          transformRequest: angular.identity
+      }).success( function (response) {
+        $scope.image = response.file;
+      }).error( function(error) {
+        toastr.error("Error no servidor. Não consigo atualizer sua foto :(");
+      });
+    }
+  };
 }]);

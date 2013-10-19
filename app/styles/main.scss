@@ -3,6 +3,9 @@ $flags: "../images/flags.png";
 $iconSpritePath: "../images/glyphicons-halflings.png";
 $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
+$FontAwesomePath: "/bower_components/font-awesome/font";
+@import "font-awesome/scss/font-awesome";
+
 // Atados color
 $blue:#69d1e8;
 $grayDarker:#222;
@@ -23,10 +26,6 @@ $orange:#f28730;
   }
 }
 
-.centered {
-  text-align:center;
-}
-
 .flag {
   width: 16px;
   height: 11px;
@@ -44,7 +43,7 @@ $orange:#f28730;
 }
 
 .search-query {
-  width: 350px;
+  width: 400px;
 }
 
 form input.ng-valid {
@@ -52,9 +51,9 @@ form input.ng-valid {
 }
 
 .modal {
-    width: 860px;
-    /* must be half of the width, minus scrollbar on the left (30px) */
-    margin-left: -430px;
+  width: 860px;
+  /* must be half of the width, minus scrollbar on the left (30px) */
+  margin-left: -430px;
 }
 
 .main {
@@ -63,4 +62,63 @@ form input.ng-valid {
 
 .navbar-inverse .nav>li>a {
   color: #fff;
+}
+
+#volunteer-details {
+  .causes,
+  .skills {
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+
+  .image {
+    position:relative;
+    margin-bottom:20px;
+
+    & > input {
+        display: none;
+    }
+    & > label {
+      position:absolute;
+      bottom:0;
+      z-index:100;
+      display:none;
+    }
+
+    &:hover > label {
+      display:inline;
+    }
+
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  #volunteer-details {
+    .image {
+      & > label {
+        width:122px;
+      }
+      & > img {
+        width:146px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  #volunteer-details {
+    .image {
+      width:220px;
+      margin:0 auto;
+    }
+  }
+}
+
+.well-title {
+  display:block;
+  text-transform:uppercase;
+  font-size:18px;
+  color:$blue;
+  margin-bottom:10px;
 }

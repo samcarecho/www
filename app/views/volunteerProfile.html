@@ -1,30 +1,67 @@
-<div class="span6">
-  <div class="pa-sidebar well well-small">
-    <ul class="nav nav-list">
-
-      <img alt="200x150" style="width: 100%" src="http://placehold.it/200x150">
-      <li class="nav-header">{{ volunteer.first_name }} {{volunteer.last_name}}</li>
-      <li class="nav-header">{{ volunteer.username }}</li>
-      <li class="nav-header">{{ volunteer.email }}</li>
-      <li class="nav-header">{{ volunteer.phone }}</li>
-    </ul>
-    <hr>
+<div id="volunteer-details">
+  <div class="page-header">
+    <h1>{{volunteer.user.first_name}} {{volunteer.user.last_name}}</h1>
+    <h1 ng-if="!(volunteer.user.first_name&&volunteer.user.last_name)">{{volunteer.username}}</h1>
   </div>
-</div>
-<div class="span6">
-  <form novalidate class="form-horizontal" name="volunteerProfileForm" ng-submit="saveVolunteer()">
-    <label translate>FIRST_NAME</label><input type="text" ng-model="volunteer.first_name" />
-    <label translate>LAST_NAME</label><input type="text" ng-model="volunteer.last_name" />
-    <label translate>EMAIL</label><input type="text" ng-model="volunteer.email" />
-    <label translate>PHONE</label><input type="text" ng-model="volunteer.phone" />
-    <label translate>ADDRESS_LINE</label><input type="text" ng-model="volunteer.address.addressline" />
-    <label translate>ADDRESS_NUMBER</label><input type="text" ng-model="volunteer.address.addressnumber" />
-    <label translate>ZIPCODE</label><input type="text" ng-model="volunteer.address.zipcode" />
-    <label translate>CITY</label><input type="text" ng-model="volunteer.address.city" />
-    <label translate>STATE</label><input type="text" ng-model="volunteer.address.state" />
-    <label translate>NEIGHBORHOOD</label><input type="text" ng-model="volunteer.address.neighborhood" />
-    <label translate>CAUSES</label><input type="text" ng-model="volunteer.causes" />
-    <label translate>Skills</label><input type="text" ng-model="volunteer.skills" />
-    <button type="submit" class="btn btn-success" ng-disabled="invalidForm" translate>SAVE</button>
-  </form>
+  <div class="span3 well">
+    <div class="image">
+      <img class="img-rounded" alt="{{volunteer.username}}"
+      ng-src="{{image}}" width="270" height="270"/>
+      <label ng-if="loggedUser.username==volunteer.username" class="btn" for="file-input"><i class="icon-edit"></i>Editar foto</label>
+      <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+    </div>
+    <p><i class="icon-laptop"></i> {{volunteer.user.email}}</p>
+    <p><i class="icon-phone-sign"></i> {{volunteer.phone}}</p>
+  </div>
+  <div class="span12 well">
+    <h2>Atividades recentes</h2>
+    <ul ng-if="volunteer.activities" class="activities">
+      <li ng-repeat="activity in activities">{{activity.name}}</li>
+    </ul>
+    <span ng-if="!volunteer.activities">Não tem atividades.</span>
+  </div>
+  <div class="span12 well" ng-if="loggedUser.username==volunteer.username">
+    <form novalidate class="form-horizontal" name="infoForm" ng-submit="saveVolunteer()">
+      <button type="submit" class="btn btn-primary pull-right"
+        ng-disabled="invalidForm" translate>SAVE</button>
+      <label translate>FIRST_NAME</label>
+      <input type="text" ng-model="volunteer.user.first_name" />
+      <label translate>LAST_NAME</label>
+      <input type="text" ng-model="volunteer.user.last_name" />
+      <label translate>EMAIL</label>
+      <input type="email" ng-model="volunteer.user.email"
+      ng-change="checkInvalid(infoForm)" required/>
+      <span class="label label-important">{{emailError}}</span>
+      <label translate>PHONE</label>
+      <input type="text" ng-model="volunteer.phone" />
+      <div ng-if="volunteer.causes">
+        <label translate>CAUSES</label>
+        <ul>
+          <li ng-repeat="cause in volunteer.causes">{{cause.name}}</li>
+        </ul>
+      </div>
+      <div ng-if="volunteer.skills">
+        <label translate>SKILLS</label>
+        <ul>
+          <li ng-repeat="skills in volunteer.skills">{{skills.name}}</li>
+        </ul>
+      </div>
+      <div class="control-group">
+        <label>Mudar senha</label>
+        <input required type='password' name='password' ng-model='password' ng-minlength="6"
+        placeholder="{{'PASSWORD'|translate}}"/>
+        <input required type='password' name='passwordConfirm' ng-model='passwordConfirm'
+        ng-minlength="6" placeholder="{{'PASSWORD_CONFIRM'|translate}}"/>
+        <div class="label label-important" ng-show="passwordDoesNotMatch">
+          Senhas tem que ser igual!
+        </div>
+        <div class="label label-important" ng-show="infoForm.password.$error.minlength">
+          Senha tem que ter mais de 6 caracteres
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="span3 well">
+    {{input}}
+  </div>
 </div>

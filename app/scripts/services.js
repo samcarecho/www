@@ -57,7 +57,9 @@ app.factory('Auth', function($http) {
         .success(function (response) {
           currentUser = response;
           success(currentUser);
-        }).error(error);
+        }).error(function (response) {
+          error(response);
+        });
       }
     },
     isLoggedIn: function(user) {

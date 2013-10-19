@@ -26,7 +26,17 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     .state('root.volunteer', {
       url: '/voluntario/:username',
       templateUrl: '/views/volunteerProfile.html',
-      controller: 'VolunteerController'
+      controller: 'VolunteerController',
+      resolve: {
+        /*propertyData: ['$stateParams', '$q', 'Restangular', function($stateParams, $q, Restangular) {
+          var deferred = $q.defer();
+
+          gapi.client.realestate.get($stateParams.propertyId).execute(function(r) {
+              deferred.resolve(r);
+          });
+          return deferred.promise;
+        }]*/
+      }
     });
 
   $urlRouterProvider.when('/test', '/test1');
@@ -39,13 +49,16 @@ app.config(['$httpProvider', function ($httpProvider) {
 
   var securityInterceptor = ['$location', '$q', function($location, $q) {
 
-    function success(response) {
-      return response;
-    }
+    function success(response) { return response; }
 
     function error(response) {
       // This is when the user is not logged in
       if (response.status === 401) {
+        return $q.reject(response);
+      } else if (response.status === 403) {
+        $.removeCookie('access_token');
+        $.removeCookie('csrftoken');
+        $.removeCookie('sessionid');
         return $q.reject(response);
       }
       else {

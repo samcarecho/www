@@ -10,7 +10,7 @@
 
       <ul class="nav pull-right" ng-show="loggedUser">
         <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.type|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
           <li class="divider"></li>

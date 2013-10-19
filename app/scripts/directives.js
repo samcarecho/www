@@ -7,7 +7,7 @@ app.directive('login', function() {
     restrict: 'E',
     scope: {},
     controller: 'LoginController',
-    templateUrl: 'views/login.html'
+    templateUrl: '/views/login.html'
   };
 });
 
@@ -16,7 +16,7 @@ app.directive('volunteersignup', function() {
     restrict: 'E',
     scope: {},
     controller: 'VolunteerSignupController',
-    templateUrl: 'views/signupVolunteer.html'
+    templateUrl: '/views/signupVolunteer.html'
   };
 });
 
@@ -25,7 +25,7 @@ app.directive('nonprofitsignup', function() {
     restrict: 'E',
     scope: {},
     controller: 'NonprofitSignupController',
-    templateUrl: 'views/signupNonprofit.html'
+    templateUrl: '/views/signupNonprofit.html'
   };
 });
 
@@ -34,7 +34,7 @@ app.directive('projectbox', function() {
     restrict: 'E',
     scope: {},
     controller: 'ProjectBoxController',
-    templateUrl: 'views/projectBox.html'
+    templateUrl: '/views/projectBox.html'
   };
 });
 
