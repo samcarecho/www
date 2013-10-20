@@ -13,12 +13,12 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   };
 
   $scope.site = Site;
-  Auth.getCurrentUser(
-    function (user) { 
-      $rootScope.loggedUser = user;
-      window.user = user
-    }, function (error) {
-    });
+  Auth.getCurrentUser(function (user) { 
+    $rootScope.loggedUser = user;
+    window.user = user
+  }, function (error) {
+    console.error(error);
+  });
 
   var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {
@@ -52,6 +52,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   $scope.username = '';
   $scope.password = '';
   $scope.remember = true;
+  console.log
 
   $scope.resetEmail = '';
   $scope.invalidEmail = true;
@@ -74,13 +75,12 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     Auth.login({
       username: $scope.username,
       password: $scope.password,
-      remember: $scope.remember,
+      remember: $scope.remember
     }, function (response) {
       Auth.getCurrentUser(
         function (user) { 
           toastr.success('Oi!', user.username);
           $rootScope.$emit('userLoggedIn', user);
-          // $scope.error = null;
         }, function (error) {
           toastr.error(error);
         });
@@ -179,7 +179,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
 
   $scope.signup = function () {
     if ($scope.signupForm.$valid) {
-      Auth.signup({
+      Auth.volunteerSignup({
           username: $scope.username,
           email: $scope.email,
           password: $scope.password
@@ -198,7 +198,111 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
   };
 }]);
 
-app.controller('NonprofitSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
+app.controller('NonprofitSignupController',
+    ['$scope', '$rootScope', '$filter', 'Auth', 'Restangular', function($scope, $rootScope, $filter, Auth, Restangular) {
+
+  $scope.nonprofit = {};
+  window.scope = $scope;
+
+  Restangular.all('causes').getList().then( function(response) {
+    $scope.causes = response;
+  }, function (error) {
+    toastr.error("Não consigui pegar as causas do servidor.");
+  });
+  Restangular.all('suburbs').getList().then( function(response) {
+    $scope.suburbs = response;
+  }, function (error) {
+    toastr.error("Não consigui pegar as Zonas do servidor.");
+  });
+  Restangular.all('cities').getList().then( function(response) {
+    $scope.cities = response;
+  }, function (error) {
+    toastr.error("Não consigui pegar as cidades do servidor.");
+  });
+  Restangular.all('states').getList().then( function(response) {
+    $scope.states = response;
+  }, function (error) {
+    toastr.error("Não consigui pegar os estados do servidor.");
+  });
+
+  // Checking that slug does not have spaces and it is not already used.
+  $scope.$watch('nonprofit.slug', function (value) {
+    if (value) {
+      if (value.indexOf(' ') >= 0) {
+        $scope.signupForm.slug.$invalid = true;
+        $scope.signupForm.slug.hasSpace = true;
+      } else {
+        $scope.signupForm.slug.$invalid = false;
+        $scope.signupForm.slug.hasSpace = false;
+        Auth.isSlugUsed(value, function (response) {
+          $scope.signupForm.slug.alreadyUsed = false;
+          $scope.signupForm.slug.$invalid = false;
+        }, function (error) {
+          $scope.signupForm.slug.alreadyUsed = true;
+          $scope.signupForm.slug.$invalid = true;
+        });
+      }
+    } else {
+      $scope.signupForm.slug.alreadyUsed = false;
+      $scope.signupForm.slug.hasSpace = false;
+      $scope.signupForm.slug.$invalid = false;
+    }
+  });
+
+  // Checking that email is valid and not already used.
+  $scope.$watch('nonprofit.user.email', function (value) {
+    Auth.isEmailUsed(value, function (yesItIsAlreadyUsed) {
+      $scope.signupForm.email.alreadyUsed = false;
+      $scope.signupForm.email.$invalid = false;
+    }, function (notUsed) {
+      $scope.signupForm.email.alreadyUsed = true;
+      $scope.signupForm.email.$invalid = true;
+    });
+  });
+
+  // Checking that username not already used.
+  $scope.$watch('nonprofit.user.username', function (value) {
+    if (value) {
+      if (value.indexOf(' ') >= 0) {
+        $scope.signupForm.username.$invalid = true;
+        $scope.signupForm.username.hasSpace = true;
+      } else {
+        $scope.signupForm.username.hasSpace = false;
+        $scope.signupForm.username.$invalid = false;
+        Auth.isUsernameUsed(value, function (response) {
+          $scope.signupForm.username.alreadyUsed = false;
+          $scope.signupForm.username.$invalid = false;
+        }, function (error) {
+          $scope.signupForm.username.alreadyUsed = true;
+          $scope.signupForm.username.$invalid = true;
+        });
+      }
+    } else {
+      $scope.signupForm.username.alreadyUsed = false;
+      $scope.signupForm.username.hasSpace = false;
+      $scope.signupForm.username.$invalid = false;
+    }
+  });
+
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.signupForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
+  });
+
+  $scope.signup = function () {
+    if ($scope.signupForm.$valid) {
+      $scope.nonprofit.user.password = $scope.password;
+      $scope.nonprofit.causes = $filter('filter')($scope.causes, {checked: true});
+      Auth.nonprofitSignup($scope.nonprofit,
+        function (response) {
+          toastr.success("Bem vinda ONG ao atados!");
+          // TODO(mpomarole) : redirect redirect nonprofit to awaiting moderation status
+        },
+        function (error) {
+          toastr.error(error);
+      });
+    }
+  };
 }]);
 
 app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope, $rootScope) {

@@ -26,6 +26,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       templateUrl: '/views/volunteerProfile.html',
       controller: 'VolunteerController',
       resolve: {
+        // TODO(mpomarole): resolve current user here loading the profile
         /*propertyData: ['$stateParams', '$q', 'Restangular', function($stateParams, $q, Restangular) {
           var deferred = $q.defer();
 
@@ -35,6 +36,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
           return deferred.promise;
         }]*/
       }
+    })
+    .state('root.nonprofit', {
+      url: '/ong/:slug',
+      templateUrl: '/views/nonprofitProfile.html',
+      controller: 'NonprofitController',
+      resolse: {}
+    })
+    .state('root.nonprofitsignup', {
+      url: '/cadastro/ong',
+      templateUrl: '/views/signupNonprofit.html',
+      controller: 'NonprofitSignupController',
+      resolve: {}
     });
 
   // $urlRouterProvider.when('/test', '/test1');
@@ -91,4 +104,19 @@ app.config(['RestangularProvider', function(RestangularProvider) {
   RestangularProvider.setBaseUrl(constants.apiServerAddress);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
+  // This function is used to map the JSON data to something Restangular expects
+  RestangularProvider.setResponseExtractor(function(response, operation, what, url) {
+    if (operation === "getList") {
+      // Use results as the return type, and save the result metadata
+      // in _resultmeta
+      var newResponse = response.results;
+      newResponse._resultmeta = {
+        "count": response.count,
+        "next": response.next,
+        "previous": response.previous,
+       };
+      return newResponse;
+    }
+    return response;
+  });
 }]);

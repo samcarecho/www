@@ -48,6 +48,12 @@ app.factory('Auth', function($http) {
           .success(function (response) {success(response);}).error(error);
       }
     },
+    isSlugUsed: function (slug, success, error) {
+      if (slug) {
+        $http.get(apiUrl + 'check_slug/?slug=' + slug)
+          .success(function (response) {success(response);}).error(error);
+      }
+    },
     getCurrentUser: function (success, error) {
      var token = $.cookie(constants.accessTokenCookie);
 
@@ -65,8 +71,14 @@ app.factory('Auth', function($http) {
     isLoggedIn: function(user) {
       return currentUser ? true : false;
     },
-    signup: function(user, success, error) {
-      $http.put(apiUrl + 'create/volunteer/', user).success( function(response) {
+    volunteerSignup: function(volunteer, success, error) {
+      $http.post(apiUrl + 'create/volunteer/', volunteer).success( function(response) {
+        success();
+      }).error(error);
+    },
+    nonprofitSignup: function(nonprofit, success, error) {
+      console.log(nonprofit);
+      $http.post(apiUrl + 'create/nonprofit/', nonprofit).success( function(response) {
         success();
       }).error(error);
     },

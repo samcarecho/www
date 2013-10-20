@@ -2,14 +2,24 @@
 
 var app = angular.module('atadosApp');
 
-app.directive('login', function() {
+app.directive('volunteerlogin', function() {
   return {
     restrict: 'E',
     scope: {},
     controller: 'LoginController',
-    templateUrl: '/views/login.html'
+    templateUrl: '/views/volunteerLogin.html'
   };
 });
+
+app.directive('nonprofitlogin', function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    controller: 'LoginController',
+    templateUrl: '/views/nonprofitLogin.html'
+  };
+});
+
 
 app.directive('volunteersignup', function() {
   return {
