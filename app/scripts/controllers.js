@@ -38,6 +38,10 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     });
   }
 
+  $rootScope.closeNonprofitPortalModal = function () {
+    modalInstance.close();
+  }
+
   $scope.logout = function () {
     toastr.info('Tchau!', $rootScope.loggedUser.username);
     Auth.logout();
@@ -185,10 +189,24 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
           password: $scope.password
         },
         function (response) {
-          // TODO(mpomarole) : redirect user to his new profile page
+          Auth.login({
+            username: $scope.username,
+            password: $scope.password,
+            remember: $scope.remember
+          }, function (response) {
+            Auth.getCurrentUser(
+              function (user) { 
+                toastr.success('Oi!', user.username);
+                $rootScope.$emit('userLoggedIn', user);
+              }, function (error) {
+                toastr.error(error);
+              });
+    }, function (error) {
+      $scope.error = 'Usuário ou senha estão errados :(';
+    });
         },
         function (error) {
-          toastr.error(error);
+          toastr.error(error.detail);
       });
     }
   };
@@ -352,7 +370,9 @@ app.controller('VolunteerController',
   };
 
   $scope.$watch('volunteer.user.email', function (value) {
-    if (value != $rootScope.loggedUser.user.email) {
+    if (!$rootScope.loggedUser) return;
+
+    if (value && value != $rootScope.loggedUser.user.email) {
       $scope.emailError = "";
     }
     else if (value != $rootScope.loggedUser.user.email) {
