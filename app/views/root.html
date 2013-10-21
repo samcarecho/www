@@ -8,11 +8,22 @@
       </form>
       <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
 
-      <ul class="nav pull-right" ng-show="loggedUser">
+      <ul class="nav pull-right" ng-show="loggedUser && loggedUser.role=='VOLUNTEER'">
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
+          <li class="divider"></li>
+          <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
+        </ul>
+        </li>
+      </ul>
+      <ul class="nav pull-right" ng-show="loggedUser && loggedUser.role=='NONPROFIT'">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-error">{{ loggedUser.role|translate }}</span> {{ loggedUser.name }}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
+          <li><a ng-href="/ong/admin">Panel de controle</a></li>
           <li class="divider"></li>
           <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
         </ul>

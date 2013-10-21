@@ -26,7 +26,7 @@ app.directive('volunteersignup', function() {
     restrict: 'E',
     scope: {},
     controller: 'VolunteerSignupController',
-    templateUrl: '/views/signupVolunteer.html'
+    templateUrl: '/views/volunteerSignup.html'
   };
 });
 
@@ -35,7 +35,7 @@ app.directive('nonprofitsignup', function() {
     restrict: 'E',
     scope: {},
     controller: 'NonprofitSignupController',
-    templateUrl: '/views/signupNonprofit.html'
+    templateUrl: '/views/nonprofitSignup.html'
   };
 });
 

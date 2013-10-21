@@ -225,22 +225,22 @@ app.controller('NonprofitSignupController',
   Restangular.all('causes').getList().then( function(response) {
     $scope.causes = response;
   }, function (error) {
-    toastr.error("Não consigui pegar as causas do servidor.");
+    toastr.error("Não consegui pegar as causas do servidor.");
   });
   Restangular.all('suburbs').getList().then( function(response) {
     $scope.suburbs = response;
   }, function (error) {
-    toastr.error("Não consigui pegar as Zonas do servidor.");
+    toastr.error("Não consegui pegar as Zonas do servidor.");
   });
   Restangular.all('cities').getList().then( function(response) {
     $scope.cities = response;
   }, function (error) {
-    toastr.error("Não consigui pegar as cidades do servidor.");
+    toastr.error("Não consegui pegar as cidades do servidor.");
   });
   Restangular.all('states').getList().then( function(response) {
     $scope.states = response;
   }, function (error) {
-    toastr.error("Não consigui pegar os estados do servidor.");
+    toastr.error("Não consegui pegar os estados do servidor.");
   });
 
   // Checking that slug does not have spaces and it is not already used.
@@ -404,4 +404,25 @@ app.controller('VolunteerController',
       });
     }
   };
+}]);
+
+app.controller('NonprofitController',
+    ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+
+  $scope.invalidForm = true;
+  $scope.passwordDoesNotMatch = true;
+  
+  Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
+    $scope.nonprofit = response;
+    $scope.nonprofit.id = $scope.volunteer.slug;
+    if ($scope.nonprofit.image_url) {
+      $scope.image = $scope.nonprofit.image_url;
+    } else {
+      $scope.image = "http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif";
+    }
+    delete $scope.nonprofit.image_url; // TODO
+  }, function(response) {
+    $state.transitionTo('root.home');
+    toastr.error('Ong não encontrada.');
+  });
 }]);

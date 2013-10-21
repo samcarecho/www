@@ -45,7 +45,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     })
     .state('root.nonprofitsignup', {
       url: '/cadastro/ong',
-      templateUrl: '/views/signupNonprofit.html',
+      templateUrl: '/views/nonprofitSignup.html',
       controller: 'NonprofitSignupController',
       resolve: {}
     });
