@@ -12,7 +12,9 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     $translate.uses(langKey);
   };
 
-  $scope.site = Site;
+  $rootScope.site = Site;
+  window.scope = $rootScope;
+
   Auth.getCurrentUser(function (user) { 
     $rootScope.loggedUser = user;
     window.user = user
