@@ -12,12 +12,10 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     $translate.uses(langKey);
   };
 
-  $rootScope.site = Site;
-  window.scope = $rootScope;
+  $scope.site = Site;
 
   Auth.getCurrentUser(function (user) { 
     $rootScope.loggedUser = user;
-    window.user = user
   }, function (error) {
     console.error(error);
   });
@@ -40,7 +38,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     });
   }
 
-  $rootScope.closeNonprofitPortalModal = function () {
+  $scope.closeNonprofitPortalModal = function () {
     modalInstance.close();
   }
 
@@ -410,6 +408,7 @@ app.controller('VolunteerController',
 
 app.controller('NonprofitController',
     ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+
   angular.extend($scope, {
     center: {
       latitude: -23.553287,

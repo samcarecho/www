@@ -3,6 +3,10 @@
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook', 'google-maps']);
 
+angular.element(document).ready(function() {
+  angular.bootstrap(document, ['atadosApp']);
+});
+
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
 

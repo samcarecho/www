@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: AppController', function () {
+describe('AppController', function () {
 
   // load the controller's module
   beforeEach(module('atadosApp'));
@@ -11,20 +11,13 @@ describe('Controller: AppController', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    rootScope = $rootScope;
     AppController = $controller('AppController', {
-      $scope: scope,
-      $rootScope: rootScope
+      $scope: scope
     });
   }));
 
   it('shold have the site name on the root scope', function () {
-    expect($rootScope.site.name).toBe('Atados - Juntando gente Boa');
-    expect($rootScope.site.title).toBe('Juntando gente Boa');
+    expect(scope.site.name).toBe('Atados - Juntando Gente Boa');
+    expect(scope.site.title).toBe('Juntando Gente Boa');
   });
 });
-
-// Stuff that I need to test
-  // 1 . I need to make sure the authentication page creates a user well
-  // 2. that the user is correctly authenticated and logged in
-  // 3. That no trace of the user is cached on the client and on the server when he log outs

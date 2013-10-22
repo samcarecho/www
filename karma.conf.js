@@ -25,6 +25,7 @@ module.exports = function(config) {
       'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'app/bower_components/angular-facebook/lib/angular-facebook.js',
       'app/bower_components/toastr/toastr.js',
+      'app/bower_components/angular-google-maps/src/angular-google-maps.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

@@ -4,7 +4,7 @@ var app = angular.module('atadosApp');
 
 app.factory('Site', function() {
   return {
-    name : 'Atados - Juntando gente Boa',
+    name : 'Atados - Juntando Gente Boa',
     title: 'Juntando Gente Boa',
     copyright: '',
     termsOfService: '',
