@@ -1,12 +1,12 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="atadosApp"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app="atadosApp"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" ng-app="atadosApp"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="atadosApp"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Atados - Juntando Gente Boa</title>
+    <title>Atados - {{site.title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="atadosApp">
+  <body>
     <!--[if lt IE 7]>
       <div class="alert">
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -32,6 +32,8 @@
     <![endif]-->
 
     <div ui-view></div>
+
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
 
     <!-- build:js scripts/modules.js -->
     <script src="/bower_components/jquery/jquery.js"></script>
@@ -47,18 +49,20 @@
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="/bower_components/angular-facebook/lib/angular-facebook.js"></script>
     <script src="/bower_components/toastr/toastr.js"></script>
+    <script src="/bower_components/angular-google-maps/src/angular-google-maps.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="/scripts/jquery.cookie.js"></script>
     <script src="/scripts/app.js"></script>
     <script src="/scripts/constants.js"></script>
+    <script src="/scripts/filters.js"></script>
     <script src="/scripts/controllers.js"></script>
     <script src="/scripts/directives.js"></script>
     <script src="/scripts/services.js"></script>
     <!-- endbuild -->
 
-    <!-- LiveChat
+    <!-- LiveChat -->
     <script type="text/javascript">
     var __lc = {};
     __lc.license = 3379242;
@@ -69,7 +73,7 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
     })();
     </script>
-     End LiveChat -->
+     <!-- End LiveChat -->
 
     <!-- Google Analytics -->
     <script>

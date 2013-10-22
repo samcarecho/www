@@ -5,10 +5,16 @@ var app = angular.module('atadosApp');
 app.factory('Site', function() {
   return {
     name : 'Atados - Juntando gente Boa',
+    title: 'Juntando Gente Boa',
     copyright: '',
     termsOfService: '',
     privacy: '',
-    team: [{ name: 'Marjori Pomarole', email: 'marjori@atados.com.br', photo: 'URL here', description: 'Hi I am the programmer', facebook: 'marjoripomarole'}]
+    team: [{
+      name: 'Marjori Pomarole',
+      email: 'marjori@atados.com.br',
+      photo: 'URL here',
+      description: 'Hi I am the programmer',
+      facebook: 'marjoripomarole'}]
   };
 });
 

@@ -34,7 +34,8 @@
     "restangular": "~1.1.6",
     "underscore": "~1.5.2",
     "toastr": "~2.0.1",
-    "font-awesome": "~3.2.1"
+    "font-awesome": "~3.2.1",
+    "angular-google-maps": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.8",

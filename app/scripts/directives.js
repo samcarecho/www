@@ -55,11 +55,46 @@ app.directive('debug', function() {
       expression: '=val'
     },
     template: '<pre>{{debug(expression)}}</pre>',
-      link: function(scope) {
-        // pretty-prints
-        scope.debug = function(exp) {
-          return angular.toJson(exp, true);
-        };
-      }
+    link: function(scope) {
+      scope.debug = function(exp) {
+        return angular.toJson(exp, true);
+      };
+    }
   }
 });
+
+app.directive('phone', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      number: '@'
+    },
+    template: '<div><i class="icon-phone-sign"></i> {{number}}</div>'
+  }
+});
+
+app.directive('email', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      email: '@'
+    },
+    template: '<div><i class="icon-laptop"></i> {{email}}</div>'
+  }
+});
+
+/*app.directive('address', function () {
+  return {
+    restrict: 'AE',
+    scope: {
+      addressline: '',
+      addressnumber: '',
+      complement: '',
+      suburb: '',
+      zipcode: '',
+      city: '',
+      state: '',
+    },
+    template: ''
+  }
+});*/

@@ -408,19 +408,56 @@ app.controller('VolunteerController',
 
 app.controller('NonprofitController',
     ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+  angular.extend($scope, {
+    center: {
+      latitude: -23.553287,
+      longitude: -46.638535,
+    },
+    markers: [],
+    zoom: 14,
+  });
 
-  $scope.invalidForm = true;
-  $scope.passwordDoesNotMatch = true;
-  
-  Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
+  function getLatLong(address){
+    var geo = new google.maps.Geocoder;
+    var addressString = address.addressline + ' ' + address.number;
+    geo.geocode({'address':address.addressline, 'region': 'br'},
+    function(results, status){
+      if (status == google.maps.GeocoderStatus.OK) {
+        var location = {
+          latitude: results[0].geometry.location.lat(),
+          longitude: results[0].geometry.location.lng()
+        }
+        $scope.center = location;
+        $scope.markers.push(location);
+        $scope.mapReady = true;
+        window.scope = $scope;
+      } else {
+        console.error("Mapa não retornou resultado."  + results)
+      }
+    });
+  }
+
+  Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
+    window.scope = $scope
+
     $scope.nonprofit = response;
-    $scope.nonprofit.id = $scope.volunteer.slug;
+    $scope.site.title = "ONG " + $scope.nonprofit.slug;
+    $scope.nonprofit.id = $scope.nonprofit.slug;
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
     } else {
       $scope.image = "http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif";
     }
-    delete $scope.nonprofit.image_url; // TODO
+
+    if ($scope.nonprofit.cover_url) {
+      $scope.coverImage = $scope.nonprofit.cover_url;
+    } else {
+      $scope.coverImage = "http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg";
+    }
+
+    getLatLong($scope.nonprofit.address); 
+
+    console.log($scope.nonprofit.causes);
   }, function(response) {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');

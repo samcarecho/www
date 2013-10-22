@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook']);
+    ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook', 'google-maps']);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {

@@ -10,8 +10,8 @@
       <label ng-if="loggedUser.username==volunteer.username" class="btn" for="file-input"><i class="icon-edit"></i>Editar foto</label>
       <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
     </div>
-    <p><i class="icon-laptop"></i> {{volunteer.user.email}}</p>
-    <p><i class="icon-phone-sign"></i> {{volunteer.phone}}</p>
+    <email email="{{volunteer.user.email}}"></email>
+    <phone number="{{volunteer.phone}}"></phone>
   </div>
   <div class="span12 well">
     <h2>Atividades recentes</h2>
