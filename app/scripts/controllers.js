@@ -15,14 +15,14 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   $scope.site = Site;
 
   Auth.getCurrentUser(function (user) { 
-    $rootScope.loggedUser = user;
+    $scope.loggedUser = user;
   }, function (error) {
     console.error(error);
   });
 
   var modalInstance = null;
   $rootScope.$on('userLoggedIn', function(event, user) {
-    $rootScope.loggedUser = user;
+    $scope.loggedUser = user;
     modalInstance.close();
   });
 
@@ -43,9 +43,9 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   }
 
   $scope.logout = function () {
-    toastr.info('Tchau!', $rootScope.loggedUser.username);
+    toastr.info('Tchau!', $scope.loggedUser.username);
     Auth.logout();
-    $rootScope.loggedUser = null;
+    $scope.loggedUser = null;
   };
 }]);
 
@@ -370,12 +370,12 @@ app.controller('VolunteerController',
   };
 
   $scope.$watch('volunteer.user.email', function (value) {
-    if (!$rootScope.loggedUser) return;
+    if (!$scope.loggedUser) return;
 
-    if (value && value != $rootScope.loggedUser.user.email) {
+    if (value && value != $scope.loggedUser.user.email) {
       $scope.emailError = "";
     }
-    else if (value != $rootScope.loggedUser.user.email) {
+    else if (value != $scope.loggedUser.user.email) {
       Auth.isEmailUsed(value, function (response) {
         $scope.emailError = null;
       }, function (error) {
