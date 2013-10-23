@@ -57,7 +57,6 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   $scope.username = '';
   $scope.password = '';
   $scope.remember = true;
-  console.log
 
   $scope.resetEmail = '';
   $scope.invalidEmail = true;
@@ -116,7 +115,6 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     Auth.facebookLogin(authResponse,
       function (user) {
         $rootScope.$emit('userLoggedIn', user);
-        console.log(user);
       }, function (error) {
         toastr.error(error);
       });
@@ -126,8 +124,6 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     Facebook.getLoginStatus(function (response) {
       if (response.status != 'connected') {
         Facebook.login(function(loginResponse) {
-          console.log(response);
-          console.log(loginResponse);
           if (loginResponse.status == 'connected') {
             sendFacebookCredentials(loginResponse.authResponse);
           } else if (response.status == 'not_authorized') {
@@ -135,7 +131,6 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
           }
         });
       } else {
-        console.log(response);
         if (response.authResponse) {
           sendFacebookCredentials(response.authResponse);
         } else {
@@ -459,7 +454,6 @@ app.controller('NonprofitController',
 
     getLatLong($scope.nonprofit.address); 
 
-    console.log($scope.nonprofit.causes);
   }, function(response) {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');

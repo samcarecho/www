@@ -46,7 +46,7 @@
     "connect-modrewrite": "~0.5.10"
   },
   "engines": {
-    "node": ">=0.11.0"
+    "node": ">=0.10.0"
   },
   "scripts": {
     "test": "grunt test"

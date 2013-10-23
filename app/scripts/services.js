@@ -38,7 +38,6 @@ app.factory('Auth', function($http) {
       }).error(error);
     },
     resetPassword: function (email, success, error) {
-      console.log("reseting " + email);
       $http.post(apiUrl + 'password_reset/', {email: email})
         .success( function(response){
            success();
@@ -83,7 +82,6 @@ app.factory('Auth', function($http) {
       }).error(error);
     },
     nonprofitSignup: function(nonprofit, success, error) {
-      console.log(nonprofit);
       $http.post(apiUrl + 'create/nonprofit/', nonprofit).success( function(response) {
         success();
       }).error(error);

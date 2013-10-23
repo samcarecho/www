@@ -1,9 +1,9 @@
-<div class="container">
+<div>
   <div class="heading">
     <h1 class="form-heading">Vamos cadastrar sua ONG!</h1>
   </div>
   <form novalidate class="form-horizontal" name="signupForm" ng-submit="signup()">
-    <fieldset>
+    <fieldset class="span9">
       <legend>Sobre a ONG</legend>
       <div class="control-group">
         <label class="control-label" for="name">Nome</label>
@@ -39,28 +39,57 @@
       <div class="control-group" ng-class="{error:signupForm.phone.$dirty && signupForm.phone.$invalid}">
         <label class="control-label">Telefone</label>
         <div class="controls">                     
-          <input type='text' name="phone" ng-model='nonprofit.phone' placeholder="{{'PHONE'|translate}}" required/>
+          <input type='text' name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="{{'PHONE'|translate}}" required/>
+          <label class="help-inline" ng-show="signupForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group" >
         <label class="control-label">Endereço</label>
         <div class="controls">                     
-          <input type='text' name="addressline" ng-model='nonprofit.address.addressline' placeholder="{{'ADDRESS_LINE'|translate}}" required/>
-          <input type='text' name="addressnumber" ng-model='nonprofit.address.addressnumber' placeholder="{{'ADDRESS_NUMBER'|translate}}" required/>
-          <input type='text' name="neighborhood" ng-model='nonprofit.address.neighborhood' placeholder="{{'NEIGHBORHOOD'|translate}}" required/>
-          <input type='text' name="zipcode" ng-model='nonprofit.address.zipcode' placeholder="{{'ZIPCODE'|translate}}" required/>
-          <select ng-model="nonprofit.address.suburbs" ng-options="c.name for c in suburbs">
-            <option value="">{{'SUBURB'|translate}}</option>
+          <input type='text' name="addressline" ng-model='nonprofit.address.addressline' class="span4" placeholder="Rua" required/>
+          <input type='text' name="addressnumber" ng-model='nonprofit.address.addressnumber' class="span2" placeholder="nro" required/>
+          <input type='text' name="addressline2" ng-model='nonprofit.address.addressline2' class="span3"placeholder="Apartamento, bloco, etc"/>
+          <input type='text' name="neighborhood" ng-model='nonprofit.address.neighborhood' class="span3" placeholder="Bairro" required/>
+          <input type='text' name="zipcode" ng-model='nonprofit.address.zipcode' ng-maxlength="10" placeholder="CEP" required/>
+          <label class="help-inline" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
+          <select ng-model="nonprofit.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
+            <option value="">Zona</option>
           </select>
-          <select ng-model="nonprofit.address.state" ng-options="c.name for c in states">
-            <option value="">{{'STATE'|translate}}</option>
+          <select ng-model="nonprofit.address.city" ng-options="c.name for c in cities|orderBy:'name'">
+            <option value="">Cidade</option>
           </select>
-          <select ng-model="nonprofit.address.city" ng-options="c.name for c in cities">
-            <option value="">{{'CITY'|translate}}</option>
+          <select ng-model="nonprofit.address.state" ng-options="c.name for c in states|orderBy:'name'">
+            <option value="">Estado</option>
           </select>
         </div>
       </div>
     </fieldset>
+
+    <fieldset>
+      <legend>Sua ONG em redes sociais</legend>
+      <div class="control-group">
+        <label class="control-label" for="textinput">Facebook</label>
+        <div class="controls">
+          <input type="text" name="facebookpage"  ng-model="nonprofit.facebook_page" placeholder="facebook.com/atados" class="input-xlarge">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="textinput">Google+</label>
+        <div class="controls">
+          <input type="text" name="googlepage" ng-model="nonprofit.google_page" placeholder="plus.google.com/atados" class="input-xlarge">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="prependedtext">Twitter</label>
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on">@</span>
+            <input type="text" name="twitterhandle" ng-model="nonprofit.twitter_handle" class="input-xlarge" placeholder="gente_boa">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
     <fieldset>
       <legend>Sobre você</legend>
       <div class="control-group">
