@@ -21,6 +21,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   });
 
   var modalInstance = null;
+
   $rootScope.$on('userLoggedIn', function(event, user) {
     $scope.loggedUser = user;
     modalInstance.close();
