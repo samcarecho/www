@@ -12,6 +12,14 @@
     </div>
     <email email="{{volunteer.user.email}}"></email>
     <phone number="{{volunteer.phone}}"></phone>
+    <div ng-show="volunteer.causes">
+      <h3 class="well-title">Causas</h3>
+      <span class="tag" ng-repeat="cause in causes|filter:{checked:true}">{{cause.name}}</span>
+    </div>
+    <div ng-show="volunteer.skills">
+      <h3 class="well-title">Habilidades</h3>
+      <span class="tag" ng-repeat="skill in skills|filter:{checked:true}">{{skill.name}}</span>
+    </div>
   </div>
   <div class="span12 well">
     <h2>Atividades recentes</h2>
@@ -70,10 +78,10 @@
         <label class="control-label">Habilidades</label>
         <div class="controls">
           <ul class="select-button-list">
-            <li ng-repeat="cause in skills" ng-class="{active:cause.checked}">
+            <li ng-repeat="skill in skills" ng-class="{active:skill.checked}">
               <label>
-                {{cause.name}}
-                <input type="checkbox" name="skills[]" ng-checked="cause.checked" ng-model="cause.checked"/>
+                {{skill.name}}
+                <input type="checkbox" name="skills[]" ng-checked="skill.checked" ng-model="skill.checked"/>
               </label>
             </li>
           </ul>
