@@ -19,6 +19,7 @@
     <!-- endbuild -->
   </head>
   <body>
+
     <!--[if lt IE 7]>
       <div class="alert">
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -32,8 +33,6 @@
     <![endif]-->
 
     <div ui-view></div>
-
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
 
     <!-- build:js scripts/modules.js -->
     <script src="/bower_components/jquery/jquery.js"></script>
@@ -62,6 +61,24 @@
     <script src="/scripts/services.js"></script>
     <!-- endbuild -->
 
+    <!-- Twitter Dev -->
+    <script src="http://platform.twitter.com/widgets.js"></script>
+
+    <!-- Google Dev -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
+
+    <!-- Facebook Dev -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=430973993601792";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!--End of Facebook Dev -->
+    
     <!-- LiveChat
     <script type="text/javascript">
     var __lc = {};

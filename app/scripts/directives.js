@@ -98,3 +98,26 @@ app.directive('email', function () {
     template: ''
   }
 });*/
+
+
+// Social directives
+app.directive('twitter', [
+    function() {
+      return {
+        restrict: 'E',
+        link: function(scope, element, attr) {
+          console.log(attr.url);
+                setTimeout(function() {
+                  twttr.widgets.createFollowButton(
+                    attr.url,
+                    element[0],
+                    function(el) {}, {
+                      count: 'none',
+                      text: attr.text
+                    }
+                    );
+                });
+              }
+      }
+    }
+    ]);
