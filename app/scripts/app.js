@@ -49,10 +49,16 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       templateUrl: '/views/nonprofitSignup.html',
       controller: 'NonprofitSignupController',
       resolve: {}
+    })
+    .state('root.project', {
+      url: '/ato/:slug',
+      templateUrl: '/views/projectPage.html',
+      controller: 'ProjectPageController',
+      resolve: {}
     });
 
   // $urlRouterProvider.when('/test', '/test1');
-  // $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/');
 
   $locationProvider.html5Mode(true).hashPrefix('!');
 }]);

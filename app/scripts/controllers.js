@@ -330,17 +330,6 @@ app.controller('NonprofitSignupController',
   };
 }]);
 
-// TODO(mpomarole) : Implement project box for landing page and through the site to lead volunteer to 
-// find new projects to join
-app.controller('ProjectBoxController', ['$scope', function($scope) {
-  $scope.project = {
-    name: 'Movimento Boa Praça',
-    shortDescription: 'This is a short description...',
-    city: 'São Paulo',
-    state: 'State',
-  };
-}]);
-
 app.controller('VolunteerController',
     ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
@@ -481,4 +470,20 @@ app.controller('NonprofitAdminController', ['$scope', '$state', '$log', function
     toastr.error("Apenas ONGs tem acesso ao Painel de Controle");
   }
 
+}]);
+
+// TODO(mpomarole) : Implement project box for landing page and through the site to lead volunteer to 
+// find new projects to join
+app.controller('ProjectBoxController', ['$scope', function($scope) {
+  $scope.project = {
+    name: 'Movimento Boa Praça',
+    shortDescription: 'This is a short description...',
+    city: 'São Paulo',
+    state: 'State',
+  };
+}]);
+
+// TODO
+app.controller('ProjectPageController', ['$scope', function($scope) {
+  $scope.project = null;
 }]);
