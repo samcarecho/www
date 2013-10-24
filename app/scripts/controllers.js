@@ -1,12 +1,17 @@
 'use strict';
 
+// ----
+// Global Constants
+var NONPROFIT = 'NONPROFIT';
+
+// Toastr configurations. TODO(mpomarole): move this to its own service
 toastr.options.closeButton = true;
 toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal', 'Site', 'Auth', 'Facebook',
-  function($scope, $rootScope, $translate, $modal, Site, Auth, Facebook) {
+app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal', '$state', 'Site', 'Auth', 'Facebook',
+  function($scope, $rootScope, $translate, $modal, $state, Site, Auth, Facebook) {
 
   $scope.changeLanguage = function (langKey) {
     $translate.uses(langKey);
@@ -23,8 +28,13 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
   var modalInstance = null;
 
   $rootScope.$on('userLoggedIn', function(event, user) {
-    $scope.loggedUser = user;
-    modalInstance.close();
+    if (user) {
+      $scope.loggedUser = user;
+      if ($scope.loggedUser.role == NONPROFIT) {
+        $state.transitionTo('root.nonprofitadmin');
+      }
+      modalInstance.close();
+    }
   });
 
   $scope.openVolunteerPortalModal = function() { 
@@ -310,7 +320,8 @@ app.controller('NonprofitSignupController',
       Auth.nonprofitSignup($scope.nonprofit,
         function (response) {
           toastr.success("Bem vinda ONG ao atados!");
-          // TODO(mpomarole) : redirect nonprofit to awaiting moderation status
+          // TODO(mpomarole) : redirect nonprofit to awaiting moderation status on the admin panel
+          $state.transitionTo('root.nonprofitadmin');
         },
         function (error) {
           toastr.error(error);
