@@ -99,6 +99,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
 
   $scope.resetPassword = function () {
     Auth.resetPassword($scope.resetEmail,  function (response) {
+      // TODO(mpomarole) This toast can't fade out
       toastr.info("Por favor cheque seu email para receber sua nova senha.");
     }, function (error) {
       toastr.error("Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br");
@@ -141,7 +142,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
+app.controller('VolunteerSignupController', ['$scope', 'Auth', function($scope, Auth) {
   function checkInvalid() {
     $scope.invalidForm =  $scope.signupForm.$invalid ||
       $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
@@ -213,10 +214,9 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
 }]);
 
 app.controller('NonprofitSignupController',
-    ['$scope', '$rootScope', '$filter', 'Auth', 'Restangular', function($scope, $rootScope, $filter, Auth, Restangular) {
+    ['$scope', '$filter', 'Auth', 'Restangular', function($scope, $filter, Auth, Restangular) {
 
   $scope.nonprofit = {};
-  window.scope = $scope;
 
   Restangular.all('causes').getList().then( function(response) {
     $scope.causes = response;
@@ -310,7 +310,7 @@ app.controller('NonprofitSignupController',
       Auth.nonprofitSignup($scope.nonprofit,
         function (response) {
           toastr.success("Bem vinda ONG ao atados!");
-          // TODO(mpomarole) : redirect redirect nonprofit to awaiting moderation status
+          // TODO(mpomarole) : redirect nonprofit to awaiting moderation status
         },
         function (error) {
           toastr.error(error);
@@ -319,7 +319,9 @@ app.controller('NonprofitSignupController',
   };
 }]);
 
-app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope, $rootScope) {
+// TODO(mpomarole) : Implement project box for landing page and through the site to lead volunteer to 
+// find new projects to join
+app.controller('ProjectBoxController', ['$scope', function($scope) {
   $scope.project = {
     name: 'Movimento Boa Praça',
     shortDescription: 'This is a short description...',
@@ -329,10 +331,10 @@ app.controller('ProjectBoxController', ['$scope', '$rootScope', function($scope,
 }]);
 
 app.controller('VolunteerController',
-    ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+    ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
-  $scope.invalidForm = true;
-  $scope.passwordDoesNotMatch = true;
+  $scope.site.title = "Voluntário - " + $stateParams.username;
+  console.log($scope);
   
   Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
@@ -340,6 +342,7 @@ app.controller('VolunteerController',
     if ($scope.volunteer.image_url) {
       $scope.image = $scope.volunteer.image_url;
     } else {
+      // TODO(mpomarole): Download this into frontend server instead of outside website
       $scope.image = "http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png";
     }
     delete $scope.volunteer.image_url;
@@ -349,40 +352,42 @@ app.controller('VolunteerController',
   });
 
   $scope.saveVolunteer = function () {
+    
     $scope.volunteer.patch().then( function (response) {
       toastr.success("Perfil salvo!", $scope.volunteer.username);
     }, function (error) {
       toastr.error("Problema em salvar seu perfil :(");
     });
-  };
-
-  function checkInvalid () {
-    $scope.invalidForm = $scope.emailError || $scope.passwordDoesNotMatch;
-  }
-
-  $scope.checkInvalid = function(form) {
-    $scope.invalidForm |= form.$invalid;
-    checkInvalid();
+    if ($scope.password && $scope.password == $scope.passwordConfirm) {
+      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function (response) {
+        toastr.success("Senha nova salva", $scope.volunteer.username);
+      }, function (error) {
+        toastr.error("Não conseguimos atualizar sua senha :(");
+      });
+    }
   };
 
   $scope.$watch('volunteer.user.email', function (value) {
     if (!$scope.loggedUser) return;
 
     if (value && value != $scope.loggedUser.user.email) {
-      $scope.emailError = "";
+      $scope.profileForm.email.alreadyUsed = false;
     }
     else if (value != $scope.loggedUser.user.email) {
       Auth.isEmailUsed(value, function (response) {
-        $scope.emailError = null;
+        $scope.profileForm.email.alreadyUsed = false;
+        $scope.profileForm.email.$invalid = false;
       }, function (error) {
-        $scope.emailError = 'Email já existe.';
+        $scope.profileForm.email.alreadyUsed = true;
+        $scope.profileForm.email.$invalid = true;
       });
     }
   });
 
   $scope.$watch('password + passwordConfirm', function() {
-    $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
-    checkInvalid();
+    console.log($scope);
+    $scope.profileForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.profileForm.password.$invalid = $scope.profileForm.password.doesNotMatch;
   });
 
   $scope.uploadFile = function(files) {
@@ -403,7 +408,7 @@ app.controller('VolunteerController',
 }]);
 
 app.controller('NonprofitController',
-    ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $rootScope, $state, $stateParams, $http,  Auth, Restangular) {
+    ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
   angular.extend($scope, {
     center: {
@@ -417,7 +422,7 @@ app.controller('NonprofitController',
   function getLatLong(address){
     var geo = new google.maps.Geocoder;
     var addressString = address.addressline + ' ' + address.number;
-    geo.geocode({'address':address.addressline, 'region': 'br'},
+    geo.geocode({'address': address.addressline, 'region': 'br'},
     function(results, status){
       if (status == google.maps.GeocoderStatus.OK) {
         var location = {

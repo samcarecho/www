@@ -20,48 +20,51 @@
     </ul>
     <span ng-if="!volunteer.activities">Não tem atividades.</span>
   </div>
-  <div class="span12 well" ng-if="loggedUser.username==volunteer.username">
-    <form novalidate class="form-horizontal" name="infoForm" ng-submit="saveVolunteer()">
-      <button type="submit" class="btn btn-primary pull-right"
-        ng-disabled="invalidForm" translate>SAVE</button>
-      <label translate>FIRST_NAME</label>
-      <input type="text" ng-model="volunteer.user.first_name" />
-      <label translate>LAST_NAME</label>
-      <input type="text" ng-model="volunteer.user.last_name" />
-      <label translate>EMAIL</label>
-      <input type="email" ng-model="volunteer.user.email"
-      ng-change="checkInvalid(infoForm)" required/>
-      <span class="label label-important">{{emailError}}</span>
-      <label translate>PHONE</label>
-      <input type="text" ng-model="volunteer.phone" />
+  <div class="span12 well" ng-show="loggedUser.username==volunteer.username">
+    <form novalidate class="form-horizontal" name="profileForm" ng-submit="saveVolunteer()">
+      <button type="submit" class="btn btn-primary pull-right" ng-disabled="profileForm.$invalid">Salvar</button>
+      <div class="control-group">
+        <label class="control-label">Nome</label>
+        <div class="controls">                     
+          <input type='text' name="first_name" ng-model='volunteer.user.first_name' placeholder="Nome"/>
+          <input type='text' name="last_name" ng-model='volunteer.user.last_name' placeholder="Sobrenome"/>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Email</label>
+        <div class="controls">                     
+          <input type="email" name="email" ng-model="volunteer.user.email" required/>
+          <label class="help-inline" ng-show="profileForm.email.alreadyUsed">Email já é usado</label>
+        </div>
+      </div>
+      <div class="control-group" ng-class="{error:profileForm.phone.$dirty && profileForm.phone.$invalid}">
+        <label class="control-label">Telefone</label>
+        <div class="controls">                     
+          <input type="text" name="phone" ng-model="volunteer.phone" ng-maxlength="20" placeholder="Telefone"/>
+          <label class="help-inline" ng-show="profileForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
+        </div>
+      </div>
       <div ng-if="volunteer.causes">
-        <label translate>CAUSES</label>
+        <label>Causas</label>
         <ul>
           <li ng-repeat="cause in volunteer.causes">{{cause.name}}</li>
         </ul>
       </div>
       <div ng-if="volunteer.skills">
-        <label translate>SKILLS</label>
+        <label>Habilidades</label>
         <ul>
           <li ng-repeat="skills in volunteer.skills">{{skills.name}}</li>
         </ul>
       </div>
-      <div class="control-group">
-        <label>Mudar senha</label>
-        <input required type='password' name='password' ng-model='password' ng-minlength="6"
-        placeholder="{{'PASSWORD'|translate}}"/>
-        <input required type='password' name='passwordConfirm' ng-model='passwordConfirm'
-        ng-minlength="6" placeholder="{{'PASSWORD_CONFIRM'|translate}}"/>
-        <div class="label label-important" ng-show="passwordDoesNotMatch">
-          Senhas tem que ser igual!
-        </div>
-        <div class="label label-important" ng-show="infoForm.password.$error.minlength">
-          Senha tem que ter mais de 6 caracteres
+      <div class="control-group" ng-class="{error:profileForm.password.$dirty && profileForm.password.$invalid}">
+        <label class="control-label">Mudar senha</label>
+        <div class="controls">
+          <input type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
+          <input type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
+          <label class="help-inline" ng-show="profileForm.password.doesNotMatch">Senhas tem que ser igual!</label>
+          <label class="help-inline" ng-show="profileForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
         </div>
       </div>
     </form>
-  </div>
-  <div class="span3 well">
-    {{input}}
   </div>
 </div>

@@ -4,17 +4,17 @@
       <a class="brand" href="#"></a>
 
       <form class="navbar-search pull-center">
-        <input ng-model="input" type="text" class="search-query" placeholder="{{'SEARCH_PLACEHOLDER'|translate}}">
+        <input ng-model="input" type="text" class="search-query" placeholder="Procure por causas que fazem o bem!">
       </form>
-      <button ng-click="search()" class="btn btn-primary" translate>SEARCH_BTN</button>
+      <button ng-click="search()" class="btn btn-primary">Procurar</button>
 
       <ul class="nav pull-right" ng-show="loggedUser && loggedUser.role=='VOLUNTEER'">
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a ng-href="/voluntario/{{loggedUser.username}}" translate>PROFILE_BTN</a></li>
+          <li><a ng-href="/voluntario/{{loggedUser.username}}">Meu perfil</a></li>
           <li class="divider"></li>
-          <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
+          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
         </li>
       </ul>
@@ -25,7 +25,7 @@
           <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
           <li><a ng-href="/ong/admin">Panel de controle</a></li>
           <li class="divider"></li>
-          <li> <a ui-sref="root.home" ng-click="logout()" translate>SIGNOUT_BTN</a></li>
+          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
         </li>
       </ul>

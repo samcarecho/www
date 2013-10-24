@@ -39,7 +39,7 @@
       <div class="control-group" ng-class="{error:signupForm.phone.$dirty && signupForm.phone.$invalid}">
         <label class="control-label">Telefone</label>
         <div class="controls">                     
-          <input type='text' name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="{{'PHONE'|translate}}" required/>
+          <input type='text' name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="Telefone" required/>
           <label class="help-inline" ng-show="signupForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
         </div>
       </div>
@@ -95,19 +95,19 @@
       <div class="control-group">
         <label class="control-label">Nome</label>
         <div class="controls">                     
-          <input type='text' name="first_name" ng-model='nonprofit.user.first_name' placeholder="{{'FIRST_NAME'|translate}}" required/>
+          <input type='text' name="first_name" ng-model='nonprofit.user.first_name' placeholder="Nome" required/>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">Sobrenome</label>
         <div class="controls">                     
-          <input type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="{{'LAST_NAME'|translate}}" required/>
+          <input type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome" required/>
         </div>
       </div>
       <div class="control-group" ng-class="{error:signupForm.username.$dirty && signupForm.username.$invalid}">
         <label class="control-label">Nome do usúario</label>
         <div class="controls">                     
-          <input type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}" required/>
+          <input type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="Nome de usuário" required/>
           <label class="help-inline" ng-show="signupForm.username.alreadyUsed">Nome de usúario já é usado</label>
           <label class="help-inline" ng-show="signupForm.username.hasSpace">Não pode ter espaço.</label>
         </div>
@@ -122,8 +122,8 @@
       <div class="control-group" ng-class="{error:signupForm.password.$dirty && signupForm.password.$invalid}">
         <label class="control-label">Senha</label>
         <div class="controls">                     
-          <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
-          <input required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="{{'PASSWORD_CONFIRM'|translate}}"/>
+          <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
+          <input required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
           <label class="help-inline" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
           <label class="help-inline" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
         </div>
@@ -153,7 +153,7 @@
     <div>
       <!-- TODO add terms and privacy urls -->
       <p class="alert">Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a tabindex="-1"href="{{ terms_url }}">Termos de uso</a> e <a tabindex="-1" href="{{ privacy_url }}">Políticas de privacidade</a>.</p>
-      <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-primary" translate>REGISTER_NONPROFIT_BTN</button>
+      <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-primary">Terminar registro!</button>
     </div>
   </form> 
 </div>

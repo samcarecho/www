@@ -18,8 +18,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       controller: 'AppController'
     })
     .state('root.home', {
-      url: '/',
-      template: '{{ input }}'
+      url: '/'
     })
     .state('root.404', {
       url: '/404',
@@ -31,14 +30,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       controller: 'VolunteerController',
       resolve: {
         // TODO(mpomarole): resolve current user here loading the profile
-        /*propertyData: ['$stateParams', '$q', 'Restangular', function($stateParams, $q, Restangular) {
-          var deferred = $q.defer();
-
-          gapi.client.realestate.get($stateParams.propertyId).execute(function(r) {
-              deferred.resolve(r);
-          });
-          return deferred.promise;
-        }]*/
       }
     })
     .state('root.nonprofit', {

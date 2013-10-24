@@ -43,6 +43,14 @@ app.factory('Auth', function($http) {
            success();
         }).error(error);
     },
+    // Both email and password field need to be set on data object
+    changePassword: function (data, success, error) {
+      console.log(data);
+      $http.put(apiUrl + 'change_password/', data)
+        .success( function(response) {
+          success();
+        }).error(error);
+    },
     isUsernameUsed: function (username, success, error) {
       $http.get(apiUrl + 'check_username/?username=' + username)
         .success(function (response) {success(response);}).error(error);
