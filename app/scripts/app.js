@@ -36,7 +36,13 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       url: '/ong/:slug',
       templateUrl: '/views/nonprofitProfile.html',
       controller: 'NonprofitController',
-      resolse: {}
+      resolve: {}
+    })
+    .state('root.nonprofitadmin', {
+        url: '/admin',
+        templateUrl: '/views/nonprofitAdminPanel.html',
+        controller: 'NonprofitAdminController',
+        resolve: {}
     })
     .state('root.nonprofitsignup', {
       url: '/cadastro/ong',

@@ -464,3 +464,7 @@ app.controller('NonprofitController',
     toastr.error('Ong não encontrada.');
   });
 }]);
+
+app.controller('NonprofitAdminController', ['$scope', '$log', function($scope, $log) {
+
+}]);

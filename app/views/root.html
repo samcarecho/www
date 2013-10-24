@@ -23,7 +23,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-error">{{ loggedUser.role|translate }}</span> {{ loggedUser.name }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
-          <li><a ng-href="/ong/admin">Panel de controle</a></li>
+          <li><a ng-href="/admin">Panel de controle</a></li>
           <li class="divider"></li>
           <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
