@@ -39,7 +39,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     });
   }
 
-  $scope.closeNonprofitPortalModal = function () {
+  $rootScope.closeNonprofitPortalModal = function () {
     modalInstance.close();
   }
 
