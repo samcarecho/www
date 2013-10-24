@@ -331,10 +331,20 @@ app.controller('NonprofitSignupController',
 }]);
 
 app.controller('VolunteerController',
-    ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
+    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $filter, $state, $stateParams, $http,  Auth, Restangular) {
 
   $scope.site.title = "Voluntário - " + $stateParams.username;
-  
+
+  Restangular.all('causes').getList().then( function(causes) {
+    $scope.causes = causes;
+  }, function (error) {
+    toastr.error("Não consegui pegar as causas do servidor.");
+  });
+  Restangular.all('skills').getList().then( function(skills) {
+    $scope.skills = skills;
+  }, function (error) {
+    toastr.error("Não consegui pegar as causas do servidor.");
+  });
   Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
     $scope.volunteer.id = $scope.volunteer.username;
@@ -344,15 +354,24 @@ app.controller('VolunteerController',
       // TODO(mpomarole): Download this into frontend server instead of outside website
       $scope.image = "http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png";
     }
-    delete $scope.volunteer.image_url;
   }, function(response) {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não encontrado');
   });
 
   $scope.saveVolunteer = function () {
-    
-    $scope.volunteer.patch().then( function (response) {
+    $scope.volunteer.causes = $filter('filter')($scope.causes, {checked: true});
+    var index = 0;
+    $scope.volunteer.causes.forEach( function (cause) {
+      $scope.volunteer.causes[index++] = cause.url;
+    });
+    $scope.volunteer.skills = $filter('filter')($scope.skills, {checked: true});
+    index = 0;
+    $scope.volunteer.skills.forEach( function (skill) {
+      $scope.volunteer.skills[index++] = skill.url;
+    });
+
+    $scope.volunteer.put().then( function (response) {
       toastr.success("Perfil salvo!", $scope.volunteer.username);
     }, function (error) {
       toastr.error("Problema em salvar seu perfil :(");
@@ -365,6 +384,34 @@ app.controller('VolunteerController',
       });
     }
   };
+
+  $scope.$watch('causes + volunteer.causes', function () {
+    if ($scope.causes && $scope.volunteer) {
+      $scope.volunteer.causes.forEach(function (volunteerCause) {
+        for (var index = 0; index < $scope.causes.length; ++index) {
+          var cause = $scope.causes[index];
+          if (cause.url == volunteerCause) {
+            cause.checked = true;
+            break;
+          }
+        }
+      });
+    } 
+  });
+
+  $scope.$watch('skills + volunteer.skills', function () {
+    if ($scope.skills && $scope.volunteer) {
+      $scope.volunteer.skills.forEach(function (volunteerSkill) {
+        for (var index = 0; index < $scope.skills.length; ++index) {
+          var skill = $scope.skills[index];
+          if (skill.url == volunteerSkill) {
+            skill.checked = true;
+            break;
+          }
+        }
+      });
+    } 
+  });
 
   $scope.$watch('volunteer.user.email', function (value) {
     if (!$scope.loggedUser) return;

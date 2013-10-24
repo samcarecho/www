@@ -44,18 +44,6 @@
           <label class="help-inline" ng-show="profileForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
         </div>
       </div>
-      <div ng-if="volunteer.causes">
-        <label>Causas</label>
-        <ul>
-          <li ng-repeat="cause in volunteer.causes">{{cause.name}}</li>
-        </ul>
-      </div>
-      <div ng-if="volunteer.skills">
-        <label>Habilidades</label>
-        <ul>
-          <li ng-repeat="skills in volunteer.skills">{{skills.name}}</li>
-        </ul>
-      </div>
       <div class="control-group" ng-class="{error:profileForm.password.$dirty && profileForm.password.$invalid}">
         <label class="control-label">Mudar senha</label>
         <div class="controls">
@@ -63,6 +51,32 @@
           <input type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
           <label class="help-inline" ng-show="profileForm.password.doesNotMatch">Senhas tem que ser igual!</label>
           <label class="help-inline" ng-show="profileForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Causas</label>
+        <div class="controls">
+          <ul class="select-button-list">
+            <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
+              <label>
+                {{cause.name}}
+                <input type="checkbox" name="causes[]" ng-checked="cause.checked" ng-model="cause.checked"/>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Habilidades</label>
+        <div class="controls">
+          <ul class="select-button-list">
+            <li ng-repeat="cause in skills" ng-class="{active:cause.checked}">
+              <label>
+                {{cause.name}}
+                <input type="checkbox" name="skills[]" ng-checked="cause.checked" ng-model="cause.checked"/>
+              </label>
+            </li>
+          </ul>
         </div>
       </div>
     </form>
