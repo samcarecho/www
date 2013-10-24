@@ -17,7 +17,7 @@ describe('AppController', function () {
 
   it('shold have the site name and title on the scope', function () {
     expect($scope.site.name).toBe('Atados - Juntando Gente Boa');
-    expect($scope.site.title).toBe('Juntando Gente Boa');
+    expect($scope.site.title).toBe('Atados - Juntando Gente Boa');
   });
 
   it('should log the user out', function () {

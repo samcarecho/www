@@ -16,6 +16,10 @@ $grayLighter:#eee;
 $blueDark:#12bad1;
 $orange:#f28730;
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 .navbar {
   .brand {
     background:url($atadosSprite) no-repeat;
