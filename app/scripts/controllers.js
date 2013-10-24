@@ -465,6 +465,11 @@ app.controller('NonprofitController',
   });
 }]);
 
-app.controller('NonprofitAdminController', ['$scope', '$log', function($scope, $log) {
+app.controller('NonprofitAdminController', ['$scope', '$state', '$log', function($scope, $state, $log) {
+
+  if (!$scope.loggedUser || $scope.loggedUser.role == 'VOLUNTEER') {
+    $state.transitionTo('root.home');
+    toastr.error("Apenas ONGs tem acesso ao Painel de Controle");
+  }
 
 }]);
