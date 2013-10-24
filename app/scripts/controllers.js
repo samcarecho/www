@@ -152,7 +152,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerSignupController', ['$scope', 'Auth', function($scope, Auth) {
+app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
   function checkInvalid() {
     $scope.invalidForm =  $scope.signupForm.$invalid ||
       $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
@@ -208,9 +208,9 @@ app.controller('VolunteerSignupController', ['$scope', 'Auth', function($scope, 
               }, function (error) {
                 toastr.error(error);
               });
-    }, function (error) {
-      $scope.error = 'Usuário ou senha estão errados :(';
-    });
+          }, function (error) {
+            $scope.error = 'Usuário ou senha estão errados :(';
+          });
         },
         function (error) {
           toastr.error(error.detail);
@@ -345,7 +345,6 @@ app.controller('VolunteerController',
     ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
   $scope.site.title = "Voluntário - " + $stateParams.username;
-  console.log($scope);
   
   Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
@@ -396,7 +395,6 @@ app.controller('VolunteerController',
   });
 
   $scope.$watch('password + passwordConfirm', function() {
-    console.log($scope);
     $scope.profileForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
     $scope.profileForm.password.$invalid = $scope.profileForm.password.doesNotMatch;
   });
