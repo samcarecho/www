@@ -330,7 +330,7 @@ app.controller('NonprofitSignupController',
 }]);
 
 app.controller('VolunteerController',
-    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $filter, $state, $stateParams, $http,  Auth, Restangular) {
+    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular', function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
 
   $scope.site.title = "Voluntário - " + $stateParams.username;
 
@@ -438,13 +438,9 @@ app.controller('VolunteerController',
     if (files) {
       var fd = new FormData();
       fd.append("file", files[0]);
-      window.fd = files[0];
-      $http.post("http://api.atados.com.br:8000/v1/upload_volunteer_image/", fd, {
-          headers: {'Content-Type': undefined },
-          transformRequest: angular.identity
-      }).success( function (response) {
+      Photos.setVolunteerPhoto(fd, function(response) {
         $scope.image = response.file;
-      }).error( function(error) {
+      }, function(error) {
         toastr.error("Error no servidor. Não consigo atualizer sua foto :(");
       });
     }
@@ -476,7 +472,6 @@ app.controller('NonprofitController',
         $scope.center = location;
         $scope.markers.push(location);
         $scope.mapReady = true;
-        window.scope = $scope;
       } else {
         console.error("Mapa não retornou resultado."  + results)
       }

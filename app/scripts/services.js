@@ -18,6 +18,20 @@ app.factory('Site', function() {
   };
 });
 
+app.factory('Photos', function($http) {
+  
+  var apiUrl = constants.apiServerAddress;
+
+  return {
+    setVolunteerPhoto: function (file, success, error) {
+      $http.post(apiUrl + 'upload_volunteer_image/', file, {
+          headers: {'Content-Type': undefined },
+          transformRequest: angular.identity
+      }).success(success).error(error);
+    }
+  }
+});
+ 
 app.factory('Auth', function($http) {
   
   function setAuthHeader(accessToken) {
