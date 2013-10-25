@@ -544,6 +544,10 @@ app.controller('NonprofitAdminController', ['$scope', '$state', function($scope,
     toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
   }
 
+  $scope.createProject = function () {
+    console.debug('Time to create a prohect for ' + nonprofit.name);
+  };
+
 }]);
 
 // TODO(mpomarole) : Implement project box for landing page and through the site to lead volunteer to 
