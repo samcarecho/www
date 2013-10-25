@@ -316,3 +316,16 @@ form input.ng-valid {
 .toast-top-right {
   top: 80px;
 }
+
+.pace .pace-progress {
+  background: #f4871e;
+}
+
+.pace .pace-activity {
+  border-top-color: #f4871e;
+  border-left-color: #f4871e;
+}
+
+.pace .pace-progress-inner {
+  box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
+}
