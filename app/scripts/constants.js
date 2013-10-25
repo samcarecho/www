@@ -7,13 +7,5 @@ var constants = {
   'accessTokenCookie': 'access_token',
   'csrfCookie': 'csrftoken',
   'sessionIdCookie': 'sessionid',
-  'grantType': 'password',
-  'resources': {
-    'Nonprofit': {
-      'endpoint': 'nonprofits'
-    },
-    'Volunteer': {
-      'endpoint': 'volunteer'
-    },
-  }
+  'grantType': 'password'
 };

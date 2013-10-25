@@ -320,7 +320,6 @@ app.controller('NonprofitSignupController',
       Auth.nonprofitSignup($scope.nonprofit,
         function (response) {
           toastr.success("Bem vinda ONG ao atados!");
-          // TODO(mpomarole) : redirect nonprofit to awaiting moderation status on the admin panel
           $state.transitionTo('root.nonprofitadmin');
         },
         function (error) {
@@ -485,8 +484,6 @@ app.controller('NonprofitController',
   }
 
   Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
-    window.scope = $scope
-
     $scope.nonprofit = response;
     $scope.site.title = "ONG " + $scope.nonprofit.slug;
     $scope.nonprofit.id = $scope.nonprofit.slug;

@@ -9,7 +9,6 @@
         <div class="image">
           <img alt="{{nonprofit.slug}}" ng-src="{{image}}"/>
         </div>
-
         <h1>{{nonprofit.name}}</h1>
       </div>
     </div>
@@ -37,36 +36,24 @@
         </div>
         <div class="row">
         </div>
-      </div><!-- /.project-list -->
+      </div>
 
     </div>
-    <div class="span4" style="margin-top:55px;">
-        <div class="well" ng-show="nonprofit.facebook_page"
-             class="fb-like-box"
-             data-href="{{nonprofit.facebook_page}}"
-             data-width="300px"
-             data-height="200px"
-             data-colorscheme="light"
-             data-show-faces="true"
-             data-header="false"
-             data-stream="false"
-             data-show-border="false">
-        </div>
-        <div class="well" ng-show="nonprofit.google_page">
-          <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-          <div class="g-page" data-href="https://{{nonprofit.google_page}}"
-               data-layout="landscape" data-width="250"></div>
-        </div>
-        <div class="well" ng-show="nonprofit.twitter_handle">
-          <a twitter data-text="Siga @{{nonprofit.twitter_handle}}" data-url="{{nonprofit.twitter_handle}}"></a>
-        </div>
-    </div>
-
     <div class="span4" style="margin-top:55px;">
       <div class="well">
-        <span class="well-title">Endereço</span>
-        <p>{{nonprofit.address|as_location_string}}</p>
-        <google-map refresh="mapReady" center="center" draggable="true" zoom="zoom" markers="markers" mark-click="true"></google-map>
+        <span class="well-title">ONG na Rede</span>
+        <div ng-if="nonprofit.facebook_page">
+          <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
+        </div>
+        <div ng-if="nonprofit.google_page">
+          <script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang: 'pt-PT'}</script>
+          <div class="g-page" data-href="https://{{nonprofit.google_page}}" data-layout="landscape" data-width="200"></div>
+        </div>
+        <div ng-if="nonprofit.twitter_handle">
+          <a href="https://twitter.com/{{nonprofit.twitter_handle}}" class="twitter-follow-button" data-show-count="false" data-lang="pt" data-size="large">Seguir @gastromotiva</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
+
       </div>
 
       <div class="well">
@@ -74,6 +61,8 @@
         <p>{{nonprofit.user.first_name}} {{nonprofit.user.last_name}}</p>
         <email email="{{nonprofit.user.email}}"></email>
         <phone number="{{nonprofit.phone}}"></phone>
+        <p>{{nonprofit.address|as_location_string}}</p>
+        <google-map refresh="mapReady" center="center" draggable="true" zoom="zoom" markers="markers" mark-click="true"></google-map>
       </div>
       <div class="well">
         <span class="well-title">Voluntários</span>

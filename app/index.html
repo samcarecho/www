@@ -1,8 +1,8 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-controller="AppController"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-controller="AppController"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" ng-controller="AppController"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" ng-controller="AppController"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-controller="AppController" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-controller="AppController" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" ng-controller="AppController" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-controller="AppController" xmlns:fb="http://ogp.me/ns/fb#"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +19,17 @@
     <!-- endbuild -->
   </head>
   <body>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=307143646092581";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <!--[if lt IE 7]>
       <div class="alert">
@@ -61,25 +72,6 @@
     <script src="/scripts/services.js"></script>
     <!-- endbuild -->
 
-    <!-- Twitter Dev 
-    <script src="http://platform.twitter.com/widgets.js"></script>
-    -->
-
-    <!-- Google Dev -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
-
-    <!-- Facebook Dev
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=430973993601792";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    End of Facebook Dev -->
-    
     <!-- LiveChat
     <script type="text/javascript">
     var __lc = {};
