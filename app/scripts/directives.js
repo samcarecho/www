@@ -60,7 +60,7 @@ app.directive('debug', function() {
         return angular.toJson(exp, true);
       };
     }
-  }
+  };
 });
 
 app.directive('phone', function () {
@@ -70,7 +70,7 @@ app.directive('phone', function () {
       number: '@'
     },
     template: '<div><i class="icon-phone-sign"></i> {{number}}</div>'
-  }
+  };
 });
 
 app.directive('email', function () {
@@ -80,7 +80,7 @@ app.directive('email', function () {
       email: '@'
     },
     template: '<div><i class="icon-laptop"></i> {{email}}</div>'
-  }
+  };
 });
 
 /*app.directive('address', function () {

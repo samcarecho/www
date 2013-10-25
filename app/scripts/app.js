@@ -1,5 +1,8 @@
 'use strict';
 
+/* global constants: false */
+/* global $: false */
+
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook', 'google-maps']);
 
@@ -43,21 +46,21 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         templateUrl: '/views/nonprofitAdminPanel.html',
         controller: 'NonprofitAdminController',
         resolve: {}
-    })
+      })
     .state('root.nonprofitsignup', {
-      url: '/cadastro/ong',
-      templateUrl: '/views/nonprofitSignup.html',
-      controller: 'NonprofitSignupController',
-      resolve: {}
-    })
+        url: '/cadastro/ong',
+        templateUrl: '/views/nonprofitSignup.html',
+        controller: 'NonprofitSignupController',
+        resolve: {}
+      })
     .state('root.project', {
-      url: '/ato/:slug',
-      templateUrl: '/views/projectPage.html',
-      controller: 'ProjectPageController',
-      resolve: {}
-    });
+        url: '/ato/:slug',
+        templateUrl: '/views/projectPage.html',
+        controller: 'ProjectPageController',
+        resolve: {}
+      });
 
-  // $urlRouterProvider.when('/test', '/test1');
+    // $urlRouterProvider.when('/test', '/test1');
   $urlRouterProvider.otherwise('/');
 
   $locationProvider.html5Mode(true).hashPrefix('!');
@@ -93,9 +96,9 @@ app.config(['$httpProvider', function ($httpProvider) {
 }]);
 
 app.config(['FacebookProvider', function(FacebookProvider) {
-   FacebookProvider.init(constants.facebookClientId);
-   FacebookProvider.setLocale(constants.locale);
-   FacebookProvider.setCookie(false);
+  FacebookProvider.init(constants.facebookClientId);
+  FacebookProvider.setLocale(constants.locale);
+  FacebookProvider.setCookie(false);
 }]);
 
 app.config(['$translateProvider', function($translateProvider) {
@@ -112,16 +115,16 @@ app.config(['RestangularProvider', function(RestangularProvider) {
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
   // This function is used to map the JSON data to something Restangular expects
-  RestangularProvider.setResponseExtractor(function(response, operation, what, url) {
-    if (operation === "getList") {
+  RestangularProvider.setResponseExtractor( function(response, operation) {
+    if (operation === 'getList') {
       // Use results as the return type, and save the result metadata
       // in _resultmeta
       var newResponse = response.results;
       newResponse._resultmeta = {
-        "count": response.count,
-        "next": response.next,
-        "previous": response.previous,
-       };
+        'count': response.count,
+        'next': response.next,
+        'previous': response.previous,
+      };
       return newResponse;
     }
     return response;

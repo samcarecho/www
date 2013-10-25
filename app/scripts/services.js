@@ -1,6 +1,35 @@
 'use strict';
 
+/* global constants: false */
+/* global $: false */
+
 var app = angular.module('atadosApp');
+
+app.factory('Cookies', function($q, $timeout){
+  return {
+    get: function(name){
+      var deferred = $q.defer();
+
+      $timeout(function() {
+        deferred.resolve($.cookie(name));
+      }, 0);
+
+      return deferred.promise;
+    },
+
+    getAll: function(){
+      return $.cookie();
+    },
+
+    set: function(name, value, config){
+      return $.cookie(name, value, config);
+    },
+
+    delete: function(name){
+      return $.removeCookie(name);
+    }
+  };
+});
 
 app.factory('Site', function() {
   return {
@@ -14,7 +43,8 @@ app.factory('Site', function() {
       email: 'marjori@atados.com.br',
       photo: 'URL here',
       description: 'Hi I am the programmer',
-      facebook: 'marjoripomarole'}]
+      facebook: 'marjoripomarole'
+    }]
   };
 });
 
@@ -27,16 +57,16 @@ app.factory('Photos', function($http) {
       $http.post(apiUrl + 'upload_volunteer_image/', file, {
           headers: {'Content-Type': undefined },
           transformRequest: angular.identity
-      }).success(success).error(error);
+        }).success(success).error(error);
     }
-  }
+  };
 });
  
-app.factory('Auth', function($http) {
+app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   
   function setAuthHeader(accessToken) {
     if (accessToken) {
-       $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+      $http.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
     }
   }
 
@@ -47,21 +77,21 @@ app.factory('Auth', function($http) {
     facebookLogin: function (facebookAuthData, success, error) {
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
-         $.cookie(constants.accessTokenCookie, response.access_token);
-         success(response.user);
+        Cookies.setcookie(constants.accessTokenCookie, response.access_token);
+        success(response.user);
       }).error(error);
     },
     resetPassword: function (email, success, error) {
       $http.post(apiUrl + 'password_reset/', {email: email})
-        .success( function(response){
-           success();
+        .success( function(){
+          success();
         }).error(error);
     },
     // Both email and password field need to be set on data object
     changePassword: function (data, success, error) {
       console.log(data);
       $http.put(apiUrl + 'change_password/', data)
-        .success( function(response) {
+        .success( function() {
           success();
         }).error(error);
     },
@@ -82,29 +112,29 @@ app.factory('Auth', function($http) {
       }
     },
     getCurrentUser: function (success, error) {
-     var token = $.cookie(constants.accessTokenCookie);
+      var token = $.cookie(constants.accessTokenCookie);
 
-     if (token) {
-       setAuthHeader(token);
-       $http.get(apiUrl + 'current_user/')
-        .success(function (response) {
-          currentUser = response;
-          success(currentUser);
-        }).error(function (response) {
-          error(response);
-        });
+      if (token) {
+        setAuthHeader(token);
+        $http.get(apiUrl + 'current_user/')
+          .success(function (response) {
+            currentUser = response;
+            success(currentUser);
+          }).error(function (response) {
+            error(response);
+          });
       }
     },
-    isLoggedIn: function(user) {
+    isLoggedIn: function() {
       return currentUser ? true : false;
     },
     volunteerSignup: function(volunteer, success, error) {
-      $http.post(apiUrl + 'create/volunteer/', volunteer).success( function(response) {
+      $http.post(apiUrl + 'create/volunteer/', volunteer).success( function() {
         success();
       }).error(error);
     },
     nonprofitSignup: function(nonprofit, success, error) {
-      $http.post(apiUrl + 'create/nonprofit/', nonprofit).success( function(response) {
+      $http.post(apiUrl + 'create/nonprofit/', nonprofit).success( function() {
         success();
       }).error(error);
     },
@@ -118,21 +148,21 @@ app.factory('Auth', function($http) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: $.param(user)
       }).success( function(response){
-         setAuthHeader(response.access_token);
-         if (user.remember) {
-           $.cookie(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
-         } else {
-           $.cookie(constants.accessTokenCookie, response.access_token);
-         }
-         success(response);
-      }).error(error);
-     },
+          setAuthHeader(response.access_token);
+          if (user.remember) {
+            Cookies.set(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
+          } else {
+            Cookies.set(constants.accessTokenCookie, response.access_token);
+          }
+          success(response);
+        }).error(error);
+    },
     logout: function() {
       $http.post(apiUrl + 'logout/');
       currentUser = null;
-      $.removeCookie(constants.accessTokenCookie);
-      delete $http.defaults.headers.common['Authorization'];
+      Cookies.delete(constants.accessTokenCookie);
+      delete $http.defaults.headers.common.Authorization;
     },
     user: currentUser
   };
-});
+}]);

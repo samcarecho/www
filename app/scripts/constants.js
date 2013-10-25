@@ -1,3 +1,4 @@
+/* exported constants */
 var constants = {
   'apiServerAddress': 'http://api.atadoslocal.com.br:8000/v1/',
   'clientId': 'da4bc76b44b73cda7e4d',
