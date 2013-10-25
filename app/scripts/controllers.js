@@ -347,12 +347,7 @@ app.controller('VolunteerController',
   Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
     $scope.volunteer.id = $scope.volunteer.username;
-    if ($scope.volunteer.image_url) {
-      $scope.image = $scope.volunteer.image_url;
-    } else {
-      // TODO(mpomarole): Download this into frontend server instead of outside website
-      $scope.image = "http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png";
-    }
+    $scope.image = $scope.volunteer.image_url;
   }, function(response) {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não encontrado');
