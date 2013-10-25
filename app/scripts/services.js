@@ -48,7 +48,7 @@ app.factory('Site', function() {
   };
 });
 
-app.factory('Photos', function($http) {
+app.factory('Photos', ['$http', function($http) {
   
   var apiUrl = constants.apiServerAddress;
 
@@ -60,7 +60,7 @@ app.factory('Photos', function($http) {
         }).success(success).error(error);
     }
   };
-});
+}]);
  
 app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   
@@ -77,7 +77,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     facebookLogin: function (facebookAuthData, success, error) {
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
-        Cookies.setcookie(constants.accessTokenCookie, response.access_token);
+        Cookies.set(constants.accessTokenCookie, response.access_token);
         success(response.user);
       }).error(error);
     },
@@ -112,18 +112,19 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
       }
     },
     getCurrentUser: function (success, error) {
-      var token = $.cookie(constants.accessTokenCookie);
-
-      if (token) {
-        setAuthHeader(token);
-        $http.get(apiUrl + 'current_user/')
+      Cookies.get(constants.accessTokenCookie).then(function(value) {
+        var token = value;
+        if (token) {
+          setAuthHeader(token);
+          $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
           .success(function (response) {
             currentUser = response;
             success(currentUser);
           }).error(function (response) {
             error(response);
           });
-      }
+        }
+      });
     },
     isLoggedIn: function() {
       return currentUser ? true : false;
