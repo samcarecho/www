@@ -1,77 +1,140 @@
-@import "bootstrap-sass/lib/bootstrap";
-
 $FontAwesomePath: "/bower_components/font-awesome/font";
 @import "font-awesome/scss/font-awesome";
 
-// Atados colors
+$atadosSprite: "../images/atados-sprite.png";
+
+// Atados Bootstrap Theme
+// -------------------------
+
+// _fonts.scss
+
+// _variables.scss
+
+$white:#fbfbfb;
 $blue:#69d1e8;
+$blueFacebook:#3b5998;
 $grayDarker:#222;
 $grayDark:#333;
 $gray:#f3f3f3;
 $grayLight:#999;
 $grayLighter:#eee;
-$blueDark:#12bad1;
+$blueDark:#25b3ef;
+$blueLight:#bcecf8;
 $orange:#f28730;
 
-$atadosSprite: "../images/atados-sprite.png";
-$flags: "../images/flags.png";
+$brand-primary:$orange;
+//$brand-success:         #5cb85c !default;
+//$brand-warning:         #f0ad4e !default;
+//$brand-danger:          #d9534f !default;
+//$brand-info:            #5bc0de !default;
 
-//==========
-// Start of Atados Bootstrap
+$text-color:$gray;
+$link-color:$orange;
+$font-family-sans-serif:"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$headings-font-weight:400;
+$border-radius-base:0px;
+$border-radius-large:0px;
+$border-radius-small:0px;
+$well-bg:$white;
+$navbar-inverse-bg:$blue;
+$navbar-inverse-border:$blue;
+$navbar-inverse-text:$blueLight;
+$navbar-inverse-link-color:$blueLight;
+$navbar-inverse-search-placeholder-color:darken($navbar-inverse-bg, 8%);
+$navbar-inverse-brand-color:$white;
+$btn-primary-bg:$brand-primary;
+$btn-primary-border:darken($btn-primary-bg, 5%);
 
 
 
-
-
-
-// End of Atados Bootstrap
-//============
-
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+// _type.scss
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  // text-transform: $headings-text-transform;
 }
 
-.navbar {
-  .brand {
-    background:url($atadosSprite) no-repeat;
-    width:136px;
-    height:45px;
-    padding:0;
-    margin:10px 30px 0px 0px;
+// _navs.scss
+.nav-tabs.nav-stacked > .active > a,
+.nav-tabs.nav-stacked > .active > a:hover,
+.nav-tabs.nav-stacked > .active > a:focus {
+  color: $white;
+  background-color: $orange;
+}
+
+// _navbar.scss
+.navbar-inverse {
+  .navbar-inner {
+    border-color: $navbar-inverse-bg;
   }
+
+  .nav>li>a {
+    color: #fff;
+  }
+
+  .brand,
+  .nav > li > a {
+    text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+   }
+
 }
 
-.flag {
-  width: 16px;
-  height: 11px;
-  background:url($flags) no-repeat
-}
-
-.flag.flag-br {background-position: -16px 0}
-.flag.flag-es {background-position: -32px 0}
-.flag.flag-mx {background-position: 0 -11px}
-.flag.flag-us {background-position: -16px -11px}
-
-.navbar-flags {
-  margin:15px 30px;
-  position:absolute;
-}
-
-.search-query {
+#siteSearch {
   width: 400px;
+  // #font > .sans-serif(13px, normal);
+}
+
+.navbar-brand {
+  background:url($atadosSprite) no-repeat;
+  width:136px;
+  height:45px;
+  padding:0;
+  margin:10px 30px 0px 0px;
+  text-indent:-999em;
+}
+
+// _buttons.scss
+.btn {
+  padding: 5px 12px;
+  text-transform: uppercase;
+  border: 0;
+}
+
+// _wells.scss
+.well {
+  border: 1px solid darken($well-bg, 3%);
+ }
+
+.well-title {
+  display:block;
+  text-transform:uppercase;
+  font-size:18px;
+  color:$blue;
+  margin-bottom:10px;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+// Atados specific CSS
+// -------------------------
+
+.btn-facebook {
+  background-color: $blueFacebook;
+}
+
+.btn-inverse.active,
+.btn-facebook.active {
+  color: rgba(255,255,255,.75);
 }
 
 form input.ng-valid {
-  border: 1px solid green;
+  // border: 1px solid green;
 }
 
 .main {
   margin: 30px;
-}
-
-.navbar-inverse .nav>li>a {
-  color: #fff;
 }
 
 #volunteer-details {
@@ -123,14 +186,6 @@ form input.ng-valid {
       margin:0 auto;
     }
   }
-}
-
-.well-title {
-  display:block;
-  text-transform:uppercase;
-  font-size:18px;
-  color:$blue;
-  margin-bottom:10px;
 }
 
 .select-button-list {
@@ -319,6 +374,9 @@ form input.ng-valid {
   }
 }
 
+// Plugin CSS overrides
+// -------------------------
+
 .toast-top-right {
   top: 80px;
 }
@@ -335,3 +393,9 @@ form input.ng-valid {
 .pace .pace-progress-inner {
   box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+@import "bootstrap-sass/lib/bootstrap";
