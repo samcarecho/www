@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "homepage": "www.atados.com.br",
   "authors": [
-    "Rogério Yokomizor <rogerio@atados.com.br>",
-    "Marjori Pomarole <marjori@atados.com.br>"
+    "Marjori Pomarole <marjori@atados.com.br>",
+    "Rogério Yokomizor <rogerio@atados.com.br>"
   ],
   "description": "Connecting volunteers with NGOs",
   "license": "MIT",
@@ -19,7 +19,6 @@
   ],
   "dependencies": {
     "angular": "1.2.0-rc.3",
-    "angular-bootstrap": "~0.6.0",
     "angular-cookies": "1.2.0-rc.3",
     "angular-facebook": "~0.1.1",
     "angular-i18n": "~1.0.8",
@@ -35,7 +34,7 @@
     "restangular": "~1.1.6",
     "underscore": "~1.5.2",
     "toastr": "~2.0.1",
-    "font-awesome": "~3.2.1",
+    "font-awesome": "~4.0.0",
     "angular-google-maps": "*",
     "pace": "~0.4.15",
     "jquery.cookie": "~1.4.0"

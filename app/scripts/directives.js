@@ -98,3 +98,11 @@ app.directive('email', function () {
     template: ''
   }
 });*/
+
+app.directive('contactatados', function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    template: '<small>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se tiver algum problema!</small>'
+  };
+});

@@ -1,12 +1,9 @@
-$atadosSprite: "../images/atados-sprite.png";
-$flags: "../images/flags.png";
-$iconSpritePath: "../images/glyphicons-halflings.png";
-$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
+@import "bootstrap-sass/lib/bootstrap";
 
 $FontAwesomePath: "/bower_components/font-awesome/font";
 @import "font-awesome/scss/font-awesome";
 
-// Atados color
+// Atados colors
 $blue:#69d1e8;
 $grayDarker:#222;
 $grayDark:#333;
@@ -15,6 +12,21 @@ $grayLight:#999;
 $grayLighter:#eee;
 $blueDark:#12bad1;
 $orange:#f28730;
+
+$atadosSprite: "../images/atados-sprite.png";
+$flags: "../images/flags.png";
+
+//==========
+// Start of Atados Bootstrap
+
+
+
+
+
+
+// End of Atados Bootstrap
+//============
+
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -52,12 +64,6 @@ $orange:#f28730;
 
 form input.ng-valid {
   border: 1px solid green;
-}
-
-.modal {
-  width: 860px;
-  /* must be half of the width, minus scrollbar on the left (30px) */
-  margin-left: -430px;
 }
 
 .main {
