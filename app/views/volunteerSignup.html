@@ -2,29 +2,30 @@
   <h4>Cadastro Voluntário</h4>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" ng-controller="VolunteerSignupController">
   <div class="form-group">
-    <button class="btn btn-block btn-facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Faça sua conta o com Facebook</button>
+    <button class="btn btn-block btn-facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Criar conta com Facebook</button>
   </div>
-
+  <hr>
   <form novalidate name="signupForm" ng-submit="signup()">
-    <div class="form-group">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.username.$error.required || signupForm.username.$invalid]">
       <input class="form-control" type='text' name="username" ng-model='username' ng-minlength="3" placeholder="Nome de usuário" required/>
-      <div class="label label-important" ng-show="signupForm.username.$error.minlength"> Nome de usuário muito curto </div>
-      <div class="label label-important">{{usernameError}}</div>
+      <label class="help-block" ng-show="signupForm.username.$error.minlength">Nome de usuário muito curto</label>
+      <label class="help-block" ng-show="signupForm.username.hasSpace">Usúario não pode ter espaço</label>
+      <label class="help-block" ng-show="signupForm.username.alreadyUsed">Usúario já existe.</label>
     </div>
-    <div class="form-group">
-      <input class="form-control" type='email' name="email" ng-model='email' placeholder="Email" required/>
-      <div class="label label-important" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"> Email inválido </div>
-      <div class="label label-important">{{emailError}}</div>
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.email.$error.required || signupForm.email.$invalid]">
+      <input class="form-control" type='email' name="email" ng-model='email' placeholder="Email" required>
+      <label class="help-block" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"> Email inválido </label>
+      <label class="help-block" ng-show="signupForm.email.alreadyUsed">Email já existe.</label>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.password.$error.required || signupForm.password.$invalid]">
       <input class="form-control" required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
       <input class="form-control" required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
-      <div class="label label-important" ng-show="passwordDoesNotMatch">Senhas tem que ser igual!</div>
-      <div class="label label-important" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+      <label class="help-block" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
+      <label class="help-block" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
     </div>
-    <button type="submit" ng-disabled="invalidForm" class="btn btn-primary btn-block">Criar conta</button>
+    <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-success btn-block">Criar conta</button>
   </form> 
 </div>
 

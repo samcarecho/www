@@ -3,13 +3,13 @@
   <form novalidate role="form" class="form-horizontal" name="signupForm" ng-submit="signup()">
     <fieldset class="col-md-6">
       <legend>Sobre a ONG</legend>
-      <div class="form-group">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.name.$error.required || signupForm.name.$invalid]">
         <label class="col-lg-2 control-label" for="name">Nome</label>
         <div class="col-lg-6">
           <input type='text' class="form-control" name="name" ng-model='nonprofit.name' ng-minlength="3" placeholder="Nome da ONG" required/>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.slug.$dirty && signupForm.slug.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.slug.$error.required || signupForm.slug.$invalid]">
         <div class="input-group col-lg-offset-2 col-lg-6">
           <span class="input-group-addon">www.atados.com.br/ong/</span>
           <input type='text' class="form-control" name="slug" ng-model='nonprofit.slug' placeholder="nome-da-ong" required/>
@@ -17,7 +17,7 @@
         <label class="help-block" ng-show="signupForm.slug.hasSpace">Não pode ter espaço</label>
         <label class="help-block" ng-show="signupForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.details.$dirty && signupForm.details.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.details.$error.required || signupForm.details.$invalid]">
         <label class="col-lg-2 control-label" for="textarea">Detalhe</label>
         <div class="col-lg-6">                     
           <textarea class="form-control" rows="2" name="details" ng-model='nonprofit.details' ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required></textarea>
@@ -25,14 +25,14 @@
           <label class="help-block" ng-show="signupForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.description.$dirty && signupForm.description.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.description.$error.required || signupForm.description.$invalid]">
         <label class="col-lg-2 control-label">Descrição</label>
         <div class="col-lg-6">                     
           <textarea class="form-control" rows="5" name="description" ng-model='nonprofit.description' ng-minlength="10" placeholder="Descrição" required></textarea>
           <label class="help-block" ng-show="signupForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.phone.$dirty && signupForm.phone.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.phone.$error.required || signupForm.phone.$invalid]">
         <label class="col-lg-2 control-label">Telefone</label>
         <div class="col-lg-5">                     
           <input type='text' class="form-control" name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="Telefone" required/>
@@ -42,11 +42,11 @@
       <div class="form-group" >
         <label class="col-lg-2 control-label">Endereço</label>
         <div class="col-lg-6">                     
-          <input type='text' class="form-control" name="addressline" ng-model='nonprofit.address.addressline' placeholder="Rua" required/>
-          <input type='text' class="form-control" name="addressnumber" ng-model='nonprofit.address.addressnumber' placeholder="nro" required/>
-          <input type='text' class="form-control" name="addressline2" ng-model='nonprofit.address.addressline2' placeholder="Apartamento, bloco, etc"/>
-          <input type='text' class="form-control" name="neighborhood" ng-model='nonprofit.address.neighborhood' placeholder="Bairro" required/>
-          <input type='text' class="form-control" name="zipcode" ng-model='nonprofit.address.zipcode' ng-maxlength="10" placeholder="CEP" required/>
+          <input type='text' class="form-control" name="addressline" ng-model='nonprofit.address.addressline' placeholder="Rua">
+          <input type='text' class="form-control" name="addressnumber" ng-model='nonprofit.address.addressnumber' placeholder="nro">
+          <input type='text' class="form-control" name="addressline2" ng-model='nonprofit.address.addressline2' placeholder="Apartamento, bloco, etc">
+          <input type='text' class="form-control" name="neighborhood" ng-model='nonprofit.address.neighborhood' placeholder="Bairro">
+          <input type='text' class="form-control" name="zipcode" ng-model='nonprofit.address.zipcode' ng-maxlength="10" placeholder="CEP">
           <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
           <select class="form-control" ng-model="nonprofit.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
             <option value="" disabled selected>Zona</option>
@@ -88,7 +88,7 @@
 
     <fieldset>
       <legend>Sobre você</legend>
-      <div class="form-group">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.first_name.$error.required || signupForm.last_name.$invalid]">
         <label class="col-lg-2 control-label">Nome</label>
         <div class="col-lg-5">                     
           <input class="form-control"type='text' name="first_name" ng-model='nonprofit.user.first_name' placeholder="Nome" required/>
@@ -97,25 +97,26 @@
       <div class="form-group">
         <label class="col-lg-2 control-label">Sobrenome</label>
         <div class="col-lg-5">                     
-          <input class="form-control"type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome" required/>
+          <input class="form-control"type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome"/>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.username.$dirty && signupForm.username.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.username.$error.required || signupForm.username.$invalid]">
         <label class="col-lg-2 control-label">Nome do usúario</label>
         <div class="col-lg-5">                     
           <input class="form-control"type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="Nome de usuário" required/>
           <label class="help-block" ng-show="signupForm.username.alreadyUsed">Nome de usúario já é usado</label>
           <label class="help-block" ng-show="signupForm.username.hasSpace">Não pode ter espaço.</label>
+          <label class="help-block" ng-show="signupForm.username.$error.minlength">Nome tem que ter mais de 3 caracteres</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.email.$dirty && signupForm.email.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[signupForm.email.$invalid]">
         <label class="col-lg-2 control-label">Email</label>
         <div class="col-lg-5">                     
           <input class="form-control"type='email' name="email" ng-model='nonprofit.user.email' placeholder="Email" required/>
           <label class="help-block" ng-show="signupForm.email.alreadyUsed">Email já é usado</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:signupForm.password.$dirty && signupForm.password.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.password.$error.required || signupForm.password.$invalid]">
         <label class="col-lg-2 control-label">Senha</label>
         <div class="col-lg-5">                     
           <input class="form-control"required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>

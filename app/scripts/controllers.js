@@ -42,20 +42,17 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
 
   $scope.openVolunteerLoginModal = function() {
     modalInstance = $modal.open({
-      templateUrl: '/views/volunteerLogin.html',
-      controller: 'LoginController'
+      templateUrl: '/views/volunteerLogin.html'
     });
   };
   $scope.openVolunteerSignupModal = function() {
     modalInstance = $modal.open({
-      templateUrl: '/views/volunteerSignup.html',
-      controller: 'VolunteerSignupController'
+      templateUrl: '/views/volunteerSignup.html'
     });
   };
   $scope.openNonprofitLoginModal = function () {
     modalInstance = $modal.open({
-      templateUrl: '/views/nonprofitLogin.html',
-      controller: 'LoginController'
+      templateUrl: '/views/nonprofitLogin.html'
     });
   };
   $rootScope.closeNonprofitLoginModal = function () {
@@ -167,43 +164,44 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
 }]);
 
 app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
-  function checkInvalid() {
-    $scope.invalidForm =  $scope.signupForm.$invalid ||
-      $scope.usernameError || $scope.emailError || $scope.passwordDoesNotMatch;
-  }
-
-  $scope.$watch('username + password + passwordConfirm + email', function() {
-    checkInvalid();
-  });
 
   $scope.$watch('username', function (value) {
     if (value) {
-      Auth.isUsernameUsed(value, function (response) {
-        console.debug(response);
-        $scope.usernameError = null;
-        checkInvalid();
-      }, function (error) {
-        console.error(error);
-        $scope.usernameError = 'Usuário já existe.';
-      });
+      if (value.indexOf(' ') >= 0) {
+        $scope.signupForm.username.$invalid = true;
+        $scope.signupForm.username.hasSpace = true;
+      } else {
+        $scope.signupForm.username.hasSpace = false;
+        $scope.signupForm.username.$invalid = false;
+        Auth.isUsernameUsed(value, function () {
+          $scope.signupForm.username.alreadyUsed = false;
+          $scope.signupForm.username.$invalid = false;
+        }, function () {
+          $scope.signupForm.username.alreadyUsed = true;
+          $scope.signupForm.username.$invalid = true;
+        });
+      }
+    } else {
+      $scope.signupForm.username.alreadyUsed = false;
+      $scope.signupForm.username.hasSpace = false;
+      $scope.signupForm.username.$invalid = false;
     }
   });
+
   $scope.$watch('email', function (value) {
     if (value) {
-      Auth.isEmailUsed(value, function (response) {
-        console.debug(response);
-        $scope.emailError = null;
-        checkInvalid();
-      }, function (error) {
-        console.error(error);
-        $scope.emailError = 'Email já existe.';
+      Auth.isEmailUsed(value, function () {
+        $scope.signupForm.email.alreadyUsed = false;
+        $scope.signupForm.email.$invalid = false;
+      }, function () {
+        $scope.signupForm.email.alreadyUsed = true;
+        $scope.signupForm.email.$invalid = true;
       });
     }
   });
 
   $scope.$watch('password + passwordConfirm', function() {
     $scope.passwordDoesNotMatch = $scope.password !== $scope.passwordConfirm;
-    checkInvalid();
   });
 
   $scope.signup = function () {
@@ -283,12 +281,10 @@ app.controller('NonprofitSignupController',
       } else {
         $scope.signupForm.slug.$invalid = false;
         $scope.signupForm.slug.hasSpace = false;
-        Auth.isSlugUsed(value, function (response) {
-          console.debug(response);
+        Auth.isSlugUsed(value, function () {
           $scope.signupForm.slug.alreadyUsed = false;
           $scope.signupForm.slug.$invalid = false;
-        }, function (error) {
-          console.error(error);
+        }, function () {
           $scope.signupForm.slug.alreadyUsed = true;
           $scope.signupForm.slug.$invalid = true;
         });
@@ -302,12 +298,10 @@ app.controller('NonprofitSignupController',
 
   // Checking that email is valid and not already used.
   $scope.$watch('nonprofit.user.email', function (value) {
-    Auth.isEmailUsed(value, function (usedMessage) {
-      console.debug(usedMessage);
+    Auth.isEmailUsed(value, function () {
       $scope.signupForm.email.alreadyUsed = false;
       $scope.signupForm.email.$invalid = false;
-    }, function (notUsed) {
-      console.debug(notUsed);
+    }, function () {
       $scope.signupForm.email.alreadyUsed = true;
       $scope.signupForm.email.$invalid = true;
     });
@@ -322,12 +316,10 @@ app.controller('NonprofitSignupController',
       } else {
         $scope.signupForm.username.hasSpace = false;
         $scope.signupForm.username.$invalid = false;
-        Auth.isUsernameUsed(value, function (usedMessage) {
-          console.debug(usedMessage);
+        Auth.isUsernameUsed(value, function () {
           $scope.signupForm.username.alreadyUsed = false;
           $scope.signupForm.username.$invalid = false;
-        }, function (notUsed) {
-          console.debug(notUsed);
+        }, function () {
           $scope.signupForm.username.alreadyUsed = true;
           $scope.signupForm.username.$invalid = true;
         });
