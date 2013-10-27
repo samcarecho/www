@@ -1,27 +1,31 @@
-<div class="heading">
-  <h4 class="form-heading" translate>WANT_TO_BE_VOLUNTEER</h4>
+<div class="modal-header">
+  <h4>Cadastro Voluntário</h4>
 </div>
 
-<div class="control-group">
-  <button class="btn btn-facebook" ng-click="signupOauth('facebook')"><span class="icon-facebook-sign" /> {{'REGISTER_BTN_FACEBOOK'|translate}}</button>
+<div class="modal-body">
+  <div class="form-group">
+    <button class="btn btn-block btn-facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Faça sua conta o com Facebook</button>
+  </div>
+
+  <form novalidate name="signupForm" ng-submit="signup()">
+    <div class="form-group">
+      <input class="form-control" type='text' name="username" ng-model='username' ng-minlength="3" placeholder="Nome de usuário" required/>
+      <div class="label label-important" ng-show="signupForm.username.$error.minlength"> Nome de usuário muito curto </div>
+      <div class="label label-important">{{usernameError}}</div>
+    </div>
+    <div class="form-group">
+      <input class="form-control" type='email' name="email" ng-model='email' placeholder="Email" required/>
+      <div class="label label-important" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"> Email inválido </div>
+      <div class="label label-important">{{emailError}}</div>
+    </div>
+    <div class="form-group">
+      <input class="form-control" required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
+      <input class="form-control" required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
+      <div class="label label-important" ng-show="passwordDoesNotMatch">Senhas tem que ser igual!</div>
+      <div class="label label-important" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+    </div>
+    <button type="submit" ng-disabled="invalidForm" class="btn btn-primary btn-block">Criar conta</button>
+  </form> 
 </div>
 
-<form novalidate class="form-horizontal" name="signupForm" ng-submit="signup()">
-  <div class="control-group">
-    <input type='text' name="username" ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}" required/>
-    <div class="label label-important" ng-show="signupForm.username.$error.minlength"> Nome de usuário muito curto </div>
-    <div class="label label-important">{{usernameError}}</div>
-  </div>
-  <div class="control-group">
-    <input type='email' name="email" ng-model='email' placeholder="Email" required/>
-    <div class="label label-important" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"> Email inválido </div>
-    <div class="label label-important">{{emailError}}</div>
-  </div>
-  <div class="control-group">
-    <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
-    <input required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="{{'PASSWORD_CONFIRM'|translate}}"/>
-    <div class="label label-important" ng-show="passwordDoesNotMatch">Senhas tem que ser igual!</div>
-    <div class="label label-important" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
-  </div>
-  <button type="submit" ng-disabled="invalidForm" class="btn btn-primary" translate>SIGNUP_BTN</button>
-</form> 
+<div class="modal-footer"><contactatados/></div>

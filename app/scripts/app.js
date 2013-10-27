@@ -61,7 +61,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       });
 
     // $urlRouterProvider.when('/test', '/test1');
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/404');
 
   $locationProvider.html5Mode(true).hashPrefix('!');
 }]);

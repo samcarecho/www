@@ -1,55 +1,67 @@
 <div class="navbar navbar-default navbar-inverse" role="navigation">
-  <div class="navbar-inner">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" ui-sref="root.home">Atados</a>
-    </div>
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" ui-sref="root.home">Atados</a>
+  </div>
 
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <form class="navbar-form navbar-left" role="search">
-        <input
-          id="siteSearch"
-          class="form-control input-sm"
-          ng-model="input"
-          type="text"
-          placeholder="Procure por causas que fazem o bem!">
-        <button ng-click="search()" class="btn btn-primary navbar-btn">Procurar</button>
-      </form>
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <form class="navbar-form navbar-left" role="search">
+      <input
+        id="siteSearch"
+        class="form-control input-sm"
+        ng-model="input"
+        type="text"
+        placeholder="Procure por causas que fazem o bem!">
+      <button ng-click="search()" class="btn btn-primary navbar-btn">Procurar</button>
+    </form>
 
-      <div class="navbar-right">
-        <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='VOLUNTEER'">
-          <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a ng-href="/voluntario/{{loggedUser.username}}">Meu perfil</a></li>
-            <li class="divider"></li>
-            <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
-          </ul>
-          </li>
+    <div class="navbar-right">
+      <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='VOLUNTEER'">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role|translate }}</span> {{ loggedUser.username }}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="/voluntario/{{loggedUser.username}}">Meu perfil</a></li>
+          <li class="divider"></li>
+          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
-        <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='NONPROFIT'">
-          <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-error">{{ loggedUser.role|translate }}</span> {{ loggedUser.name }}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
-            <li><a ng-href="/admin">Panel de controle</a></li>
-            <li class="divider"></li>
-            <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
-          </ul>
-          </li>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='NONPROFIT'">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-error">{{ loggedUser.role|translate }}</span> {{ loggedUser.name }}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
+          <li><a ng-href="/admin">Panel de controle</a></li>
+          <li class="divider"></li>
+          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
-        <div ng-show="!loggedUser">
-          <button class="btn btn-default navbar-btn" ng-click="openVolunteerPortalModal()">Sou voluntário</button>
-          <button class="btn btn-primary navbar-btn" ng-click="openNonprofitPortalModal()">Sou uma ONG</button>
+        </li>
+      </ul>
+      <div ng-show="!loggedUser">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle navbar-btn" data-toggle="dropdown">Sou voluntário <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="openVolunteerLoginModal()">Entrar</a></li>
+            <li class="divider"></li>
+            <li><a ng-click="openVolunteerSignupModal()">Criar nova conta</a></li>
+          </ul>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown">Sou uma ONG <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="openNonprofitLoginModal()">Entrar</a></li>
+            <li class="divider"></li>
+            <li><a ui-sref="root.nonprofitsignup">Registrar ONG</a></li>
+          </ul>
         </div>
       </div>
-    </div><!-- /.navbar-collapse -->
-  </div>
+    </div>
+  </div><!-- /.navbar-collapse -->
 </div>
 
 <div >

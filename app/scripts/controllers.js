@@ -40,19 +40,25 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
     }
   });
 
-  $scope.openVolunteerPortalModal = function() {
+  $scope.openVolunteerLoginModal = function() {
     modalInstance = $modal.open({
-      templateUrl: '/views/volunteerPortalModal.html'
+      templateUrl: '/views/volunteerLogin.html',
+      controller: 'LoginController'
     });
   };
-  
-  $scope.openNonprofitPortalModal = function () {
+  $scope.openVolunteerSignupModal = function() {
     modalInstance = $modal.open({
-      templateUrl: '/views/nonprofitPortalModal.html'
+      templateUrl: '/views/volunteerSignup.html',
+      controller: 'VolunteerSignupController'
     });
   };
-
-  $scope.closeNonprofitPortalModal = function () {
+  $scope.openNonprofitLoginModal = function () {
+    modalInstance = $modal.open({
+      templateUrl: '/views/nonprofitLogin.html',
+      controller: 'LoginController'
+    });
+  };
+  $rootScope.closeNonprofitLoginModal = function () {
     modalInstance.close();
   };
 

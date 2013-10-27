@@ -4,42 +4,29 @@
   </div>
 
   <div class="container">
-    <div class="row">
-      <div class="span12">
-        <div class="image">
-          <img alt="{{nonprofit.slug}}" ng-src="{{image}}"/>
-        </div>
-        <h1>{{nonprofit.name}}</h1>
-      </div>
+    <div class="image">
+      <img alt="{{nonprofit.slug}}" ng-src="{{image}}"/>
     </div>
+    <h1>{{nonprofit.name}}</h1>
   </div>
 </div>
 
 <div id="nonprofit-details">
   <div class="row">
-  </div>
-  <div class="row">
-    <div class="span11">
-      <div class="details">
-        <h2>Quem somos e o que fazemos</h2>
-        {{nonprofit.description}}
-      </div>
-      <h2>Causas</h2>
-      <div style="margin-bottom:40px">
-        <span class="tag" ng-repeat="cause in nonprofit.causes">{{cause.name}}</span>
-      </div>
+    <h2>Quem somos e o que fazemos</h2>
+    <p>{{nonprofit.details}}</p>
+    <p>{{nonprofit.description}}</p>
 
-      <h2>Atos</h2>
-      <div class="project-list">
-        <div class="row">
-          <!-- TODO: Include project box here for project-item -->
-        </div>
-        <div class="row">
-        </div>
-      </div>
+    <h2>Causas</h2>
+    <span class="tag" ng-repeat="cause in nonprofit.causes">{{cause.name}}</span>
 
+    <h2>Atos</h2>
+    <div class="project-list">
+      <div class="row">
+        <!-- TODO: Include project box here for project-item -->
+      </div>
     </div>
-    <div class="span4" style="margin-top:55px;">
+    <div>
       <div class="well">
         <span class="well-title">ONG na Rede</span>
         <div ng-if="nonprofit.facebook_page">
@@ -53,7 +40,6 @@
           <a href="https://twitter.com/{{nonprofit.twitter_handle}}" class="twitter-follow-button" data-show-count="false" data-lang="pt" data-size="large">Seguir @gastromotiva</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </div>
-
       </div>
 
       <div class="well">
@@ -67,11 +53,6 @@
       <div class="well">
         <span class="well-title">Voluntários</span>
         <div class="media" ng-repeat="volunteer in nonprofit.volunteers">
-          <a href="{{volunteer.get_absolute_url}}" class="pull-left"><img class="media-object" alt="{{volunteer.first_name}}" ng-src="{{volunteer.image}}"></a>
-          <a href="{{volunteer.get_absolute_url}}" class="pull-left"><img class="media-object" ng-src="img/thumb/34x34.gif" alt="" width="34" height="34"></a>
-          <div class="media-body">
-            <a href="{{volunteer.get_absolute_url}}">{{volunteer.user.first_name}}</a>
-          </div>
         </div>
       </div>
     </div>

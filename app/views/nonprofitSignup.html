@@ -1,65 +1,61 @@
 <div>
-  <div class="heading">
-    <h1 class="form-heading">Vamos cadastrar sua ONG!</h1>
-  </div>
-  <form novalidate class="form-horizontal" name="signupForm" ng-submit="signup()">
-    <fieldset class="span9">
+  <h1 class="form-heading">Vamos cadastrar sua ONG!</h1>
+  <form novalidate role="form" class="form-horizontal" name="signupForm" ng-submit="signup()">
+    <fieldset class="col-md-6">
       <legend>Sobre a ONG</legend>
-      <div class="control-group">
-        <label class="control-label" for="name">Nome</label>
-        <div class="controls">
-          <input type='text' name="name" ng-model='nonprofit.name' ng-minlength="3" placeholder="Nome da ONG" required/>
+      <div class="form-group">
+        <label class="col-lg-2 control-label" for="name">Nome</label>
+        <div class="col-lg-6">
+          <input type='text' class="form-control" name="name" ng-model='nonprofit.name' ng-minlength="3" placeholder="Nome da ONG" required/>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.slug.$dirty && signupForm.slug.$invalid}">
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on">www.atados.com.br/ong/</span>
-            <input type='text' name="slug" ng-model='nonprofit.slug' placeholder="nome-da-ong" required/>
-          </div>
-          <label class="help-inline" ng-show="signupForm.slug.hasSpace">Não pode ter espaço</label>
-          <label class="help-inline" ng-show="signupForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
+      <div class="form-group" ng-class="{error:signupForm.slug.$dirty && signupForm.slug.$invalid}">
+        <div class="input-group col-lg-offset-2 col-lg-6">
+          <span class="input-group-addon">www.atados.com.br/ong/</span>
+          <input type='text' class="form-control" name="slug" ng-model='nonprofit.slug' placeholder="nome-da-ong" required/>
+        </div>
+        <label class="help-block" ng-show="signupForm.slug.hasSpace">Não pode ter espaço</label>
+        <label class="help-block" ng-show="signupForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
+      </div>
+      <div class="form-group" ng-class="{error:signupForm.details.$dirty && signupForm.details.$invalid}">
+        <label class="col-lg-2 control-label" for="textarea">Detalhe</label>
+        <div class="col-lg-6">                     
+          <textarea class="form-control" rows="2" name="details" ng-model='nonprofit.details' ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required></textarea>
+          <label class="help-block" ng-show="signupForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+          <label class="help-block" ng-show="signupForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.details.$dirty && signupForm.details.$invalid}">
-        <label class="control-label" for="textarea">Detalhe</label>
-        <div class="controls">                     
-          <textarea name="details" ng-model='nonprofit.details' ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required></textarea>
-          <label class="help-inline" ng-show="signupForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-          <label class="help-inline" ng-show="signupForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
+      <div class="form-group" ng-class="{error:signupForm.description.$dirty && signupForm.description.$invalid}">
+        <label class="col-lg-2 control-label">Descrição</label>
+        <div class="col-lg-6">                     
+          <textarea class="form-control" rows="5" name="description" ng-model='nonprofit.description' ng-minlength="10" placeholder="Descrição" required></textarea>
+          <label class="help-block" ng-show="signupForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.description.$dirty && signupForm.description.$invalid}">
-        <label class="control-label">Descrição</label>
-        <div class="controls">                     
-          <textarea name="description" ng-model='nonprofit.description' ng-minlength="10" placeholder="Descrição" required></textarea>
-          <label class="help-inline" ng-show="signupForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+      <div class="form-group" ng-class="{error:signupForm.phone.$dirty && signupForm.phone.$invalid}">
+        <label class="col-lg-2 control-label">Telefone</label>
+        <div class="col-lg-5">                     
+          <input type='text' class="form-control" name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="Telefone" required/>
+          <label class="help-block" ng-show="signupForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.phone.$dirty && signupForm.phone.$invalid}">
-        <label class="control-label">Telefone</label>
-        <div class="controls">                     
-          <input type='text' name="phone" ng-model='nonprofit.phone' ng-maxlength="20" placeholder="Telefone" required/>
-          <label class="help-inline" ng-show="signupForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
-        </div>
-      </div>
-      <div class="control-group" >
-        <label class="control-label">Endereço</label>
-        <div class="controls">                     
-          <input type='text' name="addressline" ng-model='nonprofit.address.addressline' class="span4" placeholder="Rua" required/>
-          <input type='text' name="addressnumber" ng-model='nonprofit.address.addressnumber' class="span2" placeholder="nro" required/>
-          <input type='text' name="addressline2" ng-model='nonprofit.address.addressline2' class="span3"placeholder="Apartamento, bloco, etc"/>
-          <input type='text' name="neighborhood" ng-model='nonprofit.address.neighborhood' class="span3" placeholder="Bairro" required/>
-          <input type='text' name="zipcode" ng-model='nonprofit.address.zipcode' ng-maxlength="10" placeholder="CEP" required/>
-          <label class="help-inline" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
-          <select ng-model="nonprofit.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
-            <option value="">Zona</option>
+      <div class="form-group" >
+        <label class="col-lg-2 control-label">Endereço</label>
+        <div class="col-lg-6">                     
+          <input type='text' class="form-control" name="addressline" ng-model='nonprofit.address.addressline' placeholder="Rua" required/>
+          <input type='text' class="form-control" name="addressnumber" ng-model='nonprofit.address.addressnumber' placeholder="nro" required/>
+          <input type='text' class="form-control" name="addressline2" ng-model='nonprofit.address.addressline2' placeholder="Apartamento, bloco, etc"/>
+          <input type='text' class="form-control" name="neighborhood" ng-model='nonprofit.address.neighborhood' placeholder="Bairro" required/>
+          <input type='text' class="form-control" name="zipcode" ng-model='nonprofit.address.zipcode' ng-maxlength="10" placeholder="CEP" required/>
+          <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
+          <select class="form-control" ng-model="nonprofit.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
+            <option value="" disabled selected>Zona</option>
           </select>
-          <select ng-model="nonprofit.address.city" ng-options="c.name for c in cities|orderBy:'name'">
-            <option value="">Cidade</option>
+          <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in cities|orderBy:'name'">
+            <option value="" disabled selected>Cidade</option>
           </select>
-          <select ng-model="nonprofit.address.state" ng-options="c.name for c in states|orderBy:'name'">
-            <option value="">Estado</option>
+          <select class="form-control" ng-model="nonprofit.address.state" ng-options="c.name for c in states|orderBy:'name'">
+            <option value="" disabled selected>Estado</option>
           </select>
         </div>
       </div>
@@ -67,24 +63,24 @@
 
     <fieldset>
       <legend>Sua ONG em redes sociais</legend>
-      <div class="control-group">
-        <label class="control-label" for="textinput">Facebook</label>
-        <div class="controls">
-          <input type="text" name="facebookpage"  ng-model="nonprofit.facebook_page" placeholder="facebook.com/atados" class="input-xlarge">
+      <div class="form-group">
+        <label class="col-lg-2 control-label" for="textinput">Facebook</label>
+        <div class="col-lg-5">
+          <input type="text" name="facebookpage"  ng-model="nonprofit.facebook_page" placeholder="facebook.com/atados" class="form-control">
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="textinput">Google+</label>
-        <div class="controls">
-          <input type="text" name="googlepage" ng-model="nonprofit.google_page" placeholder="plus.google.com/{id da página}" class="input-xlarge">
+      <div class="form-group">
+        <label class="col-lg-2 control-label" for="textinput">Google+</label>
+        <div class="col-lg-5">
+          <input type="text" name="googlepage" ng-model="nonprofit.google_page" placeholder="plus.google.com/{id}" class="form-control">
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="prependedtext">Twitter</label>
-        <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on">@</span>
-            <input type="text" name="twitterhandle" ng-model="nonprofit.twitter_handle" class="input-xlarge" placeholder="gente_boa">
+      <div class="form-group">
+        <label class="col-lg-2 control-label" for="prependedtext">Twitter</label>
+        <div class="col-lg-5">
+          <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" name="twitterhandle" ng-model="nonprofit.twitter_handle" class="form-control" placeholder="gente_boa">
           </div>
         </div>
       </div>
@@ -92,47 +88,47 @@
 
     <fieldset>
       <legend>Sobre você</legend>
-      <div class="control-group">
-        <label class="control-label">Nome</label>
-        <div class="controls">                     
-          <input type='text' name="first_name" ng-model='nonprofit.user.first_name' placeholder="Nome" required/>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Nome</label>
+        <div class="col-lg-5">                     
+          <input class="form-control"type='text' name="first_name" ng-model='nonprofit.user.first_name' placeholder="Nome" required/>
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label">Sobrenome</label>
-        <div class="controls">                     
-          <input type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome" required/>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Sobrenome</label>
+        <div class="col-lg-5">                     
+          <input class="form-control"type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome" required/>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.username.$dirty && signupForm.username.$invalid}">
-        <label class="control-label">Nome do usúario</label>
-        <div class="controls">                     
-          <input type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="Nome de usuário" required/>
-          <label class="help-inline" ng-show="signupForm.username.alreadyUsed">Nome de usúario já é usado</label>
-          <label class="help-inline" ng-show="signupForm.username.hasSpace">Não pode ter espaço.</label>
+      <div class="form-group" ng-class="{error:signupForm.username.$dirty && signupForm.username.$invalid}">
+        <label class="col-lg-2 control-label">Nome do usúario</label>
+        <div class="col-lg-5">                     
+          <input class="form-control"type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="Nome de usuário" required/>
+          <label class="help-block" ng-show="signupForm.username.alreadyUsed">Nome de usúario já é usado</label>
+          <label class="help-block" ng-show="signupForm.username.hasSpace">Não pode ter espaço.</label>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.email.$dirty && signupForm.email.$invalid}">
-        <label class="control-label">Email</label>
-        <div class="controls">                     
-          <input type='email' name="email" ng-model='nonprofit.user.email' placeholder="Email" required/>
-          <label class="help-inline" ng-show="signupForm.email.alreadyUsed">Email já é usado</label>
+      <div class="form-group" ng-class="{error:signupForm.email.$dirty && signupForm.email.$invalid}">
+        <label class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-5">                     
+          <input class="form-control"type='email' name="email" ng-model='nonprofit.user.email' placeholder="Email" required/>
+          <label class="help-block" ng-show="signupForm.email.alreadyUsed">Email já é usado</label>
         </div>
       </div>
-      <div class="control-group" ng-class="{error:signupForm.password.$dirty && signupForm.password.$invalid}">
-        <label class="control-label">Senha</label>
-        <div class="controls">                     
-          <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
-          <input required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
-          <label class="help-inline" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
-          <label class="help-inline" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
+      <div class="form-group" ng-class="{error:signupForm.password.$dirty && signupForm.password.$invalid}">
+        <label class="col-lg-2 control-label">Senha</label>
+        <div class="col-lg-5">                     
+          <input class="form-control"required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
+          <input class="form-control"required type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
+          <label class="help-block" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
+          <label class="help-block" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
         </div>
       </div>
     </fieldset>
-    <fieldset>
-      <legend>Causas da sua ONG</legend>
-      <div class="control-group">
-        <div class="controls">
+    <fieldset class="col-lg-12">
+      <legend>Causas</legend>
+      <div class="form-group">
+        <div class="col-lg-12">
           <ul class="select-button-list">
             <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
               <label>{{cause.name}}
@@ -143,17 +139,18 @@
         </div>
       </div>
     </fieldset>
-    <fieldset>
+    <div>
+    <fieldset class="col-lg-12">
       <legend>Logo da ONG</legend>
       <input id="file-input" type="file" name="file"
         onchange="angular.element(this).scope().uploadFile(this.files)"/>
       <img ng-show="{{nonprofit.image}}" class="img-rounded" alt="{{nonprofit.slug}}"
         ng-src="{{image}}" width="270" height="270"/>
     </fieldset>
-    <div>
-      <!-- TODO add terms and privacy urls -->
-      <p class="alert">Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a tabindex="-1"href="{{ terms_url }}">Termos de uso</a> e <a tabindex="-1" href="{{ privacy_url }}">Políticas de privacidade</a>.</p>
-      <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-primary">Terminar registro!</button>
-    </div>
+    <hr>
+    <!-- TODO add terms and privacy urls -->
+    <div class="alert alert-warning">Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" href="{{ terms_url }}">Termos de uso e Políticas de privacidade</a>.</div>
+    <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-primary btn-large">Terminar registro!</button>
+
   </form> 
 </div>

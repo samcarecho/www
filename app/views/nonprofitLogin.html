@@ -1,23 +1,51 @@
-<form novalidate class="form-horizontal" name="loginForm" ng-submit="login()">
-  <div class="control-group">
-    <input required type='text' name='username' ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}"/>
-    <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
-  </div>
-  <div class="control-group">
-    <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
-    <div class="label label-important" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
-  </div>
-  <div class="label label-important">{{ error }}</div>
-  <label class="checkbox"><input ng-model="remember" type="checkbox">{{'REMEMBER'|translate}}</label>
-  <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success" translate>LOGIN_BTN</button>
-  <a ng-click="forgotPassword()" class="btn btn-link" translate>FORGOT_PASSWORD</a>
-</form> 
-
-<div ng-show="showForgotPassword"> 
-  <p>Digite seu email para resetar sua senha</p>
-  <div>
-    <input type="text" ng-model='resetEmail' placeholder="Email"/>
-  </div>
-  <span class="label label-important">{{ emailError }}</span>
-  <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()" translate>RESET_BTN</button>
+<div class="modal-header">
+  <h4>Login ONG</h4>
 </div>
+<div class="modal-body">
+  <form novalidate role="form" name="loginForm" ng-submit="login()">
+    <div class="form-group">
+      <input
+      required
+      class="form-control"
+      type='text'
+      name='username'
+      ng-model='username'
+      ng-minlength="3"
+      placeholder="Nome de Usuário">
+      <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
+    </div>
+    <div class="form-group">
+      <input 
+      required
+      class="form-control"
+      type='password'
+      name='password'
+      ng-model='password'
+      ng-minlength="6"
+      placeholder="Senha"/>
+      <div class="label label-important" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+    </div>
+    <div class="label label-important">{{ error }}</div>
+    <div class="checkbox col-md-6">
+      <label>
+        <input type="checkbox" ng-model="remember"> Lembre de mim
+      </label>
+    </div>
+    <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
+    <button
+      type="submit"
+      ng-disabled="loginForm.$invalid"
+      class="btn btn-success btn-block">Entrar</button>
+  </form> 
+
+  <form role="form" ng-show="showForgotPassword">
+    <p class="help-block">Digite seu email para receber uma nova senha.</p>
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model='resetEmail' placeholder="Email"/>
+      <p class="help-block label-error">{{ emailError }}</span>
+  </div>
+  <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()">Mandar senha</button>
+</form>
+</div>
+
+<div class="modal-footer"><contactatados/></div>

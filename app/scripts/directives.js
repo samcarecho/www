@@ -2,43 +2,6 @@
 
 var app = angular.module('atadosApp');
 
-app.directive('volunteerlogin', function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: 'LoginController',
-    templateUrl: '/views/volunteerLogin.html'
-  };
-});
-
-app.directive('nonprofitlogin', function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: 'LoginController',
-    templateUrl: '/views/nonprofitLogin.html'
-  };
-});
-
-
-app.directive('volunteersignup', function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: 'VolunteerSignupController',
-    templateUrl: '/views/volunteerSignup.html'
-  };
-});
-
-app.directive('nonprofitsignup', function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: 'NonprofitSignupController',
-    templateUrl: '/views/nonprofitSignup.html'
-  };
-});
-
 app.directive('projectbox', function() {
   return {
     restrict: 'E',
@@ -69,7 +32,7 @@ app.directive('phone', function () {
     scope: {
       number: '@'
     },
-    template: '<div><i class="icon-phone-sign"></i> {{number}}</div>'
+    template: '<p><i class="fa fa-phone"></i> {{number}}</p>'
   };
 });
 
@@ -79,7 +42,7 @@ app.directive('email', function () {
     scope: {
       email: '@'
     },
-    template: '<div><i class="icon-laptop"></i> {{email}}</div>'
+    template: '<p><i class="fa fa-laptop"></i> {{email}}</p>'
   };
 });
 
@@ -103,6 +66,6 @@ app.directive('contactatados', function() {
   return {
     restrict: 'E',
     scope: {},
-    template: '<small>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se tiver algum problema!</small>'
+    template: '<p>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se tiver algum problema!</p>'
   };
 });

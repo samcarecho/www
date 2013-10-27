@@ -1,33 +1,46 @@
-<div class="heading">
-  <h4 class="form-heading" translate>ALREADY_HAVE_ACCOUNT</h4>
+<div class="modal-header">
+  <h4>Login Voluntário</h4>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <button class="btn btn-block btn-facebook" ng-disabled="!facebookReady" ng-click="facebookLogin()">
+      <i class="fa fa-facebook"></i> Entrar com Facebook</button>
+  </div>
+
+  <form novalidate role="form" name="loginForm" ng-submit="login()">
+    <div class="form-group">
+      <input
+      required
+      class="form-control"
+      type='text'
+      name='username'
+      ng-model='username'
+      ng-minlength="3"
+      placeholder="Nome do usúario">
+      <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
+    </div>
+    <div class="form-group">
+      <input required class="form-control" type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
+      <div class="label label-important" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+    </div>
+    <div class="label label-important">{{ error }}</div>
+    <div class="checkbox col-md-6">
+      <label>
+        <input type="checkbox" ng-model="remember"> Lembre de mim
+      </label>
+    </div>
+    <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
+    <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success btn-block">Entrar</button>
+  </form> 
+
+  <form role="form" ng-show="showForgotPassword">
+    <p class="help-block">Digite seu email para receber uma nova senha.</p>
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model='resetEmail' placeholder="Email">
+      <p class="help-block label-error">{{ emailError }}</p>
+    </div>
+    <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()">Mandar senha</button>
+  </form>
 </div>
 
-<div class="control-group">
-  <button class="btn btn-facebook" type="button" ng-disabled="!facebookReady" ng-click="facebookLogin()">
-    <span class="icon-facebook-sign" /> {{'LOGIN_BTN_FACEBOOK'|translate}}
-  </button>
-</div>
-
-<form novalidate class="form-horizontal" name="loginForm" ng-submit="login()">
-  <div class="control-group">
-    <input required type='text' name='username' ng-model='username' ng-minlength="3" placeholder="{{'USERNAME'|translate}}"/>
-    <div class="label label-important" ng-show="loginForm.username.$error.minlength"> Nome de usuário muito curto </div>
-  </div>
-  <div class="control-group">
-    <input required type='password' name='password' ng-model='password' ng-minlength="6" placeholder="{{'PASSWORD'|translate}}"/>
-    <div class="label label-important" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
-  </div>
-  <div class="label label-important">{{ error }}</div>
-  <label class="checkbox"><input ng-model="remember" type="checkbox">{{'REMEMBER'|translate}}</label>
-  <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success" translate>LOGIN_BTN</button>
-  <a ng-click="forgotPassword()" class="btn btn-link" translate>FORGOT_PASSWORD</a>
-</form> 
-
-<div ng-show="showForgotPassword"> 
-  <p>Digite seu email para resetar sua senha</p>
-  <div>
-    <input type="text" ng-model='resetEmail' placeholder="Email"/>
-  </div>
-  <span class="label label-important">{{ emailError }}</span>
-  <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()" translate>RESET_BTN</button>
-</div>
+<div class="modal-footer"><contactatados/></div>
