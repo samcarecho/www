@@ -37,15 +37,14 @@
       ng-disabled="loginForm.$invalid"
       class="btn btn-success btn-block">Entrar</button>
   </form> 
+  <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
+    <label class="help-block">Digite seu email para receber uma nova senha.</label>
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
+      <input required type="email" name="email" class="form-control" ng-model='email' placeholder="Email"/>
+      <label class="help-block" ng-show="!resetPasswordForm.email.alreadyUsed">Email não existe.</label>
+    </div>
+    <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
+  </form>
 
-  <form role="form" ng-show="showForgotPassword">
-    <p class="help-block">Digite seu email para receber uma nova senha.</p>
-    <div class="form-group">
-      <input type="text" class="form-control" ng-model='resetEmail' placeholder="Email"/>
-      <p class="help-block label-error">{{ emailError }}</span>
-  </div>
-  <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()">Mandar senha</button>
-</form>
 </div>
-
 <div class="modal-footer"><contactatados/></div>

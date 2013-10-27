@@ -33,7 +33,7 @@ $brand-warning:#f0ad4e;
 $brand-danger:#d9534f;
 $brand-info:#5bc0de;
 
-$text-color:$gray-dark;
+// $text-color:$gray-dark;
 $headings-small-color: $blue;
 $headings-color: $orange;
 $link-color:$orange;
@@ -116,16 +116,7 @@ a:focus {
 
 .btn-facebook {
   background-color: $blue-facebook;
-  color: #fff;
-}
-
-.btn-inverse.active,
-.btn-facebook.active {
-  //color: rgba(255,255,255,.75);
-}
-
-form input.ng-valid {
-  // border: 1px solid green;
+  color: $white;
 }
 
 .main {

@@ -39,14 +39,13 @@
     <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success btn-block">Entrar</button>
   </form> 
 
-  <form name="resetPasswordForm" role="form" ng-show="showForgotPassword">
-    <p class="help-block">Digite seu email para receber uma nova senha.</p>
+  <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
+    <label class="help-block">Digite seu email para receber uma nova senha.</label>
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
-      <input required type="text" class="form-control" ng-model='resetEmail' placeholder="Email">
-      <p class="help-block label-error">{{ emailError }}</p>
-      <label class="help-block" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
+      <input required type="email" name="email" class="form-control" ng-model='email' placeholder="Email"/>
+      <label class="help-block" ng-show="!resetPasswordForm.email.alreadyUsed">Email não existe.</label>
     </div>
-    <button class="btn" ng-disabled="invalidEmail" ng-click="resetPassword()">Mandar senha</button>
+    <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
   </form>
 </div>
 

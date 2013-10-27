@@ -24,8 +24,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal',
 
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;
-  }, function (error) {
-    console.error(error);
+  }, function () {
   });
 
   var modalInstance = null;
@@ -70,23 +69,20 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   function($scope, $rootScope, Auth, Facebook) {
 
   $scope.showForgotPassword = false;
-  $scope.username = '';
-  $scope.password = '';
   $scope.remember = true;
 
-  $scope.resetEmail = '';
-  $scope.invalidEmail = true;
-
-  $scope.$watch('resetEmail', function (value) {
-    Auth.isEmailUsed(value, function (response) {
-        console.debug(response);
-        $scope.emailError = 'Email não existe.';
-        $scope.invalidEmail = true;
-      }, function (error) {
-        console.debug(error);
-        $scope.emailError = null;
-        $scope.invalidEmail = false;
+  $scope.$watch('email', function (value) {
+    if (value) {
+      Auth.isEmailUsed(value, function () {
+        $scope.resetPasswordForm.email.alreadyUsed = false;
+        $scope.resetPasswordForm.email.$invalid = true;
+      }, function () {
+        $scope.resetPasswordForm.email.alreadyUsed = true;
+        $scope.resetPasswordForm.email.$invalid = false;
       });
+    } else {
+      $scope.resetPasswordForm.email.$invalid = true;
+    }
   });
 
   $scope.login = function() {
@@ -98,8 +94,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
       username: $scope.username,
       password: $scope.password,
       remember: $scope.remember
-    }, function (response) {
-      console.debug(response);
+    }, function () {
       Auth.getCurrentUser(
         function (user) {
           toastr.success('Oi!', user.username);
@@ -107,8 +102,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
         }, function (error) {
           toastr.error(error);
         });
-    }, function (error) {
-      console.debug(error);
+    }, function () {
       $scope.error = 'Usuário ou senha estão errados :(';
     });
   };
@@ -118,11 +112,9 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 
   $scope.resetPassword = function () {
-    Auth.resetPassword($scope.resetEmail,  function (response) {
-      console.debug(response);
+    Auth.resetPassword($scope.email,  function () {
       toastr.info('Agora veja seu email para receber sua nova senha. Depois você pode mudar para uma senha da sua preferência.');
-    }, function (error) {
-      console.error(error);
+    }, function () {
       toastr.error('Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br');
     });
   };
@@ -211,14 +203,12 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
           email: $scope.email,
           password: $scope.password
         },
-        function (response) {
-          console.debug(response);
+        function () {
           Auth.login({
             username: $scope.username,
             password: $scope.password,
             remember: $scope.remember
-          }, function (response) {
-            console.debug(response);
+          }, function () {
             Auth.getCurrentUser(
               function (user) {
                 toastr.success('Oi!', user.username);
@@ -226,8 +216,7 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
               }, function (error) {
                 toastr.error(error);
               });
-          }, function (error) {
-            console.error(error);
+          }, function () {
             $scope.error = 'Usuário ou senha estão errados :(';
           });
         },
@@ -249,26 +238,22 @@ app.controller('NonprofitSignupController',
 
   Restangular.all('causes').getList().then( function(response) {
     $scope.causes = response;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
   Restangular.all('suburbs').getList().then( function(response) {
     $scope.suburbs = response;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar as Zonas do servidor.');
   });
   Restangular.all('cities').getList().then( function(response) {
     $scope.cities = response;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar as cidades do servidor.');
   });
   Restangular.all('states').getList().then( function(response) {
     $scope.states = response;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar os estados do servidor.');
   });
 
@@ -340,8 +325,7 @@ app.controller('NonprofitSignupController',
     if ($scope.signupForm.$valid) {
       $scope.nonprofit.user.password = $scope.password;
       $scope.nonprofit.causes = $filter('filter')($scope.causes, {checked: true});
-      Auth.nonprofitSignup($scope.nonprofit, function (response) {
-          console.debug(response);
+      Auth.nonprofitSignup($scope.nonprofit, function () {
           toastr.success('Bem vinda ONG ao atados!');
           $state.transitionTo('root.nonprofitadmin');
         },
@@ -360,22 +344,19 @@ app.controller('VolunteerController',
 
   Restangular.all('causes').getList().then( function(causes) {
     $scope.causes = causes;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
   Restangular.all('skills').getList().then( function(skills) {
     $scope.skills = skills;
-  }, function (error) {
-    console.error(error);
+  }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
   Restangular.one('volunteers', $stateParams.username).get().then(function(response) {
     $scope.volunteer = response;
     $scope.volunteer.id = $scope.volunteer.username;
     $scope.image = $scope.volunteer.image_url;
-  }, function(response) {
-    console.log(response);
+  }, function() {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não encontrado');
   });
@@ -392,19 +373,15 @@ app.controller('VolunteerController',
       $scope.volunteer.skills[index++] = skill.url;
     });
 
-    $scope.volunteer.put().then( function (response) {
-      console.log(response);
+    $scope.volunteer.put().then( function () {
       toastr.success('Perfil salvo!', $scope.volunteer.username);
-    }, function (error) {
-      console.error(error);
+    }, function () {
       toastr.error('Problema em salvar seu perfil :(');
     });
     if ($scope.password && $scope.password === $scope.passwordConfirm) {
-      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function (response) {
-        console.log(response);
+      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
         toastr.success('Senha nova salva', $scope.volunteer.username);
-      }, function (error) {
-        console.error(error);
+      }, function () {
         toastr.error('Não conseguimos atualizar sua senha :(');
       });
     }
@@ -447,12 +424,10 @@ app.controller('VolunteerController',
       $scope.profileForm.email.alreadyUsed = false;
     }
     else if (value !== $scope.loggedUser.user.email) {
-      Auth.isEmailUsed(value, function (response) {
-        console.log(response);
+      Auth.isEmailUsed(value, function () {
         $scope.profileForm.email.alreadyUsed = false;
         $scope.profileForm.email.$invalid = false;
-      }, function (error) {
-        console.error(error);
+      }, function () {
         $scope.profileForm.email.alreadyUsed = true;
         $scope.profileForm.email.$invalid = true;
       });
@@ -470,8 +445,7 @@ app.controller('VolunteerController',
       fd.append('file', files[0]);
       Photos.setVolunteerPhoto(fd, function(response) {
         $scope.image = response.file;
-      }, function(error) {
-        console.error(error);
+      }, function() {
         toastr.error('Error no servidor. Não consigo atualizer sua foto :(');
       });
     }
@@ -503,7 +477,7 @@ app.controller('NonprofitController',
         $scope.markers.push(location);
         $scope.mapReady = true;
       } else {
-        console.error('Google Maps não retornou resultado. '  + results);
+        toastr.error('Google Maps não retornou resultado.');
       }
     });
   }
@@ -526,16 +500,14 @@ app.controller('NonprofitController',
 
     getLatLong($scope.nonprofit.address);
 
-  }, function(response) {
-    console.log(response);
+  }, function() {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');
   });
 }]);
 
 app.controller('NonprofitAdminController', ['$scope', '$state', function($scope, $state) {
-  var nonprofit = $scope.loggedUser;
-  console.log(nonprofit);
+  // var nonprofit = $scope.loggedUser;
 
   if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
     $state.transitionTo('root.home');
@@ -543,7 +515,6 @@ app.controller('NonprofitAdminController', ['$scope', '$state', function($scope,
   }
 
   $scope.createProject = function () {
-    console.debug('Time to create a prohect for ' + nonprofit.name);
   };
 
 }]);
