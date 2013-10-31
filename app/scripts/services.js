@@ -105,9 +105,15 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
           .success(function (response) {success(response);}).error(error);
       }
     },
-    isSlugUsed: function (slug, success, error) {
+    isNonprofitSlugUsed: function (slug, success, error) {
       if (slug) {
-        $http.get(apiUrl + 'check_slug/?slug=' + slug)
+        $http.get(apiUrl + 'check_nonprofit_slug/?slug=' + slug)
+          .success(function (response) {success(response);}).error(error);
+      }
+    },
+    isProjectSlugUsed: function (slug, success, error) {
+      if (slug) {
+        $http.get(apiUrl + 'check_project_slug/?slug=' + slug)
           .success(function (response) {success(response);}).error(error);
       }
     },

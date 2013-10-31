@@ -1,4 +1,7 @@
 {
+  "job": "Pontual",
+  "work": "Recorrente",
+  "donation": "Doação",
   "ALREADY_HAVE_ACCOUNT": "Eu já tenho conta!",
   "FORGOT_PASSWORD": "Esqueci minha senha",
   "HEADLINE": "Oi! Esse é o meu aplicativo massa.",

@@ -1,6 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Francois+One|Open+Sans:400,800);
+@import url(http://fonts.googleapis.com/css?family=Francois+One|Open+Sans:400,800|Noto+Sans:4000,700|Coming+Soon);
 
-$FontAwesomePath: "font";
 @import "font-awesome/scss/font-awesome";
 
 $atadosSprite: "../images/atados-sprite.png";
@@ -10,8 +9,9 @@ $atadosSprite: "../images/atados-sprite.png";
 
 // _fonts.scss
 
-$font-family-sans-serif: 'Open Sans', sans-serif;;
-$headings-font-family: 'Francois One', sans-serif;
+// $font-family-sans-serif: 'Noto Sans', sans-serif;;
+// $headings-font-family: 'Coming Soon', sans-serif;
+// $headings-font-weight:400;
 
 // _variables.scss
 
@@ -20,7 +20,7 @@ $blue:#69d1e8;
 $blue-facebook:#3b5998;
 $gray-darker:#222;
 $gray-dark:#333;
-$gray:#f3f3f3;
+//$gray:#f3f3f3;
 $gray-light:#999;
 $gray-lighter:#eee;
 $blue-dark:#25b3ef;
@@ -33,12 +33,10 @@ $brand-warning:#f0ad4e;
 $brand-danger:#d9534f;
 $brand-info:#5bc0de;
 
-// $text-color:$gray-dark;
+$text-color:$gray-dark;
 $headings-small-color: $blue;
 $headings-color: $orange;
 $link-color:$orange;
-$font-family-sans-serif:"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$headings-font-weight:400;
 $border-radius-base:0px;
 $border-radius-large:0px;
 $border-radius-small:0px;
@@ -88,11 +86,6 @@ h1, h2, h3, h4, h5, h6,
 }
 
 // _buttons.scss
-.btn {
-  padding: 5px 12px;
-  // text-transform: uppercase;
-  border: 0;
-}
 
 // _modals.scss
 
@@ -186,6 +179,12 @@ a:focus {
   }
 }
 
+.roles {
+  li {
+    list-style:none;
+  }
+}
+
 .select-button-list {
   padding:0;
   margin:1px 1px 10px 0;
@@ -195,9 +194,8 @@ a:focus {
   li {
     list-style:none;
     margin:0;
-    padding:5px;
+    padding:2px;
     float:left;
-    border:1px solid #ddd;
     margin:-1px -1px 0 0;
     background:#fff;
 
@@ -207,22 +205,22 @@ a:focus {
 
     label {
       float:left;
-      width:118px;
-      height:56px;
+      width:120px;
+      height:60px;
       overflow:hidden;
       padding:8px;
       background:#fff;
       color:#333;
 
       &:hover {
-        background:$blue;
+        background:$blue-light;
         color:#fff;
       }
     }
 
     &.active {
       label {
-        background:$blue-dark;
+        background:$blue;
         color:#fff;
       }
     }
@@ -393,10 +391,6 @@ a:focus {
 
 .pace .pace-progress-inner {
   box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
-}
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
 }
 
 @import "bootstrap-sass/lib/bootstrap";

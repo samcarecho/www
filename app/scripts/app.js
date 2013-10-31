@@ -56,7 +56,25 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     .state('root.project', {
         url: '/ato/:slug',
         templateUrl: '/views/projectPage.html',
-        controller: 'ProjectPageController',
+        controller: 'ProjectController',
+        resolve: {}
+      })
+    .state('root.newproject', {
+        url: '/ato',
+        templateUrl: '/views/projectNew.html',
+        controller: 'ProjectNewController',
+        resolve: {}
+      })
+    .state('root.newproject.job', {
+        templateUrl: '/views/projectNewJob.html',
+        resolve: {}
+      })
+    .state('root.newproject.work', {
+        templateUrl: '/views/projectNewWork.html',
+        resolve: {}
+      })
+    .state('root.newproject.donation', {
+        templateUrl: '/views/projectNewDonation.html',
         resolve: {}
       });
 
