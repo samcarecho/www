@@ -12,6 +12,10 @@ app.directive('removerole', function() {
 app.directive('button', function() {
   return {
     restrict: 'E',
+    scope: {
+      type: '=',
+      size: '='
+    },
     compile: function(element, attrs) {
       element.addClass('btn');
       if ( attrs.type === 'submit') {

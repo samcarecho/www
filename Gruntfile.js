@@ -95,6 +95,7 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          port: 9900,
           middleware: function (connect) {
             return [
               mountFolder(connect, '.tmp'),
@@ -392,7 +393,7 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma:server'
   ]);
 
   grunt.registerTask('build', [

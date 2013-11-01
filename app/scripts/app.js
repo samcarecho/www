@@ -4,7 +4,7 @@
 /* global $: false */
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'pascalprecht.translate', 'ui.bootstrap', 'facebook', 'google-maps']);
+    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps']);
 
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);
@@ -117,15 +117,6 @@ app.config(['FacebookProvider', function(FacebookProvider) {
   FacebookProvider.init(constants.facebookClientId);
   FacebookProvider.setLocale(constants.locale);
   FacebookProvider.setCookie(false);
-}]);
-
-app.config(['$translateProvider', function($translateProvider) {
-  $translateProvider.useStaticFilesLoader({
-    prefix: '/languages/',
-    suffix: '.json'
-  });
-
-  $translateProvider.preferredLanguage('pt_BR');
 }]);
 
 app.config(['RestangularProvider', function(RestangularProvider) {

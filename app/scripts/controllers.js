@@ -13,12 +13,8 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', ['$scope', '$rootScope', '$translate', '$modal', '$state', 'Site', 'Auth',
-  function($scope, $rootScope, $translate, $modal, $state, Site, Auth) {
-
-  $scope.changeLanguage = function (langKey) {
-    $translate.uses(langKey);
-  };
+app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
+  function($scope, $rootScope, $modal, $state, Site, Auth) {
 
   $scope.site = Site;
 

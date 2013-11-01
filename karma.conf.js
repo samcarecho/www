@@ -20,8 +20,6 @@ module.exports = function(config) {
       'app/bower_components/restangular/dist/restangular.js',
       'app/bower_components/angular-i18n/angular-locale_pt-br.js',
       'app/bower_components/angular-i18n/angular-locale_en-us.js',
-      'app/bower_components/angular-translate/angular-translate.js',
-      'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'app/bower_components/angular-ui-router/release/angular-ui-router.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
