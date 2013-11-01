@@ -1,3 +1,5 @@
+'use strict';
+
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
@@ -26,6 +28,7 @@ module.exports = function(config) {
       'app/bower_components/angular-facebook/lib/angular-facebook.js',
       'app/bower_components/toastr/toastr.js',
       'app/bower_components/angular-google-maps/src/angular-google-maps.js',
+      'app/bower_components/jquery.cookie/jquery.cookie.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

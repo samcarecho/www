@@ -46,6 +46,10 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
+      jade: {
+        files: ['<% yeoman.app %>/*.jade'],
+        tasks: ['jade']
+      },
       livereload: {
         options: {
           livereload: LIVERELOAD_PORT
@@ -135,6 +139,20 @@ module.exports = function (grunt) {
         'Gruntfile.js',
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
+    },
+    jade: {
+      dist: {
+        options: {
+          pretty: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '.tmp',
+          src: '*.jade',
+          ext: '.html'
+        }]
+      }
     },
     coffee: {
       options: {
@@ -319,7 +337,13 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'karma.conf.js',
-        singleRun: true
+        singleRun: true,
+        autoWatch: false
+      },
+      server: {
+        configFile: 'karma.conf.js',
+        singleRun: false,
+        autoWatch: true
       }
     },
     cdnify: {

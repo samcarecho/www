@@ -541,6 +541,14 @@ app.controller('ProjectController', ['$scope', function($scope) {
 app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', 'Restangular',
     function($scope, $filter, $state, Auth, Restangular) {
 
+  /*$scope.getCssClasses = function (ngModelController) {
+    return {
+      has-error: $scope.projectNewForm.email.$invalid && projectNewForm.email.$error,
+      has-success: $scope.projectNewForm.email.$error || $scope.projectNewForm.
+    };
+
+  };*/
+
   $scope.minDate = new Date();
   $scope.ismeridian = true;
   $scope.toggleMode = function() {

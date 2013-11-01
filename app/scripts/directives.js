@@ -2,6 +2,32 @@
 
 var app = angular.module('atadosApp');
 
+app.directive('removerole', function() {
+  return {
+    restrict: 'E',
+    template: '<button type="destroy" ng-click="removeRole(role, "work")"><i class="fa fa-trash-o"></i></button>'
+  };
+});
+
+app.directive('button', function() {
+  return {
+    restrict: 'E',
+    compile: function(element, attrs) {
+      element.addClass('btn');
+      if ( attrs.type === 'submit') {
+        element.addClass('btn-primary');
+      } else if ( attrs.type === 'destroy' ) {
+        element.addClass('destroy');
+      } else if ( attrs.type ) {
+        element.addClass('btn-' + attrs.type);
+      }
+      if ( attrs.size ) {
+        element.addClass('btn-' + attrs.size);
+      }
+    }
+  };
+});
+
 app.directive('projectbox', function() {
   return {
     restrict: 'E',

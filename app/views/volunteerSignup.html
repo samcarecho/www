@@ -4,7 +4,7 @@
 
 <div class="modal-body" ng-controller="VolunteerSignupController">
   <div class="form-group">
-    <button class="btn btn-block btn-facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Criar conta com Facebook</button>
+    <button type="facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Criar conta com Facebook</button>
   </div>
   <hr>
   <form novalidate name="signupForm" ng-submit="signup()">
@@ -25,7 +25,7 @@
       <label class="help-block" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
       <label class="help-block" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
     </div>
-    <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-success btn-block">Criar conta</button>
+    <button type="submit" ng-disabled="signupForm.$invalid" class="btn-block">Criar conta</button>
   </form> 
 </div>
 

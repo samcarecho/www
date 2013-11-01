@@ -1,6 +1,6 @@
 <div class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -17,7 +17,7 @@
         ng-model="input"
         type="text"
         placeholder="Procure por causas que fazem o bem!">
-      <button ng-click="search()" class="btn btn-primary navbar-btn">Procurar</button>
+      <button type="primary" ng-click="search()" class="navbar-btn">Procurar</button>
     </form>
 
     <div class="navbar-right">
@@ -44,7 +44,7 @@
       </ul>
       <form class="navbar-form" ng-show="!loggedUser">
         <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle navbar-btn" data-toggle="dropdown">Sou voluntário <span class="caret"></span></button>
+          <button type="primary" class="dropdown-toggle navbar-btn" data-toggle="dropdown">Sou voluntário <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li><a ng-click="openVolunteerLoginModal()"><i class="fa fa-power-off"></i> Entrar</a></li>
             <li class="divider"></li>
@@ -52,7 +52,7 @@
           </ul>
         </div>
         <div class="btn-group">
-          <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown">Sou uma ONG <span class="caret"></span></button>
+          <button type="success" class="dropdown-toggle navbar-btn" data-toggle="dropdown">Sou uma ONG <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li><a ng-click="openNonprofitLoginModal()"><i class="fa fa-power-off"></i> Entrar</a></li>
             <li class="divider"></li>

@@ -79,7 +79,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="role in job.roles">
-          <td><button class="destroy btn btn-danger" ng-click="removeRole(role, 'job')"><i class="fa fa-trash-o"></i></button></td>
+          <td><button type="danger" class="destroy" ng-click="removeRole(role, 'job')"><i class="fa fa-trash-o"></i></button></td>
           <td>{{role.name}}</td>
           <td>{{role.prerequisites}}</td>
           <td>{{role.vacancies}}</td>

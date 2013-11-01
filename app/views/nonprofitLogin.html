@@ -33,9 +33,7 @@
     </div>
     <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
     <button
-      type="submit"
-      ng-disabled="loginForm.$invalid"
-      class="btn btn-success btn-block">Entrar</button>
+      type="submit" ng-disabled="loginForm.$invalid" class="btn-block">Entrar</button>
   </form> 
   <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
     <label class="help-block">Digite seu email para receber uma nova senha.</label>

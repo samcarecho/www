@@ -15,14 +15,14 @@
   <input class="form-control" type="text" placeholder="Nome do cargo" ng-model="newRole.name">
   <textarea class="form-control" rows="3" name="newRole.prerequisites" placeholder="Descrição do cargo" ng-model="newRole.prerequisites"></textarea>
   <input class="form-control" type="number" class="" placeholder="Quantas vagas?" ng-model="newRole.vacancies">
-  <button class="btn btn-primary" ng-click="addRole('work')">Adicionar Cargo</button> 
+  <button type="submit" ng-click="addRole('work')">Adicionar Cargo</button> 
 </div>
 <ul class="roles col-md-6">
   <li ng-repeat="role in work.roles">
     <h6>{{role.name}}</h6>
     <p>{{role.prerequisites}}</p>
     <span class="badge">{{role.vacancies}} vagas</span>
-    <button class="destroy" ng-click="removeRole(role, 'work')"><i class="fa fa-trash-o"></i></button>
+    <removerole></removerole>
   </li>
 </ul>
 

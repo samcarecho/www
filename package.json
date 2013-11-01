@@ -1,9 +1,9 @@
 {
   "name": "atados-angular",
   "version": "0.0.0",
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/atados/atados-angular.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/atados/atados-angular.git"
   },
   "dependencies": {},
   "devDependencies": {
@@ -43,7 +43,8 @@
     "karma-phantomjs-launcher": "~0.1.0",
     "karma": "~0.10.2",
     "karma-ng-html2js-preprocessor": "~0.1.0",
-    "connect-modrewrite": "~0.5.10"
+    "connect-modrewrite": "~0.5.10",
+    "grunt-contrib-jade": "~0.8.0"
   },
   "engines": {
     "node": ">=0.10.0"
