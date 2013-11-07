@@ -101,13 +101,13 @@
           <input class="form-control"type='text' name="last_name" ng-model='nonprofit.user.last_name' placeholder="Sobrenome"/>
         </div>
       </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.username.$error.required || signupForm.username.$invalid]">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.slug.$error.required || signupForm.slug.$invalid]">
         <label class="col-lg-2 control-label">Nome do usúario</label>
         <div class="col-lg-5">                     
-          <input class="form-control"type='text' name="username" ng-model='nonprofit.user.username' ng-minlength="3" placeholder="Nome de usuário" required/>
-          <label class="help-block" ng-show="signupForm.username.alreadyUsed">Nome de usúario já é usado</label>
-          <label class="help-block" ng-show="signupForm.username.hasSpace">Não pode ter espaço.</label>
-          <label class="help-block" ng-show="signupForm.username.$error.minlength">Nome tem que ter mais de 3 caracteres</label>
+          <input class="form-control"type='text' name="slug" ng-model='nonprofit.user.slug' ng-minlength="3" placeholder="Nome de usuário" required/>
+          <label class="help-block" ng-show="signupForm.slug.alreadyUsed">Nome de usúario já é usado</label>
+          <label class="help-block" ng-show="signupForm.slug.hasSpace">Não pode ter espaço.</label>
+          <label class="help-block" ng-show="signupForm.slug.$error.minlength">Nome tem que ter mais de 3 caracteres</label>
         </div>
       </div>
       <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[signupForm.email.$invalid]">

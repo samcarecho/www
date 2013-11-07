@@ -8,16 +8,16 @@
   </div>
   <hr>
   <form novalidate name="loginForm" ng-submit="login()">
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.username.$error.required || loginForm.username.$invalid]">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.email.$error.required || loginForm.email.$invalid]">
       <input
       required
       class="form-control"
       type='text'
-      name='username'
-      ng-model='username'
+      name='email'
+      ng-model='email'
       ng-minlength="3"
-      placeholder="Nome do usúario">
-      <label class="help-block" ng-show="loginForm.username.$error.minlength">Nome de usuário muito curto</label>
+      placeholder="Email">
+      <label class="help-block" ng-show="loginForm.email.$error.minlength">Nome de usuário muito curto</label>
     </div>
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid]">
       <input required

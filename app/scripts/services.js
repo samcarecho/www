@@ -95,8 +95,8 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
           success();
         }).error(error);
     },
-    isUsernameUsed: function (username, success, error) {
-      $http.get(apiUrl + 'check_username/?username=' + username)
+    isSlugUsed: function (slug, success, error) {
+      $http.get(apiUrl + 'check_slug/?slug=' + slug)
         .success(function (response) {success(response);}).error(error);
     },
     isEmailUsed: function (email, success, error) {
@@ -107,7 +107,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     },
     isNonprofitSlugUsed: function (slug, success, error) {
       if (slug) {
-        $http.get(apiUrl + 'check_nonprofit_slug/?slug=' + slug)
+        $http.get(apiUrl + 'check_slug/?slug=' + slug)
           .success(function (response) {success(response);}).error(error);
       }
     },

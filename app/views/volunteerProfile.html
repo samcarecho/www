@@ -1,13 +1,13 @@
 <div id="volunteer-details">
   <div class="page-header">
     <h1 ng-if="volunteer.user.first_name && volunteer.user.last_name">{{volunteer.user.first_name}} {{volunteer.user.last_name}}</h1>
-    <h1 ng-if="!(volunteer.user.first_name && volunteer.user.last_name)">{{volunteer.username}}</h1>
+    <h1 ng-if="!(volunteer.user.first_name && volunteer.user.last_name)">{{volunteer.slug}}</h1>
   </div>
   <div class="well col-lg-3">
     <div class="image">
-      <img class="img-rounded" alt="{{volunteer.username}}"
+      <img class="img-rounded" alt="{{volunteer.slug}}"
       ng-src="{{image}}" width="270" height="270"/>
-      <label ng-if="loggedUser.username==volunteer.username" class="btn" for="file-input class="form-control""><i class="icon-edit"></i>Editar foto</label>
+      <label ng-if="loggedUser.slug==volunteer.slug" class="btn" for="file-input class="form-control""><i class="icon-edit"></i>Editar foto</label>
       <input class="form-control" id="file-input class="form-control"" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
     </div>
     <email email="{{volunteer.user.email}}"></email>
@@ -28,7 +28,7 @@
     </ul>
     <span ng-if="!volunteer.activities">Não tem atividades.</span>
   </div>
-  <div class="well col-lg-9" ng-show="loggedUser.username==volunteer.username">
+  <div class="well col-lg-9" ng-show="loggedUser.slug==volunteer.slug">
     <form novalidate class="form-horizontal" name="profileForm" ng-submit="saveVolunteer()">
       <button type="submit" class="btn btn-primary pull-right" ng-disabled="profileForm.$invalid">Salvar</button>
       <div class="form-group">
