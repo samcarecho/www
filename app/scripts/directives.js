@@ -32,6 +32,13 @@ app.directive('button', function() {
   };
 });
 
+app.directive('button-facebook', function() {
+  return {
+    restrict: 'E'
+  };
+});
+
+
 app.directive('projectbox', function() {
   return {
     restrict: 'E',

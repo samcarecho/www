@@ -4,7 +4,7 @@
 
 <div class="modal-body" ng-controller="VolunteerSignupController">
   <div class="form-group">
-    <button type="facebook" ng-disabled="true" ng-click="signupOauth('facebook')"><i class="fa fa-facebook"></i> Criar conta com Facebook</button>
+    <button-facebook class="btn btn-block btn-facebook" ng-disabled="!facebookReady" ng-click="facebookSignup()"><i class="fa fa-facebook"></i> Criar conta com Facebook</button-facebook>
   </div>
   <hr>
   <form novalidate name="signupForm" ng-submit="signup()">

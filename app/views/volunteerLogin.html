@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body" ng-controller="LoginController">
   <div class="form-group">
-    <button class="btn btn-block btn-facebook" ng-disabled="!facebookReady" ng-click="facebookLogin()">
-      <i class="fa fa-facebook"></i> Entrar com Facebook</button>
+    <button-facebook class="btn btn-block btn-facebook" ng-disabled="!facebookReady" ng-click="facebookLogin()">
+      <i class="fa fa-facebook"></i> Entrar com Facebook</button-facebook>
   </div>
   <hr>
   <form novalidate name="loginForm" ng-submit="login()">

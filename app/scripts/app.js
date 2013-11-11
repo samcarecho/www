@@ -31,8 +31,17 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       url: '/voluntario/:username',
       templateUrl: '/views/volunteerProfile.html',
       controller: 'VolunteerController',
-      resolve: {
-        // TODO(mpomarole): resolve current user here loading the profile
+      resolve: { // TODO(mpomarole): Fix this resolve
+        volunteer: function (Restangular, $stateParams) {
+          Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
+            //$scope.volunteer = response;
+            //$scope.volunteer.id = $scope.volunteer.slug;
+            //$scope.image = $scope.volunteer.image_url;
+          }, function () {
+            //$state.transisitonTo('root.home');
+            //toastr.error('Voluntário não encontrado');
+          });
+        }
       }
     })
     .state('root.nonprofit', {
@@ -117,6 +126,7 @@ app.config(['FacebookProvider', function(FacebookProvider) {
   FacebookProvider.init(constants.facebookClientId);
   FacebookProvider.setLocale(constants.locale);
   FacebookProvider.setCookie(false);
+  window.facebook = FacebookProvider;
 }]);
 
 app.config(['RestangularProvider', function(RestangularProvider) {

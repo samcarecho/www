@@ -74,7 +74,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   var currentUser;
 
   return {
-    facebookLogin: function (facebookAuthData, success, error) {
+    facebookAuth: function (facebookAuthData, success, error) {
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
         Cookies.set(constants.accessTokenCookie, response.access_token);

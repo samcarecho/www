@@ -126,11 +126,11 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   });
 
   function sendFacebookCredentials(authResponse) {
-    Auth.facebookLogin(authResponse,
+    Auth.facebookAuth(authResponse,
       function (user) {
         $rootScope.$emit('userLoggedIn', user);
-      }, function (error) {
-        toastr.error(error);
+      }, function () {
+        toastr.error('Houve um error no servidor tentando logar com sua conta no Facebook.');
       });
   }
 
@@ -141,9 +141,10 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
           if (loginResponse.status === 'connected') {
             sendFacebookCredentials(loginResponse.authResponse);
           } else if (response.status === 'not_authorized') {
-            // Here now use needs to authorize the app to be used with Facebook
+            // Here now user needs to authorize the app to be used with Facebook
           }
-        });
+        }, {scope: 'email'});
+        // });
       } else {
         if (response.authResponse) {
           sendFacebookCredentials(response.authResponse);
@@ -155,7 +156,8 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
+app.controller('VolunteerSignupController',
+    ['$scope', '$rootScope', 'Auth', 'Facebook', function($scope, $rootScope, Auth, Facebook) {
 
   $scope.$watch('slug', function (value) {
     if (value) {
@@ -226,8 +228,40 @@ app.controller('VolunteerSignupController', ['$scope', '$rootScope', 'Auth', fun
     }
   };
 
-  $scope.facebookSignup = function (provider) {
-    toastr.info('Trying signup through ' + provider);
+  $scope.$watch(function() {
+    return Facebook.isReady();
+  }, function() {
+    $scope.facebookReady = true;
+  });
+
+  function sendFacebookCredentials(authResponse) {
+    Auth.facebookAuth(authResponse,
+      function (user) {
+        $rootScope.$emit('userLoggedIn', user);
+      }, function () {
+        toastr.error('Não consigos criar sua conta com Facebook. Há um erro no servidor.');
+      });
+  }
+
+  $scope.facebookSignup = function () {
+    Facebook.getLoginStatus(function (response) {
+      if (response.status !== 'connected') {
+        Facebook.login(function(loginResponse) {
+          if (loginResponse.status === 'connected') {
+            sendFacebookCredentials(loginResponse.authResponse);
+          } else if (response.status === 'not_authorized') {
+            toastr.error('Autorize app');
+            // Here now user needs to authorize the app to be used with Facebook
+          }
+        }, {scope: 'email'});
+      } else {
+        if (response.authResponse) {
+          sendFacebookCredentials(response.authResponse);
+        } else {
+          toastr.error('Could not get facebook credentials');
+        }
+      }
+    });
   };
 }]);
 
@@ -338,13 +372,13 @@ app.controller('NonprofitSignupController',
 }]);
 
 app.controller('VolunteerController',
-    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular',
-    function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
+    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular', 'volunteer',
+    function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular, volunteer) {
 
   $scope.site.title = 'Voluntário - ' + $stateParams.slug;
 
   Restangular.all('causes').getList().then( function(causes) {
-    $scope.causes = causes;
+    $scope.cause = causes;
   }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
@@ -362,6 +396,7 @@ app.controller('VolunteerController',
     toastr.error('Voluntário não encontrado');
   });
 
+  // $scope.volunteer = volunteer; from resolve TODO
   $scope.saveVolunteer = function () {
     $scope.volunteer.causes = $filter('filter')($scope.causes, {checked: true});
     var index = 0;
@@ -403,7 +438,7 @@ app.controller('VolunteerController',
   });
 
   $scope.$watch('skills + volunteer.skills', function () {
-    if ($scope.skills && $scope.volunteer) {
+    if ($scope.skills && $scope.volunteer && $scope.volunteer.skills) {
       $scope.volunteer.skills.forEach(function (volunteerSkill) {
         for (var index = 0; index < $scope.skills.length; ++index) {
           var skill = $scope.skills[index];
