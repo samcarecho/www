@@ -8,7 +8,7 @@
   </div>
   <hr>
   <form novalidate name="signupForm" ng-submit="signup()">
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.slug.$error.required || signupForm.slug.$invalid]">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.slug.$error.required || signupForm.slug.$invalid || signupForm.slug.$error.minlength]">
       <input class="form-control" type='text' name="slug" ng-model='slug' ng-minlength="3" placeholder="Nome de usuário" required/>
       <label class="help-block" ng-show="signupForm.slug.$error.minlength">Nome de usuário muito curto</label>
       <label class="help-block" ng-show="signupForm.slug.hasSpace">Usúario não pode ter espaço</label>

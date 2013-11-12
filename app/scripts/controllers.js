@@ -17,13 +17,12 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   function($scope, $rootScope, $modal, $state, Site, Auth) {
 
   $scope.site = Site;
+  $scope.modalInstance = null;
 
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;
   }, function () {
   });
-
-  var modalInstance = null;
 
   $rootScope.$on('userLoggedIn', function(event, user) {
     if (user) {
@@ -32,30 +31,33 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
         $state.transitionTo('root.nonprofitadmin');
       } else if ($scope.loggedUser.role === VOLUNTEER) {}
       else {
-        toastr.error('Unknown user that just logged in');
+        toastr.error('Usuário desconhecido acabou de logar.');
+        // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
       }
-      modalInstance.close();
+      if ($scope.modalInstance.close()) {
+        $scope.modalInstance.close();
+      }
     }
   });
 
   $scope.openVolunteerLoginModal = function() {
-    modalInstance = $modal.open({
+    $scope.modalInstance = $modal.open({
       templateUrl: '/views/volunteerLogin.html'
     });
   };
   $scope.openVolunteerSignupModal = function() {
-    modalInstance = $modal.open({
+    $scope.modalInstance = $modal.open({
       templateUrl: '/views/volunteerSignup.html'
     });
   };
   $scope.openNonprofitLoginModal = function () {
-    modalInstance = $modal.open({
+    $scope.modalInstance = $modal.open({
       templateUrl: '/views/nonprofitLogin.html'
     });
   };
 
   $rootScope.closeNonprofitLoginModal = function () {
-    modalInstance.close();
+    $scope.modalInstance.close();
   };
 
   $scope.logout = function () {
@@ -70,18 +72,19 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
 
   $scope.showForgotPassword = false;
   $scope.remember = true;
+  $scope.wrongCredentials = false;
 
-  $scope.$watch('email', function (value) {
+  $scope.$watch('forgotEmail', function (value) {
     if (value) {
       Auth.isEmailUsed(value, function () {
-        $scope.resetPasswordForm.email.alreadyUsed = false;
-        $scope.resetPasswordForm.email.$invalid = true;
+        $scope.resetPasswordForm.forgotEmail.alreadyUsed = false;
+        $scope.resetPasswordForm.forgotEmail.$invalid = true;
       }, function () {
-        $scope.resetPasswordForm.email.alreadyUsed = true;
-        $scope.resetPasswordForm.email.$invalid = false;
+        $scope.resetPasswordForm.forgotEmail.alreadyUsed = true;
+        $scope.resetPasswordForm.forgotEmail.$invalid = false;
       });
     } else {
-      $scope.resetPasswordForm.email.$invalid = true;
+      $scope.resetPasswordForm.forgotEmail.$invalid = true;
     }
   });
 
@@ -103,7 +106,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
           toastr.error(error);
         });
     }, function () {
-      $scope.error = 'Usuário ou senha estão errados :(';
+      $scope.wrongCredentials = true;
     });
   };
 
@@ -112,7 +115,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 
   $scope.resetPassword = function () {
-    Auth.resetPassword($scope.email,  function () {
+    Auth.resetPassword($scope.forgotEmail,  function () {
       toastr.info('Agora veja seu email para receber sua nova senha. Depois você pode mudar para uma senha da sua preferência.');
     }, function () {
       toastr.error('Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br');

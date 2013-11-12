@@ -9,17 +9,10 @@
   <hr>
   <form novalidate name="loginForm" ng-submit="login()">
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.email.$error.required || loginForm.email.$invalid]">
-      <input
-      required
-      class="form-control"
-      type='text'
-      name='email'
-      ng-model='email'
-      ng-minlength="3"
-      placeholder="Email">
-      <label class="help-block" ng-show="loginForm.email.$error.minlength">Nome de usuário muito curto</label>
+      <input required class="form-control" type='email' name="email" ng-model='email' placeholder="Email">
+      <label class="help-block" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">Email inválido.</label>
     </div>
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid]">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid || wrongCredentials]">
       <input required
         class="form-control"
         type="password"
@@ -28,12 +21,10 @@
         ng-minlength="6"
         placeholder="Senha">
       <label class="help-block" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
+      <label class="help-block" ng-show="wrongCredentials">Usuário ou senha estão errados :(</label>
     </div>
-    <div class="label label-important">{{ error }}</div>
     <div class="checkbox col-md-6">
-      <label>
-        <input type="checkbox" ng-model="remember"> Lembre de mim
-      </label>
+      <label><input type="checkbox" ng-model="remember"> Lembre de mim</label>
     </div>
     <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
     <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success btn-block">Entrar</button>
@@ -41,11 +32,11 @@
 
   <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
     <label class="help-block">Digite seu email para receber uma nova senha.</label>
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
-      <input required type="email" name="email" class="form-control" ng-model='email' placeholder="Email"/>
-      <label class="help-block" ng-show="!resetPasswordForm.email.alreadyUsed">Email não existe.</label>
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.forgotEmail.$error.required || resetPasswordForm.forgotEmail.$invalid]">
+      <input required type="forgotEmail" name="forgotEmail" class="form-control" ng-model='forgotEmail' placeholder="Email"/>
+      <label class="help-block" ng-show="resetPasswordForm.forgotEmail.$dirty && !resetPasswordForm.forgotEmail.alreadyUsed">Email não existe.</label>
     </div>
-    <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
+    <button class="btn" ng-disabled="resetPasswordForm.forgotEmail.$invalid" ng-click="resetPassword()">Mandar senha</button>
   </form>
 </div>
 

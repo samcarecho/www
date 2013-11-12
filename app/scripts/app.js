@@ -28,18 +28,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       templateUrl: '/views/404.html'
     })
     .state('root.volunteer', {
-      url: '/voluntario/:username',
+      url: '/voluntario/:slug',
       templateUrl: '/views/volunteerProfile.html',
       controller: 'VolunteerController',
       resolve: { // TODO(mpomarole): Fix this resolve
         volunteer: function (Restangular, $stateParams) {
           Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
-            //$scope.volunteer = response;
-            //$scope.volunteer.id = $scope.volunteer.slug;
-            //$scope.image = $scope.volunteer.image_url;
-          }, function () {
-            //$state.transisitonTo('root.home');
-            //toastr.error('Voluntário não encontrado');
+            console.log('response ' + response);
+          }, function (error) {
+            console.log('error ' + error);
           });
         }
       }
