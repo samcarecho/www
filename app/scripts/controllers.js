@@ -67,6 +67,10 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   };
 }]);
 
+app.controller('HomeController', ['$scope', function($scope) {
+  $scope.site.title = 'Atados - Juntando Gente Boa';
+}]);
+
 app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
   function($scope, $rootScope, Auth, Facebook) {
 

@@ -21,7 +21,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       controller: 'AppController'
     })
     .state('root.home', {
-      url: '/'
+      url: '/',
+      templateUrl: '/views/home.html',
+      controller: 'HomeController'
     })
     .state('root.404', {
       url: '/404',
