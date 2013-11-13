@@ -10,31 +10,36 @@
   </div>
 
   <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <form class="navbar-form navbar-left" role="search">
-      <input
-        id="siteSearch"
-        class="form-control input-sm"
-        ng-model="input"
-        type="text"
-        placeholder="Procure por causas que fazem o bem!">
-      <button type="primary" ng-click="search()" class="navbar-btn">Procurar</button>
+    <form class="navbar-form pull-left" role="search">
+      <div class="form-group">
+        <input id="siteSearch" class="form-control" ng-model="input" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+      </div>
     </form>
 
-    <div class="navbar-right">
-      <form class="navbar-form">
-        <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='VOLUNTEER'">
-          <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-info">{{ loggedUser.role }}</span> {{ loggedUser.slug }}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a ng-href="/voluntario/{{loggedUser.slug}}">Meu perfil</a></li>
-            <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
-          </ul>
-          </li>
-        </ul>
-      </form>
-      <ul class="nav navbar-nav" ng-show="loggedUser && loggedUser.role=='NONPROFIT'">
+    <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
+      <li><a href="#">Sobre</a></li>
+      <li><a href="#">Como functiona</a></li>
+      <li><a href="#">Blog</a></li>
+      <li>
+        <button class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button>
+        <button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button>
+      </li>
+    </ul>
+
+    <form class="navbar-form pull-right" ng-show="loggedUser">
+      <ul class="nav navbar-nav" ng-show="loggedUser.role=='VOLUNTEER'">
         <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="label label-error">{{ loggedUser.role }}</span> {{ loggedUser.name }}<span class="caret"></span></a>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.slug }}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="/voluntario/{{loggedUser.slug}}">Meu perfil</a></li>
+          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
+        </ul>
+        </li>
+      </ul>
+
+      <ul ng-show="loggedUser.role=='NONPROFIT'">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.name }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
           <li><a ng-href="/admin">Panel de controle</a></li>
@@ -42,28 +47,8 @@
         </ul>
         </li>
       </ul>
-      <form class="navbar-form" ng-show="!loggedUser">
-        <div class="btn-group">
-          <button type="primary" class="dropdown-toggle navbar-btn" data-toggle="dropdown">Sou voluntário <span class="caret"></span></button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a ng-click="openVolunteerLoginModal()"><i class="fa fa-power-off"></i> Entrar</a></li>
-            <li class="divider"></li>
-            <li><a ng-click="openVolunteerSignupModal()">Criar nova conta</a></li>
-          </ul>
-        </div>
-        <div class="btn-group">
-          <button type="success" class="dropdown-toggle navbar-btn" data-toggle="dropdown">Sou uma ONG <span class="caret"></span></button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a ng-click="openNonprofitLoginModal()"><i class="fa fa-power-off"></i> Entrar</a></li>
-            <li class="divider"></li>
-            <li><a ui-sref="root.nonprofitsignup">Registrar ONG</a></li>
-          </ul>
-        </div>
-      </form>
-    </div>
-  </div><!-- /.navbar-collapse -->
+    </form>
+  </div>
 </div>
 
-<div >
-  <div ui-view class="main"></div>
-</div>
+<div ui-view class="main"></div>

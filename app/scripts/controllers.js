@@ -37,22 +37,18 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
       if ($scope.modalInstance.close()) {
         $scope.modalInstance.close();
       }
+      toastr.info('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
     }
   });
 
-  $scope.openVolunteerLoginModal = function() {
+  $scope.openVolunteerModal = function() {
     $scope.modalInstance = $modal.open({
-      templateUrl: '/views/volunteerLogin.html'
+      templateUrl: '/views/volunteerModal.html'
     });
   };
-  $scope.openVolunteerSignupModal = function() {
+  $scope.openNonprofitModal = function () {
     $scope.modalInstance = $modal.open({
-      templateUrl: '/views/volunteerSignup.html'
-    });
-  };
-  $scope.openNonprofitLoginModal = function () {
-    $scope.modalInstance = $modal.open({
-      templateUrl: '/views/nonprofitLogin.html'
+      templateUrl: '/views/nonprofitModal.html'
     });
   };
 
@@ -61,7 +57,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   };
 
   $scope.logout = function () {
-    toastr.info('Tchau!', $scope.loggedUser.slug);
+    toastr.info('Tchau até a próxima :)', $scope.loggedUser.slug);
     Auth.logout();
     $scope.loggedUser = null;
   };
@@ -126,6 +122,21 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     });
   };
 
+
+
+}]);
+
+app.controller('VolunteerModalController', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth, $rootScope) {
+  $scope.loginActive = true;
+
+  $scope.$watch('loginActive', function (value) {
+    if (value) {
+      $scope.facebookState = 'Entrar ';
+    } else {
+      $scope.facebookState = 'Criar conta ';
+    }
+  });
+
   $scope.$watch(function() {
     return Facebook.isReady();
   }, function() {
@@ -141,7 +152,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
       });
   }
 
-  $scope.facebookLogin = function () {
+  $scope.facebookAuth = function () {
     Facebook.getLoginStatus(function (response) {
       if (response.status !== 'connected') {
         Facebook.login(function(loginResponse) {
@@ -164,7 +175,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
 }]);
 
 app.controller('VolunteerSignupController',
-    ['$scope', '$rootScope', 'Auth', 'Facebook', function($scope, $rootScope, Auth, Facebook) {
+    ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
 
   $scope.$watch('slug', function (value) {
     if (value) {
@@ -233,42 +244,6 @@ app.controller('VolunteerSignupController',
           toastr.error(error.detail);
         });
     }
-  };
-
-  $scope.$watch(function() {
-    return Facebook.isReady();
-  }, function() {
-    $scope.facebookReady = true;
-  });
-
-  function sendFacebookCredentials(authResponse) {
-    Auth.facebookAuth(authResponse,
-      function (user) {
-        $rootScope.$emit('userLoggedIn', user);
-      }, function () {
-        toastr.error('Não consigos criar sua conta com Facebook. Há um erro no servidor.');
-      });
-  }
-
-  $scope.facebookSignup = function () {
-    Facebook.getLoginStatus(function (response) {
-      if (response.status !== 'connected') {
-        Facebook.login(function(loginResponse) {
-          if (loginResponse.status === 'connected') {
-            sendFacebookCredentials(loginResponse.authResponse);
-          } else if (response.status === 'not_authorized') {
-            toastr.error('Autorize app');
-            // Here now user needs to authorize the app to be used with Facebook
-          }
-        }, {scope: 'email'});
-      } else {
-        if (response.authResponse) {
-          sendFacebookCredentials(response.authResponse);
-        } else {
-          toastr.error('Could not get facebook credentials');
-        }
-      }
-    });
   };
 }]);
 
@@ -379,8 +354,8 @@ app.controller('NonprofitSignupController',
 }]);
 
 app.controller('VolunteerController',
-    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular', 'volunteer',
-    function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular, volunteer) {
+    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular',
+    function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
 
   $scope.site.title = 'Voluntário - ' + $stateParams.slug;
 
@@ -768,4 +743,13 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
         break;
     }
   };
+}]);
+
+app.controller('LandingCtrl', ['$scope', function ($scope) {
+  $scope.interval = 3000;
+  var slides = $scope.slides = [];
+  slides.push({
+    image: '',// 'http://atadosapp.s3.amazonaws.com/static/landing_cover.png',
+    text: ''
+  });
 }]);

@@ -16,14 +16,13 @@ $atadosSprite: "../images/atados-sprite.png";
 // _variables.scss
 
 $white:#fbfbfb;
-$blue:#69d1e8;
+$blue:#199dd5;
 $blue-facebook:#3b5998;
 $gray-darker:#222;
 $gray-dark:#333;
-//$gray:#f3f3f3;
 $gray-light:#999;
 $gray-lighter:#eee;
-$blue-dark:#25b3ef;
+$blue-dark:#0081b2;
 $blue-light:#bcecf8;
 $orange:#f28730;
 
@@ -31,25 +30,77 @@ $brand-primary:$orange;
 $brand-success:#5cb85c;
 $brand-warning:#f0ad4e;
 $brand-danger:#d9534f;
-$brand-info:#5bc0de;
+$brand-info:$blue-dark;
 
 $text-color:$gray-dark;
 $headings-small-color: $blue;
 $headings-color: $orange;
 $link-color:$orange;
-$border-radius-base:0px;
-$border-radius-large:0px;
-$border-radius-small:0px;
 $well-bg: $white;
 $navbar-inverse-bg:$blue;
 $navbar-inverse-border:$blue;
 $navbar-inverse-text:$blue-light;
 $navbar-inverse-link-color:$blue-light;
 $navbar-inverse-search-placeholder-color:darken($navbar-inverse-bg, 8%);
-$navbar-inverse-brand-color:$white;
+$navbar-inverse-brand-color:white;
 $btn-primary-bg:$brand-primary;
 $btn-primary-border:darken($btn-primary-bg, 5%);
-$jumbotron-bg:$white;
+
+$navbar-border-radius:0px;
+$navbar-margin-bottom:0px;
+
+$jumbotron-padding:60px;
+$jumbotron-color:white;
+$jumbotron-heading-color:white;
+$jumbotron-bg:$blue;
+
+.jumbotron{
+  width: 100%;
+  height: 420px;
+  font-weight: 400;
+  background-size: 100% 100%;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+  p { 
+    font-size: 30px;
+    margin-top: 15px;
+  }
+
+  button {
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+    margin-right: 10px;
+  }
+}
+
+/* Retina display */
+@media screen and (min-width: 1024px){
+  .jumbotron {
+    background-image: url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
+  }
+}
+/* Desktop */
+@media screen and (min-width: 980px) and (max-width: 1024px){
+  .jumbotron{
+    background-image: url('../img/retina.jpg');
+  }
+}
+/* Tablet */
+@media screen and (min-width: 760px) and (max-width: 980px){
+  .jumbotron{
+    background-image: url('../img/tablet.jpg');
+  }
+}
+/* Mobile HD */
+@media screen and (min-width: 350px) and (max-width: 760px){
+  .jumbotron{
+    background-image: url('../img/mobile-hd.jpg');
+  }
+}
+/* Mobile LD */
+@media screen and (max-width: 350px){
+  .jumbotron{
+    background-image: url('../img/mobile-ld.jpg');
+  }
+} 
 
 // _type.scss
 h1, h2, h3, h4, h5, h6,
@@ -66,22 +117,11 @@ h1, h2, h3, h4, h5, h6,
 }
 
 // _navbar.scss
-.navbar-inverse {
-  border-color: $navbar-inverse-bg;
-
-  .navbar-brand,
-  .nav > li > a {
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.15);
-  }
-}
 
 .navbar-brand {
   background:url($atadosSprite) no-repeat;
   width:136px;
   height:45px;
-  padding:0;
-  margin:5px 15px 0px 15px;
   text-indent:-999em;
 }
 
@@ -113,7 +153,6 @@ a:focus {
 }
 
 .main {
-  margin: 30px;
 }
 
 .center {
