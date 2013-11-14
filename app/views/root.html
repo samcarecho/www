@@ -12,14 +12,14 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <form class="navbar-form pull-left" role="search">
       <div class="form-group">
-        <input id="siteSearch" class="form-control" ng-model="input" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+        <input id="siteSearch" class="form-control input-sm" ng-model="input" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
       </div>
     </form>
 
     <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
-      <li><a href="#">Sobre</a></li>
-      <li><a href="#">Como funciona?</a></li>
-      <li><a href="#">Blog</a></li>
+      <li><a ui-sref="root.about">Sobre</a></li>
+      <li><a ui-sref="root.how">Como funciona?</a></li>
+      <li><a href="http://www.atados.com.br/blog/">Blog</a></li>
       <li>
         <button class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button>
         <button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">Organização Social</button>
@@ -52,3 +52,5 @@
 </div>
 
 <div ui-view class="main"></div>
+
+<div class="footer"></div>

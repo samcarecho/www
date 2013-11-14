@@ -37,7 +37,8 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
       if ($scope.modalInstance.close()) {
         $scope.modalInstance.close();
       }
-      toastr.info('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
+      toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
+      $state.transitionTo('root.explore');
     }
   });
 
@@ -57,7 +58,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   };
 
   $scope.logout = function () {
-    toastr.info('Tchau até a próxima :)', $scope.loggedUser.slug);
+    toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
     Auth.logout();
     $scope.loggedUser = null;
   };
@@ -100,7 +101,6 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
     }, function () {
       Auth.getCurrentUser(
         function (user) {
-          toastr.success('Oi!', user.slug);
           $rootScope.$emit('userLoggedIn', user);
         }, function (error) {
           toastr.error(error);
@@ -535,22 +535,6 @@ app.controller('NonprofitAdminController', ['$scope', '$state', function($scope,
   
 }]);
 
-// TODO(mpomarole) : Implement project box for landing page and through the site to lead volunteer to 
-// find new projects to join
-app.controller('ProjectBoxController', ['$scope', function($scope) {
-  $scope.project = {
-    name: 'Movimento Boa Praça',
-    shortDescription: 'This is a short description...',
-    city: 'São Paulo',
-    state: 'State',
-  };
-}]);
-
-// TODO
-app.controller('ProjectController', ['$scope', function($scope) {
-  $scope.project = {};
-}]);
-
 app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', 'Restangular',
     function($scope, $filter, $state, Auth, Restangular) {
 
@@ -745,11 +729,40 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
   };
 }]);
 
-app.controller('LandingCtrl', ['$scope', function ($scope) {
-  $scope.interval = 3000;
-  var slides = $scope.slides = [];
-  slides.push({
-    image: '',// 'http://atadosapp.s3.amazonaws.com/static/landing_cover.png',
-    text: ''
+app.controller('LandingCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  window.scope = $scope;
+  window.Restangular = Restangular;
+}]);
+
+app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  Restangular.all('skills').getList().then( function(response) {
+    $scope.skills = response;
+  }, function () {
+    toastr.error('Não consegui pegar as habilidades do servidor.');
+  });
+  Restangular.all('causes').getList().then( function(response) {
+    $scope.causes = response;
+  }, function () {
+    toastr.error('Não consegui pegar as causas do servidor.');
+  });
+  Restangular.all('cities').getList().then( function(response) {
+    $scope.cities = response;
+  }, function () {
+    toastr.error('Não consegui pegar as cidades do servidor.');
+  });
+  Restangular.all('projects').getList().then( function(response) {
+    $scope.projects = response;
+    $scope.projects.forEach(function (p) {
+      if (p.job) {
+        p.address = p.job.address;
+      } else if (p.work) {
+        p.address = p.work.address;
+      } else if (p.donation) {
+        p.address = p.donation.address;
+      }
+    });
+    window.p = $scope.projects;
+  }, function () {
+    toastr.error('Não consegui pegar os atos do servidor.');
   });
 }]);

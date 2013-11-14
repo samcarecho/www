@@ -2,16 +2,42 @@
   <div class="jumbotron">
     <div class="col-md-10 col-md-offset-1">
       <h1 class="text-center">Uma rede do bem, para fazer o bem!</h1>
-      <p class="text-center"><b>Cadastre-se</b> e encontre aqui no <b>Atados</b> o trabalho voluntário que procura.</h4>
+      <p class="text-center"><b>Cadastre-se</b> e encontre aqui no <b>Atados</b> o trabalho voluntário que procura.</p>
     </div>
     <div class="buttons center">
-      <button type="button" class="btn btn-primary btn-lg" role="button">Quero ser voluntário</button>
+      <button type="button" class="btn btn-primary btn-lg" role="button" ng-click="openVolunteerModal()">Quero ser voluntário</button>
       <button type="button" class="btn btn-info btn-lg" role="button">Sou uma Organização Social</button>
     </div>
   </div>
-  <div class="atadosExplorer">
-    <form class="form-inline">
-    </form>
-    <projectbox></projectbox>
+  <div class="atados-explorer col-md-10 col-md-offset-1" ng-controller="ExplorerCtrl">
+    <div class="filters">
+      <form class="form-inline" role="form">
+        <div class="form-group col-md-4">
+          <label class="" for="skillsInput">Habilidade</label>
+          <select class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
+            <option value="" disabled selected>Habilidade</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="" for="causesInput">Causa</label>
+          <select class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
+            <option value="" disabled selected>Causa</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="" for="citiesInput">Cidade</label>
+          <select class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
+            <option value="" disabled selected>Cidade</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="projects">
+      <projectcard ng-repeat="project in projects"></projectcard>
+    </div>
+    <div class="center">
+      <button class="btn btn-lg btn-block btn-info">Mais atos! Mais ONGs!</Button>
+    </div>
   </div>
 </div>
+

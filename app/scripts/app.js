@@ -25,9 +25,19 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       templateUrl: '/views/home.html',
       controller: 'HomeController'
     })
+    .state('root.about', {
+      url: '/sobre',
+      templateUrl: '/views/about.html',
+      controller: 'AboutCtrl'
+    })
     .state('root.404', {
       url: '/404',
       templateUrl: '/views/404.html'
+    })
+    .state('root.explore', {
+      url: '/explore',
+      templateUrl: 'views/explore.html',
+      controller: 'ExploreCtrl'
     })
     .state('root.volunteer', {
       url: '/voluntario/:slug',

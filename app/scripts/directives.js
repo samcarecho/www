@@ -12,7 +12,6 @@ app.directive('removerole', function() {
 app.directive('button', function() {
   return {
     restrict: 'E',
-    scope: false,
     compile: function(element, attrs) {
       element.addClass('btn');
       if ( attrs.type === 'submit') {
@@ -36,12 +35,10 @@ app.directive('button-facebook', function() {
 });
 
 
-app.directive('projectbox', function() {
+app.directive('projectcard', function() {
   return {
     restrict: 'E',
-    scope: {},
-    controller: 'ProjectBoxController',
-    templateUrl: '/views/projectBox.html'
+    templateUrl: '/views/projectCard.html'
   };
 });
 

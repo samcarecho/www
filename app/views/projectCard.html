@@ -1,0 +1,20 @@
+<div class="project-card-outer">
+  <div class="project-card">
+    <div class="project-img">
+      <img alt="" ng-src="{{ project.image_url }}">
+    </div>
+    <div class="project-footer clearfix">
+      <a class="project-name" href=""><h4>{{ project.name }}</h4></a>
+      <a class="nonprofit-img">
+        <img ng-src="{{project.nonprofit.image_url}}">
+      </a>
+      <a class="project-quick-info" href="">
+        <span>
+          <b>{{project.nonprofit.name}}</b>
+          <br>
+          <i class="fa fa-map-marker"></i> {{ project.address.city.name }}, {{ project.address.state.code }}
+        </span>
+      </a>
+    </div>
+  </div>
+</div>

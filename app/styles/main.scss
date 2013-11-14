@@ -2,7 +2,10 @@
 
 @import "font-awesome/scss/font-awesome";
 
-$atadosSprite: "../images/atados-sprite.png";
+$atados-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/atados-sprite.png");
+$flags:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/flags.png");
+$icons:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/icons.png");
+$landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
 
 // Atados Bootstrap Theme
 // -------------------------
@@ -39,8 +42,8 @@ $link-color:$orange;
 $well-bg: $white;
 $navbar-inverse-bg:$blue;
 $navbar-inverse-border:$blue;
-$navbar-inverse-text:$blue-light;
-$navbar-inverse-link-color:$blue-light;
+$navbar-inverse-text:$white;
+$navbar-inverse-link-color:$white;
 $navbar-inverse-search-placeholder-color:darken($navbar-inverse-bg, 8%);
 $navbar-inverse-brand-color:white;
 $btn-primary-bg:$brand-primary;
@@ -49,12 +52,9 @@ $btn-primary-border:darken($btn-primary-bg, 5%);
 $navbar-border-radius:0px;
 $navbar-margin-bottom:0px;
 
-$jumbotron-padding:60px;
 $jumbotron-color:white;
 $jumbotron-heading-color:white;
-$jumbotron-bg:rgba(0,0,0,0.3);
-
-$landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
+$jumbotron-bg:rgba(0,0,0,0.2);
 
 .home {
   background-size: 1600px 430px;
@@ -63,8 +63,11 @@ $landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_
   .jumbotron {
     height: 430px;
     text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+    h1 {
+      font-size: 53px;
+    }
     p { 
-      font-size: 30px;
+      font-size: 25px;
       margin-top: 15px;
     }
     .btn {
@@ -94,25 +97,26 @@ $landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_
 @media screen and (min-width: 760px) and (max-width: 980px){
   .home {
     background-image: $landing-cover;
-  }
+}
 }
 /* Mobile HD */
 @media screen and (min-width: 350px) and (max-width: 760px){
   .home {
     background-image: $landing-cover;
-  }
+}
 }
 /* Mobile LD */
 @media screen and (max-width: 350px){
   .home {
     background-image: $landing-cover;
-  }
+}
 } 
 
 // _type.scss
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   color: $headings-color;
+  text-rendering: optimizelegibility
 }
 
 // _navs.scss
@@ -126,7 +130,7 @@ h1, h2, h3, h4, h5, h6,
 // _navbar.scss
 
 .navbar-brand {
-  background:url($atadosSprite) no-repeat;
+  background:$atados-sprite no-repeat;
   width:136px;
   height:45px;
   margin: 5px 15px 5px 40px;
@@ -171,8 +175,112 @@ a:focus {
   margin-top: auto;
 }
 
+.atados-explorer {
+  .projects {
+    &:before {
+      display: table;
+      content: "";
+    }
+    padding: 10px 0 20px 20px;
+  }
+  .filters {
+    margin: 0 20px 20px 0;
+    label {
+      color:$blue-dark;
+    }
+  }
+}
+
+.project-card-outer {
+  width: 33%;
+  float: left;
+
+  .project-card {
+    position: relative;
+    margin: 0 20px 20px 0;
+    background: #fff;
+
+    .project-img {
+      // padding-bottom:67%;
+      border-radius:3px 3px 0 0;
+      img {
+        max-width: 100%;
+        width: 100%;
+        border-radius:3px 3px 0 0;
+      }
+    }
+
+    .project-footer {
+      position: relative;
+      border: 1px solid #d3d3d3;
+      border-top: none;
+      cursor: pointer;
+
+      .project-name {
+        position: absolute;
+        top: -39px;
+        left: 0;
+        width: 100%;
+        background: -webkit-gradient(linear, center top, center bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.7)));
+        text-decoration: none;
+
+        h4 {
+          margin: 4px 0;
+          padding: 7px;
+          position: relative;
+          z-index: 1;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.8);
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 85%;
+          color: #fff;
+          font-size: 16px;
+        }
+      }
+
+      .nonprofit-img {
+        position: relative;
+        z-index: 0;
+        display: inline-block;
+        border-radius: 4px;
+        float: left;
+        width: 35px;
+        height: 35px;
+        margin: 8px 10px 8px 8px;
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          border-radius: 4px;
+          box-shadow: inset 0 0 3px rgba(0,0,0,0.7),0 0 0 #000;
+        }
+        img {
+          width: 35px;
+          height: 35px;
+        }
+      }
+
+      .project-quick-info {
+        float: left;
+        display: block;
+        width: 70%;
+        padding-top: 8px;
+        text-decoration: none;
+        span {
+          color: #6f6f6f;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
 #siteSearch {
-  width: 400px;
+  margin-top: 3px;
+  width: 300px;
 }
 
 #volunteer-details {
@@ -181,27 +289,27 @@ a:focus {
     list-style:none;
     padding:0;
     margin:0;
+}
+
+.image {
+  position:relative;
+  margin-bottom:20px;
+
+  & > input {
+    display: none;
+  }
+  & > label {
+    position:absolute;
+    bottom:0;
+    z-index:100;
+    display:none;
   }
 
-  .image {
-    position:relative;
-    margin-bottom:20px;
-
-    & > input {
-        display: none;
-    }
-    & > label {
-      position:absolute;
-      bottom:0;
-      z-index:100;
-      display:none;
-    }
-
-    &:hover > label {
-      display:inline;
-    }
-
+  &:hover > label {
+    display:inline;
   }
+
+}
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
@@ -209,12 +317,12 @@ a:focus {
     .image {
       & > label {
         width:122px;
-      }
-      & > img {
-        width:146px;
-      }
+    }
+    & > img {
+      width:146px;
     }
   }
+}
 }
 
 @media (max-width: 767px) {
@@ -222,14 +330,14 @@ a:focus {
     .image {
       width:220px;
       margin:0 auto;
-    }
   }
+}
 }
 
 .roles {
   li {
     list-style:none;
-  }
+}
 }
 
 .select-button-list {
@@ -248,30 +356,30 @@ a:focus {
 
     input {
       display:none;
-    }
+  }
 
-    label {
-      float:left;
-      width:120px;
-      height:60px;
-      overflow:hidden;
-      padding:8px;
-      background:#fff;
-      color:#333;
+  label {
+    float:left;
+    width:120px;
+    height:60px;
+    overflow:hidden;
+    padding:8px;
+    background:#fff;
+    color:#333;
 
-      &:hover {
-        background:$blue-light;
-        color:#fff;
-      }
-    }
-
-    &.active {
-      label {
-        background:$blue;
-        color:#fff;
-      }
+    &:hover {
+      background:$blue-light;
+      color:#fff;
     }
   }
+
+  &.active {
+    label {
+      background:$blue;
+      color:#fff;
+    }
+  }
+}
 }
 
 #nonprofit-header {
@@ -292,62 +400,62 @@ a:focus {
     & > img {
       width:100%;
       height:100%;
-    }
   }
+}
 
-  & > .container {
-    position:relative;
-    height:260px;
+& > .container {
+  position:relative;
+  height:260px;
 
-    & > .row {
-      & > .span12 {
-        & > .image {
+  & > .row {
+    & > .span12 {
+      & > .image {
+        position:absolute;
+        bottom:0;
+        width:190px;
+
+        & > a {
           position:absolute;
           bottom:0;
-          width:190px;
-
-          & > a {
-            position:absolute;
-            bottom:0;
-            z-index:100;
-            display:none;
-            width:146px;
-            left:10px;
-            bottom:10px;
-          }
-
-          &:hover > a {
-            display:inline;
-          }
-
-          & > img {
-            background-color: rgba(255, 255, 255, 0.9);
-            border:5px solid rgba(255, 255, 255, 0.9);
-          }
-
-          & + h1 {
-            background-color: rgba(255, 255, 255, 0.9);
-            left:210px;
-          }
+          z-index:100;
+          display:none;
+          width:146px;
+          left:10px;
+          bottom:10px;
         }
 
-        & > h1 {
-          position:absolute;
-          bottom:0;
+        &:hover > a {
           display:inline;
-          padding:5px 20px;
-          background:#fff;
-          margin:0;
         }
 
-        & > .tools {
-          position:absolute;
-          right:0;
-          top:0;
+        & > img {
+          background-color: rgba(255, 255, 255, 0.9);
+          border:5px solid rgba(255, 255, 255, 0.9);
         }
+
+        & + h1 {
+          background-color: rgba(255, 255, 255, 0.9);
+          left:210px;
+        }
+      }
+
+      & > h1 {
+        position:absolute;
+        bottom:0;
+        display:inline;
+        padding:5px 20px;
+        background:#fff;
+        margin:0;
+      }
+
+      & > .tools {
+        position:absolute;
+        right:0;
+        top:0;
       }
     }
   }
+}
 }
 
 @media (max-width: 1200px) {
@@ -356,9 +464,9 @@ a:focus {
       & > img {
         width:1200px;
         max-width:1200px;
-      }
     }
   }
+}
 }
 
 @media (max-width: 767px) {
@@ -366,8 +474,8 @@ a:focus {
     & > .cover {
       left:-20px;
       right:-20px;
-    }
   }
+}
 }
 
 #nonprofit-details {
@@ -380,18 +488,18 @@ a:focus {
       left:0;
       top:0;
       height:285px;
-    }
+  }
 
-    .nonprofit-image {
-      position:absolute;
-      left:0;
-      bottom:0;
-    }
+  .nonprofit-image {
+    position:absolute;
+    left:0;
+    bottom:0;
   }
-  google-map {
-    height:150px;
-    display:block;
-  }
+}
+google-map {
+  height:150px;
+  display:block;
+}
 }
 
 .tag {
@@ -412,15 +520,15 @@ a:focus {
     content:"";
     width:12px;
     height:26px;
-    background:url('/images/atados-sprite.png') 0 -45px no-repeat;
-  }
+    background:$atados-sprite 0 -45px no-repeat;
+}
 }
 
 // Plugin CSS overrides
 // -------------------------
 
 .toast-info {
-  background-color: $orange;
+  background-color: $blue;
 }
 
 .toast-top-right {
