@@ -52,53 +52,60 @@ $navbar-margin-bottom:0px;
 $jumbotron-padding:60px;
 $jumbotron-color:white;
 $jumbotron-heading-color:white;
-$jumbotron-bg:$blue;
+$jumbotron-bg:rgba(0,0,0,0.3);
 
-.jumbotron{
-  width: 100%;
-  height: 420px;
-  font-weight: 400;
-  background-size: 100% 100%;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.35);
-  p { 
-    font-size: 30px;
-    margin-top: 15px;
-  }
+$landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
 
-  button {
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-    margin-right: 10px;
+.home {
+  background-size: 1600px 430px;
+  background-repeat: no-repeat;
+
+  .jumbotron {
+    height: 430px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+    p { 
+      font-size: 30px;
+      margin-top: 15px;
+    }
+    .btn {
+      &:first-child {
+        margin-right: 30px;
+      }
+      text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+      margin-top: 50px;
+    }
   }
 }
 
 /* Retina display */
 @media screen and (min-width: 1024px){
-  .jumbotron {
-    background-image: url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
+  .home {
+    background-image: $landing-cover;
   }
 }
+
 /* Desktop */
 @media screen and (min-width: 980px) and (max-width: 1024px){
-  .jumbotron{
-    background-image: url('../img/retina.jpg');
+  .home {
+    background-image: $landing-cover;
   }
 }
 /* Tablet */
 @media screen and (min-width: 760px) and (max-width: 980px){
-  .jumbotron{
-    background-image: url('../img/tablet.jpg');
+  .home {
+    background-image: $landing-cover;
   }
 }
 /* Mobile HD */
 @media screen and (min-width: 350px) and (max-width: 760px){
-  .jumbotron{
-    background-image: url('../img/mobile-hd.jpg');
+  .home {
+    background-image: $landing-cover;
   }
 }
 /* Mobile LD */
 @media screen and (max-width: 350px){
-  .jumbotron{
-    background-image: url('../img/mobile-ld.jpg');
+  .home {
+    background-image: $landing-cover;
   }
 } 
 
@@ -122,6 +129,7 @@ h1, h2, h3, h4, h5, h6,
   background:url($atadosSprite) no-repeat;
   width:136px;
   height:45px;
+  margin: 5px 15px 5px 40px;
   text-indent:-999em;
 }
 
