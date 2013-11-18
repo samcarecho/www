@@ -1,30 +1,34 @@
 <div class="home" ng-controller="LandingCtrl">
-  <div class="jumbotron">
-    <div class="col-md-10 col-md-offset-1">
-      <h1 class="text-center">Uma rede do bem, para fazer o bem!</h1>
-      <p class="text-center"><b>Cadastre-se</b> e encontre aqui no <b>Atados</b> o trabalho voluntário que procura.</p>
-    </div>
-    <div class="buttons center">
-      <button type="button" class="btn btn-primary btn-lg" role="button" ng-click="openVolunteerModal()">Quero ser voluntário</button>
-      <button type="button" class="btn btn-info btn-lg" role="button">Sou uma Organização Social</button>
-    </div>
+  <div class="background">
+    <div class="jumbotron">
+      <div class="col-sm-10 col-sm-offset-1">
+        <h1 class="text-center">Uma rede do bem, para fazer o bem!</h1>
+        <p class="text-center"><b>Cadastre-se</b> e encontre aqui no <b>Atados</b> o trabalho voluntário que procura.</p>
+      </div>
+      <div class="buttons center">
+        <button type="button" class="btn btn-primary btn-lg" role="button" ng-click="openVolunteerModal()">Quero ser voluntário</button>
+        <button type="button" class="btn btn-info btn-lg" role="button">Sou uma Organização Social</button>
+      </div>
+    </div> <!-- End of Jumbotron -->
   </div>
-  <div class="atados-explorer col-md-10 col-md-offset-1" ng-controller="ExplorerCtrl">
+  <div class="atados-explorer col-md-12" ng-controller="ExplorerCtrl">
+    <!--<button class="btn btn-info pull-left">Procure por atos voluntários</button>
+    <button class="btn btn-info pull-right">Lista de Organizaçãoes Sociais</button>-->
     <div class="filters">
       <form class="form-inline" role="form">
-        <div class="form-group col-md-4">
+        <div class="form-group col-sm-4">
           <label class="" for="skillsInput">Habilidade</label>
           <select class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
             <option value="" disabled selected>Habilidade</option>
           </select>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-sm-4">
           <label class="" for="causesInput">Causa</label>
           <select class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
             <option value="" disabled selected>Causa</option>
           </select>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-sm-4">
           <label class="" for="citiesInput">Cidade</label>
           <select class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
             <option value="" disabled selected>Cidade</option>
@@ -32,11 +36,63 @@
         </div>
       </form>
     </div>
-    <div class="projects">
+    <div class="projects col-sm-12">
       <projectcard ng-repeat="project in projects"></projectcard>
     </div>
     <div class="center">
-      <button class="btn btn-lg btn-block btn-info">Mais atos! Mais ONGs!</Button>
+      <button class="btn btn-lg btn-info center">Mais atos! Mais ONGs!</Button>
+    </div>
+  </div> <!-- End of Atados-explorer -->
+  <div id="landing-info">
+    
+    <div id="depoimentos" class="col-sm-12">
+      <div class="depoimento col-sm-6">
+        <div class="col-sm-2">
+          <img src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
+        </div>
+        <div class="col-sm-10">
+          <blockquote>
+          <p class="lead">“Lorem Atados dolor sit amet, consectetur adipiscing elit. Integer congue purus us, justo bus lucus."<p>
+          <strong class="text-muted">Zézinho Maria</strong>
+          <small>Voluntário da ONG <strong>Teto</strong></small>
+          </blockquote>
+        </div>
+      </div>
+      <div class="depoimento col-sm-6">
+        <div class="col-sm-2">
+          <img src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
+        </div>
+        <div class="col-sm-10">
+          <blockquote class="pull-right">
+          <p class="lead">“Lorem Atados dolor sit amet, consectetur adipiscing elit. Integer congue purus us, justo bus lucus."<p>
+          <strong class="text-muted">Zézinho Maria</strong>
+          <small>Voluntário da ONG <strong>Teto</strong></small>
+          </blockquote>
+        </div>
+      </div>
+
+    </div>
+    <div id="numbers">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div id="media" class="col-sm-6">
+      <h3>Andaram falando da gente por ai....</h3>
+      <div class="center">
+        <a class="col-sm-4" id="imagina" href="http://imaginanacopa.com.br/historias/historia-11-atados/"><img width="100" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/imagina.png" /></a>
+        <a class="col-sm-4" id="trip" href="http://revistatrip.uol.com.br/transformadores/blogs/triptransformadores/2013/06/19/criando-lacos.html"><img width="70" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/trip.png"></a>
+        <a class="col-sm-4" id="exame" href="http://exame.abril.com.br/tecnologia/noticias/rede-social-atados-estimula-voluntariado-em-sao-paulo"><img width="120" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/exame.png"></a>
+        <a class="col-sm-4" id="galileu" href="http://revistagalileu.globo.com/Revista/Common/0,,EMI334558-17770,00-CONHECA+O+ATADOS+A+UNICA+REDE+VERDADEIRAMENTE+SOCIAL+DO+BRASIL.html"><img width="150" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/galileu.png"></a>
+        <a class="col-sm-4" id="veja" href="http://veja.abril.com.br/blog/rodrigo-constantino/economia/de-maos-atadas-e-a-espera-de-um-milagre/"><img width="150" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/veja.png"></a>
+        <a class="col-sm-4" id="folha" href="http://www1.folha.uol.com.br/empreendedorsocial/minhahistoria/1246358-acreditamos-que-mudancas-muito-positivas-podem-ocorrer-por-meio-do-voluntariado.shtml"><img width="160" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/folha.png"></a>
+      </div>
+    </div>
+    <div id="parceiros" class="col-sm-6">
+      <h3>Esses caminham com a gente</h3>
+      <div class="center">
+        <a id="fundacao" href="http://www.fenomenos.org/"><img class="img-responsive" src="https://s3-sa-east-1.amazonaws.com/atadosapp/static/fundacao-fenomenos.png" /></a>
+      </div>
     </div>
   </div>
 </div>

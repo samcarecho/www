@@ -18,6 +18,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
   $scope.site = Site;
   $scope.modalInstance = null;
+  $scope.year = (new Date()).getFullYear();
 
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;

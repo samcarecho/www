@@ -17,10 +17,12 @@
     <link rel="stylesheet" href="/styles/main.css">
     <!-- endbuild -->
   </head>
+
   <body>
+    <div ui-view=""></div>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
 
-    <div id="fb-root"></div>
+    <!-- <div id="fb-root"></div>
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -28,7 +30,7 @@
       js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=307143646092581";
       fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
-    </script>
+    </script> -->
 
     <!--[if lt IE 7]>
       <div class="alert">
@@ -41,8 +43,6 @@
       <script src="bower_components/es5-shim/es5-shim.js"></script>
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
-
-    <div ui-view=""></div>
 
     <!-- LiveChat
     <script type="text/javascript">
@@ -110,6 +110,5 @@
     <script src="/scripts/ui-bootstrap-0.6.0.js"></script>
     <script src="/scripts/ui-bootstrap-tpls-0.6.0.js"></script>
     <!-- endbuild -->
-
   </body>
 </html>

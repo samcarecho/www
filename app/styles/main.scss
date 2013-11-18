@@ -3,6 +3,7 @@
 @import "font-awesome/scss/font-awesome";
 
 $atados-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/atados-sprite.png");
+$media-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/media.png");
 $flags:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/flags.png");
 $icons:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/icons.png");
 $landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
@@ -54,15 +55,20 @@ $navbar-margin-bottom:0px;
 
 $jumbotron-color:white;
 $jumbotron-heading-color:white;
-$jumbotron-bg:rgba(0,0,0,0.2);
+$jumbotron-bg:rgba(0,0,0,0.4);
+
+$footer-bg:#222222;
+$footer-height:350px;
+$footer-color-heading: $white;
+$footer-color:$white;
 
 .home {
-  background-size: 1600px 430px;
-  background-repeat: no-repeat;
-
+  height: 4000px;
   .jumbotron {
+    margin-bottom: 0;
     height: 430px;
     text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+
     h1 {
       font-size: 53px;
     }
@@ -82,32 +88,32 @@ $jumbotron-bg:rgba(0,0,0,0.2);
 
 /* Retina display */
 @media screen and (min-width: 1024px){
-  .home {
+  .background {
     background-image: $landing-cover;
   }
 }
 
 /* Desktop */
 @media screen and (min-width: 980px) and (max-width: 1024px){
-  .home {
+  .background {
     background-image: $landing-cover;
   }
 }
 /* Tablet */
 @media screen and (min-width: 760px) and (max-width: 980px){
-  .home {
+  .background {
     background-image: $landing-cover;
 }
 }
 /* Mobile HD */
 @media screen and (min-width: 350px) and (max-width: 760px){
-  .home {
+  .background {
     background-image: $landing-cover;
 }
 }
 /* Mobile LD */
 @media screen and (max-width: 350px){
-  .home {
+  .background {
     background-image: $landing-cover;
 }
 } 
@@ -159,6 +165,57 @@ a:focus {
 // Atados specific CSS
 // -------------------------
 
+html, body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or marngin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -$footer-height;
+  /* Pad bottom by footer height */
+  padding: 0 0 $footer-height;
+}
+.push {
+  height: $footer-height;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  padding: 50px 0 0 0;
+  height: $footer-height;
+  background-color: $footer-bg;
+  color: $footer-color;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $footer-color-heading;
+  }
+
+  text-shadow: 0 1px 0 rgba(0,0,0,0.8);
+
+  ul {
+    li {
+      margin-left: 0;
+      list-style:none;
+      a {
+        color: $white;
+      }
+    }
+  }
+
+  #open-source {
+    margin-bottom: 10px; 
+
+    i {
+      color: $blue;
+    }
+  }
+}
+
 .btn-facebook {
   background-color: $blue-facebook;
   color: $white;
@@ -176,18 +233,51 @@ a:focus {
 }
 
 .atados-explorer {
+  background-color: #efefef;
+  padding: 50px 0;
+  box-shadow: 0 2px 10px #888888;
+
+  .filters {
+    label {
+      color:$blue-dark;
+    }
+  }
+
   .projects {
     &:before {
       display: table;
       content: "";
     }
-    padding: 10px 0 20px 20px;
   }
-  .filters {
-    margin: 0 20px 20px 0;
-    label {
-      color:$blue-dark;
+}
+
+#landing-info {
+  background-color: white;
+
+  h3 {
+    color: $blue;
+    text-transform:uppercase;
+  }
+
+  #depoimentos {
+    margin-top: 5px;
+    padding: 50px 10px;
+  }
+
+  #parceiros {
+    margin-top: 5px;
+    padding: 50px 10px;
+  }
+
+  #media {
+    center {
+      padding: 10px;
     }
+    padding: 50px 10px;
+  }
+
+  #numbers {
+
   }
 }
 
@@ -206,6 +296,7 @@ a:focus {
       img {
         max-width: 100%;
         width: 100%;
+        height: 240px;
         border-radius:3px 3px 0 0;
       }
     }
