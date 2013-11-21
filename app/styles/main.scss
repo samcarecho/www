@@ -1,7 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Francois+One|Open+Sans:400,800|Noto+Sans:4000,700|Coming+Soon);
 
-@import "font-awesome/scss/font-awesome";
-
 // Where the logo is
 $atados-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/images/atados-sprite.png");
 
@@ -59,25 +57,58 @@ $footer-height:350px;
 $footer-color-heading: $white;
 $footer-color:$white;
 
+$screen-xs: 480px;  // phone
+$screen-sm: 748px;  // tablet
+$screen-md: 992px;  // desktop 
+$screen-lg: 1200px; // desktop lg
+
 .home {
   .jumbotron {
     margin-bottom: 0;
     height: 330px;
     text-shadow: 0 1px 1px rgba(0,0,0,0.35);
 
-    h1 {
-      font-size: 53px;
+    @media screen and (max-width: $screen-xs) {
+      h1 {
+        font-size: 35px;
+      }
+      p { 
+        font-size: 12px;
+        margin-top: 15px;
+      }
+      .btn {
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        margin-top: 20px;
+      }
     }
-    p { 
-      font-size: 25px;
-      margin-top: 15px;
+    @media screen and (max-width: $screen-sm) {
+      h1 {
+        font-size: 35px;
+      }
+      p { 
+        font-size: 14px;
+        margin-top: 15px;
+      }
+      .btn {
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+        margin-top: 10px;
+      }
     }
-    .btn {
+    @media screen and (max-width: $screen-md) {
+      h1 {
+        font-size: 43px;
+      }
+      p { 
+        font-size: 18px;
+        margin-top: 15px;
+      }
+       .btn {
       &:first-child {
         margin-right: 30px;
       }
       text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-      margin-top: 50px;
+      margin-top: 10px;
+    }
     }
   }
 }
@@ -376,12 +407,12 @@ html, body {
     .image {
       & > label {
         width:122px;
-    }
-    & > img {
-      width:146px;
+      }
+      & > img {
+        width:146px;
+      }
     }
   }
-}
 }
 
 @media (max-width: 767px) {
@@ -607,4 +638,4 @@ google-map {
   box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
 }
 
-@import "bootstrap-sass/lib/bootstrap";
+@import "bootstrap";

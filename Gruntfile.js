@@ -29,6 +29,17 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: yeomanConfig,
+    sass: {
+      dist: {
+        options: {
+          style: 'expanded',
+          sourcemap: true
+        },
+        files: {
+          '.tmp/styles/main.css': 'app/styles/main.scss',
+        }
+      }
+    },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -372,6 +383,8 @@ module.exports = function (grunt) {
       }
     }
   });
+
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
