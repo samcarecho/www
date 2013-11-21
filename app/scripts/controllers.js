@@ -757,6 +757,7 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   Restangular.all('projects').getList().then( function(response) {
     $scope.projects = response;
     $scope.projects.forEach(function (p) {
+      p.volunteers = Math.floor((Math.random()*10)+1);;
       if (p.job) {
         p.address = p.job.address;
       } else if (p.work) {
@@ -765,7 +766,6 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
         p.address = p.donation.address;
       }
     });
-    window.p = $scope.projects;
   }, function () {
     toastr.error('Não consegui pegar os atos do servidor.');
   });

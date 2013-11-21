@@ -1,4 +1,4 @@
-<div class="project-card-outer">
+<div class="col-lg-3 col-md-4 col-sm-6 project-card-outer">
   <div class="project-card">
     <div class="project-img">
       <img alt="" ng-src="{{ project.image_url }}">
@@ -15,6 +15,9 @@
           <i class="fa fa-map-marker"></i> {{ project.address.suburb.city.name }}, {{ project.address.suburb.city.state.code }}
         </span>
       </a>
+      <div class="project-volunteer">
+        <i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{project.volunteers}}
+      </div>
     </div>
   </div>
 </div>

@@ -19,19 +19,19 @@
         <form class="form-inline" role="form">
           <div class="form-group col-sm-4">
             <label class="" for="skillsInput">Habilidade</label>
-            <select class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
+            <select tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
               <option value="" disabled selected>Habilidade</option>
             </select>
           </div>
           <div class="form-group col-sm-4">
             <label class="" for="causesInput">Causa</label>
-            <select class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
+            <select tooltip="Qual causa que te move? Filtre os trabalhos voluntários por elas." class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
               <option value="" disabled selected>Causa</option>
             </select>
           </div>
           <div class="form-group col-sm-4">
             <label class="" for="citiesInput">Cidade</label>
-            <select class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
+            <select tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
               <option value="" disabled selected>Cidade</option>
             </select>
           </div>
@@ -49,7 +49,7 @@
   </div> <!-- End of Atados-explorer -->
   <div id="landing-info" class="row">
     
-    <div id="depoimento" class="row">
+    <div id="depoimentos" class="row">
       <div class="depoimento col-sm-6">
         <div class="col-sm-2">
           <img ng-src="{{storage}}depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
