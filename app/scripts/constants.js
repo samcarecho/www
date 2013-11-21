@@ -8,5 +8,7 @@ var constants = {
   'accessTokenCookie': 'access_token',
   'csrfCookie': 'csrftoken',
   'sessionIdCookie': 'sessionid',
-  'grantType': 'password'
+  'grantType': 'password',
+  's3': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
+  'local': 'http://api.atadoslocal.com.br:8000/static/images/'
 };

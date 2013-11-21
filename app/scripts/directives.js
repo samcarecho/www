@@ -35,7 +35,7 @@ app.directive('button-facebook', function() {
 });
 
 
-app.directive('projectcard', function() {
+app.directive('projectCard', function() {
   return {
     restrict: 'E',
     templateUrl: '/views/projectCard.html'
@@ -98,5 +98,15 @@ app.directive('contactatados', function() {
     restrict: 'E',
     scope: {},
     template: '<p>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se tiver algum problema!</p>'
+  };
+});
+
+app.directive('backgroundImg', function () {
+  return function (scope, element, attrs) {
+    var url = attrs.backgroundImg;
+    element.css({
+      'background-image': 'url(' + url + ')',
+      'background-size': 'cover'
+    });
   };
 });

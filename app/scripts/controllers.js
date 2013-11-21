@@ -20,6 +20,9 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   $scope.modalInstance = null;
   $scope.year = (new Date()).getFullYear();
 
+  //$scope.storage = constants.s3;
+  $scope.storage = constants.local;
+
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;
   }, function () {

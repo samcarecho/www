@@ -2,18 +2,15 @@
 
 @import "font-awesome/scss/font-awesome";
 
-$atados-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/atados-sprite.png");
-$media-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/media.png");
-$flags:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/flags.png");
-$icons:url("https://s3-sa-east-1.amazonaws.com/atadosapp/static/icons.png");
-$landing-cover:url('https://s3-sa-east-1.amazonaws.com/atadosapp/static/landing_cover.jpg');
+// Where the logo is
+$atados-sprite:url("https://s3-sa-east-1.amazonaws.com/atadosapp/images/atados-sprite.png");
 
 // Atados Bootstrap Theme
 // -------------------------
 
 // _fonts.scss
 
-// $font-family-sans-serif: 'Noto Sans', sans-serif;;
+$font-family-sans-serif: 'Noto Sans', sans-serif;;
 // $headings-font-family: 'Coming Soon', sans-serif;
 // $headings-font-weight:400;
 
@@ -63,7 +60,6 @@ $footer-color-heading: $white;
 $footer-color:$white;
 
 .home {
-  height: 4000px;
   .jumbotron {
     margin-bottom: 0;
     height: 430px;
@@ -86,37 +82,9 @@ $footer-color:$white;
   }
 }
 
-/* Retina display */
-@media screen and (min-width: 1024px){
-  .background {
-    background-image: $landing-cover;
-  }
+.background {
+  margin-bottom: 0;
 }
-
-/* Desktop */
-@media screen and (min-width: 980px) and (max-width: 1024px){
-  .background {
-    background-image: $landing-cover;
-  }
-}
-/* Tablet */
-@media screen and (min-width: 760px) and (max-width: 980px){
-  .background {
-    background-image: $landing-cover;
-}
-}
-/* Mobile HD */
-@media screen and (min-width: 350px) and (max-width: 760px){
-  .background {
-    background-image: $landing-cover;
-}
-}
-/* Mobile LD */
-@media screen and (max-width: 350px){
-  .background {
-    background-image: $landing-cover;
-}
-} 
 
 // _type.scss
 h1, h2, h3, h4, h5, h6,
@@ -186,7 +154,7 @@ html, body {
 
 /* Set the fixed height of the footer here */
 #footer {
-  padding: 50px 0 0 0;
+  padding: 20px 0 0 0;
   height: $footer-height;
   background-color: $footer-bg;
   color: $footer-color;
@@ -219,6 +187,10 @@ html, body {
 .btn-facebook {
   background-color: $blue-facebook;
   color: $white;
+  &:hover {
+    background:$blue-light;
+    color:#fff;
+  }
 }
 
 .main {
@@ -234,25 +206,21 @@ html, body {
 
 .atados-explorer {
   background-color: #efefef;
-  padding: 50px 0;
+  padding: 20px 0;
   box-shadow: 0 2px 10px #888888;
 
   .filters {
+    margin: 0 0 20px 0;
     label {
       color:$blue-dark;
-    }
-  }
-
-  .projects {
-    &:before {
-      display: table;
-      content: "";
     }
   }
 }
 
 #landing-info {
   background-color: white;
+  padding: 0 15px;
+  margin-top: 20px;
 
   h3 {
     color: $blue;
