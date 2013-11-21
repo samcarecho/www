@@ -757,7 +757,11 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   Restangular.all('projects').getList().then( function(response) {
     $scope.projects = response;
     $scope.projects.forEach(function (p) {
-      p.volunteers = Math.floor((Math.random()*10)+1);;
+      p.volunteers = Math.floor((Math.random()*10)+1);
+      var returnName = function (c) {
+        return c.name;
+      };
+      p.causesStr = p.causes.map(returnName).join('/');
       if (p.job) {
         p.address = p.job.address;
       } else if (p.work) {
