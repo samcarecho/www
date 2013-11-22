@@ -19,8 +19,8 @@
 
       <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
         <li><a ui-sref="root.about">Sobre</a></li>
-        <li><a ui-sref="root.how">Como funciona?</a></li>
-        <li><a href="http://www.atados.com.br/blog/">Blog</a></li>
+        <li><a ng-click="openHowModal()" href="">Como funciona?</a></li>
+        <li><a target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
         <li>
         <button class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button>
         <button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">Organização Social</button>
@@ -58,35 +58,39 @@
 
 <div id="footer">
   <div class="container">
-    <div class="col-sm-6">
+    <div class="row">
       <div class="col-sm-6">
-        <h4>Cidades que te chamam</h4>
-        <ul>
-          <li>Atos em São Paulo</li>
-          <li>Atos em Brasília</li>
-          <li>Atos em Curitiba</li>
-        </ul>
+        <div class="col-sm-6">
+          <h4>Cidades que te chamam</h4>
+          <ul>
+            <li><a ui-sref="root.explore">Atos em São Paulo</a></li>
+            <li><a ui-sref="root.explore">Atos em Curitiba</a></li>
+            <li><a ui-sref="root.explore">Atos em Brasília</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h4>Conheça</h4>
+          <ul>
+            <li><a ui-sref="root.about">Sobre</a></li>
+            <li><a ng-click="openHowModal()" href="">Como functiona</a></li>
+            <li><a target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
+            <li><a ng-click="openTermsModal()" href="">Termos de privacidade</a></li>
+          </ul>
+          <h4>Serviços</h4>
+          <ul>
+            <li><a ui-sref="root.about">Para Ongs</a></li>
+            <li><a ui-sref="root.about">Para Empresas</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <h4>Conheça</h4>
-        <ul>
-          <li><a href="" ui-sref="root.about">Sobre</a></li>
-          <li>Como functiona</li>
-          <li>Blog</li>
-          <li><a ng-click="openTermsModal()">Termos de privacidade</a></li>
-        </ul>
-        <h4>Serviços</h4>
-        <ul>
-          <li>Para Ongs</li>
-          <li>Para Empresas</li>
-        </ul>
+      <div class="col-sm-6 center">
+        <div class="fb-like-box" data-href="http://www.facebook.com/atadosjuntandogenteboa" data-width="300" data-height="268" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
       </div>
     </div>
-    <div class="col-sm-6 center">
-      <div class="fb-like-box" data-href="http://www.facebook.com/atadosjuntandogenteboa" data-width="300" data-height="268" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
-    </div>
-    <div id="open-source" class="col-sm-12 center">
-      <b>Atados, {{year}}</b> é um projeto Open Source <a href="https://www.github.com/atados"><i class="fa fa-github"></i></a>, feito com carinho <i style="color:red;" class="fa fa-heart"></i>
+    <div class="row">
+      <div id="open-source" class="col-sm-12 center">
+        <b>Atados, {{year}}</b> é um projeto Open Source <a href="https://www.github.com/atados"><i class="fa fa-github"></i></a>, feito com carinho <i style="color:red;" class="fa fa-heart"></i>
+      </div>
     </div>
   </div> <!-- End of container -->
 </div>

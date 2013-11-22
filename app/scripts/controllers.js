@@ -740,6 +740,10 @@ app.controller('LandingCtrl', ['$scope', 'Restangular', function ($scope, Restan
   window.Restangular = Restangular;
 }]);
 
+app.controller('AboutCtrl', [ function () {
+  toastr.info('This is the about page');
+}]);
+
 app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
   $scope.active = 'atos';
 
