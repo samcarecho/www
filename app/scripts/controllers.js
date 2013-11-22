@@ -70,6 +70,8 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
 app.controller('HomeController', ['$scope', function($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
+  $scope.moreButton = "Mostrar mais Atos";
+  
 }]);
 
 app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
@@ -739,6 +741,8 @@ app.controller('LandingCtrl', ['$scope', 'Restangular', function ($scope, Restan
 }]);
 
 app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  $scope.active = 'atos';
+
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;
   }, function () {

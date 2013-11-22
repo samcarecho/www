@@ -77,6 +77,14 @@
   @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
 }
 
+.btn-volunteer {
+  font-weight: bold;
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+.btn-ong {
+  font-weight: bold;
+  @include button-variant($btn-ong-color, $btn-ong-bg, $btn-ong-border);
+}
 
 // Link buttons
 // -------------------------
