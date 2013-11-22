@@ -34,13 +34,20 @@ app.directive('button-facebook', function() {
   };
 });
 
-
 app.directive('projectCard', function() {
   return {
     restrict: 'E',
     templateUrl: '/views/projectCard.html'
   };
 });
+
+app.directive('nonprofitCard', function() {
+  return {
+    restrict: 'E',
+    templateUrl: '/views/nonprofitCard.html'
+  };
+});
+
 
 app.directive('debug', function() {
   return {

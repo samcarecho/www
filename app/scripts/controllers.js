@@ -1,6 +1,7 @@
 'use strict';
 
 /* global toastr: false */
+/* global constants: false */
 /* global google: false */
 
 // ----
@@ -70,12 +71,10 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
 app.controller('HomeController', ['$scope', function($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
-  $scope.moreButton = "Mostrar mais Atos";
-  
 }]);
 
 app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
-  function($scope, $rootScope, Auth, Facebook) {
+  function($scope, $rootScope, Auth) {
 
   $scope.showForgotPassword = false;
   $scope.remember = true;
@@ -748,6 +747,11 @@ app.controller('AboutCtrl', [ function () {
 
 app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
   $scope.active = 'atos';
+  $scope.showProject = true;
+
+  $scope.$watch('showProject', function (showProject) {
+    console.log('show projects: ' + showProject);
+  });
 
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;
@@ -763,6 +767,9 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     $scope.cities = response;
   }, function () {
     toastr.error('Não consegui pegar as cidades do servidor.');
+  });
+  Restangular.all('nonprofits').getList().then( function (response) {
+    $scope.nonprofits = response;
   });
   Restangular.all('projects').getList().then( function(response) {
     $scope.projects = response;

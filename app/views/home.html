@@ -12,10 +12,8 @@
     </div> <!-- End of Jumbotron -->
   </div>
   <div class="row atados-explorer" ng-controller="ExplorerCtrl">
-    <!--<button class="btn btn-info pull-left">Procure por atos voluntários</button>
-    <button class="btn btn-info pull-right">Lista de Organizaçãoes Sociais</button>-->
     <div class="col-md-10 col-md-offset-1">
-      <h4 class="center explanation">Procure por <button> Atos </button> voluntários das suas <button>Organizações Sociais</button> favoritas. Filtre sua busca pela causa que te cativa ou por suas habilidades <i class="fa fa-hand-o-down"></i><h4> 
+      <div class="center explanation"><h4>Procure por <a class="btn btn-ong" ng-click="showProject=true" ng-class="{active: showProject}"> Atos </a> voluntários das suas <a class="btn btn-ong" ng-click="showProject=false" ng-class="{active: !showProject}">Organizações Sociais</a> favoritas.<h4> <i class="center fa fa-hand-o-down"></i></div>
       <div class="row filters">
         <form class="form-inline" role="form">
           <div class="col-sm-11">
@@ -44,8 +42,11 @@
         </form>
       </div>
       <div class="row">
-        <div class="projects">
+        <div ng-show="showProject" class="projects">
           <project-card ng-repeat="project in projects"></project-card>
+        </div>
+        <div ng-hide="showProject "class="nonprofits">
+          <nonprofit-card ng-repeat="nonprofit in nonprofits"></nonprofit-card>
         </div>
       </div>
       <div id="more-button" class="center">

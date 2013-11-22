@@ -1,7 +1,7 @@
-<div class="project-card-outer col-lg-3 col-md-4 col-sm-6 col-xs-12">
-  <div class="project-card">
-    <div class="project-img">
-        <div class="project-description"> 
+<div class="card-outer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+  <div class="card">
+    <div class="card-img">
+        <div class="card-description"> 
           <a ng-href="ato/{{project.slug}}">
             <p>{{project.description}}</p>
           </a>
@@ -9,23 +9,23 @@
         </div>
         <img alt="" ng-src="{{ project.image_url }}">
     </div>
-    <div class="project-footer clearfix">
-      <a class="project-name" ng-href="ato/{{project.slug}}"><h4>{{ project.name }}</h4></a>
-      <div class="row project-quick-info">
+    <div class="card-footer clearfix">
+      <a class="card-name" ng-href="ato/{{project.slug}}"><h4>{{ project.name }}</h4></a>
+      <div class="row card-quick-info">
         <a ng-href="/ong/{{project.nonprofit.slug}}" class="nonprofit-img">
           <img ng-href="/ong/{{project.nonprofit.slug}}" ng-src="{{ project.nonprofit.image_url }}">
         </a>
         <span>
           <a ng-href="/ong/{{project.nonprofit.slug}}"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
-          <p class="project-local"><i class="fa fa-map-marker"></i> {{ project.address.suburb.city.name }}, {{ project.address.suburb.city.state.code }}</p>
-          <p class="project-causes">{{project.causesStr}}</p>
+          <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.suburb.city.name }}, {{ project.address.suburb.city.state.code }}</p>
+          <p class="card-causes">{{project.causesStr}}</p>
         </span>
       </div>
-      <div class="row project-second">
-        <div class="project-date col-xs-9">
+      <div class="row card-second">
+        <div class="card-date col-xs-9">
           <strong>10 de novembro de 2012</strong>
         </div>
-        <div class="project-volunteer center col-xs-3">
+        <div class="card-volunteer center col-xs-3">
           <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{project.volunteers}}</span>
         </div>
       </div>
