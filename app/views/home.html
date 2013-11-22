@@ -43,7 +43,7 @@
         </div>
       </div>
       <div id="more-button" class="center">
-        <button class="btn btn-lg btn-info center">Mostrar mais {{active}}</Button>
+        <a class="btn btn-lg btn-info center" ui-sref="root.explore">Mostrar mais {{active}}</a>
       </div>
     </div>
   </div> <!-- End of Atados-explorer -->
@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="col-sm-10 col-sm-offset-1">
-      <div id="media" class="col-sm-6">
+      <div id="media" class="center col-sm-6">
         <h3><i class="fa fa-globe fa-3"></i>  Andaram falando da gente por ai</h3>
         <div class="row">
           <a class="col-sm-3 col-md-4 img-responsive" href="http://imaginanacopa.com.br/historias/historia-11-atados/"><img width="100" ng-src="{{storage}}imagina.png"></a>
@@ -109,11 +109,9 @@
           <a class="col-sm-4 img-responsive" href="http://www1.folha.uol.com.br/empreendedorsocial/minhahistoria/1246358-acreditamos-que-mudancas-muito-positivas-podem-ocorrer-por-meio-do-voluntariado.shtml"><img width="160" ng-src="{{storage}}folha.png"></a>
         </div>
       </div>
-      <div id="parceiros" class="col-sm-6">
+      <div id="parceiros" class="center col-sm-6">
         <h3><i class="fa fa-heart fa-3"></i> Nossos parceiros</h3>
-        <div class="center">
-          <a id="fundacao" href="http://www.fenomenos.org/"><img class="img-responsive" ng-src="{{storage}}fundacao-fenomenos.png"></a>
-        </div>
+        <a id="fundacao" href="http://www.fenomenos.org/"><img class="center img-responsive" ng-src="{{storage}}fundacao-fenomenos.png"></a>
       </div>
     </div>
   </div>

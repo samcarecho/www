@@ -329,48 +329,54 @@ html, body {
 .row.atados-explorer {
   margin: 0;
 }
+
 .col-lg-3.col-md-4.col-sm-6.col-xs-12.project-card-outer {
   padding: 5px;
 }
+
 .project-card-outer {
   margin-bottom: 25px;
   height: 270px;
 
+  .project-card:hover .project-name h4 {
+    top: -130px;
+  }
+  
+  .project-card:hover {
+    .project-img {
+      .project-description {
+        visibility: visible;
+        opacity: 1;
+      } 
+    }
+  }
+
   .project-card {
     position: relative;
     background: #fff;
-
+    
     .project-img {
       border-radius:3px 3px 0 0;
-      position: relative;
-      
+
+      .project-description {
+        position: absolute;
+        top: 0;
+        bottom: 90px;
+        background: rgba(0, 0, 0, 0.72);
+        border-radius:3px 3px 0 0;
+        color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        padding: 50px 10px 10px 20px;
+      }
+
       img {
         max-width: 100%;
         width: 100%;
         height: 170px;
         border-radius:3px 3px 0 0;
       }
-      
-      .project-description {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.72);
-        color: #fff;
-        visibility: hidden;
-        opacity: 0;
-      }
-      
-    }
-    .project-img:hover .project-description {
-      visibility: visible;
-      opacity: 1;
-    }
-    .project-img:hover .project-name {
-      visibility: hidden;
-      opacity: 0;
+
     }
 
     .project-footer {
@@ -378,8 +384,6 @@ html, body {
       border: 1px solid #d3d3d3;
       height: 100px;
       
-    
-
       .project-name {
         position: absolute;
         top: -39px;
@@ -433,6 +437,9 @@ html, body {
         a {
           color: #6f6f6f;
         }
+        .nonprofit-name {
+          font-size: 14px;
+        }
         .project-causes {
           font-size: 9px;
         }
@@ -443,7 +450,7 @@ html, body {
         padding-bottom: 10px;
         color: #6f6f6f;
         .project-date {
-          
+          margin-top: 4px;
           font-size: 10px;
           i {
             color: $blue;
@@ -492,7 +499,7 @@ html, body {
     display:inline;
   }
 
-}
+  }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
