@@ -540,6 +540,8 @@ app.controller('NonprofitAdminController', ['$scope', '$state', function($scope,
 
   
 }]);
+app.controller('ProjectController', [function () {
+}]);
 
 app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', 'Restangular',
     function($scope, $filter, $state, Auth, Restangular) {
@@ -765,6 +767,7 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   Restangular.all('projects').getList().then( function(response) {
     $scope.projects = response;
     $scope.projects.forEach(function (p) {
+      p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
       p.volunteers = Math.floor((Math.random()*10)+1);
       var returnName = function (c) {
         return c.name;
