@@ -386,6 +386,14 @@ html, body {
         z-index: 3;
         position: absolute;
       }
+      &:after {
+        border: solid 18px;
+        border-color: #DCE8ED rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+        bottom: -36px;
+        left: 26px;
+        z-index: 2;
+        position: absolute;
+      }
       color: #717F86;
       font-size: 16px;
       font-style: italic;
