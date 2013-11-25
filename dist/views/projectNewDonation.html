@@ -1,0 +1,80 @@
+<div id="project-new-donation">
+  <div class="row">
+    <div class="span8 offset2">
+      <form class="well">
+        <fieldset>
+          {{ project_form.name|as_bootstrap }}
+        </fieldset>
+        <fieldset>
+          <legend>Causas</legend>
+          {{ project_form.causes|as_select_button_list_field }}
+        </fieldset>
+        <fieldset>
+          <legend>Materials</legend>
+          <div class="materials">
+            {{ material_formset.management_form }}
+            <div class="material-forms">
+              {% for material_form in material_formset %}
+              <div class="material-form">
+                {{ material_form.id|as_bootstrap }}
+                <div class="row">
+                  <div class="span8">
+                    {{ material_form.name|as_bootstrap }}
+                  </div>
+                  <div class="span4">
+                    {{ material_form.quantity|as_bootstrap }}
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="form-actions">
+              <button class="add"><i class="icon-plus"></i> {% trans "Add more materials" %}</button>
+            </div>
+
+            <div class="hide empty-form material-form">
+              <div class="row">
+                <div class="span8">
+                  {{ material_formset.empty_form.name|as_bootstrap }}
+                </div>
+                <div class="span4">
+                  {{ material_formset.empty_form.quantity|as_bootstrap }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "Collecting" %}</legend>
+          {{ donation_form.collection_by_nonprofit|as_bootstrap }}
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "Delivery" %}</legend>
+          {% include "atados_core/address-fields.html" %}
+        </fieldset>
+        <fieldset id="project-new-contact">
+          <legend>{% trans "Contact" %}</legend>
+          {{ project_form.responsible|as_bootstrap }}
+          <div class="row">
+            <div class="span6">
+              {{ project_form.phone|as_bootstrap }}
+            </div>
+            <div class="span6">
+              {{ project_form.email|as_bootstrap }}
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "More info" %}</legend>
+          {{ project_form.details|as_bootstrap }}
+        </fieldset>
+        <div class="form-actions">
+          <button type="submit">Criar</button>
+        </div>
+      </form>
+    </div>
+    <div class="span5">
+    </div>
+  </div>
+</div>

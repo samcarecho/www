@@ -1,0 +1,99 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    Dia e hora
+  </div>
+  <div class="panel-body">
+    <div class="col-md-6">
+      <label class="col-md-2 control-label">Começa: </label>
+      <div>
+        <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="job.start_date" name="" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+        <div ng-model="job.start_date">
+          <timepicker show-meridian="ismeridian"></timepicker>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="col-md-2 control-label">Termina: </label>
+      <div>
+        <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="job.end_date" name="" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+        <div ng-model="job.end_date">
+          <timepicker show-meridian="ismeridian"></timepicker>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    Habilidades
+  </div>
+  <div class="panel-body">
+    <ul class="select-button-list">
+      <li ng-repeat="skill in skills" ng-class="{active:skill.checked}">
+      <label>
+        {{skill.name}}
+        <input class="form-control" type="checkbox" name="skills[]" ng-checked="skill.checked" ng-model="skill.checked">
+      </label>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    Cargos
+  </div>
+  <div class="panel-body">
+    <form>
+      <input type="text" placeholder="Nome do cargo" name="name" ng-model="newRole.name">
+      <textarea rows="3" name="prerequisites" placeholder="Descrição do cargo" ng-model="newRole.prerequisites"></textarea>
+      <input type="number" class="" name="vacancies" placeholder="Quantas vagas?" ng-model="newRole.vacancies">
+      <a class="btn btn-primary" ng-click="addRole('job')">Adicionar Cargo</a> 
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Vagas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="role in job.roles">
+          <td><button type="danger" class="destroy" ng-click="removeRole(role, 'job')"><i class="fa fa-trash-o"></i></button></td>
+          <td>{{role.name}}</td>
+          <td>{{role.prerequisites}}</td>
+          <td>{{role.vacancies}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    Endereço
+  </div>
+  <div class="panel-body">
+    <div class="col-lg-6">                     
+      <input type="text" class="form-control" name="addressline" ng-model="job.address.addressline" placeholder="Rua">
+      <input type="text" class="form-control" name="addressnumber" ng-model="job.address.addressnumber" placeholder="nro">
+      <input type="text" class="form-control" name="addressline2" ng-model="job.address.addressline2" placeholder="Apartamento, bloco, etc">
+      <input type="text" class="form-control" name="neighborhood" ng-model="job.address.neighborhood" placeholder="Bairro">
+      <input type="text" class="form-control" name="zipcode" ng-model="job.address.zipcode" ng-maxlength="10" placeholder="CEP">
+      <label class="help-block" ng-show="newProjectForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
+      <select class="form-control" ng-model="job.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
+        <option value="" disabled="disabled" selected="selected">Zona</option>
+      </select>
+      <select class="form-control" ng-model="job.address.city" ng-options="c.name for c in cities|orderBy:'name'">
+        <option value="" disabled="disabled" selected="selected">Cidade</option>
+      </select>
+      <select class="form-control" ng-model="job.address.state" ng-options="c.name for c in states|orderBy:'name'">
+        <option value="" disabled="disabled" selected="selected">Estado</option>
+      </select>
+    </div>
+  </div>
+</div>

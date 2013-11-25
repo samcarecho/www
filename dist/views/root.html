@@ -1,0 +1,96 @@
+<div id="wrap">
+  <div class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="root.home">Atados</a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <form class="navbar-form pull-left" role="search">
+        <div class="form-group">
+          <input id="siteSearch" class="form-control input-sm" ng-model="input" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
+        <li><a ui-sref="root.about">Sobre</a></li>
+        <li><a ng-click="openHowModal()" href="">Como funciona?</a></li>
+        <li><a id="sobreLink" target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
+        <li>
+          <button class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button>
+          <button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button>
+        </li>
+      </ul>
+
+      <form class="navbar-form pull-right" ng-show="loggedUser">
+        <ul class="nav navbar-nav" ng-show="loggedUser.role=='VOLUNTEER'">
+          <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.slug }}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a ng-href="/voluntario/{{loggedUser.slug}}">Meu perfil</a></li>
+            <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
+          </ul>
+          </li>
+        </ul>
+
+        <ul ng-show="loggedUser.role=='NONPROFIT'">
+          <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.name }}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
+            <li><a ng-href="/admin">Panel de controle</a></li>
+            <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
+          </ul>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+
+  <div ui-view="" class="main"></div>
+
+</div>
+
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="col-sm-6">
+          <h4>Cidades que te chamam</h4>
+          <ul>
+            <li><a ui-sref="root.explore">Atos em São Paulo</a></li>
+            <li><a ui-sref="root.explore">Atos em Curitiba</a></li>
+            <li><a ui-sref="root.explore">Atos em Brasília</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h4>Conheça</h4>
+          <ul>
+            <li><a ui-sref="root.about">Sobre</a></li>
+            <li><a ng-click="openHowModal()" href="">Como functiona</a></li>
+            <li><a target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
+            <li><a ng-click="openTermsModal()" href="">Termos de privacidade</a></li>
+          </ul>
+          <h4>Serviços</h4>
+          <ul>
+            <li><a ui-sref="root.about">Para Ongs</a></li>
+            <li><a ui-sref="root.about">Para Empresas</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6 center">
+        <div class="fb-like-box" data-href="http://www.facebook.com/atadosjuntandogenteboa" data-width="300" data-height="268" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="open-source" class="col-sm-12 center">
+        <b>Atados, {{year}}</b> é um projeto Open Source <a href="https://www.github.com/atados"><i class="fa fa-github"></i></a>, feito com carinho <i style="color:red" class="fa fa-heart"></i>
+      </div>
+    </div>
+  </div> <!-- End of container -->
+</div>

@@ -1,0 +1,26 @@
+<div class="card-outer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+  <div class="card">
+    <div class="card-img">
+        <div class="card-description"> 
+          <a ng-href="nonprofit/{{nonprofit.slug}}">
+            <p>{{nonprofit.description}}</p>
+          </a>
+        </div>
+        <img alt="" ng-src="{{ nonprofit.image_url }}">
+    </div>
+    <div class="card-footer clearfix">
+      <div class="row card-quick-info">
+        <span>
+          <a ng-href="/ong/{{nonprofit.slug}}"><p class="nonprofit-name"><strong>{{nonprofit.name}}</strong></p></a>
+          <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.suburb.city.name }}, {{ nonprofit.address.suburb.city.state.code }}</p>
+          <p class="card-causes">{{nonprofit.causesStr}}</p>
+        </span>
+      </div>
+      <div class="row card-second">
+        <div class="card-volunteer center col-xs-3">
+          <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

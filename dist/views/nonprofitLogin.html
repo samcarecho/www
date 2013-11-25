@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h4>Login ONG</h4>
+</div>
+<div class="modal-body" ng-controller="LoginController">
+  <form novalidate="" role="form" name="loginForm" ng-submit="login()">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.slug.$error.required || loginForm.slug.$invalid]">
+      <input required="" class="form-control" type="text" name="slug" ng-model="slug" ng-minlength="3" placeholder="Nome de Usuário">
+      <div class="help-block" ng-show="loginForm.slug.$error.minlength"> Nome de usuário muito curto </div>
+    </div>
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid]">
+      <input required="" class="form-control" type="password" name="password" ng-model="password" ng-minlength="6" placeholder="Senha">
+      <div class="help-block" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+    </div>
+    <div class="label label-important">{{ error }}</div>
+    <div class="checkbox col-md-6">
+      <label>
+        <input type="checkbox" ng-model="remember"> Lembre de mim
+      </label>
+    </div>
+    <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
+    <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-success btn-block">Entrar</button>
+  </form> 
+  <form novalidate="" name="resetPasswordForm" role="form" ng-show="showForgotPassword">
+    <label class="help-block">Digite seu email para receber uma nova senha.</label>
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
+      <input required="" type="email" name="email" class="form-control" ng-model="email" placeholder="Email">
+      <label class="help-block" ng-show="!resetPasswordForm.email.alreadyUsed">Email não existe.</label>
+    </div>
+    <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
+  </form>
+
+</div>
+<div class="modal-footer"><contactatados></div>
