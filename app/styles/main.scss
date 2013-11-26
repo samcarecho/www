@@ -327,7 +327,7 @@ html, body {
       padding: 0px 5px;
       select {
         height: 44px;
-        background-color: $white;
+        background: #fafafa url("http://api.atadoslocal.com.br:8000/static/images/arrow-down.png") no-repeat 95% 50%;
         color: $gray-light;
         -webkit-appearance: none;
         
