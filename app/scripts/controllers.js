@@ -749,9 +749,15 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   $scope.active = 'atos';
   $scope.showProject = true;
 
-  $scope.$watch('showProject', function (showProject) {
-    console.log('show projects: ' + showProject);
+  angular.extend($scope, {
+    center: {
+      latitude: -23.553287,
+      longitude: -46.638535,
+    },
+    markers: [],
+    zoom: 14,
   });
+
 
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;

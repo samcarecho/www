@@ -437,6 +437,14 @@ html, body {
   }
 }
 
+.map {
+  box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar {
+  padding: 10px 0 20px 20px;
+}
+
 .row.atados-explorer {
   margin: 0;
 }

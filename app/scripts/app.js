@@ -37,7 +37,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     .state('root.explore', {
       url: '/explore',
       templateUrl: 'views/explore.html',
-      controller: 'ExploreCtrl'
+      controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
       url: '/voluntario/:slug',
