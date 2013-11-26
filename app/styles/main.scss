@@ -36,7 +36,7 @@ $brand-info:$blue-dark;
 $text-color:$gray-dark;
 $headings-small-color: $blue;
 $headings-color: $orange;
-$link-color:$orange;
+$link-color:#016a93;
 $well-bg: $white;
 $navbar-inverse-bg:$blue;
 $navbar-inverse-border:$blue;
@@ -186,6 +186,16 @@ h1, h2, h3, h4, h5, h6,
 // _buttons.scss
 
 // _modals.scss
+$modal-content-bg: #efefef;
+.modal-content {
+  button {
+    text-transform:uppercase;
+  }
+
+  hr {
+    border-top: 1px solid #BEBDBD;
+  }
+}
 
 // _wells.scss
 
@@ -260,6 +270,13 @@ html, body {
   background-image: linear-gradient(to bottom, #3F5FA3, #37538D);
   color: $white;
   padding: 10px 15px;
+  text-shadow: 2px 0 2px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 10px #888888;
+  border: 1px solid transparent;
+}
+
+.btn-facebook:hover {
+  color: white;
 }
 
 .center {
@@ -592,6 +609,13 @@ html, body {
 #siteSearch {
   margin-top: 3px;
   width: 300px;
+}
+
+#volunteer-signup-form {
+  button {
+    padding: 10px 40px;
+    margin-bottom: 10px;
+  }
 }
 
 #volunteer-details {
