@@ -11,7 +11,20 @@
       </div>
     </div> <!-- End of Jumbotron -->
   </div>
-  <atados-search></atados-search>
+
+  <div class="row atados-explorer" ng-controller="ExplorerCtrl">
+    <div class="center explanation">
+      <h4>
+        Procure por <span id="atos" ng-click="showProject=true" ng-class="{active: showProject}">Atos</span> voluntários das suas <span id="ongs" ng-click="showProject=false" ng-class="{active: !showProject}">ONGs</span> favoritas.
+        <br>
+        <i class="fa fa-hand-o-down"></i>
+      </h4>
+    </div>
+    <div class="col-md-10 col-md-offset-1">
+      <atados-search></atados-search>
+    </div>
+  </div>
+
   <div id="landing-info" class="container">
     <div id="numbers" class="row">
       <h3>é fácil começar !  </h3>
