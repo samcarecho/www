@@ -40,13 +40,13 @@ app.directive('projectCard', function() {
     templateUrl: '/views/projectCard.html'
   };
 });
+
 app.directive('atadosSearch', function() {
   return {
     restrict: 'E',
     templateUrl: '/views/search.html'
   };
 });
-
 
 app.directive('nonprofitCard', function() {
   return {
