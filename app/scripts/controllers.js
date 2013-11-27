@@ -756,6 +756,7 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   $scope.active = 'atos';
   $scope.showProject = true;
   $scope.landing = false;
+  $scope.search_query = '';
 
   angular.extend($scope, {
     center: {
@@ -766,11 +767,46 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     zoom: 14,
   });
 
+  $scope.next_url = '';
+
+  $scope.$watch('search_query', function () {
+    Restangular.all('projects').getList({query: $scope.search_query}).then( function(response) {
+      $scope.projects = response;
+      if (response._responsemeta) {
+        $scope.next_url = response._responsemeta.next;
+      }
+      $scope.projects.forEach(function (p) {
+        p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
+        p.volunteers = Math.floor((Math.random()*10)+1);
+        var returnName = function (c) {
+          return c.name;
+        };
+        p.causesStr = p.causes.map(returnName).join('/');
+        if (p.job) {
+          p.address = p.job.address;
+        } else if (p.work) {
+          p.address = p.work.address;
+        } else if (p.donation) {
+          p.address = p.donation.address;
+        }
+      });
+    }, function () {
+      toastr.error('Não consegui pegar os atos do servidor.');
+    });
+  });
+
+  $scope.moreProjects = function () {
+
+  };
+
   Restangular.all('nonprofits').getList().then( function (response) {
     $scope.nonprofits = response;
   });
   Restangular.all('projects').getList().then( function(response) {
     $scope.projects = response;
+    if (response._responsemeta) {
+      $scope.next_url = response._responsemeta.next;
+    }
     $scope.projects.forEach(function (p) {
       p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
       p.volunteers = Math.floor((Math.random()*10)+1);

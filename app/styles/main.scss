@@ -352,10 +352,12 @@ html, body {
   }
   #secondRow {
     margin-top: 10px;
+    #searchProjects {
+      width: 150px;
+    }
   }
   #searchProjects {
     height: 44px;
-    width: 150px;
     background: linear-gradient($blue, $blue-dark)
   }
 }
@@ -463,9 +465,11 @@ atados-search {
 
 .map {
   box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+  padding: 0;
 }
 
 .sidebar {
+  
 }
 
 .row.atados-explorer {

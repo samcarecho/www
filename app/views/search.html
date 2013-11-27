@@ -53,7 +53,7 @@
     </div>
     <div class="row col-sm-12" id="secondRow">
       <div class="form-group col-sm-10">
-        <input id="searchInput" class="form-control" ng-model="input" type="text" placeholder="Pesquisar por palavra chave">
+        <input id="searchInput" class="form-control" ng-model="search_query" type="text" placeholder="Pesquisar por palavra chave">
       </div>
       <div class="col-sm-2 center">
         <button id="searchProjects" class="btn btn-ong">Buscar</button>
@@ -70,5 +70,5 @@
   </div>
 </div>
 <div id="more-button" class="center">
-  <a class="btn btn-lg btn-ong center" ui-sref="root.explore">Mostrar mais {{active}}</a>
+  <a class="btn btn-lg btn-ong center" ng-click="search()" ui-sref="root.explore">Mostrar mais {{active}}</a>
 </div>
