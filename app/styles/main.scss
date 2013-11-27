@@ -324,31 +324,47 @@ html, body {
     background-color: rgba(222, 222, 222, 0.5);
   }
 
-  .filters {
-    background-color: rgba(222, 222, 222, 0.5);
-    border-radius: 0 0 5px 5px;
-    padding: 20px 10px;
-    margin: 0 0 20px 0;
-    // box-shadow: inset 0 0 3px rgba(0,0,0,0.2),0 0 0 #000;
-    color: $blue-dark;
-    .form-group {
-      padding: 0px 5px;
-      select {
-        height: 44px;
-        background: #fafafa url("http://api.atadoslocal.com.br:8000/static/images/arrow-down.png") no-repeat 95% 50%;
-        color: $gray-light;
-        -webkit-appearance: none;
-        
-      }
-    }
-    #searchProjects {
-      height: 44px;
-      background: linear-gradient($blue, $blue-dark)
-    }
-  }
+  
   #more-button {
     margin-top: 20px;
   }
+}
+
+.filters {
+  background-color: rgba(222, 222, 222, 0.5);
+  border-radius: 0 0 5px 5px;
+  padding: 20px 10px;
+  margin: 0 0 20px 0;
+  // box-shadow: inset 0 0 3px rgba(0,0,0,0.2),0 0 0 #000;
+  color: $blue-dark;
+  .form-group {
+    padding: 0px 5px;
+    select {
+      height: 44px;
+      background: #fafafa url("http://api.atadoslocal.com.br:8000/static/images/arrow-down.png") no-repeat 95% 50%;
+      color: $gray-light;
+      -webkit-appearance: none;
+      
+    }
+  }
+  #searchInput {
+    height: 44px;
+  }
+  #secondRow {
+    margin-top: 10px;
+  }
+  #searchProjects {
+    height: 44px;
+    width: 150px;
+    background: linear-gradient($blue, $blue-dark)
+  }
+}
+atados-search {
+  padding: 20px;
+}
+.filters.row {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #landing-info {

@@ -1,43 +1,74 @@
-
-    <button class="btn btn-tab active" ng-click="showProject=true" ng-class="{active: showProject}">Pesquisar Atos</button>
-    <button class="btn btn-tab" ng-click="showProject=false" ng-class="{active: !showProject}">Pesquisar ONGs</button>
-    <div class="row filters">
-      <form class="form-inline" role="form">
-        <div class="col-sm-11">
-          <div class="form-group col-sm-4">
-            <label class="sr-only" for="causesInput">Causa</label>
-            <div class="selectSearch">
-                <select  tooltip="Qual causa que te move? Filtre os trabalhos voluntários por elas." class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
-                  <option value="" disabled selected>Causa</option>
-                </select>
-            </div>
-          </div>
-          <div class="form-group col-sm-4">
-            <label class="sr-only" for="skillsInput">Habilidade</label>
-            <select  tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
-              <option value="" disabled selected>Habilidade</option>
-            </select>
-          </div>
-          <div class="form-group col-sm-4">
-            <label class="sr-only" for="citiesInput">Cidade</label>
-            <select  tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
-              <option value="" disabled selected>Cidade</option>
-            </select>
-          </div>
+<button class="btn btn-tab active" ng-click="showProject=true" ng-class="{active: showProject}">Pesquisar Atos</button>
+<button class="btn btn-tab" ng-click="showProject=false" ng-class="{active: !showProject}">Pesquisar ONGs</button>
+<div class="row filters">
+  <form class="form-inline" role="form" ng-show="landing">
+    <div class="col-sm-11">
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="causesInput">Causa</label>
+        <div class="selectSearch">
+          <select  tooltip="Qual causa que te move? Filtre os trabalhos voluntários por elas." class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
+            <option value="" disabled selected>Causa</option>
+          </select>
         </div>
-        <div class="col-sm-1 center">
-          <button id="searchProjects" class="btn btn-ong">Buscar</button>
-        </div>
-      </form>
-    </div>
-    <div class="row">
-      <div ng-show="showProject" class="projects">
-        <project-card ng-repeat="project in projects"></project-card>
       </div>
-      <div ng-hide="showProject "class="nonprofits">
-        <nonprofit-card ng-repeat="nonprofit in nonprofits"></nonprofit-card>
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="skillsInput">Habilidade</label>
+        <select  tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
+          <option value="" disabled selected>Habilidade</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="citiesInput">Cidade</label>
+        <select  tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
+          <option value="" disabled selected>Cidade</option>
+        </select>
       </div>
     </div>
-    <div id="more-button" class="center">
-      <a class="btn btn-lg btn-ong center" ui-sref="root.explore">Mostrar mais {{active}}</a>
+    <div class="col-sm-1 center">
+      <button id="searchProjects" class="btn btn-ong">Buscar</button>
     </div>
+  </form>
+  <form class="form-inline" role="form" ng-hide="landing">
+    <div class="row col-sm-12">
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="causesInput">Causa</label>
+        <div class="selectSearch">
+          <select  tooltip="Qual causa que te move? Filtre os trabalhos voluntários por elas." class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
+            <option value="" disabled selected>Causa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="skillsInput">Habilidade</label>
+        <select  tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
+          <option value="" disabled selected>Habilidade</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="sr-only" for="citiesInput">Cidade</label>
+        <select  tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
+          <option value="" disabled selected>Cidade</option>
+        </select>
+      </div>
+    </div>
+    <div class="row col-sm-12" id="secondRow">
+      <div class="form-group col-sm-10">
+        <input id="searchInput" class="form-control" ng-model="input" type="text" placeholder="Pesquisar por palavra chave">
+      </div>
+      <div class="col-sm-2 center">
+        <button id="searchProjects" class="btn btn-ong">Buscar</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="col-sm-12">
+  <div ng-show="showProject" class="projects">
+    <project-card ng-repeat="project in projects"></project-card>
+  </div>
+  <div ng-hide="showProject "class="nonprofits">
+    <nonprofit-card ng-repeat="nonprofit in nonprofits"></nonprofit-card>
+  </div>
+</div>
+<div id="more-button" class="center">
+  <a class="btn btn-lg btn-ong center" ui-sref="root.explore">Mostrar mais {{active}}</a>
+</div>

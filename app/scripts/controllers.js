@@ -14,15 +14,31 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
-  function($scope, $rootScope, $modal, $state, Site, Auth) {
+app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth', 'Restangular',
+  function($scope, $rootScope, $modal, $state, Site, Auth, Restangular) {
 
   $scope.site = Site;
   $scope.modalInstance = null;
   $scope.year = (new Date()).getFullYear();
 
   //$scope.storage = constants.s3;
-  $scope.storage = constants.local;
+  $scope.storage = constants.local; // If DEBUG TODO(mpomarole)
+
+  Restangular.all('skills').getList().then( function(response) {
+    $scope.skills = response;
+  }, function () {
+    toastr.error('Não consegui pegar as habilidades do servidor.');
+  });
+  Restangular.all('causes').getList().then( function(response) {
+    $scope.causes = response;
+  }, function () {
+    toastr.error('Não consegui pegar as causas do servidor.');
+  });
+  Restangular.all('cities').getList().then( function(response) {
+    $scope.cities = response;
+  }, function () {
+    toastr.error('Não consegui pegar as cidades do servidor.');
+  });
 
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;
@@ -257,20 +273,10 @@ app.controller('NonprofitSignupController',
 
   $scope.nonprofit = {};
 
-  Restangular.all('causes').getList().then( function(response) {
-    $scope.causes = response;
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
   Restangular.all('suburbs').getList().then( function(response) {
     $scope.suburbs = response;
   }, function () {
     toastr.error('Não consegui pegar as Zonas do servidor.');
-  });
-  Restangular.all('cities').getList().then( function(response) {
-    $scope.cities = response;
-  }, function () {
-    toastr.error('Não consegui pegar as cidades do servidor.');
   });
   Restangular.all('states').getList().then( function(response) {
     $scope.states = response;
@@ -364,16 +370,6 @@ app.controller('VolunteerController',
 
   $scope.site.title = 'Voluntário - ' + $stateParams.slug;
 
-  Restangular.all('causes').getList().then( function(causes) {
-    $scope.cause = causes;
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
-  Restangular.all('skills').getList().then( function(skills) {
-    $scope.skills = skills;
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
   Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
     $scope.volunteer = response;
     $scope.volunteer.id = $scope.volunteer.slug;
@@ -626,25 +622,10 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
     }
   };
 
-  Restangular.all('causes').getList().then( function(response) {
-    $scope.causes = response;
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
-  Restangular.all('skills').getList().then( function(response) {
-    $scope.skills = response;
-  }, function () {
-    toastr.error('Não consegui pegar as habiliadades do servidor.');
-  });
   Restangular.all('suburbs').getList().then( function(response) {
     $scope.suburbs = response;
   }, function () {
     toastr.error('Não consegui pegar as Zonas do servidor.');
-  });
-  Restangular.all('cities').getList().then( function(response) {
-    $scope.cities = response;
-  }, function () {
-    toastr.error('Não consegui pegar as cidades do servidor.');
   });
   Restangular.all('states').getList().then( function(response) {
     $scope.states = response;
@@ -737,8 +718,34 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
 }]);
 
 app.controller('LandingCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
-  window.scope = $scope;
-  window.Restangular = Restangular;
+  $scope.landing = true;
+  $scope.active = 'atos';
+  $scope.showProject = 'true';
+
+  Restangular.all('nonprofits').getList().then( function (response) {
+    $scope.nonprofits = response;
+  });
+  Restangular.all('projects').getList().then( function(response) {
+    $scope.projects = response;
+    $scope.projects.forEach(function (p) {
+      p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
+      p.volunteers = Math.floor((Math.random()*10)+1);
+      var returnName = function (c) {
+        return c.name;
+      };
+      p.causesStr = p.causes.map(returnName).join('/');
+      if (p.job) {
+        p.address = p.job.address;
+      } else if (p.work) {
+        p.address = p.work.address;
+      } else if (p.donation) {
+        p.address = p.donation.address;
+      }
+    });
+  }, function () {
+    toastr.error('Não consegui pegar os atos do servidor.');
+  });
+
 }]);
 
 app.controller('AboutCtrl', [ function () {
@@ -748,6 +755,7 @@ app.controller('AboutCtrl', [ function () {
 app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
   $scope.active = 'atos';
   $scope.showProject = true;
+  $scope.landing = false;
 
   angular.extend($scope, {
     center: {
@@ -758,22 +766,6 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     zoom: 14,
   });
 
-
-  Restangular.all('skills').getList().then( function(response) {
-    $scope.skills = response;
-  }, function () {
-    toastr.error('Não consegui pegar as habilidades do servidor.');
-  });
-  Restangular.all('causes').getList().then( function(response) {
-    $scope.causes = response;
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
-  Restangular.all('cities').getList().then( function(response) {
-    $scope.cities = response;
-  }, function () {
-    toastr.error('Não consegui pegar as cidades do servidor.');
-  });
   Restangular.all('nonprofits').getList().then( function (response) {
     $scope.nonprofits = response;
   });
