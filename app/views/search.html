@@ -40,13 +40,13 @@
       </div>
       <div class="form-group col-sm-4">
         <label class="sr-only" for="skillsInput">Habilidade</label>
-        <select  tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
+        <select class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
           <option value="" disabled selected>Habilidade</option>
         </select>
       </div>
       <div class="form-group col-sm-4">
         <label class="sr-only" for="citiesInput">Cidade</label>
-        <select  tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
+        <select class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
           <option value="" disabled selected>Cidade</option>
         </select>
       </div>
