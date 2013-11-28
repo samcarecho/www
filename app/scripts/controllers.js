@@ -26,16 +26,19 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;
+    $scope.skills.splice(0, 0, {name: 'Todas', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as habilidades do servidor.');
   });
   Restangular.all('causes').getList().then( function(response) {
     $scope.causes = response;
+    $scope.causes.splice(0, 0, {name: 'Todas', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
   Restangular.all('cities').getList().then( function(response) {
     $scope.cities = response;
+    $scope.cities.splice(0, 0, {name: 'Todas', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as cidades do servidor.');
   });
@@ -753,30 +756,30 @@ app.controller('AboutCtrl', [ function () {
 }]);
 
 app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  $scope.site.title = 'Atados - Explore';
   $scope.active = 'atos';
   $scope.showProject = true;
   $scope.landing = false;
   $scope.search_query = '';
-
-  angular.extend($scope, {
-    center: {
-      latitude: -23.553287,
-      longitude: -46.638535,
-    },
-    markers: [],
-    zoom: 14,
-  });
-
+  $scope.cause = '';
+  $scope.skill = '';
+  $scope.city= '';
   $scope.next_url = '';
 
-  $scope.$watch('search_query', function () {
-    Restangular.all('projects').getList({query: $scope.search_query}).then( function(response) {
+  var searchProjects = function () {
+    var urlHeaders = {
+      query: $scope.search_query,
+      cause: $scope.cause.id,
+      skill: $scope.skill.id,
+      city: $scope.city.id
+    };
+    Restangular.all('projects').getList(urlHeaders).then( function(response) {
       $scope.projects = response;
       if (response._responsemeta) {
         $scope.next_url = response._responsemeta.next;
       }
       $scope.projects.forEach(function (p) {
-        p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
+        p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
         p.volunteers = Math.floor((Math.random()*10)+1);
         var returnName = function (c) {
           return c.name;
@@ -793,36 +796,38 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     }, function () {
       toastr.error('Não consegui pegar os atos do servidor.');
     });
+  };
+
+  var searchNonprofits = function () {
+    Restangular.all('nonprofits').getList().then( function (response) {
+      $scope.nonprofits = response;
+    });
+  };
+
+  $scope.$watch('showProject', function (showProject) {
+    if (showProject) {
+      $scope.active = 'atos';
+      searchProjects();
+    } else {
+      $scope.active = 'ONGs';
+      searchNonprofits();
+    }
+  });
+
+  $scope.$watch('search_query', function () {
+    searchProjects();
+  });
+  $scope.$watch('cause', function () {
+    searchProjects();
+  });
+  $scope.$watch('skill', function () {
+    searchProjects();
+  });
+  $scope.$watch('city', function () {
+    searchProjects();
   });
 
   $scope.moreProjects = function () {
-
+    // TODO
   };
-
-  Restangular.all('nonprofits').getList().then( function (response) {
-    $scope.nonprofits = response;
-  });
-  Restangular.all('projects').getList().then( function(response) {
-    $scope.projects = response;
-    if (response._responsemeta) {
-      $scope.next_url = response._responsemeta.next;
-    }
-    $scope.projects.forEach(function (p) {
-      p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
-      p.volunteers = Math.floor((Math.random()*10)+1);
-      var returnName = function (c) {
-        return c.name;
-      };
-      p.causesStr = p.causes.map(returnName).join('/');
-      if (p.job) {
-        p.address = p.job.address;
-      } else if (p.work) {
-        p.address = p.work.address;
-      } else if (p.donation) {
-        p.address = p.donation.address;
-      }
-    });
-  }, function () {
-    toastr.error('Não consegui pegar os atos do servidor.');
-  });
 }]);
