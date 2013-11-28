@@ -26,19 +26,19 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;
-    $scope.skills.splice(0, 0, {name: 'Todas', id: ''});
+    $scope.skills.splice(0, 0, {name: 'Todas Habilidades', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as habilidades do servidor.');
   });
   Restangular.all('causes').getList().then( function(response) {
     $scope.causes = response;
-    $scope.causes.splice(0, 0, {name: 'Todas', id: ''});
+    $scope.causes.splice(0, 0, {name: 'Todas Causas', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as causas do servidor.');
   });
   Restangular.all('cities').getList().then( function(response) {
     $scope.cities = response;
-    $scope.cities.splice(0, 0, {name: 'Todas', id: ''});
+    $scope.cities.splice(0, 0, {name: 'Todas Cidades', id: ''});
   }, function () {
     toastr.error('Não consegui pegar as cidades do servidor.');
   });
@@ -755,7 +755,7 @@ app.controller('AboutCtrl', [ function () {
   toastr.info('This is the about page');
 }]);
 
-app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+app.contreller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
   $scope.site.title = 'Atados - Explore';
   $scope.active = 'atos';
   $scope.showProject = true;
@@ -767,7 +767,9 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   $scope.next_url = '';
 
   var searchProjects = function () {
+    console.log('calling searchProjecs');
     var urlHeaders = {
+      page_size: 4,
       query: $scope.search_query,
       cause: $scope.cause.id,
       skill: $scope.skill.id,
@@ -775,8 +777,8 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     };
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
       $scope.projects = response;
-      if (response._responsemeta) {
-        $scope.next_url = response._responsemeta.next;
+      if (response._resultmeta) {
+        $scope.next_url = response._resultmeta.next;
       }
       $scope.projects.forEach(function (p) {
         p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
@@ -815,16 +817,24 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   });
 
   $scope.$watch('search_query', function () {
-    searchProjects();
+    if ($scope.search_query) {
+      searchProjects();
+    }
   });
   $scope.$watch('cause', function () {
-    searchProjects();
+    if ($scope.cause) {
+      searchProjects();
+    }
   });
   $scope.$watch('skill', function () {
-    searchProjects();
+    if ($scope.skill) {
+      searchProjects();
+    }
   });
   $scope.$watch('city', function () {
-    searchProjects();
+    if ($scope.city) {
+      searchProjects();
+    }
   });
 
   $scope.moreProjects = function () {
