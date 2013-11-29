@@ -1,13 +1,13 @@
-atados-angular [![Build Status](https://travis-ci.org/atados/www.png)](https://travis-ci.org/atados/www) [![Dependency Status](https://gemnasium.com/atados/www.png)](https://gemnasium.com/atados/www)
+www [![Build Status](https://travis-ci.org/atados/www.png)](https://travis-ci.org/atados/www) [![Dependency Status](https://gemnasium.com/atados/www.png)](https://gemnasium.com/atados/www)
 ==============
 
-Frontend app for Atados built with Angular
+Frontend app para nova versão do atados.com.br programado com AngularJS.
 
+## Para rodar o projeto
 
-To run the project
-<code>
-npm install
-sudo npm install -g bower 
-bower install
-grunt server
-</code>
+	git clone https://github.com/atados/www.git
+	sudo npm install -g bower 
+	sudo npm install -g grunt-cli
+	npm install
+	bower install
+	grunt serve
