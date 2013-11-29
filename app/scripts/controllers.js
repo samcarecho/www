@@ -718,51 +718,31 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
   };
 }]);
 
-app.controller('LandingCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+app.controller('LandingCtrl', ['$scope', function ($scope) {
   $scope.landing = true;
-  $scope.active = 'atos';
-  $scope.showProject = 'true';
-
-  Restangular.all('nonprofits').getList().then( function (response) {
-    $scope.nonprofits = response;
-  });
-  Restangular.all('projects').getList().then( function(response) {
-    $scope.projects = response;
-    $scope.projects.forEach(function (p) {
-      p.address = {suburb: {city: {name: 'São Paulo', state: {code: 'SP'}}}};
-      p.volunteers = Math.floor((Math.random()*10)+1);
-      var returnName = function (c) {
-        return c.name;
-      };
-      p.causesStr = p.causes.map(returnName).join('/');
-      if (p.job) {
-        p.address = p.job.address;
-      } else if (p.work) {
-        p.address = p.work.address;
-      } else if (p.donation) {
-        p.address = p.donation.address;
-      }
-    });
-  }, function () {
-    toastr.error('Não consegui pegar os atos do servidor.');
-  });
-
 }]);
 
 app.controller('AboutCtrl', [ function () {
   toastr.info('This is the about page');
 }]);
 
-app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
+app.controller('ExplorerCtrl', ['$scope', function ($scope) {
   $scope.site.title = 'Atados - Explore';
-  $scope.projects = [];
-  $scope.active = 'atos';
-  $scope.showProject = true;
   $scope.landing = false;
+}]);
+
+app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
+  $scope.active = 'atos';
+  $scope.showProjects = true;
+
+  $scope.projects = [];
+  $scope.nonprofits = [];
+
   $scope.search_query = '';
   $scope.cause = '';
   $scope.skill = '';
   $scope.city= '';
+
   $scope.next_url = '';
 
   var fixProject = function (response) {
@@ -774,9 +754,18 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
     }
   };
 
+  var fixNonprofit = function (response) {
+    response.forEach(sanitizeNonprofit);
+    if (response._resultmeta) {
+      $scope.next_url = response._resultmeta.next;
+    } else {
+      $scope.next_url = '';
+    }
+  };
+
   var sanitizeProject = function (p) {
     p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
-    p.volunteers = Math.floor((Math.random()*10)+1);
+    p.volunteers = Math.floor((Math.random()*1000)+1);
     var returnName = function (c) {
       return c.name;
     };
@@ -789,6 +778,9 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
       p.address = p.donation.address;
     }
     $scope.projects.push(p);
+  };
+  var sanitizeNonprofit = function (n) {
+    $scope.nonprofits.push(n);
   };
 
   var searchProjects = function () {
@@ -807,18 +799,28 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
   };
 
   var searchNonprofits = function () {
-    Restangular.all('nonprofits').getList().then( function (response) {
-      $scope.nonprofits = response;
+    var urlHeaders = {
+      page_size: constants.page_size,
+      query: $scope.search_query,
+      cause: $scope.cause.id,
+      city: $scope.city.id
+    };
+    Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
+      fixNonprofit(response);
     });
   };
 
-  $scope.$watch('showProject', function (showProject) {
-    if (showProject) {
+  $scope.$watch('showProjects', function (showProjects) {
+    if (showProjects) {
       $scope.active = 'atos';
-      searchProjects();
+      if ($scope.projects.length === 0) {
+        searchProjects();
+      }
     } else {
       $scope.active = 'ONGs';
-      searchNonprofits();
+      if ($scope.nonprofits.length === 0) {
+        searchNonprofits();
+      }
     }
   });
 
@@ -842,12 +844,15 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
   });
   $scope.$watch('city', function () {
     if ($scope.city) {
+      $scope.projects = [];
       searchProjects();
     }
   });
 
   $scope.getMore = function () {
-    if ($scope.next_url) {
+    if ($scope.landing) {
+    }
+    else if ($scope.next_url) {
       $http.get($scope.next_url).success( function (response) {
         response.results._restultmeta = {next: response.next };
         fixProject(response.results);

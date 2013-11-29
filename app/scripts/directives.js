@@ -44,7 +44,8 @@ app.directive('projectCard', function() {
 app.directive('atadosSearch', function() {
   return {
     restrict: 'E',
-    templateUrl: '/views/search.html'
+    templateUrl: '/views/search.html',
+    controller: 'SearchCtrl'
   };
 });
 

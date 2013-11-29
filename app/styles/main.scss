@@ -323,11 +323,6 @@ html, body {
     box-shadow: none;
     background-color: rgba(222, 222, 222, 0.5);
   }
-
-  
-  #more-button {
-    margin-top: 20px;
-  }
 }
 
 .filters {
@@ -364,13 +359,10 @@ html, body {
 atados-search {
   padding: 20px;
 }
-.filters.row {
-  margin-left: 20px;
-  margin-right: 20px;
-}
 
 #landing-info {
   margin-top: 50px;
+  margin-bottom: 50px;
   h3 {
     color: $blue;
     text-shadow: 1px 0 1px rgba(0,0,0,0.4);
