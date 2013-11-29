@@ -824,28 +824,34 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     }
   });
 
-  $scope.$watch('search_query', function () {
-    if ($scope.search_query) {
+  var filter = function () {
+    if ($scope.showProjects) {
       $scope.projects = [];
       searchProjects();
+    } else {
+      $scope.nonprofits = [];
+      searchNonprofits();
+    }
+  };
+
+  $scope.$watch('search_query', function () {
+    if ($scope.search_query) {
+      filter();
     }
   });
   $scope.$watch('cause', function () {
     if ($scope.cause) {
-      $scope.projects = [];
-      searchProjects();
+      filter();
     }
   });
   $scope.$watch('skill', function () {
     if ($scope.skill) {
-      $scope.projects = [];
-      searchProjects();
+      filter();
     }
   });
   $scope.$watch('city', function () {
     if ($scope.city) {
-      $scope.projects = [];
-      searchProjects();
+      filter();
     }
   });
 
