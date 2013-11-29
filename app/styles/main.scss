@@ -871,11 +871,7 @@ google-map {
 // -------------------------
 
 .toast-info {
-  background-color: $blue;
-}
-
-.toast-top-right {
-  top: 80px;
+  background-color: $orange;
 }
 
 .pace .pace-progress {
@@ -891,4 +887,4 @@ google-map {
   box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
 }
 
-@import "bootstrap";
+@import 'sass-bootstrap/lib/bootstrap';
