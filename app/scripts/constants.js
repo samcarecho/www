@@ -10,5 +10,6 @@ var constants = {
   'sessionIdCookie': 'sessionid',
   'grantType': 'password',
   's3': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
-  'local': 'http://api.atadoslocal.com.br:8000/static/images/'
+  'local': 'http://api.atadoslocal.com.br:8000/static/images/',
+  'page_size': 4
 };

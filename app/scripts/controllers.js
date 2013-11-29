@@ -755,8 +755,9 @@ app.controller('AboutCtrl', [ function () {
   toastr.info('This is the about page');
 }]);
 
-app.contreller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
   $scope.site.title = 'Atados - Explore';
+  $scope.projects = [];
   $scope.active = 'atos';
   $scope.showProject = true;
   $scope.landing = false;
@@ -766,35 +767,43 @@ app.contreller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
   $scope.city= '';
   $scope.next_url = '';
 
+  var fixProject = function (response) {
+    response.forEach(sanitizeProject);
+    if (response._resultmeta) {
+      $scope.next_url = response._resultmeta.next;
+    } else {
+      $scope.next_url = '';
+    }
+  };
+
+  var sanitizeProject = function (p) {
+    p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
+    p.volunteers = Math.floor((Math.random()*10)+1);
+    var returnName = function (c) {
+      return c.name;
+    };
+    p.causesStr = p.causes.map(returnName).join('/');
+    if (p.job) {
+      p.address = p.job.address;
+    } else if (p.work) {
+      p.address = p.work.address;
+    } else if (p.donation) {
+      p.address = p.donation.address;
+    }
+    console.log(p);
+    $scope.projects.push(p);
+  };
+
   var searchProjects = function () {
-    console.log('calling searchProjecs');
     var urlHeaders = {
-      page_size: 4,
+      page_size: constants.page_size,
       query: $scope.search_query,
       cause: $scope.cause.id,
       skill: $scope.skill.id,
       city: $scope.city.id
     };
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
-      $scope.projects = response;
-      if (response._resultmeta) {
-        $scope.next_url = response._resultmeta.next;
-      }
-      $scope.projects.forEach(function (p) {
-        p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
-        p.volunteers = Math.floor((Math.random()*10)+1);
-        var returnName = function (c) {
-          return c.name;
-        };
-        p.causesStr = p.causes.map(returnName).join('/');
-        if (p.job) {
-          p.address = p.job.address;
-        } else if (p.work) {
-          p.address = p.work.address;
-        } else if (p.donation) {
-          p.address = p.donation.address;
-        }
-      });
+      fixProject(response);
     }, function () {
       toastr.error('Não consegui pegar os atos do servidor.');
     });
@@ -837,7 +846,16 @@ app.contreller('ExplorerCtrl', ['$scope', 'Restangular', function ($scope, Resta
     }
   });
 
-  $scope.moreProjects = function () {
-    // TODO
+  $scope.getMore = function () {
+    if ($scope.next_url) {
+      $http.get($scope.next_url).success( function (response) {
+        response.results._restultmeta = {next: response.next };
+        fixProject(response.results);
+      }).error(function () {
+        toastr.error('Erro ao buscar mais atos do servidor');
+      });
+    } else {
+      toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
+    }
   };
 }]);
