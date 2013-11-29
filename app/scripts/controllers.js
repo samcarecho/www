@@ -673,11 +673,9 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
     var roles = Restangular.all('roles');
     roles.post($scope.job.roles).then(function (rolesReturned) {
       $scope.job.roles = [];
-      window.rolesReturned = rolesReturned;
-      //rolesReturned.forEach( function (role) {
-        //console.log(role);
-        //$scope.job.roles.push(role.id);
-      //});
+      rolesReturned.forEach( function (role) {
+        $scope.job.roles.push(role.id);
+      });
       $scope.project.job = $scope.job;
       var projects = Restangular.all('projects');
       projects.post($scope.project).then( function () {
@@ -790,7 +788,6 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
     } else if (p.donation) {
       p.address = p.donation.address;
     }
-    console.log(p);
     $scope.projects.push(p);
   };
 
@@ -827,16 +824,19 @@ app.controller('ExplorerCtrl', ['$scope', 'Restangular', '$http', function ($sco
 
   $scope.$watch('search_query', function () {
     if ($scope.search_query) {
+      $scope.projects = [];
       searchProjects();
     }
   });
   $scope.$watch('cause', function () {
     if ($scope.cause) {
+      $scope.projects = [];
       searchProjects();
     }
   });
   $scope.$watch('skill', function () {
     if ($scope.skill) {
+      $scope.projects = [];
       searchProjects();
     }
   });

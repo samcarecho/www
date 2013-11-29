@@ -62,6 +62,7 @@ app.factory('Photos', ['$http', function($http) {
   };
 }]);
  
+
 app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   
   function setAuthHeader(accessToken) {
