@@ -1,23 +1,37 @@
 # angular-google-maps
 
-## Changes coming in the next few weeks
+> AngularJS directives for Google Maps
 
-Although there weren't any changes in the master branch for awhile, development continued in the r1-dev branch. Around the end of
-October 2013, we will proceed to a final release of this work.
+[![Build Status](https://travis-ci.org/nlaplante/angular-google-maps.png?branch=r1-dev)](https://travis-ci.org/nlaplante/angular-google-maps)
 
-The master branch will be renamed to *legacy* and a snapshot of *r1-dev* will become *master*. We will adopt the *git-flow*
-branching model, meaning that all further development will take place in the *develop* branch. *Master* will always reflect the state
-of the last release. 
+## Getting started
+This is a directive for AngularJS `~1.0.7+, ~1.2.2+`.
 
-If you did not do so yet, have a look at the *r1-dev* branch. It contains what angular-google-maps will become. 
+If you plan to hack on the directives or want to run the example, first thing to do is to install NPM dependencies:
 
-Along with the release of the new codebase, we will put a new website to reflect the changes. A full API documentation and quickstart
-pages will be available.
+```shell
+npm install
+```
 
-## About this project
+### Building
+To build the library after you made changes, simply run grunt:
 
-AngularJS directives for the Google Maps Javascript API. Quite different from AngularUI's take on it. Up to you to decide what suits your needs.
+```shell
+grunt
+```
 
-Please see the example in the tree. And be sure to [RTFM](http://nlaplante.github.io/angular-google-maps "read the documentation")!
+If you get errors from `jshint`, just add the `--force` argument.
+
+### Running the example
+To run the example page, just run
+
+```shell
+grunt example
+```
+
+and open your browser on `http://localhost:3000/example.html`.
+
+The various directives are documented at [official site](http://nlaplante.github.io/angular-google-maps). Please note these
+are OUTDATED and updates will come as soon as possible.
 
 Pull requests more than welcome! Enjoy!

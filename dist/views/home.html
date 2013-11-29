@@ -11,54 +11,11 @@
       </div>
     </div> <!-- End of Jumbotron -->
   </div>
-  <div class="row atados-explorer" ng-controller="ExplorerCtrl">
-    <div class="col-md-10 col-md-offset-1">
-      <div class="center explanation">
-        <h4>Procure por <span id="atos" ng-click="showProject=true" ng-class="{active: showProject}">Atos</span> voluntários das suas <span id="ongs" ng-click="showProject=false" ng-class="{active: !showProject}">ONGs</span> favoritas.<h4>
-        <i class="fa fa-hand-o-down"></i>
-      </h4></h4></div>
-      <button class="btn btn-tab active" ng-click="showProject=true" ng-class="{active: showProject}">Pesquisar Atos</button>
-      <button class="btn btn-tab" ng-click="showProject=false" ng-class="{active: !showProject}">Pesquisar ONGs</button>
-      <div class="row filters">
-        <form class="form-inline" role="form">
-          <div class="col-sm-11">
-            <div class="form-group col-sm-4">
-              <label class="sr-only" for="causesInput">Causa</label>
-              <select tooltip="Qual causa que te move? Filtre os trabalhos voluntários por elas." class="form-control" id="causesInput" ng-model="cause" ng-options="c.name for c in causes">
-                <option value="" disabled="disabled" selected="selected">Causa</option>
-              </select>
-            </div>
-            <div class="form-group col-sm-4">
-              <label class="sr-only" for="skillsInput">Habilidade</label>
-              <select tooltip="Filtre os trabalhos voluntários pelo o que você se interessa!" class="form-control" id="skillInput" ng-model="skill" ng-options="s.name for s in skills">
-                <option value="" disabled="disabled" selected="selected">Habilidade</option>
-              </select>
-            </div>
-            <div class="form-group col-sm-4">
-              <label class="sr-only" for="citiesInput">Cidade</label>
-              <select tooltip="Por enquanto só estamos em 3 cidades, aguente firme! Você também pode procurar por atos a distancia :)" class="form-control" id="citiesInput" ng-model="city" ng-options="c.name for c in cities|orderBy: 'name'">
-                <option value="" disabled="disabled" selected="selected">Cidade</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-1 center">
-            <button id="searchProjects" class="btn btn-ong">Buscar</button>
-          </div>
-        </form>
-      </div>
-      <div class="row">
-        <div ng-show="showProject" class="projects">
-          <project-card ng-repeat="project in projects"></project-card>
-        </div>
-        <div ng-hide="showProject " class="nonprofits">
-          <nonprofit-card ng-repeat="nonprofit in nonprofits"></nonprofit-card>
-        </div>
-      </div>
-      <div id="more-button" class="center">
-        <a class="btn btn-lg btn-ong center" ui-sref="root.explore">Mostrar mais {{active}}</a>
-      </div>
-    </div>
-  </div> <!-- End of Atados-explorer -->
+
+  <div class="row atados-explorer">
+      <atados-search></atados-search>
+  </div>
+
   <div id="landing-info" class="container">
     <div id="numbers" class="row">
       <h3>é fácil começar !  </h3>
