@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "http://github.com/atados/atados-angular.git"
+    "url": "http://github.com/atados/www.git"
   },
   "dependencies": {},
   "devDependencies": {
@@ -29,7 +29,7 @@
     "load-grunt-tasks": "~0.2.0",
     "connect-livereload": "~0.3.0",
     "connect": "~2.11.0",
-    "jshint": "~2.3.0",
+    "jshint-stylish": "~0.1.3",
     "recess": "~1.1.9",
     "uglify-js": "~2.4.3",
     "grunt-google-cdn": "~0.2.0",
