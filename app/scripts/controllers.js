@@ -738,7 +738,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   $scope.projects = [];
   $scope.nonprofits = [];
 
-  $scope.search_query = '';
+  $scope.searchQuery = '';
   $scope.cause = '';
   $scope.skill = '';
   $scope.city= '';
@@ -786,7 +786,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   var searchProjects = function () {
     var urlHeaders = {
       page_size: constants.page_size,
-      query: $scope.search_query,
+      query: $scope.searchQuery,
       cause: $scope.cause.id,
       skill: $scope.skill.id,
       city: $scope.city.id
@@ -801,7 +801,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   var searchNonprofits = function () {
     var urlHeaders = {
       page_size: constants.page_size,
-      query: $scope.search_query,
+      query: $scope.searchQuery,
       cause: $scope.cause.id,
       city: $scope.city.id
     };
@@ -834,8 +834,8 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     }
   };
 
-  $scope.$watch('search_query', function () {
-    if ($scope.search_query) {
+  $scope.$watch('searchQuery', function () {
+    if (!$scope.landing) {
       filter();
     }
   });
