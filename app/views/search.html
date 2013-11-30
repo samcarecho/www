@@ -6,7 +6,7 @@
   </h4>
 </div>
 
-<div class="col-md-10 col-md-offset-1">
+<div ng-class="{true: 'col-sm-10 col-sm-offset-1', false: 'col-sm-12'}[landing]">
   <button class="btn btn-tab active" ng-click="showProjects=true" ng-class="{active: showProjects}">Pesquisar Atos</button>
   <button class="btn btn-tab" ng-click="showProjects=false" ng-class="{active: !showProjects}">Pesquisar ONGs</button>
   <div class="row filters">

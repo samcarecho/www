@@ -289,6 +289,9 @@ html, body {
   margin-top: auto;
 }
 
+.atados-explorer-outer {
+  height: 800px;
+}
 .atados-explorer {
   background-color: #efefef;
   padding: 20px 0;
@@ -461,15 +464,11 @@ atados-search {
 }
 
 .sidebar {
-  
+  height: 800px;
+  overflow: scroll;
 }
 
-.row.atados-explorer {
-  margin: 0;
-}
-
-
-$card-width: 260px;
+$card-width: 250px;
 $card-height: 270px;
 $card-info-height: 100px;
 $card-img-height: $card-height - $card-info-height;
@@ -536,7 +535,7 @@ $card-img-height: $card-height - $card-info-height;
       
       .card-name {
         position: absolute;
-        top: -39px;
+        top: -43px;
         width: 100%;
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
         text-decoration: none;
