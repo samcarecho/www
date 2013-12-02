@@ -745,6 +745,19 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
 
   $scope.next_url = '';
 
+  if (!$scope.landing) {
+    angular.extend($scope, {
+      map: {
+        center: {
+          latitude: 45,
+          longitude: -73
+        },
+        markers: [],
+        zoom: 8
+      }
+    });
+  }
+
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {

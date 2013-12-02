@@ -37,8 +37,8 @@
   <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
     <label class="help-block">Digite seu email para receber uma nova senha.</label>
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
-      <input required type="email" name="email" class="form-control" ng-model='email' placeholder="Email"/>
-      <label class="help-block" ng-show="!resetPasswordForm.email.alreadyUsed">Email não existe.</label>
+      <input required type="email" name="forgotEmail" class="form-control" ng-model='forgotEmail' placeholder="Email"/>
+      <label class="help-block" ng-show="!resetPasswordForm.forgotEmail.alreadyUsed">Email não existe.</label>
     </div>
     <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
   </form>

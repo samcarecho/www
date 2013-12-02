@@ -458,9 +458,16 @@ atados-search {
   }
 }
 
+$explorer-map-height: 800px;
+
 .map {
+  display: block;
+  height: $explorer-map-height;
   box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
   padding: 0;
+  .google-map {
+    height: $explorer-map-height;
+  }
 }
 
 .sidebar {

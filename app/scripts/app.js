@@ -4,14 +4,13 @@
 /* global $: false */
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook']);
+    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps']);
 
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
     .state('root', {
@@ -99,7 +98,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     // $urlRouterProvider.when('/test', '/test1');
   $urlRouterProvider.otherwise('/404');
 
-  $locationProvider.html5Mode(true).hashPrefix('!');
+  // $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
 app.config(['$httpProvider', function ($httpProvider) {
