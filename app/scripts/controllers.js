@@ -793,7 +793,19 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   };
 
   var getAddressStr = function (a) {
-    return a.addressline + ', ' + a.addressnumber + ' - ' + a.city.name + ' ' + a.city.state.code;
+    if (a) {
+      var address =  a.addressline + ', ' + a.addressnumber;
+      if (a.city) {
+        address += ' - ' + a.city.name;
+        if (a.city.state) {
+          address += + ' ' + a.city.state.code;
+        }
+      }
+      console.log(address);
+      return address;
+    } else {
+      return '';
+    }
   };
 
   function getLatLong(address){
@@ -809,18 +821,15 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
           icon: 'heart16.png'
         };
         $scope.map.markers.push(address.coords);
-        $scope.mapReady = true;
       } else {
-        toastr.error('Google Maps não retornou resultado.');
+        console.error('Google Maps não retornou resultado.');
       }
     });
   }
 
   var sanitizeProject = function (p) {
-    p.address = {addressline: 'Rua João Moura', addressnumber: '366', city: {name: 'São Paulo', state: {code: 'SP'}}};
     getLatLong(p.address);
     window.address = p.address;
-    p.volunteers = Math.floor((Math.random()*1000)+1);
     var returnName = function (c) {
       return c.name;
     };
@@ -870,6 +879,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
       $scope.active = 'atos';
       if ($scope.projects.length === 0) {
         searchProjects();
+        console.debug('seraching for projects: showProjects');
       }
     } else {
       $scope.active = 'ONGs';
@@ -883,6 +893,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     if ($scope.showProjects) {
       $scope.projects = [];
       searchProjects();
+      console.debug('seraching for projects: filter');
     } else {
       $scope.nonprofits = [];
       searchNonprofits();
