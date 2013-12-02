@@ -23,7 +23,6 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
 
   $scope.citySearch = function (city) {
     $scope.$broadcast('citySearch', city);
-    $scope.$emit('citySearch', city);
   };
 
   //$scope.storage = constants.s3;
@@ -731,13 +730,18 @@ app.controller('AboutCtrl', [ function () {
   toastr.info('This is the about page');
 }]);
 
-app.controller('ExplorerCtrl', ['$scope', function ($scope) {
+app.controller('ExplorerCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
 
-  $scope.on('citySearch', function (event, mass) {
-    console.log(mass);
-    console.log(event);
+  $scope.$on('citySearch', function (event, mass) {
+    $scope.cities.forEach(function (c) {
+      if (c.name === mass) {
+        $scope.city = c;
+        $location.hash('wrap');
+        $anchorScroll();
+      }
+    });
   });
 
   angular.extend($scope, {
