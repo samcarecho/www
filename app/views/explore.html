@@ -1,6 +1,17 @@
 <div class="atados-explorer-outer"> 
   <div class="map col-sm-4">
-    <div class="google-map" center="map.center" draggable="true" zoom="map.zoom"></div>
+    <div class="google-map"
+      center="map.center"           
+      zoom="map.zoom"               
+      draggable="true">        
+      <marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
+        <marker-label content="m.title" anchor="22 0" class="marker-labels"/>
+        <window show="m.showWindow" closeClick="m.closeClick()">
+          <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
+          <p class="muted">My marker will stay open when the window is popped up!</p>
+        </window>
+      </marker>
+    </div>
   </div>
   <div class="atados-explorer sidebar col-sm-8">
     <atados-search></atados-search>

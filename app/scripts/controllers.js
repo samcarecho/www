@@ -729,6 +729,35 @@ app.controller('AboutCtrl', [ function () {
 app.controller('ExplorerCtrl', ['$scope', function ($scope) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
+
+  angular.extend($scope, {
+    map: {
+      center: {
+        latitude: -23.553287,
+        longitude: -46.638535
+      },
+      markers: [],
+      zoom: 10,
+      dragging: false
+    }
+  });
+
+  var onMarkerClicked = function(marker){
+    marker.showWindow = true;
+    console.debug('Marker: lat: ' + marker.latitude +', lon: ' + marker.longitude + ' clicked!!');
+  };
+
+  $scope.onMarkerClicked = onMarkerClicked;
+
+  $scope.map.markers.forEach(function(marker){
+    marker.closeClick = function(){
+      marker.showWindow = false;
+      $scope.$apply();
+    };
+    marker.onClicked = function(){
+      onMarkerClicked(marker);
+    };
+  });
 }]);
 
 app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
@@ -744,19 +773,6 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   $scope.city= '';
 
   $scope.next_url = '';
-
-  if (!$scope.landing) {
-    angular.extend($scope, {
-      map: {
-        center: {
-          latitude: 45,
-          longitude: -73
-        },
-        markers: [],
-        zoom: 8
-      }
-    });
-  }
 
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
@@ -776,8 +792,34 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     }
   };
 
+  var getAddressStr = function (a) {
+    return a.addressline + ', ' + a.addressnumber + ' - ' + a.city.name + ' ' + a.city.state.code;
+  };
+
+  function getLatLong(address){
+    var geo = new google.maps.Geocoder();
+    geo.geocode({'address': getAddressStr(address), 'region': 'br'},
+    function(results, status){
+      if (status === google.maps.GeocoderStatus.OK) {
+        address.coords =  {
+          latitude: results[0].geometry.location.lat(),
+          longitude: results[0].geometry.location.lng(),
+          showWindow: true,
+          title: '',
+          icon: 'plane17.png'
+        };
+        $scope.map.markers.push(address.coords);
+        $scope.mapReady = true;
+      } else {
+        toastr.error('Google Maps não retornou resultado.');
+      }
+    });
+  }
+
   var sanitizeProject = function (p) {
-    p.address = {city: {name: 'São Paulo', state: {code: 'SP'}}};
+    p.address = {addressline: 'Rua João Moura', addressnumber: '366', city: {name: 'São Paulo', state: {code: 'SP'}}};
+    getLatLong(p.address);
+    window.address = p.address;
     p.volunteers = Math.floor((Math.random()*1000)+1);
     var returnName = function (c) {
       return c.name;

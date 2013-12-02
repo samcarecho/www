@@ -460,25 +460,29 @@ atados-search {
 
 $explorer-map-height: 800px;
 
-.map {
+.angular-google-map-container {
   display: block;
+  width: 100%;
   height: $explorer-map-height;
+}
+
+.angular-google-map {
+  margin: 0 -8px;
+}
+
+.map {
   box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
-  padding: 0;
-  .google-map {
-    height: $explorer-map-height;
-  }
 }
 
 .sidebar {
-  height: 800px;
+  height: $explorer-map-height;
   overflow: scroll;
 }
 
 $card-width: 250px;
 $card-height: 270px;
 $card-info-height: 100px;
-$card-img-height: $card-height - $card-info-height;
+$card-img-height: 170px;
 
 .card-outer {
   margin-bottom: 25px;
@@ -531,6 +535,7 @@ $card-img-height: $card-height - $card-info-height;
 
       img {
         width: $card-width;
+        height: $card-img-height;
         border-radius:3px 3px 0 0;
       }
 
