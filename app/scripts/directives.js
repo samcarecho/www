@@ -13,7 +13,6 @@ app.directive('button', function() {
   return {
     restrict: 'E',
     compile: function(element, attrs) {
-      element.addClass('btn');
       if ( attrs.type === 'submit') {
         element.addClass('btn-primary');
       } else if ( attrs.type === 'destroy' ) {

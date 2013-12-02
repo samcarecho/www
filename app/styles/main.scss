@@ -639,8 +639,18 @@ $card-img-height: 170px;
 }
 
 #siteSearch {
-  margin-top: 3px;
-  width: 300px;
+  width: 350px;
+  font-size: 14px;
+}
+.searchIcon {
+  width: 30px;
+  height: 35px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  padding: 0;
+  margin: 0 -35px;
+  color: #808080;
 }
 
 #volunteer-signup-form {
