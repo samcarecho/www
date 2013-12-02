@@ -499,7 +499,8 @@ app.controller('NonprofitController',
         $scope.markers.push(location);
         $scope.mapReady = true;
       } else {
-        toastr.error('Google Maps não retornou resultado.');
+        console.error('Google Maps não retornou resultado.');
+        // TODO
       }
     });
   }
@@ -808,27 +809,29 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     }
   };
 
-  function getLatLong(address){
+  function getLatLong(project){
+    var address = project.address;
     var geo = new google.maps.Geocoder();
-    geo.geocode({'address': getAddressStr(address), 'region': 'br'},
+    var addressStr = getAddressStr(address);
+    geo.geocode({'address': addressStr, 'region': 'br'},
     function(results, status){
       if (status === google.maps.GeocoderStatus.OK) {
-        address.coords =  {
+        project.coords =  {
           latitude: results[0].geometry.location.lat(),
           longitude: results[0].geometry.location.lng(),
           showWindow: true,
-          title: '',
-          icon: 'heart16.png'
+          icon: 'heartblue16.png'
         };
-        $scope.map.markers.push(address.coords);
+        $scope.map.markers.push(project.coords);
       } else {
         console.error('Google Maps não retornou resultado.');
+        project.coords = {};
       }
     });
   }
 
   var sanitizeProject = function (p) {
-    getLatLong(p.address);
+    getLatLong(p);
     window.address = p.address;
     var returnName = function (c) {
       return c.name;
@@ -874,30 +877,11 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
     });
   };
 
-  $scope.$watch('showProjects', function (showProjects) {
-    if (showProjects) {
-      $scope.active = 'atos';
-      if ($scope.projects.length === 0) {
-        searchProjects();
-        console.debug('seraching for projects: showProjects');
-      }
-    } else {
-      $scope.active = 'ONGs';
-      if ($scope.nonprofits.length === 0) {
-        searchNonprofits();
-      }
-    }
-  });
-
   var filter = function () {
-    if ($scope.showProjects) {
-      $scope.projects = [];
-      searchProjects();
-      console.debug('seraching for projects: filter');
-    } else {
-      $scope.nonprofits = [];
-      searchNonprofits();
-    }
+    $scope.projects = [];
+    $scope.nonprofits = [];
+    searchProjects();
+    searchNonprofits();
   };
 
   $scope.$watch('searchQuery', function () {

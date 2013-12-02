@@ -37,9 +37,6 @@
         <div class="form-group col-sm-12">
           <input id="searchInput" class="form-control" ng-model="searchQuery" type="text" placeholder="Pesquisar por palavra chave">
         </div>
-        <!--<div class="col-sm-2 center">
-          <button id="searchProjects" class="btn btn-info">Buscar</button>
-        </div>-->
       </div>
     </form>
   </div>
@@ -47,9 +44,11 @@
     <div class="col-sm-12">
       <div ng-show="showProjects" class="projects">
         <project-card ng-repeat="project in projects"></project-card>
+        <div class="center" ng-show="!projects.length">Nãoooooooo. não tem projetos com esse busca:(</div>
       </div>
       <div ng-hide="showProjects "class="nonprofits">
         <nonprofit-card ng-repeat="nonprofit in nonprofits"></nonprofit-card>
+        <div class="center" ng-show="!nonprofits.length">Nãoooooooo. não tem ONGs com essa busca :(</div>
       </div>
     </div>
   </div>
