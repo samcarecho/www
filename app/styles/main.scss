@@ -508,12 +508,12 @@ $card-img-height: 170px;
 
     background: #fff;
     border: 1px solid #d3d3d3;
-    border-radius:3px 3px 0 0;
+    border-radius:4px 4px 0 0;
     
     .card-img {
       border-radius:3px 3px 0 0;
       height: $card-img-height;
-      width: $card-width;
+      width: $card-width - 1;
       overflow: hidden;
       .card-description {
         width: $card-width;
@@ -547,7 +547,7 @@ $card-img-height: 170px;
       
       .card-name {
         position: absolute;
-        top: -43px;
+        top: -39px;
         width: 100%;
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
         text-decoration: none;

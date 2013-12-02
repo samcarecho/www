@@ -806,7 +806,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
           longitude: results[0].geometry.location.lng(),
           showWindow: true,
           title: '',
-          icon: 'plane17.png'
+          icon: 'plane16.png'
         };
         $scope.map.markers.push(address.coords);
         $scope.mapReady = true;
