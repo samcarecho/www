@@ -21,6 +21,11 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   $scope.modalInstance = null;
   $scope.year = (new Date()).getFullYear();
 
+  $scope.citySearch = function (city) {
+    $scope.$broadcast('citySearch', city);
+    $scope.$emit('citySearch', city);
+  };
+
   //$scope.storage = constants.s3;
   $scope.storage = constants.local; // If DEBUG TODO(mpomarole)
 
@@ -499,7 +504,6 @@ app.controller('NonprofitController',
         $scope.markers.push(location);
         $scope.mapReady = true;
       } else {
-        console.error('Google Maps não retornou resultado.');
         // TODO
       }
     });
@@ -731,6 +735,11 @@ app.controller('ExplorerCtrl', ['$scope', function ($scope) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
 
+  $scope.on('citySearch', function (event, mass) {
+    console.log(mass);
+    console.log(event);
+  });
+
   angular.extend($scope, {
     map: {
       center: {
@@ -802,7 +811,6 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
           address += + ' ' + a.city.state.code;
         }
       }
-      console.log(address);
       return address;
     } else {
       return '';
@@ -824,7 +832,6 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
         };
         $scope.map.markers.push(project.coords);
       } else {
-        console.error('Google Maps não retornou resultado.');
         project.coords = {};
       }
     });
@@ -832,7 +839,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
 
   var sanitizeProject = function (p) {
     getLatLong(p);
-    window.address = p.address;
+    // TODO(mpomarole): replace with causes icon
     var returnName = function (c) {
       return c.name;
     };
