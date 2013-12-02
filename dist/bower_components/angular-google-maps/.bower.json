@@ -13,6 +13,7 @@
     "commit": "eebb0c9d01b1b16ef0c46876a8ae98469167d505"
   },
   "_source": "git://github.com/nlaplante/angular-google-maps.git",
-  "_target": "*",
-  "_originalSource": "angular-google-maps"
+  "_target": "~1.0.0",
+  "_originalSource": "angular-google-maps",
+  "_direct": true
 }

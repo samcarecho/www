@@ -10,7 +10,6 @@ describe('button directive', function () {
   }));
 
   it('has class btn', function() {
-    expect(element.hasClass('btn')).toBeTruthy();
   });
 
   it('has class primary when type is submit', function () {

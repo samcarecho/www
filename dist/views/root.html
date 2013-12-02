@@ -14,6 +14,9 @@
       <form class="navbar-form pull-left" role="search">
         <div class="form-group">
           <input id="siteSearch" class="form-control input-sm" ng-model="searchQuery" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+          <button class="searchIcon">
+            <i class="fa fa-search"></i>
+          </button>
         </div>
       </form>
 
@@ -62,10 +65,10 @@
       <div class="col-sm-6">
         <div class="col-sm-6">
           <h4>Cidades que te chamam</h4>
-          <ul>
-            <li><a ui-sref="root.explore">Atos em São Paulo</a></li>
-            <li><a ui-sref="root.explore">Atos em Curitiba</a></li>
-            <li><a ui-sref="root.explore">Atos em Brasília</a></li>
+          <ul>  
+            <li><a ng-click="citySearch('São Paulo')" ui-sref="root.explore">Atos em São Paulo</a></li>
+            <li><a ng-click="citySearch('Curitiba')" ui-sref="root.explore">Atos em Curitiba</a></li>
+            <li><a ng-click="citySearch('Brasília')" ui-sref="root.explore">Atos em Brasília</a></li>
           </ul>
         </div>
         <div class="col-sm-6">

@@ -1,21 +1,21 @@
-<div class="card-outer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+<div class="card-outer" ng-class="{true: 'col-lg-3 col-md-4 col-sm-5 col-xs-6',  false: 'col-lg-4 col-md-5 col-sm-6'}[landing]">
   <div class="card">
     <div class="card-img">
-        <div class="card-description"> 
-          <a ng-href="ong/{{nonprofit.slug}}">
-            <p>{{nonprofit.description}}</p>
-          </a>
-        </div>
-        <img alt="" ng-src="{{ nonprofit.image_url }}">
+      <div class="card-description"> 
+        <a ng-href="ong/{{nonprofit.slug}}">
+          <p>{{nonprofit.description}}</p>
+        </a>
+      </div>
+      <img alt="" ng-src="{{ nonprofit.image_url }}">
     </div>
     <div class="card-footer clearfix">
-      <a class="card-name" ng-href="ong/{{nonprofit.slug}}"><h4>{{ nonprofit.name }}</h4></a>
       <div class="row card-quick-info">
         <a ng-href="/ong/{{nonprofit.slug}}" class="nonprofit-img">
           <img ng-href="/ong/{{nonprofit.slug}}" ng-src="{{ nonprofit.image_url }}">
         </a>
         <span>
-          <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.suburb.city.name }}, {{ nonprofit.address.suburb.city.state.code }}</p>
+          <a ng-href="/ong/{{nonprofit.slug}}"><p class="nonprofit-name"><strong>{{nonprofit.name}}</strong></p></a>
+          <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.city.name }}, {{ nonprofit.address.city.state.code }}</p>
           <p class="card-causes">{{nonprofit.causesStr}}</p>
         </span>
       </div>

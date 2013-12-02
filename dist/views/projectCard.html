@@ -1,4 +1,4 @@
-<div class="card-outer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+<div class="card-outer" ng-class="{true: 'col-lg-3 col-md-4 col-sm-5 col-xs-6',  false: 'col-lg-4 col-md-5 col-sm-6'}[landing]">
   <div class="card">
     <div class="card-img">
         <div class="card-description"> 
@@ -17,7 +17,7 @@
         </a>
         <span>
           <a ng-href="/ong/{{project.nonprofit.slug}}"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
-          <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.suburb.city.name }}, {{ project.address.suburb.city.state.code }}</p>
+          <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.city.name }}, {{ project.address.city.state.code }}</p>
           <p class="card-causes">{{project.causesStr}}</p>
         </span>
       </div>
