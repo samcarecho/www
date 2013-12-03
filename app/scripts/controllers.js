@@ -25,8 +25,7 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
     $scope.$broadcast('citySearch', city);
   };
 
-  //$scope.storage = constants.s3;
-  $scope.storage = constants.local; // If DEBUG TODO(mpomarole)
+  $scope.storage = constants.s3;
 
   Restangular.all('skills').getList().then( function(response) {
     $scope.skills = response;
