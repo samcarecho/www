@@ -97,7 +97,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
 
   // $urlRouterProvider.when('/test', '/test1');
   // $urlRouterProvider.otherwise('/404');
-  $locationProvider.html5Mode(false).hashPrefix('!');
+  $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 
 app.config(['$httpProvider', function ($httpProvider) {
