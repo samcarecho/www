@@ -95,8 +95,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
         resolve: {}
       });
 
-    // $urlRouterProvider.when('/test', '/test1');
-  $urlRouterProvider.otherwise('/404');
+  // $urlRouterProvider.when('/test', '/test1');
+  // $urlRouterProvider.otherwise('/404');
   $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
