@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Francois+One|Open+Sans:400,800|Noto+Sans:4000,700|Coming+Soon);
 
 // Where the logo is
-$atados-sprite:url("http://api.atadoslocal.com.br:8000/static/images/atados-sprite.png");
+$atados-sprite:url("http://beta.atados.com.br/static/images/atados-sprite.png");
 
 // Atados Bootstrap Theme
 // -------------------------
@@ -340,7 +340,7 @@ html, body {
     padding: 0px 5px;
     select {
       height: 44px;
-      background: #fafafa url("http://api.atadoslocal.com.br:8000/static/images/arrow-down.png") no-repeat 95% 50%;
+      background: #fafafa url("http://beta.atados.com.br/static/images/arrow-down.png") no-repeat 95% 50%;
       color: $gray-light;
       -webkit-appearance: none;
     }
