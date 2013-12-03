@@ -595,11 +595,6 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
     can_be_done_remotely: false
   };
 
-  $scope.donation = {
-    delivery: $scope.delivery,
-    collection_by_nonprofit: false
-  };
-
   $scope.newRole = {
     name: '',
     prerequisites: '',
@@ -694,10 +689,6 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
     $scope.project.work = $scope.work;
   };
 
-  var createDonation = function () {
-    $scope.project.donation = $scope.donation;
-  };
-
   $scope.createProject = function () {
 
     $scope.project.causes = $filter('filter')($scope.causes, {checked: true});
@@ -715,19 +706,17 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
       case 'work':
         createWork();
         break;
-      case 'donation':
-        createDonation();
-        break;
     }
   };
 }]);
 
 app.controller('LandingCtrl', ['$scope', function ($scope) {
+  $scope.site.title = 'Atados - Juntando Gente Boa';
   $scope.landing = true;
 }]);
 
-app.controller('AboutCtrl', [ function () {
-  toastr.info('This is the about page');
+app.controller('AboutCtrl', ['$scope', function ($scope) {
+  $scope.site.title = 'Atados - Sobre';
 }]);
 
 app.controller('ExplorerCtrl', ['$scope', function ($scope) {
@@ -748,7 +737,6 @@ app.controller('ExplorerCtrl', ['$scope', function ($scope) {
 
   var onMarkerClicked = function(marker){
     marker.showWindow = true;
-    console.debug('Marker: lat: ' + marker.latitude +', lon: ' + marker.longitude + ' clicked!!');
   };
 
   $scope.onMarkerClicked = onMarkerClicked;
@@ -842,19 +830,12 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
   }
 
   var sanitizeProject = function (p) {
-    getLatLong(p);
     // TODO(mpomarole): replace with causes icon
     var returnName = function (c) {
       return c.name;
     };
     p.causesStr = p.causes.map(returnName).join('/');
-    if (p.job) {
-      p.address = p.job.address;
-    } else if (p.work) {
-      p.address = p.work.address;
-    } else if (p.donation) {
-      p.address = p.donation.address;
-    }
+    getLatLong(p);
     $scope.projects.push(p);
   };
   var sanitizeNonprofit = function (n) {
@@ -915,9 +896,23 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
       filter();
     }
   });
+  $scope.$watch('showProjects', function (showProjects) {
+    if (showProjects) {
+      $scope.active = 'atos';
+    } else {
+      $scope.active = 'ONGs';
+    }
+  });
 
   $scope.getMore = function () {
     if ($scope.landing) {
+      var vars = {
+        showProjects: $scope.showProjects,
+        city: $scope.city,
+        cause: $scope.cause,
+        skill: $scope.skill
+      };
+      $scope.$emit('landingToExplorer', vars);
     }
     else if ($scope.next_url) {
       $http.get($scope.next_url).success( function (response) {
@@ -932,5 +927,8 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
   };
   if ($scope.landing && $scope.projects.length === 0) {
     searchProjects();
+  }
+  if ($scope.landing && $scope.nonprofits.length === 0) {
+    searchNonprofits();
   }
 }]);
