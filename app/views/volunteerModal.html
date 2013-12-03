@@ -1,13 +1,13 @@
 <div class="modal-body" ng-controller="VolunteerModalController">
   <div class="row">
-    <a type="button" class="btn col-xs-6" ng-class="{active: loginActive}" ng-click="loginActive=true">Login</a>
-    <a type="button" class="btn col-xs-6" ng-class="{active: !loginActive}" ng-click="loginActive=false">Criar conta</a>
+    <a type="button" class="btn modalTab col-xs-6" ng-class="{active: loginActive}" ng-click="loginActive=true">Log in</a>
+    <a type="button" class="btn modalTab col-xs-6" ng-class="{active: !loginActive}" ng-click="loginActive=false">Criar conta</a>
   </div>
 
   <hr>
 
   <div class="form-group center">
-    <button-facebook class="btn btn-facebook btn-block" ng-disabled="!facebookReady" ng-click="facebookAuth()">
+    <button-facebook class="btn-facebook btn" ng-disabled="!facebookReady" ng-click="facebookAuth()">
       <i class="fa fa-facebook"></i> {{facebookState}} com Facebook
     </button-facebook>
   </div>
@@ -32,11 +32,15 @@
         <label class="help-block" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
         <label class="help-block" ng-show="wrongCredentials">Usuário ou senha estão errados :(</label>
       </div>
-      <div class="checkbox col-md-6">
-        <label><input type="checkbox" ng-model="remember"> Lembre de mim</label>
+      <div class="row">
+        <a ng-click="forgotPassword()" id="forgotPasswordLink" class="btn btn-link col-xs-offset-7 col-xs-4">Esqueci minha senha</a>
       </div>
-      <a ng-click="forgotPassword()" class="btn btn-link col-md-6">Esqueci minha senha</a>
-      <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-info btn-block">Entrar</button>
+      <div class="row">
+        <div class="checkbox col-xs-6">
+          <label><input type="checkbox" ng-model="remember"> Lembrar de mim</label>
+        </div>
+        <button type="submit" ng-disabled="loginForm.$invalid" id="signinButton" class="btn btn-info col-xs-6">Entrar</button>
+      </div>
     </form> 
 
     <form novalidate name="resetPasswordForm" role="form" ng-show="showForgotPassword">
@@ -70,7 +74,9 @@
         <label class="help-block" ng-show="signupForm.password.doesNotMatch">Senhas tem que ser igual</label>
         <label class="help-block" ng-show="signupForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
       </div>
-      <button type="submit" class="btn-ong pull-right" ng-disabled="signupForm.$invalid" class="btn-block">Criar conta</button>
+      <div class="row">
+        <button type="submit" class="btn btn-info col-xs-6 col-xs-offset-6" ng-disabled="signupForm.$invalid">Criar conta</button>
+      </div>
     </form> 
   </div>
 </div>
