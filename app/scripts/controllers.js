@@ -730,19 +730,9 @@ app.controller('AboutCtrl', [ function () {
   toastr.info('This is the about page');
 }]);
 
-app.controller('ExplorerCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+app.controller('ExplorerCtrl', ['$scope', function ($scope) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
-
-  $scope.$on('citySearch', function (event, mass) {
-    $scope.cities.forEach(function (c) {
-      if (c.name === mass) {
-        $scope.city = c;
-        $location.hash('wrap');
-        $anchorScroll();
-      }
-    });
-  });
 
   angular.extend($scope, {
     map: {
@@ -774,7 +764,7 @@ app.controller('ExplorerCtrl', ['$scope', '$location', '$anchorScroll', function
   });
 }]);
 
-app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
+app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$anchorScroll', function ($scope, Restangular, $http, $location, $anchorScroll) {
   $scope.active = 'atos';
   $scope.showProjects = true;
 
@@ -787,6 +777,16 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
   $scope.city= '';
 
   $scope.next_url = '';
+
+  $scope.$on('citySearch', function (event, mass) {
+    $scope.cities.forEach(function (c) {
+      if (c.name === mass) {
+        $scope.city = c;
+        $location.hash('wrap');
+        $anchorScroll();
+      }
+    });
+  });
 
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
@@ -930,4 +930,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', function ($scope
       toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
     }
   };
+  if ($scope.landing && $scope.projects.length === 0) {
+    searchProjects();
+  }
 }]);
