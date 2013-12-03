@@ -10,7 +10,7 @@ angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider
     .state('root', {
@@ -97,8 +97,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 
     // $urlRouterProvider.when('/test', '/test1');
   $urlRouterProvider.otherwise('/404');
-
-  // $locationProvider.html5Mode(false).hashPrefix('!');
+  $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
 app.config(['$httpProvider', function ($httpProvider) {
