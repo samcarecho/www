@@ -1,4 +1,6 @@
 <div class="modal-body" ng-controller="LoginController">
+
+  <p>Cadastre sua ONG <a ng-click="closeNonprofitLoginModal()" ui-sref="root.nonprofitsignup">agora</a>!</p>
   <form novalidate role="form" name="loginForm" ng-submit="login()">
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.slug.$error.required || loginForm.slug.$invalid]">
       <input

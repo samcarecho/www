@@ -25,6 +25,10 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
     $scope.$broadcast('citySearch', city);
   };
 
+  $scope.siteSearch = function () {
+    $state.transitionTo('root.explore');
+    $scope.$broadcast('siteSearch', $scope.searchQuery);
+  };
   $scope.storage = constants.s3;
 
   Restangular.all('skills').getList().then( function(response) {
@@ -775,6 +779,12 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
     });
   });
 
+  $scope.$on('siteSearch', function (event, mass) {
+    $scope.searchQuery = mass;
+    searchProjects();
+    searchNonprofits();
+  });
+
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
@@ -821,7 +831,9 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
           showWindow: true,
           icon: 'heartblue16.png'
         };
-        $scope.map.markers.push(project.coords);
+        if ($scope.map) {
+          $scope.map.markers.push(project.coords);
+        }
       } else {
         project.coords = {};
       }
