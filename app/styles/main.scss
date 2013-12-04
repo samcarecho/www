@@ -2,6 +2,7 @@
 
 // Where the logo is
 $atados-sprite:url("http://beta.atados.com.br/static/images/atados-sprite.png");
+$atados-arrow:url("http://beta.atados.com.br/static/images/arrow-down.png");
 
 // Atados Bootstrap Theme
 // -------------------------
@@ -79,6 +80,20 @@ $grid-float-breakpoint: 1059px;
   background: linear-gradient($blue, $blue-dark) !important;
 }
 
+.page-header {
+  h1 {
+    font-weight: bold;
+  }
+  border-bottom: 0;
+}
+
+fieldset {
+  legend {
+    font-weight: bold;
+    border-bottom: 0;
+  }
+}
+
 .home {
   .jumbotron {
     margin-bottom: 0;
@@ -140,6 +155,10 @@ $grid-float-breakpoint: 1059px;
 
 .background {
   margin-bottom: 0;
+}
+
+#ongSignupForm {
+  margin-bottom: 40px;
 }
 
 // _type.scss
@@ -245,6 +264,7 @@ a:focus {
 
 html, body {
   height: 100%;
+  background-color: #efefef;
 }
 
 #wrap {
@@ -356,6 +376,14 @@ html, body {
   }
 }
 
+.form-group {
+  select {
+    background: #fafafa $atados-arrow no-repeat 95% 50%;
+    color: $gray-light;
+    -webkit-appearance: none;
+  }
+}
+
 .filters {
   background-color: rgba(222, 222, 222, 0.5);
   border-radius: 5px;
@@ -364,12 +392,12 @@ html, body {
   color: $blue-dark;
   .form-group {
     padding: 0px 5px;
-    select {
-      height: 44px;
-      background: #fafafa url("http://beta.atados.com.br/static/images/arrow-down.png") no-repeat 95% 50%;
-      color: $gray-light;
-      -webkit-appearance: none;
-    }
+      select {
+        height: 44px;
+        background: #fafafa $atados-arrow no-repeat 95% 50%;
+        color: $gray-light;
+        -webkit-appearance: none;
+      }
   }
   #searchInput {
     height: 44px;
@@ -745,45 +773,40 @@ $card-img-height: 170px;
 }
 
 .select-button-list {
-  padding:0;
-  margin:1px 1px 10px 0;
-  float:left;
-  width:100%;
-
+  padding-left: 0;
   li {
     list-style:none;
-    margin:0;
-    padding:2px;
-    float:left;
-    margin:-1px -1px 0 0;
-    background:#fff;
-
-    input {
-      display:none;
+    margin-bottom: 20px;
+      i {
+      margin-left: 40px;
+      opacity: 0;
+      color: green;
+    }
   }
 
-  label {
-    float:left;
-    width:120px;
-    height:60px;
-    overflow:hidden;
-    padding:8px;
-    background:#fff;
-    color:#333;
+  li.checked {
+    .square {
+      background-color: white;
+      border: 2px solid #008dc1;
+    }
+    i {
+      opacity: 1;
+    }
+  }
 
+  .square {
+    height: 100px;
+    width: 100px;
+    border: 1px solid transparent;
+    padding: 10px;
     &:hover {
-      background:$blue-light;
-      color:#fff;
+      background-color: white;
+      border: 2px solid #008dc1;
+    }
+    p {
+      vertical-align: text-bottom;
     }
   }
-
-  &.active {
-    label {
-      background:$blue;
-      color:#fff;
-    }
-  }
-}
 }
 
 #nonprofit-header {
@@ -946,6 +969,82 @@ google-map {
 
 .pace .pace-progress-inner {
   box-shadow: 0 0 10px #f4871e, 0 0 5px #29d;
+}
+
+.cause_9, .cause_4, .cause_5, .cause_10, .cause_6, .cause_12, .cause_7, .cause_1, .cause_8, .cause_2, .cause_11, .cause_3{
+	background: url('https://s3-sa-east-1.amazonaws.com/atadosapp/images/causes-sprite.png') no-repeat;
+}
+
+.cause_9{
+	background-position: -64.99307250976562px -104.9930419921875px ;
+	width: 34px;
+	height: 44px;
+}
+
+.cause_4{
+	background-position: -148.99307250976562px 0;
+	width: 47px;
+	height: 44px;
+}
+
+.cause_5{
+	background-position: 0 -52.944427490234375px ;
+	width: 55px;
+	height: 51px;
+}
+
+.cause_10{
+	background-position: -103.98959350585938px -107.97567749023438px ;
+	width: 54px;
+	height: 41px;
+}
+
+.cause_6{
+	background-position: -56.97918701171875px -49.9617919921875px ;
+	width: 56px;
+	height: 50px;
+}
+
+.cause_12{
+	background-position: -58.98614501953125px -151.97567749023438px ;
+	width: 49px;
+	height: 47px;
+}
+
+.cause_7{
+	background-position: -117.9757080078125px -50.993072509765625px ;
+	width: 52px;
+	height: 51px;
+}
+
+.cause_1{
+	background-position: 0 0;
+	width: 54px;
+	height: 45px;
+}
+
+.cause_8{
+	background-position: 0 -111.98263549804688px ;
+	width: 56px;
+	height: 19px;
+}
+
+.cause_2{
+	background-position: -55.993072509765625px 0;
+	width: 33px;
+	height: 50px;
+}
+
+.cause_11 {
+	background-position: 0 -149.99307250976562px ;
+	width: 53px;
+	height: 46px;
+}
+
+.cause_3 {
+	background-position: -91.97573852539062px 0;
+	width: 54px;
+	height: 48px;
 }
 
 @import 'sass-bootstrap/lib/bootstrap';

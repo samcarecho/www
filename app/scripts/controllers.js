@@ -14,12 +14,15 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth', 'Restangular',
-  function($scope, $rootScope, $modal, $state, Site, Auth, Restangular) {
-
+app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
+  function($scope, $rootScope, $modal, $state, Site, Auth) {
+  
   $scope.site = Site;
   $scope.modalInstance = null;
-  $scope.year = (new Date()).getFullYear();
+  $scope.storage = constants.s3;
+  $scope.causes = Site.causes;
+  $scope.skills = Site.skills;
+  $scope.cities = Site.cities;
 
   $scope.citySearch = function (city) {
     $scope.$broadcast('citySearch', city);
@@ -29,26 +32,6 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
     $state.transitionTo('root.explore');
     $scope.$broadcast('siteSearch', $scope.searchQuery);
   };
-  $scope.storage = constants.s3;
-
-  Restangular.all('skills').getList().then( function(response) {
-    $scope.skills = response;
-    $scope.skills.splice(0, 0, {name: 'Todas Habilidades', id: ''});
-  }, function () {
-    toastr.error('Não consegui pegar as habilidades do servidor.');
-  });
-  Restangular.all('causes').getList().then( function(response) {
-    $scope.causes = response;
-    $scope.causes.splice(0, 0, {name: 'Todas Causas', id: ''});
-  }, function () {
-    toastr.error('Não consegui pegar as causas do servidor.');
-  });
-  Restangular.all('cities').getList().then( function(response) {
-    $scope.cities = response;
-    $scope.cities.splice(0, 0, {name: 'Todas Cidades', id: ''});
-  }, function () {
-    toastr.error('Não consegui pegar as cidades do servidor.');
-  });
 
   Auth.getCurrentUser(function (user) {
     $scope.loggedUser = user;
@@ -288,11 +271,6 @@ app.controller('NonprofitSignupController',
   }, function () {
     toastr.error('Não consegui pegar as Zonas do servidor.');
   });
-  Restangular.all('states').getList().then( function(response) {
-    $scope.states = response;
-  }, function () {
-    toastr.error('Não consegui pegar os estados do servidor.');
-  });
 
   // Checking that slug does not have spaces and it is not already used.
 
@@ -359,10 +337,15 @@ app.controller('NonprofitSignupController',
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
   });
 
+  $scope.addCause = function(cause) {
+    console.log(cause);
+    cause.checked = !cause.checked;
+  };
+
   $scope.signup = function () {
     if ($scope.signupForm.$valid) {
       $scope.nonprofit.user.password = $scope.password;
-      $scope.nonprofit.causes = $filter('filter')($scope.causes, {checked: true});
+      $scope.nonprofit.causes = $filter('filter')($scope.causes(), {checked: true});
       Auth.nonprofitSignup($scope.nonprofit, function () {
           toastr.success('Bem vinda ONG ao atados!');
           $state.transitionTo('root.nonprofitadmin');
@@ -391,7 +374,7 @@ app.controller('VolunteerController',
 
   // $scope.volunteer = volunteer; from resolve TODO
   $scope.saveVolunteer = function () {
-    $scope.volunteer.causes = $filter('filter')($scope.causes, {checked: true});
+    $scope.volunteer.causes = $filter('filter')($scope.causes(), {checked: true});
     var index = 0;
     $scope.volunteer.causes.forEach( function (cause) {
       $scope.volunteer.causes[index++] = cause.url;
@@ -417,10 +400,10 @@ app.controller('VolunteerController',
   };
 
   $scope.$watch('causes + volunteer.causes', function () {
-    if ($scope.causes && $scope.volunteer) {
+    if ($scope.causes() && $scope.volunteer) {
       $scope.volunteer.causes.forEach(function (volunteerCause) {
-        for (var index = 0; index < $scope.causes.length; ++index) {
-          var cause = $scope.causes[index];
+        for (var index = 0; index < $scope.causes().length; ++index) {
+          var cause = $scope.causes()[index];
           if (cause.url === volunteerCause) {
             cause.checked = true;
             break;
@@ -632,11 +615,6 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
   }, function () {
     toastr.error('Não consegui pegar as Zonas do servidor.');
   });
-  Restangular.all('states').getList().then( function(response) {
-    $scope.states = response;
-  }, function () {
-    toastr.error('Não consegui pegar os estados do servidor.');
-  });
 
   // Checking that slug does not have spaces and it is not already used.
   $scope.$watch('project.slug', function (value) {
@@ -694,7 +672,7 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
 
   $scope.createProject = function () {
 
-    $scope.project.causes = $filter('filter')($scope.causes, {checked: true});
+    $scope.project.causes = $filter('filter')($scope.causes(), {checked: true});
     var index = 0;
     $scope.project.causes.forEach( function (cause) {
       $scope.project.causes[index++] = cause.url;
@@ -770,7 +748,7 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
   $scope.next_url = '';
 
   $scope.$on('citySearch', function (event, mass) {
-    $scope.cities.forEach(function (c) {
+    $scope.cities().forEach(function (c) {
       if (c.name === mass) {
         $scope.city = c;
         $location.hash('wrap');
@@ -846,7 +824,9 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
       return c.name;
     };
     p.causesStr = p.causes.map(returnName).join('/');
-    getLatLong(p);
+    if (!$scope.landing) {
+      getLatLong(p);
+    }
     $scope.projects.push(p);
   };
   var sanitizeNonprofit = function (n) {

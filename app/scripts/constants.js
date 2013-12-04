@@ -11,5 +11,6 @@ var constants = {
   'grantType': 'password',
   's3': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
   'local': 'http://beta.atados.com.br/static/images/',
-  'page_size': 9
+  'page_size': 9,
+  'static_page_size': 50
 };
