@@ -2,6 +2,7 @@
 
 // Where the logo is
 $atados-sprite:url("http://beta.atados.com.br/static/images/atados-sprite.png");
+$causes-sprite:url("http://beta.atados.com.br/static/images/causes-sprite.png");
 $atados-arrow:url("http://beta.atados.com.br/static/images/arrow-down.png");
 
 // Atados Bootstrap Theme
@@ -262,22 +263,8 @@ a:focus {
 // Atados specific CSS
 // -------------------------
 
-html, body {
-  height: 100%;
-}
-
-.main {
-  background-color: #efefef;
-}
-
 #wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -$footer-height;
-}
-.push {
-  height: $footer-height;
+  background-color: #efefef;
 }
 
 #footer {
@@ -420,10 +407,7 @@ html, body {
 atados-search {
   padding: 20px;
 }
-
-#landing-info {
-  margin-top: 50px;
-  margin-bottom: 50px;
+.main {
   h3 {
     color: $blue;
     text-shadow: 1px 0 1px rgba(0,0,0,0.4);
@@ -432,6 +416,17 @@ atados-search {
     text-transform:uppercase;
     margin-bottom: 40px;
   }
+}
+
+#parceirosMidia {
+  box-shadow: 0 2px 10px #888;
+  padding: 50px 0;
+}
+#landing-info {
+  padding: 50px 0;
+  background: white;
+  box-shadow: 0 2px 10px #888;
+  
   .depoimento {
     img {
       float: left;
@@ -975,7 +970,7 @@ google-map {
 }
 
 .cause_9, .cause_4, .cause_5, .cause_10, .cause_6, .cause_12, .cause_7, .cause_1, .cause_8, .cause_2, .cause_11, .cause_3{
-	background: url('https://s3-sa-east-1.amazonaws.com/atadosapp/images/causes-sprite.png') no-repeat;
+	background: $causes-sprite no-repeat;
 }
 
 .cause_9{
