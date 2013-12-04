@@ -17,9 +17,9 @@
             <div class="input-group col-sm-offset-3 col-sm-8">
               <span class="input-group-addon">www.atados.com.br/ong/</span>
               <input type='text' class="form-control" name="slug" ng-model='nonprofit.slug' placeholder="nome-da-ong" required>
+              <label class="help-block" ng-show="signupForm.slug.hasSpace">Não pode ter espaço</label>
+              <label class="help-block" ng-show="signupForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
             </div>
-            <label class="help-block" ng-show="signupForm.slug.hasSpace">Não pode ter espaço</label>
-            <label class="help-block" ng-show="signupForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
           </div>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.details.$error.required || signupForm.details.$invalid]">
             <label class="col-sm-3 control-label" for="textarea">Detalhe</label>

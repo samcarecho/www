@@ -14,7 +14,7 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
+app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
   function($scope, $rootScope, $modal, $state, Site, Auth) {
   
   $scope.site = Site;
@@ -78,11 +78,11 @@ app.controller('AppController', ['$scope', '$rootScope', '$modal', '$state', 'Si
   };
 }]);
 
-app.controller('HomeController', ['$scope', function($scope) {
+app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
 }]);
 
-app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
+app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
   function($scope, $rootScope, Auth) {
 
   $scope.showForgotPassword = false;
@@ -140,7 +140,7 @@ app.controller('LoginController', ['$scope', '$rootScope', 'Auth', 'Facebook',
 
 }]);
 
-app.controller('VolunteerModalController', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth, $rootScope) {
+app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth, $rootScope) {
   $scope.loginActive = true;
 
   $scope.$watch('loginActive', function (value) {
@@ -188,7 +188,7 @@ app.controller('VolunteerModalController', ['$scope', 'Facebook', 'Auth', '$root
   };
 }]);
 
-app.controller('VolunteerSignupController',
+app.controller('VolunteerSignupCtrl',
     ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
 
   $scope.$watch('slug', function (value) {
@@ -261,8 +261,7 @@ app.controller('VolunteerSignupController',
   };
 }]);
 
-app.controller('NonprofitSignupController',
-    ['$scope', '$filter', '$state', 'Auth', 'Restangular', function($scope, $filter, $state, Auth, Restangular) {
+app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos, Restangular) {
 
   $scope.nonprofit = {};
 
@@ -272,9 +271,8 @@ app.controller('NonprofitSignupController',
     toastr.error('Não consegui pegar as Zonas do servidor.');
   });
 
-  // Checking that slug does not have spaces and it is not already used.
-
   $scope.$watch('nonprofit.slug', function (value) {
+    // Checking that slug does not have spaces and it is not already used.
     if (value) {
       if (value.indexOf(' ') >= 0) {
         $scope.signupForm.slug.$invalid = true;
@@ -338,14 +336,26 @@ app.controller('NonprofitSignupController',
   });
 
   $scope.addCause = function(cause) {
-    console.log(cause);
     cause.checked = !cause.checked;
+  };
+
+  $scope.uploadFile = function(files) {
+    if (files) {
+      var fd = new FormData();
+      fd.append('file', files[0]);
+      Photos.setVolunteerPhoto(fd, function(response) {
+        $scope.image = response.file;
+      }, function() {
+        toastr.error('Error no servidor. Não consigo atualizer sua foto :(');
+      });
+    }
   };
 
   $scope.signup = function () {
     if ($scope.signupForm.$valid) {
       $scope.nonprofit.user.password = $scope.password;
       $scope.nonprofit.causes = $filter('filter')($scope.causes(), {checked: true});
+      console.log($scope.nonprofit);
       Auth.nonprofitSignup($scope.nonprofit, function () {
           toastr.success('Bem vinda ONG ao atados!');
           $state.transitionTo('root.nonprofitadmin');
@@ -355,11 +365,9 @@ app.controller('NonprofitSignupController',
         });
     }
   };
-}]);
+});
 
-app.controller('VolunteerController',
-    ['$scope', '$filter', '$state', '$stateParams', '$http', 'Auth', 'Photos', 'Restangular',
-    function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
+app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
 
   $scope.site.title = 'Voluntário - ' + $stateParams.slug;
 
@@ -462,10 +470,9 @@ app.controller('VolunteerController',
       });
     }
   };
-}]);
+});
 
-app.controller('NonprofitController',
-    ['$scope', '$state', '$stateParams', '$http', 'Auth', 'Restangular', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
+app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
   angular.extend($scope, {
     center: {
@@ -516,31 +523,21 @@ app.controller('NonprofitController',
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');
   });
-}]);
+});
 
-app.controller('NonprofitAdminController', ['$scope', '$state', function($scope, $state) {
+app.controller('NonprofitAdminCtrl', function($scope, $state) {
   // var nonprofit = $scope.loggedUser;
 
   if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
     $state.transitionTo('root.home');
     toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
   }
+});
 
-  
-}]);
-app.controller('ProjectController', [function () {
-}]);
+app.controller('ProjectCtrl', function () {
+});
 
-app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', 'Restangular',
-    function($scope, $filter, $state, Auth, Restangular) {
-
-  /*$scope.getCssClasses = function (ngModelController) {
-    return {
-      has-error: $scope.projectNewForm.email.$invalid && projectNewForm.email.$error,
-      has-success: $scope.projectNewForm.email.$error || $scope.projectNewForm.
-    };
-
-  };*/
+app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular) {
 
   $scope.minDate = new Date();
   $scope.ismeridian = true;
@@ -689,18 +686,18 @@ app.controller('ProjectNewController', ['$scope', '$filter', '$state', 'Auth', '
         break;
     }
   };
-}]);
+});
 
-app.controller('LandingCtrl', ['$scope', function ($scope) {
+app.controller('LandingCtrl', function ($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
   $scope.landing = true;
-}]);
+});
 
-app.controller('AboutCtrl', ['$scope', function ($scope) {
+app.controller('AboutCtrl', function ($scope) {
   $scope.site.title = 'Atados - Sobre';
-}]);
+});
 
-app.controller('ExplorerCtrl', ['$scope', function ($scope) {
+app.controller('ExplorerCtrl', function ($scope) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
 
@@ -731,7 +728,7 @@ app.controller('ExplorerCtrl', ['$scope', function ($scope) {
       onMarkerClicked(marker);
     };
   });
-}]);
+});
 
 app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$anchorScroll', function ($scope, Restangular, $http, $location, $anchorScroll) {
   $scope.active = 'atos';

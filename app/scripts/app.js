@@ -17,12 +17,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
       url: '',
       abstract: true,
       templateUrl: '/views/root.html',
-      controller: 'AppController'
+      controller: 'AppCtrl'
     })
     .state('root.home', {
       url: '/',
       templateUrl: '/views/home.html',
-      controller: 'HomeController'
+      controller: 'HomeCtrl'
     })
     .state('root.about', {
       url: '/sobre',
@@ -41,7 +41,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
     .state('root.volunteer', {
       url: '/voluntario/:slug',
       templateUrl: '/views/volunteerProfile.html',
-      controller: 'VolunteerController',
+      controller: 'VolunteerCtrl',
       resolve: { // TODO(mpomarole): Fix this resolve
         volunteer: function (Restangular, $stateParams) {
           Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
@@ -55,31 +55,31 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
     .state('root.nonprofit', {
       url: '/ong/:slug',
       templateUrl: '/views/nonprofitProfile.html',
-      controller: 'NonprofitController',
+      controller: 'NonprofitCtrl',
       resolve: {}
     })
     .state('root.nonprofitadmin', {
         url: '/admin',
         templateUrl: '/views/nonprofitAdminPanel.html',
-        controller: 'NonprofitAdminController',
+        controller: 'NonprofitAdminCtrl',
         resolve: {}
       })
     .state('root.nonprofitsignup', {
         url: '/cadastro/ong',
         templateUrl: '/views/nonprofitSignup.html',
-        controller: 'NonprofitSignupController',
+        controller: 'NonprofitSignupCtrl',
         resolve: {}
       })
     .state('root.project', {
         url: '/ato/:slug',
         templateUrl: '/views/projectPage.html',
-        controller: 'ProjectController',
+        controller: 'ProjectCtrl',
         resolve: {}
       })
     .state('root.newproject', {
         url: '/ato',
         templateUrl: '/views/projectNew.html',
-        controller: 'ProjectNewController',
+        controller: 'ProjectNewCtrl',
         resolve: {}
       })
     .state('root.newproject.job', {
