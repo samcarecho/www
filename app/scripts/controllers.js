@@ -335,6 +335,10 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
   });
 
+  $scope.$watch('signupForm', function (value) {
+    console.log(value);
+  });
+
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
   };
@@ -346,24 +350,22 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
       Photos.setVolunteerPhoto(fd, function(response) {
         $scope.image = response.file;
       }, function() {
-        toastr.error('Error no servidor. Não consigo atualizer sua foto :(');
+        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
       });
     }
   };
 
   $scope.signup = function () {
-    if ($scope.signupForm.$valid) {
-      $scope.nonprofit.user.password = $scope.password;
-      $scope.nonprofit.causes = $filter('filter')($scope.causes(), {checked: true});
-      console.log($scope.nonprofit);
-      Auth.nonprofitSignup($scope.nonprofit, function () {
-          toastr.success('Bem vinda ONG ao atados!');
-          $state.transitionTo('root.nonprofitadmin');
-        },
-        function (error) {
-          toastr.error(error);
-        });
-    }
+    $scope.nonprofit.user.password = $scope.password;
+    $scope.nonprofit.causes = $filter('filter')($scope.causes(), {checked: true});
+    console.log($scope.nonprofit);
+    Auth.nonprofitSignup($scope.nonprofit, function () {
+      toastr.success('Bem vinda ONG ao atados!');
+      $state.transitionTo('root.nonprofitadmin');
+    },
+    function (error) {
+      toastr.error(error);
+    });
   };
 });
 

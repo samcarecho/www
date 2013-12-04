@@ -190,7 +190,7 @@
           <div class="form-group">
             <div class="col-sm-12">
               <ul class="select-button-list">
-                <li class="col-md-3" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}">
+                <li class="col-md-3" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
                   <div ng-class="cause.class" class="center"></div>
                   <p>{{cause.name}}</p>
