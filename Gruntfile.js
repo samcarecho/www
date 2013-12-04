@@ -1,4 +1,4 @@
-// Generated on 2013-11-28 using generator-angular 0.6.0-rc.2
+// Generated on 2013-12-04 using generator-angular 0.6.0-rc.2
 'use strict';
 
 // # Globbing
@@ -29,11 +29,11 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js'],
-        tasks: ['jshint:all']
+        tasks: ['newer:jshint:all']
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['jshint:test', 'karma']
+        tasks: ['newer:jshint:test', 'karma']
       },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],

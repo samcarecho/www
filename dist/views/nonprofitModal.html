@@ -1,4 +1,6 @@
 <div class="modal-body" ng-controller="LoginController">
+
+  <p>Cadastre sua ONG <a ng-click="closeNonprofitLoginModal()" ui-sref="root.nonprofitsignup">agora</a>!</p>
   <form novalidate="" role="form" name="loginForm" ng-submit="login()">
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.slug.$error.required || loginForm.slug.$invalid]">
       <input required="" class="form-control" type="text" name="slug" ng-model="slug" ng-minlength="3" placeholder="Nome do usuário da ONG">
@@ -19,9 +21,6 @@
         </label>
       </div>
       <button type="submit" ng-disabled="loginForm.$invalid" id="signinButton" class="btn btn-info col-xs-6">Entrar</button>
-    </div>
-    <div class="row">
-      <p>Sua ONG ainda não está cadastrada? Comece aqui <a ui-sref="root.nonprofitsignup">agora</a>!</p>
     </div>
   </form> 
   <form novalidate="" name="resetPasswordForm" role="form" ng-show="showForgotPassword">
