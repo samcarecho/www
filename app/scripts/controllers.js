@@ -69,6 +69,11 @@ app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', '
       templateUrl: '/views/nonprofitModal.html'
     });
   };
+  $scope.openTermsModal = function() {
+    $scope.modalInstance = $modal.open({
+      templateUrl: '/views/termsModal.html'
+    });
+  };
 
   $rootScope.closeNonprofitLoginModal = function () {
     $scope.modalInstance.close();
