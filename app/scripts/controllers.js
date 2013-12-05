@@ -269,7 +269,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
       zipcode:null,
       addressline:null,
       addressnumber:null,
-      suburbs: {id:0}
+      suburbs:null
     },
     phone:null,
     description:null,
@@ -290,30 +290,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     causes:[]
   };
 
-  $scope.$watch('nonprofit.slug', function (value) {
-    // Checking that slug does not have spaces and it is not already used.
-    if (value) {
-      if (value.indexOf(' ') >= 0) {
-        $scope.signupForm.slug.$invalid = true;
-        $scope.signupForm.slug.hasSpace = true;
-      } else {
-        $scope.signupForm.slug.$invalid = false;
-        $scope.signupForm.slug.hasSpace = false;
-        Auth.isNonprofitSlugUsed(value, function () {
-          $scope.signupForm.slug.alreadyUsed = false;
-          $scope.signupForm.slug.$invalid = false;
-        }, function () {
-          $scope.signupForm.slug.alreadyUsed = true;
-          $scope.signupForm.slug.$invalid = true;
-        });
-      }
-    } else {
-      $scope.signupForm.slug.alreadyUsed = false;
-      $scope.signupForm.slug.hasSpace = false;
-      $scope.signupForm.slug.$invalid = false;
-    }
-  });
-
   // Checking that email is valid and not already used.
   $scope.$watch('nonprofit.user.email', function (value) {
     Auth.isEmailUsed(value, function () {
@@ -325,8 +301,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     });
   });
 
-  // Checking that slug not already used.
   $scope.$watch('nonprofit.user.slug', function (value) {
+    // Checking that slug not already used.
     if (value) {
       if (value.indexOf(' ') >= 0) {
         $scope.signupForm.slug.$invalid = true;
@@ -520,8 +496,8 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http,  A
 
   Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
     $scope.nonprofit = response;
-    $scope.site.title = 'ONG ' + $scope.nonprofit.slug;
-    $scope.nonprofit.id = $scope.nonprofit.slug;
+    $scope.site.title = 'ONG ' + $scope.nonprofit.user.slug;
+    $scope.nonprofit.id = $scope.nonprofit.user.slug;
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
     } else {
