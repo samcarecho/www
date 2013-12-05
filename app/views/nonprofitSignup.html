@@ -2,7 +2,7 @@
   <div class="page-header">
     <h1 class="form-heading">Vamos cadastrar sua ONG!</h1>
   </div>
-  <div id="ongSignupForm" class="clearfix">
+  <div id="nonprofitSignupForm" class="clearfix">
     <form novalidate role="form" class="form-horizontal" name="signupForm" ng-submit="signup()">
       <div class="col-md-6">
         <fieldset>
@@ -58,7 +58,7 @@
             </div>
           </div>
           <div ng-class="{true: 'has-error', false: 'has-success'}[signupForm.addressnumber.$error.required || signupForm.addressnumber.$invalid]">
-            <div class="col-sm-2" style="margin-top: -49px;margin-left: 415px;">
+            <div class="col-sm-2" id="addressNumberField">
               <input required type="text" class="form-control" name="addressnumber" ng-model="nonprofit.address.addressnumber" placeholder="#">
             </div>
           </div>
@@ -75,7 +75,7 @@
           </div>
           <div ng-class="{true: 'has-error', false: 'has-success'}[signupForm.zipcode.$error.required || signupForm.zipcode.$invalid]">
             <div class="col-sm-4">
-              <input required type="text" class="form-control" name="zipcode" ng-model='nonprofit.address.zipcode' ng-minlength="8" ng-maxlength="9" placeholder="CEP" style="margin-top: -49px; margin-left: 328px;">
+              <input required type="text" class="form-control" name="zipcode" ng-model='nonprofit.address.zipcode' ng-minlength="8" ng-maxlength="9" placeholder="CEP" id="zipcodeField">
             </div>
             <label class="help-block" ng-show="signupForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
             <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
@@ -191,7 +191,7 @@
           <div class="form-group">
             <div class="col-sm-12">
               <ul class="select-button-list">
-                <li class="col-md-3" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
+                <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
                   <div ng-class="cause.class" class="center"></div>
                   <p>{{cause.name}}</p>
