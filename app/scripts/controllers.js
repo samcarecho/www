@@ -19,12 +19,15 @@ app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', '
   
   $scope.site = Site;
   $scope.modalInstance = null;
-  $scope.storage = constants.s3;
+  $scope.storage = constants.storage;
   $scope.causes = Site.causes;
   $scope.skills = Site.skills;
   $scope.cities = Site.cities;
+  $scope.states = Site.states;
+  $scope.suburbs = Site.suburbs;
 
   $scope.citySearch = function (city) {
+    $state.transitionTo('root.explore');
     $scope.$broadcast('citySearch', city);
   };
 
@@ -135,9 +138,6 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
       toastr.error('Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br');
     });
   };
-
-
-
 }]);
 
 app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth, $rootScope) {
@@ -261,15 +261,34 @@ app.controller('VolunteerSignupCtrl',
   };
 }]);
 
-app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos, Restangular) {
+app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos) {
 
-  $scope.nonprofit = {};
-
-  Restangular.all('suburbs').getList().then( function(response) {
-    $scope.suburbs = response;
-  }, function () {
-    toastr.error('Não consegui pegar as Zonas do servidor.');
-  });
+  $scope.nonprofit = {
+    address: {
+      neighborhood:null,
+      zipcode:null,
+      addressline:null,
+      addressnumber:null,
+      suburbs: {id:0}
+    },
+    phone:null,
+    description:null,
+    name:null,
+    slug:null,
+    details:null,
+    user:{
+      first_name:null,
+      slug:null,
+      last_name:null,
+      email:null,
+      password:null
+    },
+    facebook_page:null,
+    google_page:null,
+    twitter_handle:null,
+    website:null,
+    causes:[]
+  };
 
   $scope.$watch('nonprofit.slug', function (value) {
     // Checking that slug does not have spaces and it is not already used.
@@ -313,8 +332,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
         $scope.signupForm.slug.$invalid = true;
         $scope.signupForm.slug.hasSpace = true;
       } else {
-        $scope.signupForm.slug.hasSpace = false;
         $scope.signupForm.slug.$invalid = false;
+        $scope.signupForm.slug.hasSpace = false;
         Auth.isSlugUsed(value, function () {
           $scope.signupForm.slug.alreadyUsed = false;
           $scope.signupForm.slug.$invalid = false;
@@ -333,10 +352,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
   $scope.$watch('password + passwordConfirm', function() {
     $scope.signupForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
-  });
-
-  $scope.$watch('signupForm', function (value) {
-    console.log(value);
   });
 
   $scope.addCause = function(cause) {

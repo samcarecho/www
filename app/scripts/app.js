@@ -35,7 +35,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
     })
     .state('root.explore', {
       url: '/explore',
-      templateUrl: 'views/explore.html',
+      templateUrl: '/views/explore.html',
       controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
@@ -137,7 +137,7 @@ app.config(['FacebookProvider', function(FacebookProvider) {
 }]);
 
 app.config(['RestangularProvider', function(RestangularProvider) {
-  RestangularProvider.setBaseUrl(constants.apiServerAddress);
+  RestangularProvider.setBaseUrl(constants.api);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
   // This function is used to map the JSON data to something Restangular expects

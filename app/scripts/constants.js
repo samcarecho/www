@@ -1,6 +1,9 @@
 /* exported constants */
 var constants = {
-  'apiServerAddress': 'http://beta.atados.com.br/v1/',
+  'devApi': 'http://www.atadoslocal.com.br:8000/v1/',
+  'prodApi': 'http://beta.atados.com.br/v1/',
+  'prodStorage': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
+  'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'clientId': 'da4bc76b44b73cda7e4d',
   'clientSecret': '3414d4cc0fb94521f0361ee5aba1b7eb73b5a468',
   'facebookClientId': '307143646092581',
@@ -9,8 +12,9 @@ var constants = {
   'csrfCookie': 'csrftoken',
   'sessionIdCookie': 'sessionid',
   'grantType': 'password',
-  's3': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
-  'local': 'http://beta.atados.com.br/static/images/',
   'page_size': 9,
   'static_page_size': 50
 };
+
+constants.api = constants.devApi;
+constants.storage = constants.devStorage;

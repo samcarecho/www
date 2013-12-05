@@ -36,6 +36,7 @@ app.factory('Site', function(Restangular) {
   var _skills = [];
   var _cities = [];
   var _states = [];
+  var _suburbs = [];
 
   var getCauses = function () {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
@@ -65,10 +66,18 @@ app.factory('Site', function(Restangular) {
     });
   };
   var getStates = function () {
-    Restangular.all('states').getList().then( function(response) {
+    Restangular.all('states').getList({page_size: constants.static_page_size}).then( function(response) {
       _states = response;
     }, function () {
       console.error('Não consegui pegar os estados do servidor.');
+    });
+  };
+
+  var getSuburbs = function () {
+    Restangular.all('suburbs').getList({page_size: constants.static_page_size}).then( function(response) {
+      _suburbs = response;
+    }, function () {
+      console.error('Não consegui pegar as Zonas do servidor.');
     });
   };
 
@@ -76,6 +85,7 @@ app.factory('Site', function(Restangular) {
   getSkills();
   getCities();
   getStates();
+  getSuburbs();
 
   return {
     name : 'Atados - Juntando Gente Boa',
@@ -104,12 +114,15 @@ app.factory('Site', function(Restangular) {
     },
     states: function () {
       return _states;
+    },
+    suburbs: function () {
+      return _suburbs;
     }
   };
 });
 
 app.factory('Photos', ['$http', function($http) {
-  var apiUrl = constants.apiServerAddress;
+  var apiUrl = constants.api;
 
   return {
     setVolunteerPhoto: function (file, success, error) {
@@ -130,7 +143,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     }
   }
 
-  var apiUrl = constants.apiServerAddress;
+  var apiUrl = constants.api;
   var currentUser;
 
   return {
