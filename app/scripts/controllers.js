@@ -740,165 +740,28 @@ app.controller('ExplorerCtrl', function ($scope) {
   });
 });
 
-app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$anchorScroll', function ($scope, Restangular, $http, $location, $anchorScroll) {
-  $scope.active = 'atos';
-  $scope.showProjects = true;
+app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
 
-  $scope.projects = [];
-  $scope.nonprofits = [];
+  $scope.search =  Search;
 
-  $scope.searchQuery = '';
-  $scope.cause = '';
-  $scope.skill = '';
-  $scope.city= '';
-
-  $scope.next_url = '';
-
-  $scope.$on('citySearch', function (event, mass) {
-    $scope.cities().forEach(function (c) {
-      if (c.name === mass) {
-        $scope.city = c;
-        $location.hash('wrap');
-        $anchorScroll();
-      }
-    });
-  });
-
-  $scope.$on('siteSearch', function (event, mass) {
-    $scope.searchQuery = mass;
-    searchProjects();
-    searchNonprofits();
-  });
-
-  var fixProject = function (response) {
-    response.forEach(sanitizeProject);
-    if (response._resultmeta) {
-      $scope.next_url = response._resultmeta.next;
-    } else {
-      $scope.next_url = '';
-    }
-  };
-
-  var fixNonprofit = function (response) {
-    response.forEach(sanitizeNonprofit);
-    if (response._resultmeta) {
-      $scope.next_url = response._resultmeta.next;
-    } else {
-      $scope.next_url = '';
-    }
-  };
-
-  var getAddressStr = function (a) {
-    if (a) {
-      var address =  a.addressline + ', ' + a.addressnumber;
-      if (a.city) {
-        address += ' - ' + a.city.name;
-        if (a.city.state) {
-          address += + ' ' + a.city.state.code;
-        }
-      }
-      return address;
-    } else {
-      return '';
-    }
-  };
-
-  function getLatLong(project){
-    var address = project.address;
-    var geo = new google.maps.Geocoder();
-    var addressStr = getAddressStr(address);
-    geo.geocode({'address': addressStr, 'region': 'br'},
-    function(results, status){
-      if (status === google.maps.GeocoderStatus.OK) {
-        project.coords =  {
-          latitude: results[0].geometry.location.lat(),
-          longitude: results[0].geometry.location.lng(),
-          showWindow: true,
-          icon: 'heartblue16.png'
-        };
-        if ($scope.map) {
-          $scope.map.markers.push(project.coords);
-        }
-      } else {
-        project.coords = {};
-      }
-    });
-  }
-
-  var sanitizeProject = function (p) {
-    // TODO(mpomarole): replace with causes icon
-    var returnName = function (c) {
-      return c.name;
-    };
-    p.causesStr = p.causes.map(returnName).join('/');
-    if (!$scope.landing) {
-      getLatLong(p);
-    }
-    $scope.projects.push(p);
-  };
-  var sanitizeNonprofit = function (n) {
-    $scope.nonprofits.push(n);
-  };
-
-  var searchProjects = function () {
-    var urlHeaders = {
-      page_size: constants.page_size,
-      query: $scope.searchQuery,
-      cause: $scope.cause.id,
-      skill: $scope.skill.id,
-      city: $scope.city.id
-    };
-    Restangular.all('projects').getList(urlHeaders).then( function(response) {
-      fixProject(response);
-    }, function () {
-      toastr.error('Não consegui pegar os atos do servidor.');
-    });
-  };
-
-  var searchNonprofits = function () {
-    var urlHeaders = {
-      page_size: constants.page_size,
-      query: $scope.searchQuery,
-      cause: $scope.cause.id,
-      city: $scope.city.id
-    };
-    Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
-      fixNonprofit(response);
-    });
-  };
-
-  var filter = function () {
-    $scope.projects = [];
-    $scope.nonprofits = [];
-    searchProjects();
-    searchNonprofits();
-  };
-
-  $scope.$watch('searchQuery', function () {
-    if (!$scope.landing) {
-      filter();
+  $scope.$watch('search.cause', function (value, old) {
+    if (value !== old) {
+      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
   });
-  $scope.$watch('cause', function () {
-    if ($scope.cause) {
-      filter();
+  $scope.$watch('search.skill', function (value, old) {
+    if (value !== old) {
+      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
   });
-  $scope.$watch('skill', function () {
-    if ($scope.skill) {
-      filter();
+  $scope.$watch('search.city', function (value, old) {
+    if (value !== old) {
+      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
   });
-  $scope.$watch('city', function () {
-    if ($scope.city) {
-      filter();
-    }
-  });
-  $scope.$watch('showProjects', function (showProjects) {
-    if (showProjects) {
-      $scope.active = 'atos';
-    } else {
-      $scope.active = 'ONGs';
+  $scope.$watch('search.query', function (value, old) {
+    if (value !== old) {
+      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
   });
 
@@ -906,16 +769,16 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
     if ($scope.landing) {
       var vars = {
         showProjects: $scope.showProjects,
-        city: $scope.city,
-        cause: $scope.cause,
-        skill: $scope.skill
+        city: $scope.search.city,
+        cause: $scope.search.cause,
+        skill: $scope.search.skill
       };
       $scope.$emit('landingToExplorer', vars);
     }
-    else if ($scope.next_url) {
-      $http.get($scope.next_url).success( function (response) {
+    else if ($scope.search.nextUrl) {
+      $http.get($scope.search.nextUrl).success( function (response) {
         response.results._restultmeta = {next: response.next };
-        fixProject(response.results);
+        //fixProject(response.results);
       }).error(function () {
         toastr.error('Erro ao buscar mais atos do servidor');
       });
@@ -923,10 +786,4 @@ app.controller('SearchCtrl', ['$scope', 'Restangular', '$http', '$location', '$a
       toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
     }
   };
-  if ($scope.landing && $scope.projects.length === 0) {
-    searchProjects();
-  }
-  if ($scope.landing && $scope.nonprofits.length === 0) {
-    searchNonprofits();
-  }
-}]);
+});

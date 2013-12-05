@@ -2,6 +2,7 @@
 
 /* global constants: false */
 /* global $: false */
+/* global google: false */
 
 var app = angular.module('atadosApp');
 
@@ -121,6 +122,139 @@ app.factory('Site', function(Restangular) {
   };
 });
 
+app.factory('Search', function (Restangular) {
+  var _query = '';
+  var _cause = {};
+  var _skill = {};
+  var _city = {};
+  
+  var _projects = [];
+  var _nonprofits = [];
+
+  var _nextUrl = '';
+
+  var _markers = [];
+  var _showProjects = true;
+
+  var getAddressStr = function (a) {
+    if (a) {
+      var address =  a.addressline + ', ' + a.addressnumber;
+      if (a.city) {
+        address += ' - ' + a.city.name;
+        if (a.city.state) {
+          address += + ' ' + a.city.state.code;
+        }
+      }
+      return address;
+    } else {
+      return '';
+    }
+  };
+
+  function getLatLong(project){
+    var address = project.address;
+    var geo = new google.maps.Geocoder();
+    var addressStr = getAddressStr(address);
+    geo.geocode({'address': addressStr, 'region': 'br'},
+    function(results, status){
+      if (status === google.maps.GeocoderStatus.OK) {
+        project.coords =  {
+          latitude: results[0].geometry.location.lat(),
+          longitude: results[0].geometry.location.lng(),
+          showWindow: true,
+          icon: 'heartblue16.png'
+        };
+        _markers.push(project.coords);
+      } else {
+        project.coords = {};
+      }
+    });
+  }
+
+  var fixProject = function (response) {
+    response.forEach(sanitizeProject);
+    if (response._resultmeta) {
+      _nextUrl = response._resultmeta.next;
+    } else {
+      _nextUrl = '';
+    }
+  };
+
+  var fixNonprofit = function (response) {
+    response.forEach(sanitizeNonprofit);
+    if (response._resultmeta) {
+      _nextUrl = response._resultmeta.next;
+    } else {
+      _nextUrl = '';
+    }
+  };
+
+  var sanitizeProject = function (p) {
+    // TODO(mpomarole): replace with causes icon
+    var returnName = function (c) {
+      return c.name;
+    };
+    p.causesStr = p.causes.map(returnName).join('/');
+    getLatLong(p);
+    _projects.push(p);
+  };
+
+  var sanitizeNonprofit = function (n) {
+    _nonprofits.push(n);
+  };
+
+  function searchProjects(query, cause, skill, city) {
+    var urlHeaders = {
+      page_size: constants.page_size,
+      query: query,
+      cause: cause,
+      skill: skill,
+      city: city
+    };
+    Restangular.all('projects').getList(urlHeaders).then( function(response) {
+      fixProject(response);
+    }, function () {
+      console.error('Não consegui pegar os atos do servidor.');
+    });
+  }
+
+  var searchNonprofits = function (query, cause, city) {
+    var urlHeaders = {
+      page_size: constants.page_size,
+      query: query,
+      cause: cause,
+      city: city
+    };
+    Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
+      fixNonprofit(response);
+    });
+  };
+
+  searchProjects();
+  searchNonprofits();
+
+  return {
+    filter: function (query, cause, skill, city) {
+      _projects = [];
+      _nonprofits = [];
+      searchProjects(query, cause, skill, city);
+      searchNonprofits(query, cause, city);
+    },
+    query: _query,
+    cause: _cause,
+    skill: _skill,
+    city: _city,
+    nextUrl: _nextUrl,
+    projects: function () {
+      return _projects;
+    },
+    nonprofits: function () {
+      return _nonprofits;
+    },
+    showProjects: _showProjects
+  };
+});
+
 app.factory('Photos', ['$http', function($http) {
   var apiUrl = constants.api;
 
@@ -162,7 +296,6 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     },
     // Both email and password field need to be set on data object
     changePassword: function (data, success, error) {
-      console.log(data);
       $http.put(apiUrl + 'change_password/', data)
         .success( function() {
           success();
