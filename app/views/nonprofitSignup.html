@@ -142,7 +142,7 @@
         </fieldset>
         <fieldset>
           <div class="alert alert-warning col-md-12">
-            <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()">Termos de uso e Políticas de privacidade</a>.</p>
+            <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
           </div>
           <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid">Terminar cadastro</button>
         </fieldset>
@@ -211,7 +211,7 @@
           </div>
         </fieldset>
 
-        <fieldset class="row">
+        <fieldset>
           <legend>Foto cover da ONG</legend>
           <div class="form-group">
             <input required id="cover-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">

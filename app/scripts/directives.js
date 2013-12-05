@@ -91,27 +91,19 @@ app.directive('email', function () {
   };
 });
 
-/*app.directive('address', function () {
-  return {
-    restrict: 'AE',
-    scope: {
-      addressline: '',
-      addressnumber: '',
-      complement: '',
-      suburb: '',
-      zipcode: '',
-      city: '',
-      state: '',
-    },
-    template: ''
-  }
-});*/
-
 app.directive('contactatados', function() {
   return {
     restrict: 'E',
     scope: {},
     template: '<p>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se estiver tendo problemas.</p>'
+  };
+});
+
+app.directive('doubtAtados', function() {
+  return {
+    restrict: 'E',
+    scope: {},
+    template: '<p>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se estiver com dúvida.</p>'
   };
 });
 

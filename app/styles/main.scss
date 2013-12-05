@@ -167,6 +167,9 @@ fieldset {
 
 #nonprofitSignupForm {
   margin-bottom: 40px;
+  fieldset {
+    margin-bottom: 70px;
+  }
 
   #addressNumberField {
 
@@ -233,11 +236,23 @@ h1, h2, h3, h4, h5, h6,
 
 // _modals.scss
 $modal-content-bg: #efefef;
-@media screen and (min-width: 1px) {
-  .modal-dialog {
-    width: 430px !important;
+.modal .modal-dialog {
+  width: 430px;
+}
+
+#termsModal {
+  ol {
+    counter-reset: item
+  }
+  li {
+    display: block
+  }
+  li:before {
+    content: counters(item, ".") ". "; counter-increment: item;
+    font-weight: bold;
   }
 }
+
 .modal-content {
 
   .active {

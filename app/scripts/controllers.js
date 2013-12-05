@@ -71,7 +71,8 @@ app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', '
   };
   $scope.openTermsModal = function() {
     $scope.modalInstance = $modal.open({
-      templateUrl: '/views/termsModal.html'
+      templateUrl: '/views/termsModal.html',
+      windowClass: 'width: 1000px;'
     });
   };
 
@@ -335,8 +336,20 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
   });
 
+  $scope.$watch('nonprofit.causes', function (value) {
+    console.log(value);
+  });
+
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
+    if (cause.checked) {
+      $scope.nonprofit.causes.push(cause);
+    } else {
+      var index = $scope.nonprofit.causes.indexOf(cause);
+      if (index > -1) {
+        $scope.nonprofit.causes.splice(index, 1);
+      }
+    }
   };
 
   $scope.uploadFile = function(files) {
@@ -353,7 +366,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
 
   $scope.signup = function () {
     $scope.nonprofit.user.password = $scope.password;
-    $scope.nonprofit.causes = $filter('filter')($scope.causes(), {checked: true});
     console.log($scope.nonprofit);
     Auth.nonprofitSignup($scope.nonprofit, function () {
       toastr.success('Bem vinda ONG ao atados!');
