@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-inverse" role="navigation">
+<div id="top" class="navbar navbar-default navbar-inverse" role="navigation">
   <div class="navbar-header">
     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
       <span class="sr-only">Toggle navigation</span>
@@ -12,7 +12,7 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <form class="navbar-form pull-left" role="search" ng-submit="siteSearch()">
       <div class="form-group">
-        <input id="siteSearch" class="form-control input-sm" ng-model="searchQuery" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+        <input id="siteSearch" class="form-control input-sm" ng-model="search.query" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
         <button class="searchIcon">
           <i class="fa fa-search"></i>
         </button>
@@ -65,9 +65,9 @@
         <div class="col-xs-6">
           <h4>Cidades que te chamam</h4>
           <ul>  
-            <li><a ng-click="citySearch('São Paulo')">Atos em São Paulo</a></li>
-            <li><a ng-click="citySearch('Curitiba')">Atos em Curitiba</a></li>
-            <li><a ng-click="citySearch('Brasília')">Atos em Brasília</a></li>
+            <li><a ng-click="citySearch('São Paulo')" ui-sref="root.explore">Atos em São Paulo</a></li>
+            <li><a ng-click="citySearch('Curitiba')" ui-sref="root.explore">Atos em Curitiba</a></li>
+            <li><a ng-click="citySearch('Brasília')" ui-sref="root.explore">Atos em Brasília</a></li>
           </ul>
         </div>
         <div class="col-xs-6">

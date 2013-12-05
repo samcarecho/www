@@ -14,10 +14,10 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
-app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', 'Auth',
-  function($scope, $rootScope, $modal, $state, Site, Auth) {
+app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Auth, Search) {
   
   $scope.site = Site;
+  $scope.search = Search;
   $scope.modalInstance = null;
   $scope.storage = constants.storage;
   $scope.causes = Site.causes;
@@ -27,13 +27,18 @@ app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', '
   $scope.suburbs = Site.suburbs;
 
   $scope.citySearch = function (city) {
-    $state.transitionTo('root.explore');
-    $scope.$broadcast('citySearch', city);
+    $scope.cities().forEach(function (c) {
+      if (c.name === city) {
+        $scope.search.city = c;
+        $location.hash('top');
+        $anchorScroll();
+        return;
+      }
+    });
   };
 
   $scope.siteSearch = function () {
     $state.transitionTo('root.explore');
-    $scope.$broadcast('siteSearch', $scope.searchQuery);
   };
 
   Auth.getCurrentUser(function (user) {
@@ -85,7 +90,7 @@ app.controller('AppCtrl', ['$scope', '$rootScope', '$modal', '$state', 'Site', '
     Auth.logout();
     $scope.loggedUser = null;
   };
-}]);
+});
 
 app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
