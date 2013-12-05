@@ -203,15 +203,17 @@
           </div>
         </fieldset>
 
-        <fieldset class="col-sm-6">
-          <legend>Logo da ONG</legend>
-          <input id="image-file-input" type="file" name="file"
-          onchange="angular.element(this).scope().uploadFile(this.files)"/>
-          <img ng-show="{{nonprofit.image}}" class="img-rounded" alt="{{nonprofit.slug}}"
-          ng-src="{{image}}" width="270" height="270"/>
-        </fieldset>
+        <div class="row">
+          <fieldset>
+            <legend>Logo da ONG</legend>
+            <input id="image-file-input" type="file" name="file"
+            onchange="angular.element(this).scope().uploadFile(this.files)"/>
+            <img ng-show="{{nonprofit.image}}" class="img-rounded" alt="{{nonprofit.slug}}"
+            ng-src="{{image}}" width="270" height="270"/>
+          </fieldset>
+        </div>
 
-        <fieldset class="col-sm-6">
+        <fieldset class="row">
           <legend>Foto cover da ONG</legend>
           <input id="cover-file-input" type="file" name="file"
           onchange="angular.element(this).scope().uploadFile(this.files)"/>
