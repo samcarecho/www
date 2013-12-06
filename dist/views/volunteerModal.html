@@ -1,4 +1,4 @@
-<div class="modal-body" ng-controller="VolunteerModalController">
+<div class="modal-body" ng-controller="VolunteerModalCtrl">
   <div class="row">
     <a type="button" class="btn modalTab col-xs-6" ng-class="{active: loginActive}" ng-click="loginActive=true">Log in</a>
     <a type="button" class="btn modalTab col-xs-6" ng-class="{active: !loginActive}" ng-click="loginActive=false">Criar conta</a>
@@ -15,7 +15,7 @@
   <hr>
   <div class="animate-switch-container" ng-switch="" on="loginActive">
 
-  <div ng-controller="LoginController" ng-switch-when="true">
+  <div ng-controller="LoginCtrl" ng-switch-when="true">
     <form novalidate="" name="loginForm" ng-submit="login()">
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.email.$error.required || loginForm.email.$invalid]">
         <input required="" class="form-control" type="email" name="email" ng-model="email" placeholder="Email">
@@ -47,7 +47,7 @@
     </form>
   </div>
 
-  <div id="volunteer-signup-form" ng-controller="VolunteerSignupController" ng-switch-when="false">
+  <div id="volunteer-signup-form" ng-controller="VolunteerSignupCtrl" ng-switch-when="false">
     <form novalidate="" name="signupForm" ng-submit="signup()">
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.slug.$error.required || signupForm.slug.$invalid || signupForm.slug.$error.minlength]">
         <input class="form-control" type="text" name="slug" ng-model="slug" ng-minlength="3" placeholder="Nome de usuário" required="">
