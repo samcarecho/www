@@ -61,7 +61,7 @@ app.factory('Site', function(Restangular) {
   var getCities = function () {
     Restangular.all('cities').getList({page_size: constants.static_page_size}).then( function(response) {
       _cities = response;
-      _cities.splice(0, 0, {name: 'Todas Cidades', id: ''});
+      _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true});
     }, function () {
       console.error('Não consegui pegar as cidades do servidor.');
     });
