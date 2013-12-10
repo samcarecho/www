@@ -703,9 +703,14 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   };
 });
 
-app.controller('LandingCtrl', function ($scope) {
+app.controller('LandingCtrl', function ($scope, Numbers) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
   $scope.landing = true;
+  Numbers.getNumbers(function (response) {
+    $scope.numbers = response;
+  }, function (error) {
+    toastr.error(error);
+  });
 });
 
 app.controller('AboutCtrl', function ($scope) {

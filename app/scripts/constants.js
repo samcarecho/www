@@ -12,7 +12,7 @@ var constants = {
   'csrfCookie': 'csrftoken',
   'sessionIdCookie': 'sessionid',
   'grantType': 'password',
-  'page_size': 9,
+  'page_size': 8,
   'static_page_size': 50
 };
 

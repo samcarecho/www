@@ -2,7 +2,6 @@
 
 /* global constants: false */
 /* global $: false */
-/* global google: false */
 
 var app = angular.module('atadosApp');
 
@@ -133,10 +132,10 @@ app.factory('Search', function (Restangular) {
 
   var _nextUrl = '';
 
-  var _markers = [];
+  // var _markers = [];
   var _showProjects = true;
 
-  var getAddressStr = function (a) {
+  /* var getAddressStr = function (a) {
     if (a) {
       var address =  a.addressline + ', ' + a.addressnumber;
       if (a.city) {
@@ -149,9 +148,9 @@ app.factory('Search', function (Restangular) {
     } else {
       return '';
     }
-  };
+  };*/
 
-  function getLatLong(project){
+  /*function getLatLong(project){
     var address = project.address;
     var geo = new google.maps.Geocoder();
     var addressStr = getAddressStr(address);
@@ -169,7 +168,7 @@ app.factory('Search', function (Restangular) {
         project.coords = {};
       }
     });
-  }
+  }*/
 
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
@@ -195,7 +194,8 @@ app.factory('Search', function (Restangular) {
       return c.name;
     };
     p.causesStr = p.causes.map(returnName).join('/');
-    getLatLong(p);
+    // getLatLong(p);
+    console.log(p);
     _projects.push(p);
   };
 
@@ -203,9 +203,10 @@ app.factory('Search', function (Restangular) {
     _nonprofits.push(n);
   };
 
-  function searchProjects(query, cause, skill, city) {
+  function searchProjects(query, cause, skill, city, pageSize) {
+    pageSize = typeof pageSize !== 'undefined' ? pageSize : constants.page_size;
     var urlHeaders = {
-      page_size: constants.page_size,
+      page_size: pageSize,
       query: query,
       cause: cause,
       skill: skill,
@@ -267,7 +268,27 @@ app.factory('Photos', ['$http', function($http) {
     }
   };
 }]);
- 
+
+app.factory('Numbers', function($http) {
+  var apiUrl = constants.api;
+
+  return {
+    getNumbers: function (success, error) {
+        $http.get(apiUrl + 'numbers')
+          .success(function (response) {
+            if ( !response.projects ) {
+              response.projects = 0;
+            } else if ( !response.volunteers ) {
+              response.volunteers = 0;
+            } else if ( !response.nonprofits) {
+              response.nonprofits = 0;
+            }
+
+            success(response);
+          }).error(error);
+      }
+  };
+});
 
 app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   
