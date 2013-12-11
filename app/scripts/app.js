@@ -4,7 +4,7 @@
 /* global $: false */
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps']);
+    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps', 'AngularGM']);
 
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);

@@ -1,6 +1,7 @@
 'use strict';
 
 /* global toastr: false */
+/* global google: false */
 /* global constants: false */
 
 // ----
@@ -484,23 +485,39 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
   };
 });
 
-app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
+app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $sce, Auth, Restangular) {
+
+  $scope.markers = [];
+  $scope.activeProjects = true;
 
   Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
     $scope.nonprofit = response;
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
-    $scope.nonprofit.id = $scope.nonprofit.user.slug;
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
     } else {
-      $scope.image = 'http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif';
+      $scope.image = 'http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif'; // TODO 
     }
 
     if ($scope.nonprofit.cover_url) {
       $scope.coverImage = $scope.nonprofit.cover_url;
     } else {
-      $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg';
+      $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
     }
+    $scope.nonprofit.causes.forEach(function (c) {
+      c.class = 'cause_' + c.id;
+    });
+
+    $scope.nonprofit.address = $scope.nonprofit.user.address;
+    // Addings 1 to the index becuase we add the "Todas ..." when pulling from database
+    $scope.nonprofit.address.city = $scope.cities()[$scope.nonprofit.user.address.city + 1];
+    // Removing 1 because index at state table starts at 1
+    $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.user.address.city.state - 1];
+    window.nonprofit = $scope.nonprofit;
+
+    $scope.markers.push($scope.nonprofit.address);
+    $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+    $scope.zoom = 15;
   }, function() {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');

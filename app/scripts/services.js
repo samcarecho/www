@@ -60,6 +60,7 @@ app.factory('Site', function(Restangular) {
     Restangular.all('cities').getList({page_size: constants.static_page_size}).then( function(response) {
       _cities = response;
       _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true});
+      window.cities = _cities;
     }, function () {
       console.error('Não consegui pegar as cidades do servidor.');
     });
@@ -67,6 +68,7 @@ app.factory('Site', function(Restangular) {
   var getStates = function () {
     Restangular.all('states').getList({page_size: constants.static_page_size}).then( function(response) {
       _states = response;
+      window.states = _states;
     }, function () {
       console.error('Não consegui pegar os estados do servidor.');
     });
@@ -207,7 +209,7 @@ app.factory('Search', function (Restangular) {
 
   var searchNonprofits = function (query, cause, city) {
     var urlHeaders = {
-      page_size: constants.page_size,
+      page_size: 300,
       query: query,
       cause: cause,
       city: city

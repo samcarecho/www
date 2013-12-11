@@ -5,14 +5,42 @@ var app = angular.module('atadosApp');
 app.filter('as_location_string', function() {
   return function(address) {
     if (!address) {
-      return '';
+      return 'Não tem endereço';
     }
 
-    console.log(address);
     var out = address.addressline + ', ';
-    out += address.addressnumber + ' - ';
+    if (address.addressnumber) {
+      out += address.addressnumber + ' - ';
+    }
+    if (address.addressline2) {
+      out += address.addressline2 + ' - ';
+    }
+    if (address.neighborhood) {
+      out += address.neighborhood + ' - ';
+    }
     out += address.city.name + ', ' + address.state.code;
-    out += ' - ' + address.zipcode;
+    if (address.zipcode) {
+      out += ' - ' + address.zipcode;
+    }
     return out;
+  };
+});
+
+app.filter('newlines', function ($sce) {
+  return function(text) {
+    if (text) {
+      return $sce.trustAsHtml(text.replace(/\n/g, '<br/>'));
+    }
+  };
+});
+
+app.filter('noHTML', function () {
+  return function(text) {
+    if (text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/>/g, '&gt;')
+        .replace(/</g, '&lt;');
+    }
   };
 });
