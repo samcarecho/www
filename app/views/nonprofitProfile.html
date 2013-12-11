@@ -30,7 +30,7 @@
     </div>
     <div class="col-md-9 col-sm-8 col-xs-7">
       <h1>{{nonprofit.name}}</h1>
-      <button class="btn pull-right"><i class="fa fa-heart"></i> Já sou voluntário/a da ONG</button>
+      <button class="btn btn-info pull-right" ng-click="addVolunteerToNonprofit()"><i class="fa fa-heart" style="color: red; font-size: 20px;"></i> Já sou voluntário/a da ONG</button>
       <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
       <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
       <p ng-if="nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
@@ -44,14 +44,14 @@
       <div ng-bind-html="nonprofit.description | noHTML | newlines"></div>
       <br>
       <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
-      <div class="row">
-        <a type="button" class="btn btn-large" ng-class="{active: activeProjects}" ng-click="activeProjects=true">Atos Abertos</a>
-        <a type="button" class="btn btn-large" ng-class="{active: !activeProjects}" ng-click="activeProjects=false">Atos Encerrados</a>
+      <div class="projectButtons">
+        <a type="button" class="btn btn-large buttonTab" ng-class="{active: activeProjects}" ng-click="activeProjects=true">Atos Abertos</a>
+        <a type="button" class="btn btn-large buttonTab" ng-class="{active: !activeProjects}" ng-click="activeProjects=false">Atos Encerrados</a>
       </div>
       <div class="row">
         <div class="col-sm-12 projects">
           <project-card ng-repeat="project in getProjects()"></project-card>
-          <div class="alert center" ng-show="!getProjects().length">ONG não tem atos dessa categoria.</div>
+          <div class="alert center" ng-show="!getProjects().length">ONG não tem atos nessa categoria.</div>
         </div>
       </div>
     </div>

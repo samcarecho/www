@@ -489,6 +489,10 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
 
   $scope.markers = [];
   $scope.activeProjects = true;
+  $scope.nonprofit = {
+    name: '',
+    details: ''
+  };
   $scope.nonprofitProjects = [];
   $scope.landing=false;
 

@@ -202,6 +202,22 @@ fieldset {
   }
 
   #nonprofit-details {
+    .projectButtons {
+      margin: 20px 0;
+    }
+    .active {
+      background-image: linear-gradient(#009BD4, #0081B2) !important;
+      color: #FFF;
+    }
+    .buttonTab {
+      margin-right: 20px;
+      text-transform: uppercase;
+      background-image: linear-gradient(#FFF, #E8E8E8);
+      font-weight: bold;
+      &:hover {
+        color: $link-color;
+      }
+    }
     #left-sidebar {
       width: 223px;
       font-weight: bold;
@@ -702,7 +718,7 @@ $card-img-height: 170px;
           z-index: 1;
           text-shadow: 0 1px 0 rgba(0,0,0,0.8);
           color: #fff;
-          font-size: 16px;
+          font-size: 15px;
         }
       }
 
