@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-img">
         <div class="card-description"> 
-          <a ng-href="ato/{{project.slug}}">
+          <a ng-href="/ato/{{project.slug}}">
             <p>{{project.description}}</p>
           </a>
           <div tooltip="Compartilhe esse ato na sua timeline!" class="fb-share-button" data-href="http://www.atadoslocal.com.br:9000/ato/{{project.slug}}" data-type="icon"></div>
@@ -10,7 +10,7 @@
         <img alt="" ng-src="{{ project.image_url }}">
     </div>
     <div class="card-footer clearfix">
-      <a class="card-name" ng-href="ato/{{project.slug}}"><h4>{{ project.name }}</h4></a>
+      <a class="card-name" ng-href="/ato/{{project.slug}}"><h4>{{ project.name }}</h4></a>
       <div class="row card-quick-info">
         <a ng-href="/ong/{{project.nonprofit.slug}}" class="nonprofit-img">
           <img ng-href="/ong/{{project.nonprofit.slug}}" ng-src="{{ project.nonprofit.image_url }}">

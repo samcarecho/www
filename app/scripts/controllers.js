@@ -489,9 +489,12 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
 
   $scope.markers = [];
   $scope.activeProjects = true;
+  $scope.nonprofitProjects = [];
+  $scope.landing=false;
 
-  Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
-    $scope.nonprofit = response;
+  Restangular.all('projects').getList({nonprofit: $stateParams.slug}).then(function(response) {
+    $scope.nonprofit = response[0].nonprofit;
+    $scope.nonprofitProjects = response;
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
@@ -514,6 +517,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
     // Removing 1 because index at state table starts at 1
     $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.user.address.city.state - 1];
     window.nonprofit = $scope.nonprofit;
+    window.projects = $scope.nonprofitProjects;
 
     $scope.markers.push($scope.nonprofit.address);
     $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
@@ -522,6 +526,14 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');
   });
+
+  $scope.getProjects  = function () {
+    if ($scope.activeProjects) {
+      return $scope.nonprofitProjects.filter(function (p) { return !(p.closed || p.deleted); });
+    } else {
+      return $scope.nonprofitProjects.filter(function (p) { return p.closed || p.deleted; });
+    }
+  };
 });
 
 app.controller('NonprofitAdminCtrl', function($scope, $state) {
