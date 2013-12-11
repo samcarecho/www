@@ -23,7 +23,7 @@
         <div class="col-xs-4 center" style="border-right: 1px solid #ccc">
 
           <div class="number-outer">
-            <span class="number"><i class="fa fa-rocket"></i> {{325|number}}</span>
+            <span class="number"><i class="fa fa-rocket"></i> {{ numbers.projects | number }}</span>
             <br>
             <span class="number-label">Oportunidades para agir</span>
           </div>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-xs-4 center" style="border-right: 1px solid #ccc">
           <div class="number-outer">
-            <span class="number"><i class="fa fa-smile-o"></i> {{13245|number}}</span>
+            <span class="number"><i class="fa fa-smile-o"></i> {{numbers.volunteers |  number}}</span>
             <br>
             <span class="number-label">Pessoas que acreditam na mudança</span>
           </div>
@@ -62,7 +62,7 @@
           <div class="number-outer">
             <span class="number">
               <i class="fa fa-home"></i>
-              {{203|number}}</span>
+              {{numbers.nonprofits | number}}</span>
             <br>
             <span class="number-label">ONGs para ajudar</span>
           </div>
@@ -98,6 +98,7 @@
       <div id="parceiros" class="center col-sm-6">
         <h3><i class="fa fa-heart fa-3"></i> Nossos parceiros</h3>
         <a id="fundacao" href="http://www.fenomenos.org/"><img class="center img-responsive" ng-src="{{storage}}fundacao-fenomenos.png"></a>
+        <a id="allin" href="http://www.allinmail.com.br/"><img class="center img-responsive" ng-src="{{storage}}allin.png"></a>
       </div>
     </div>
   </div>

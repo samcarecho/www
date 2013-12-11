@@ -8,9 +8,9 @@ app.filter('as_location_string', function() {
       return '';
     }
 
+    console.log(address);
     var out = address.addressline + ', ';
     out += address.addressnumber + ' - ';
-    out += address.suburb.name + ' - ';
     out += address.city.name + ', ' + address.state.code;
     out += ' - ' + address.zipcode;
     return out;

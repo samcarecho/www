@@ -37,9 +37,6 @@ Esse ato pode ser feito remotamente? <input class="btn" type="checkbox" name="ca
     <input type='text' class="form-control" name="neighborhood" ng-model='work.address.neighborhood' placeholder="Bairro">
     <input type='text' class="form-control" name="zipcode" ng-model='work.address.zipcode' ng-maxlength="10" placeholder="CEP">
     <label class="help-block" ng-show="newProjectForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
-    <select class="form-control" ng-model="work.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
-      <option value="" disabled selected>Zona</option>
-    </select>
     <select class="form-control" ng-model="work.address.city" ng-options="c.name for c in cities|orderBy:'name'">
       <option value="" disabled selected>Cidade</option>
     </select>

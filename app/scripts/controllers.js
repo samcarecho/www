@@ -2,7 +2,6 @@
 
 /* global toastr: false */
 /* global constants: false */
-/* global google: false */
 
 // ----
 // Global Constants
@@ -24,7 +23,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   $scope.skills = Site.skills;
   $scope.cities = Site.cities;
   $scope.states = Site.states;
-  $scope.suburbs = Site.suburbs;
 
   $scope.citySearch = function (city) {
     $scope.cities().forEach(function (c) {
@@ -280,7 +278,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
       zipcode:null,
       addressline:null,
       addressnumber:null,
-      suburbs:null
     },
     phone:null,
     description:null,
@@ -489,36 +486,9 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
 
 app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http,  Auth, Restangular) {
 
-  angular.extend($scope, {
-    center: {
-      latitude: -23.553287,
-      longitude: -46.638535,
-    },
-    markers: [],
-    zoom: 14,
-  });
-
-  function getLatLong(address){
-    var geo = new google.maps.Geocoder();
-    geo.geocode({'address': address.addressline, 'region': 'br'},
-    function(results, status){
-      if (status === google.maps.GeocoderStatus.OK) {
-        var location = {
-          latitude: results[0].geometry.location.lat(),
-          longitude: results[0].geometry.location.lng()
-        };
-        $scope.center = location;
-        $scope.markers.push(location);
-        $scope.mapReady = true;
-      } else {
-        // TODO
-      }
-    });
-  }
-
   Restangular.one('nonprofits', $stateParams.slug).get().then(function(response) {
     $scope.nonprofit = response;
-    $scope.site.title = 'ONG ' + $scope.nonprofit.user.slug;
+    $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
     $scope.nonprofit.id = $scope.nonprofit.user.slug;
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
@@ -531,9 +501,6 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http,  A
     } else {
       $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg';
     }
-
-    getLatLong($scope.nonprofit.user.address);
-
   }, function() {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');
@@ -621,12 +588,6 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
       toastr.error('Problema inesperado, me desculpe!');
     }
   };
-
-  Restangular.all('suburbs').getList().then( function(response) {
-    $scope.suburbs = response;
-  }, function () {
-    toastr.error('Não consegui pegar as Zonas do servidor.');
-  });
 
   // Checking that slug does not have spaces and it is not already used.
   $scope.$watch('project.slug', function (value) {

@@ -85,9 +85,6 @@
       <input type="text" class="form-control" name="neighborhood" ng-model="job.address.neighborhood" placeholder="Bairro">
       <input type="text" class="form-control" name="zipcode" ng-model="job.address.zipcode" ng-maxlength="10" placeholder="CEP">
       <label class="help-block" ng-show="newProjectForm.zipcode.$error.maxlength">Não pode ter mais de 10 caracteres.</label>
-      <select class="form-control" ng-model="job.address.suburbs" ng-options="c.name for c in suburbs|orderBy:'name'">
-        <option value="" disabled="disabled" selected="selected">Zona</option>
-      </select>
       <select class="form-control" ng-model="job.address.city" ng-options="c.name for c in cities|orderBy:'name'">
         <option value="" disabled="disabled" selected="selected">Cidade</option>
       </select>

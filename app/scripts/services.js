@@ -36,7 +36,6 @@ app.factory('Site', function(Restangular) {
   var _skills = [];
   var _cities = [];
   var _states = [];
-  var _suburbs = [];
 
   var getCauses = function () {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
@@ -73,19 +72,10 @@ app.factory('Site', function(Restangular) {
     });
   };
 
-  var getSuburbs = function () {
-    Restangular.all('suburbs').getList({page_size: constants.static_page_size}).then( function(response) {
-      _suburbs = response;
-    }, function () {
-      console.error('Não consegui pegar as Zonas do servidor.');
-    });
-  };
-
   getCauses();
   getSkills();
   getCities();
   getStates();
-  getSuburbs();
 
   return {
     name : 'Atados - Juntando Gente Boa',
@@ -114,9 +104,6 @@ app.factory('Site', function(Restangular) {
     },
     states: function () {
       return _states;
-    },
-    suburbs: function () {
-      return _suburbs;
     }
   };
 });
@@ -195,7 +182,6 @@ app.factory('Search', function (Restangular) {
     };
     p.causesStr = p.causes.map(returnName).join('/');
     // getLatLong(p);
-    console.log(p);
     _projects.push(p);
   };
 
