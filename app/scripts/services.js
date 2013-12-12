@@ -262,7 +262,7 @@ app.factory('Numbers', function($http) {
 
   return {
     getNumbers: function (success, error) {
-        $http.get(apiUrl + 'numbers')
+        $http.get(apiUrl + 'numbers/')
           .success(function (response) {
             if ( !response.projects ) {
               response.projects = 0;
