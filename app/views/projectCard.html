@@ -23,7 +23,8 @@
       </div>
       <div class="row card-second">
         <div class="card-date col-xs-9">
-          <strong>10 de novembro de 2012</strong>
+          <strong ng-if="project.work"><i class="fa fa-refresh"></i> Ato Recorrente</strong>
+          <strong ng-if="project.job"><i class="fa fa-refresh"></i> {{project.start_date}}</strong>
         </div>
         <div class="card-volunteer center col-xs-3">
           <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{project.volunteers}}</span>

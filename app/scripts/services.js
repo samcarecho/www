@@ -185,6 +185,7 @@ app.factory('Search', function (Restangular) {
     p.causesStr = p.causes.map(returnName).join('/');
     // getLatLong(p);
     _projects.push(p);
+    console.log(p);
   };
 
   var sanitizeNonprofit = function (n) {
