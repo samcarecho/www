@@ -31,11 +31,29 @@ app.factory('Cookies', function($q, $timeout){
   };
 });
 
-app.factory('Site', function(Restangular) {
+app.factory('Site', function(Restangular, $http) {
   var _causes = [];
   var _skills = [];
   var _cities = [];
   var _states = [];
+  var _numbers = {};
+  var apiUrl = constants.api;
+
+  var getNumbers = function () {
+    $http.get(apiUrl + 'numbers/')
+      .success(function (response) {
+        if ( !response.projects ) {
+          response.projects = 0;
+        } else if ( !response.volunteers ) {
+          response.volunteers = 0;
+        } else if ( !response.nonprofits) {
+          response.nonprofits = 0;
+        }
+
+        _numbers = response;
+      });
+  };
+
 
   var getCauses = function () {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
@@ -78,6 +96,7 @@ app.factory('Site', function(Restangular) {
   getSkills();
   getCities();
   getStates();
+  getNumbers();
 
   return {
     name : 'Atados - Juntando Gente Boa',
@@ -106,6 +125,9 @@ app.factory('Site', function(Restangular) {
     },
     states: function () {
       return _states;
+    },
+    numbers: function () {
+      return _numbers;
     }
   };
 });
@@ -218,27 +240,6 @@ app.factory('Photos', ['$http', function($http) {
   };
 }]);
 
-app.factory('Numbers', function($http) {
-  var apiUrl = constants.api;
-
-  return {
-    getNumbers: function (success, error) {
-        $http.get(apiUrl + 'numbers/')
-          .success(function (response) {
-            if ( !response.projects ) {
-              response.projects = 0;
-            } else if ( !response.volunteers ) {
-              response.volunteers = 0;
-            } else if ( !response.nonprofits) {
-              response.nonprofits = 0;
-            }
-
-            success(response);
-          }).error(error);
-      }
-  };
-});
-
 app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   
   function setAuthHeader(accessToken) {
@@ -252,7 +253,6 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
 
   return {
     facebookAuth: function (facebookAuthData, success, error) {
-      console.log(facebookAuthData);
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
         Cookies.set(constants.accessTokenCookie, response.access_token);
@@ -320,6 +320,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
       user.client_id = constants.clientId;
       user.client_secret = constants.clientSecret;
       user.grant_type = constants.grantType;
+      console.log(user);
       $http({
         method: 'POST',
         url: apiUrl + 'oauth2/access_token/',

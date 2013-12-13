@@ -24,6 +24,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   $scope.skills = Site.skills;
   $scope.cities = Site.cities;
   $scope.states = Site.states;
+  $scope.numbers = Site.numbers;
 
   $scope.citySearch = function (city) {
     $scope.cities().forEach(function (c) {
@@ -339,10 +340,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
   });
 
-  $scope.$watch('nonprofit.causes', function (value) {
-    console.log(value);
-  });
-
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
     if (cause.checked) {
@@ -369,7 +366,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
 
   $scope.signup = function () {
     $scope.nonprofit.user.password = $scope.password;
-    console.log($scope.nonprofit);
     Auth.nonprofitSignup($scope.nonprofit, function () {
       toastr.success('Bem vinda ONG ao atados!');
       $state.transitionTo('root.nonprofitadmin');
@@ -548,7 +544,6 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
   $scope.addVolunteerToNonprofit = function () {
     $http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
       .success(function (response) {
-        console.log(response);
         if (response[0] === 'Added') {
           $scope.alreadyVolunteer = true;
         } else {
@@ -730,14 +725,9 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   };
 });
 
-app.controller('LandingCtrl', function ($scope, Numbers) {
+app.controller('LandingCtrl', function ($scope) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
   $scope.landing = true;
-  Numbers.getNumbers(function (response) {
-    $scope.numbers = response;
-  }, function (error) {
-    toastr.error(error);
-  });
 });
 
 app.controller('AboutCtrl', function ($scope) {
