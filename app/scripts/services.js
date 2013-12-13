@@ -145,9 +145,7 @@ app.factory('Search', function (Restangular) {
     p.causes.forEach(function (c) {
       c.class = 'cause_' + c.id;
     });
-    // getLatLong(p);
     _projects.push(p);
-    console.log(p);
   };
 
   var sanitizeNonprofit = function (n) {
@@ -254,6 +252,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
 
   return {
     facebookAuth: function (facebookAuthData, success, error) {
+      console.log(facebookAuthData);
       $http.post(apiUrl + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
         Cookies.set(constants.accessTokenCookie, response.access_token);
