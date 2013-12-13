@@ -17,6 +17,7 @@
           <i class="fa fa-search"></i>
         </button>
       </div>
+      <a ui-sref="root.explore" href=""><img ng-src="/images/map.png" width="20" height="20"/></a>
     </form>
 
     <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
@@ -35,18 +36,18 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.slug }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/voluntario/{{loggedUser.slug}}">Meu perfil</a></li>
-          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
+          <li><a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
         </li>
       </ul>
 
-      <ul ng-show="loggedUser.role=='NONPROFIT'">
+      <ul class="nav navbar-nav" ng-show="loggedUser.role=='NONPROFIT'">
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.name }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
-          <li><a ng-href="/controle">Panel de controle</a></li>
-          <li> <a ui-sref="root.home" ng-click="logout()">Sair</a></li>
+          <li><a ng-href="/controle">Painel de controle</a></li>
+          <li><a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
         </li>
       </ul>

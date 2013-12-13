@@ -2,7 +2,7 @@
 
   <p>Cadastre sua ONG <a ng-click="closeNonprofitLoginModal()" ui-sref="root.nonprofitsignup">agora</a>!</p>
   <form novalidate role="form" name="loginForm" ng-submit="login()">
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.slug.$error.required || loginForm.slug.$invalid]">
+    <!--<div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.slug.$error.required || loginForm.slug.$invalid]">
       <input
       required
       class="form-control"
@@ -12,6 +12,10 @@
       ng-minlength="3"
       placeholder="Nome do usuário da ONG">
       <div class="help-block" ng-show="loginForm.slug.$error.minlength"> Nome de usuário muito curto </div>
+    </div>-->
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.email.$error.required || loginForm.email.$invalid]">
+      <input required class="form-control" type='email' name="email" ng-model='email' placeholder="Email">
+      <label class="help-block" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">Email inválido.</label>
     </div>
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid]">
       <input 

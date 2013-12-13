@@ -668,8 +668,8 @@ $explorer-map-height: 800px;
 }
 
 $card-width: 250px;
-$card-height: 270px;
-$card-info-height: 100px;
+$card-height: 290px;
+$card-info-height: 120px;
 $card-img-height: 170px;
 
 .card-outer {
@@ -783,7 +783,7 @@ $card-img-height: 170px;
         margin-right: 0px;
         padding-top: 5px;
         font-size: 12px;
-        line-height: 9px;
+        line-height: normal;
         p {
           color: #6f6f6f;
           margin-bottom: 8px;
