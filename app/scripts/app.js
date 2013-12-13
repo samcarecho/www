@@ -59,7 +59,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
       resolve: {}
     })
     .state('root.nonprofitadmin', {
-        url: '/admin',
+        url: '/controle',
         templateUrl: '/views/nonprofitAdminPanel.html',
         controller: 'NonprofitAdminCtrl',
         resolve: {}
