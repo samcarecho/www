@@ -212,6 +212,17 @@ fieldset {
   }
 
   #nonprofit-details {
+    .active {
+      i {
+        color: red !important; 
+      }
+    }
+    .btn-info {
+      i {
+        font-size: 20px;
+        color: white;
+      }
+    }
     .projectButtons {
       margin: 20px 0;
     }

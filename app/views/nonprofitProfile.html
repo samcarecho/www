@@ -30,7 +30,7 @@
     </div>
     <div class="col-md-9 col-sm-8 col-xs-7">
       <h1>{{nonprofit.name}}</h1>
-      <button class="btn btn-info pull-right" ng-class="{active: !alreadyVolunteer}" ng-show="showAddVolunteerToNonprofitButton()" ng-click="addVolunteerToNonprofit()"><i class="fa fa-heart" style="color: red; font-size: 20px;"></i> Já sou voluntário(a) da ONG</button>
+      <button class="btn btn-info pull-right" ng-class="{active: alreadyVolunteer}" ng-show="showAddVolunteerToNonprofitButton()" ng-click="addVolunteerToNonprofit()"><i class="fa fa-heart"></i> Já sou voluntário(a) da ONG</button>
       <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
       <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
       <p ng-if="nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>

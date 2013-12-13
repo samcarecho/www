@@ -548,6 +548,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
   $scope.addVolunteerToNonprofit = function () {
     $http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
       .success(function (response) {
+        console.log(response);
         if (response[0] === 'Added') {
           $scope.alreadyVolunteer = true;
         } else {
