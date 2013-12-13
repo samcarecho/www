@@ -121,43 +121,7 @@ app.factory('Search', function (Restangular) {
 
   var _nextUrl = '';
 
-  // var _markers = [];
   var _showProjects = true;
-
-  /* var getAddressStr = function (a) {
-    if (a) {
-      var address =  a.addressline + ', ' + a.addressnumber;
-      if (a.city) {
-        address += ' - ' + a.city.name;
-        if (a.city.state) {
-          address += + ' ' + a.city.state.code;
-        }
-      }
-      return address;
-    } else {
-      return '';
-    }
-  };*/
-
-  /*function getLatLong(project){
-    var address = project.address;
-    var geo = new google.maps.Geocoder();
-    var addressStr = getAddressStr(address);
-    geo.geocode({'address': addressStr, 'region': 'br'},
-    function(results, status){
-      if (status === google.maps.GeocoderStatus.OK) {
-        project.coords =  {
-          latitude: results[0].geometry.location.lat(),
-          longitude: results[0].geometry.location.lng(),
-          showWindow: true,
-          icon: 'heartblue16.png'
-        };
-        _markers.push(project.coords);
-      } else {
-        project.coords = {};
-      }
-    });
-  }*/
 
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
@@ -178,11 +142,9 @@ app.factory('Search', function (Restangular) {
   };
 
   var sanitizeProject = function (p) {
-    // TODO(mpomarole): replace with causes icon
-    var returnName = function (c) {
-      return c.name;
-    };
-    p.causesStr = p.causes.map(returnName).join('/');
+    p.causes.forEach(function (c) {
+      c.class = 'cause_' + c.id;
+    });
     // getLatLong(p);
     _projects.push(p);
     console.log(p);

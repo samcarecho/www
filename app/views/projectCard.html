@@ -18,13 +18,15 @@
         <span>
           <a ng-href="/ong/{{project.nonprofit.slug}}"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.city.name }}, {{ project.address.city.state.code }}</p>
-          <p class="card-causes">{{project.causesStr}}</p>
+          <div class="img-circle cause-image" ng-repeat="cause in project.causes"> 
+            <img tooltip="{{cause.name}}" width="15" height="15" ng-src="/images/{{cause.class}}.png"/>
+          </div>
         </span>
       </div>
       <div class="row card-second">
         <div class="card-date col-xs-9">
           <strong ng-if="project.work"><i class="fa fa-refresh"></i> Ato Recorrente</strong>
-          <strong ng-if="project.job"><i class="fa fa-refresh"></i> {{project.start_date}}</strong>
+          <strong ng-if="project.job"><i class="fa fa-calendar"></i> {{project.start_date}}</strong>
         </div>
         <div class="card-volunteer center col-xs-3">
           <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{project.volunteers}}</span>

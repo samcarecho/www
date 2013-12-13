@@ -5,7 +5,7 @@ var app = angular.module('atadosApp');
 app.filter('as_location_string', function() {
   return function(address) {
     if (!address) {
-      return 'Não tem endereço';
+      return 'Não tem endereço.';
     }
 
     var out = address.addressline + ', ';
@@ -18,7 +18,9 @@ app.filter('as_location_string', function() {
     if (address.neighborhood) {
       out += address.neighborhood + ' - ';
     }
-    out += address.city.name + ', ' + address.state.code;
+    if (address.city) {
+      out += address.city.name + ', ' + address.city.state.code;
+    }
     if (address.zipcode) {
       out += ' - ' + address.zipcode;
     }

@@ -499,7 +499,13 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
   Restangular.all('projects').getList({nonprofit: $stateParams.slug}).then(function(response) {
     $scope.nonprofit = response[0].nonprofit;
     $scope.nonprofitProjects = response;
+    $scope.nonprofitProjects.forEach(function (p) {
+      p.causes.forEach( function (c) {
+        c.class = 'cause_' + c.id;
+      });
+    });
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
+
     if ($scope.nonprofit.image_url) {
       $scope.image = $scope.nonprofit.image_url;
     } else {
@@ -515,17 +521,13 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
       c.class = 'cause_' + c.id;
     });
 
-    $scope.nonprofit.address = $scope.nonprofit.user.address;
-    // Addings 1 to the index becuase we add the "Todas ..." when pulling from database
-    $scope.nonprofit.address.city = $scope.cities()[$scope.nonprofit.user.address.city + 1];
-    // Removing 1 because index at state table starts at 1
-    $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.user.address.city.state - 1];
-    window.nonprofit = $scope.nonprofit;
-    window.projects = $scope.nonprofitProjects;
-
-    $scope.markers.push($scope.nonprofit.address);
-    $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
-    $scope.zoom = 15;
+    isVolunteerToNonprofit();
+    if ($scope.nonprofit.user.address) {
+      $scope.nonprofit.address = $scope.nonprofit.user.address;
+      $scope.markers.push($scope.nonprofit.address);
+      $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+      $scope.zoom = 15;
+    }
   }, function() {
     $state.transitionTo('root.home');
     toastr.error('Ong não encontrada.');
@@ -536,6 +538,36 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
       return $scope.nonprofitProjects.filter(function (p) { return !(p.closed || p.deleted); });
     } else {
       return $scope.nonprofitProjects.filter(function (p) { return p.closed || p.deleted; });
+    }
+  };
+
+  $scope.showAddVolunteerToNonprofitButton = function () {
+    return $scope.loggedUser && $scope.loggedUser.role === VOLUNTEER;
+  };
+
+  $scope.addVolunteerToNonprofit = function () {
+    $http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
+      .success(function (response) {
+        if (response[0] === 'Added') {
+          $scope.alreadyVolunteer = true;
+        } else {
+          $scope.alreadyVolunteer = false;
+        }
+      }).error(function () {
+        toastr.error('Não conseguimos te adicionar a lista de voluntários da ONG :(');
+      });
+  };
+  $scope.alreadyVolunteer = false;
+  var isVolunteerToNonprofit = function () {
+    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
+      $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
+        .success(function (response) {
+          if (response[0] === 'YES') {
+            $scope.alreadyVolunteer = true;
+          } else {
+            $scope.alreadyVolunteer = false;
+          }
+        });
     }
   };
 });
@@ -782,7 +814,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     else if ($scope.search.nextUrl) {
       $http.get($scope.search.nextUrl).success( function (response) {
         response.results._restultmeta = {next: response.next };
-        //fixProject(response.results);
       }).error(function () {
         toastr.error('Erro ao buscar mais atos do servidor');
       });
