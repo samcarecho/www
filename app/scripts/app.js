@@ -17,7 +17,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
       url: '',
       abstract: true,
       templateUrl: '/views/root.html',
-      controller: 'AppCtrl'
+      controller: 'RootCtrl'
     })
     .state('root.home', {
       url: '/',
@@ -62,7 +62,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
         url: '/controle',
         templateUrl: '/views/nonprofitAdminPanel.html',
         controller: 'NonprofitAdminCtrl',
-        resolve: {}
+        resolve: {
+        }
       })
     .state('root.nonprofitsignup', {
         url: '/cadastro/ong',

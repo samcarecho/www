@@ -14,6 +14,37 @@ toastr.options.hideEasing = 'linear';
 
 var app = angular.module('atadosApp');
 
+app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
+  $scope.getLoggedUser = Auth.getUser;
+  $scope.$watch('getLoggedUser()', function (value) {
+    $scope.loggedUser = value;
+  });
+
+  $rootScope.$on('userLoggedIn', function(event, user) {
+    if (user) {
+      $scope.loggedUser = user;
+      if ($scope.loggedUser.role === NONPROFIT) {
+        $state.transitionTo('root.nonprofitadmin');
+      } else if ($scope.loggedUser.role === VOLUNTEER) {}
+      else {
+        toastr.error('Usuário desconhecido acabou de logar.');
+        // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
+      }
+      if ($scope.modalInstance.close()) {
+        $scope.modalInstance.close();
+      }
+      toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
+      $state.transitionTo('root.explore');
+    }
+  });
+
+  $scope.logout = function () {
+    toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
+    Auth.logout();
+    $scope.loggedUser = null;
+  };
+});
+
 app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Auth, Search) {
   
   $scope.site = Site;
@@ -41,29 +72,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     $state.transitionTo('root.explore');
   };
 
-  Auth.getCurrentUser(function (user) {
-    $scope.loggedUser = user;
-  }, function () {
-  });
-
-  $rootScope.$on('userLoggedIn', function(event, user) {
-    if (user) {
-      $scope.loggedUser = user;
-      if ($scope.loggedUser.role === NONPROFIT) {
-        $state.transitionTo('root.nonprofitadmin');
-      } else if ($scope.loggedUser.role === VOLUNTEER) {}
-      else {
-        toastr.error('Usuário desconhecido acabou de logar.');
-        // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
-      }
-      if ($scope.modalInstance.close()) {
-        $scope.modalInstance.close();
-      }
-      toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
-      $state.transitionTo('root.explore');
-    }
-  });
-
   $scope.openVolunteerModal = function() {
     $scope.modalInstance = $modal.open({
       templateUrl: '/views/volunteerModal.html'
@@ -83,12 +91,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
 
   $rootScope.closeNonprofitLoginModal = function () {
     $scope.modalInstance.close();
-  };
-
-  $scope.logout = function () {
-    toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
-    Auth.logout();
-    $scope.loggedUser = null;
   };
 });
 
@@ -489,16 +491,17 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
     name: '',
     details: ''
   };
-  $scope.nonprofitProjects = [];
   $scope.landing=false;
 
-  Restangular.all('projects').getList({nonprofit: $stateParams.slug}).then(function(response) {
-    $scope.nonprofit = response[0].nonprofit;
-    $scope.nonprofitProjects = response;
-    $scope.nonprofitProjects.forEach(function (p) {
+  Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
+    window.nonprofit = response;
+    $scope.nonprofit = response;
+    $scope.nonprofit.projects.forEach(function (p) {
       p.causes.forEach( function (c) {
         c.class = 'cause_' + c.id;
       });
+      p.nonprofit.slug = p.nonprofit.user.slug;
+      p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
     });
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
 
@@ -530,10 +533,12 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
   });
 
   $scope.getProjects  = function () {
-    if ($scope.activeProjects) {
-      return $scope.nonprofitProjects.filter(function (p) { return !(p.closed || p.deleted); });
-    } else {
-      return $scope.nonprofitProjects.filter(function (p) { return p.closed || p.deleted; });
+    if ($scope.nonprofit.projects) {
+      if ($scope.activeProjects) {
+        return $scope.nonprofit.projects.filter(function (p) { return !(p.closed || p.deleted); });
+      } else {
+        return $scope.nonprofit.projects.filter(function (p) { return p.closed || p.deleted; });
+      }
     }
   };
 
@@ -568,13 +573,18 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
   };
 });
 
-app.controller('NonprofitAdminCtrl', function($scope, $state) {
-  // var nonprofit = $scope.loggedUser;
+app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout) {
 
-  if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
-    $state.transitionTo('root.home');
-    toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
-  }
+
+  $timeout(function () {
+    if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
+      $state.transitionTo('root.home');
+      toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+    } else {
+      $scope.nonprofit = $scope.loggedUser;
+      window.nonprofit = $scope.nonprofit;
+    }
+  }, 2000);
 });
 
 app.controller('ProjectCtrl', function () {

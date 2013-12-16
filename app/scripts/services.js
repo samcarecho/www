@@ -168,6 +168,8 @@ app.factory('Search', function (Restangular) {
       c.class = 'cause_' + c.id;
     });
     _projects.push(p);
+    p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+    p.nonprofit.slug = p.nonprofit.user.slug;
   };
 
   var sanitizeNonprofit = function (n) {
@@ -249,7 +251,21 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
   }
 
   var apiUrl = constants.api;
-  var currentUser;
+  var _currentUser;
+
+  var getCurrentUser = function () {
+    Cookies.get(constants.accessTokenCookie).then(function(token) {
+      if (token) {
+        setAuthHeader(token);
+        return $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
+          .success(function(response) {
+            _currentUser = response;
+          });
+      }
+    });
+  };
+
+  getCurrentUser();
 
   return {
     facebookAuth: function (facebookAuthData, success, error) {
@@ -259,6 +275,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
         success(response.user);
       }).error(error);
     },
+    getCurrentUser: getCurrentUser,
     resetPassword: function (email, success, error) {
       $http.post(apiUrl + 'password_reset/', {email: email})
         .success( function(){
@@ -288,23 +305,9 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
           .success(function (response) {success(response);}).error(error);
       }
     },
-    getCurrentUser: function (success, error) {
-      Cookies.get(constants.accessTokenCookie).then(function(value) {
-        var token = value;
-        if (token) {
-          setAuthHeader(token);
-          $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
-          .success(function (response) {
-            currentUser = response;
-            success(currentUser);
-          }).error(function (response) {
-            error(response);
-          });
-        }
-      });
-    },
+    
     isLoggedIn: function() {
-      return currentUser ? true : false;
+      return _currentUser ? true : false;
     },
     volunteerSignup: function(volunteer, success, error) {
       $http.post(apiUrl + 'create/volunteer/', volunteer).success( function() {
@@ -320,7 +323,6 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
       user.client_id = constants.clientId;
       user.client_secret = constants.clientSecret;
       user.grant_type = constants.grantType;
-      console.log(user);
       $http({
         method: 'POST',
         url: apiUrl + 'oauth2/access_token/',
@@ -338,10 +340,12 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     },
     logout: function() {
       $http.post(apiUrl + 'logout/');
-      currentUser = null;
+      _currentUser = null;
       Cookies.delete(constants.accessTokenCookie);
       delete $http.defaults.headers.common.Authorization;
     },
-    user: currentUser
+    getUser: function () {
+      return _currentUser;
+    }
   };
 }]);
