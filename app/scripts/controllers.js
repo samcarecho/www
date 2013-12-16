@@ -18,11 +18,29 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
   $scope.getLoggedUser = Auth.getUser;
   $scope.$watch('getLoggedUser()', function (value) {
     $scope.loggedUser = value;
+    if ($scope.loggedUser && $scope.loggedUser.role === NONPROFIT) {
+      window.loggedUser = $scope.loggedUser;
+      $scope.loggedUser.address = $scope.loggedUser.user.address;
+      $scope.loggedUser.causes.forEach(function (c) {
+        c.class = 'cause_' + c.id;
+      });
+      $scope.loggedUser.projects.forEach(function (p) {
+        p.causes.forEach(function (c) {
+          c.class = 'cause_' + c.id;
+        });
+      });
+
+    }
   });
 
-  $rootScope.$on('userLoggedIn', function(event, user) {
+  /*$rootScope.$on('userLoggedIn', function(event, user) {
     if (user) {
       $scope.loggedUser = user;
+      console.log('userloggedin');
+      if ($rootScope.modalInstance.close()) {
+        $rootScope.modalInstance.close();
+      }
+
       if ($scope.loggedUser.role === NONPROFIT) {
         $state.transitionTo('root.nonprofitadmin');
       } else if ($scope.loggedUser.role === VOLUNTEER) {}
@@ -30,13 +48,10 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
         toastr.error('Usuário desconhecido acabou de logar.');
         // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
       }
-      if ($scope.modalInstance.close()) {
-        $scope.modalInstance.close();
-      }
       toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
       $state.transitionTo('root.explore');
     }
-  });
+  });*/
 
   $scope.logout = function () {
     toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
@@ -49,7 +64,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   
   $scope.site = Site;
   $scope.search = Search;
-  $scope.modalInstance = null;
+  $rootScope.modalInstance = null;
   $scope.storage = constants.storage;
   $scope.causes = Site.causes;
   $scope.skills = Site.skills;
@@ -73,24 +88,24 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.openVolunteerModal = function() {
-    $scope.modalInstance = $modal.open({
+    $rootScope.modalInstance = $modal.open({
       templateUrl: '/views/volunteerModal.html'
     });
   };
   $scope.openNonprofitModal = function () {
-    $scope.modalInstance = $modal.open({
+    $rootScope.modalInstance = $modal.open({
       templateUrl: '/views/nonprofitModal.html'
     });
   };
   $scope.openTermsModal = function() {
-    $scope.modalInstance = $modal.open({
+    $rootScope.modalInstance = $modal.open({
       templateUrl: '/views/termsModal.html',
       windowClass: 'width: 1000px;'
     });
   };
 
   $rootScope.closeNonprofitLoginModal = function () {
-    $scope.modalInstance.close();
+    $rootScope.modalInstance.close();
   };
 });
 
@@ -131,7 +146,8 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
     }, function () {
       Auth.getCurrentUser(
         function (user) {
-          $rootScope.$emit('userLoggedIn', user);
+          console.log(user);
+          // $rootScope.$emit('userLoggedIn', user);
         }, function (error) {
           toastr.error(error);
         });
@@ -153,7 +169,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth, $rootScope) {
+app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth) {
   $scope.loginActive = true;
 
   $scope.$watch('loginActive', function (value) {
@@ -173,7 +189,8 @@ app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope'
   function sendFacebookCredentials(authResponse) {
     Auth.facebookAuth(authResponse,
       function (user) {
-        $rootScope.$emit('userLoggedIn', user);
+        console.log(user);
+        // $rootScope.$emit('userLoggedIn', user);
       }, function () {
         toastr.error('Houve um error no servidor tentando logar com sua conta no Facebook.');
       });
@@ -259,7 +276,7 @@ app.controller('VolunteerSignupCtrl',
             Auth.getCurrentUser(
               function (user) {
                 toastr.success('Oi!', user.slug);
-                $rootScope.$emit('userLoggedIn', user);
+                // $rootScope.$emit('userLoggedIn', user);
               }, function (error) {
                 toastr.error(error);
               });
@@ -483,7 +500,7 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
   };
 });
 
-app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $sce, Auth, Restangular) {
+app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular) {
 
   $scope.markers = [];
   $scope.activeProjects = true;
@@ -491,7 +508,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
     name: '',
     details: ''
   };
-  $scope.landing=false;
+  $scope.landing = false;
 
   Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
     window.nonprofit = response;
@@ -575,16 +592,49 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, $s
 
 app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout) {
 
-
+  $scope.markers = [];
   $timeout(function () {
     if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
       $state.transitionTo('root.home');
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
     } else {
       $scope.nonprofit = $scope.loggedUser;
+      $scope.activeProject = $scope.nonprofit.projects[0];
+      $scope.activeProject.volunteers = [ {
+        name: 'Luiz Guilherme Gardelin',
+        email: 'gardelin@gmail.com',
+        phone: '(11) 99900-4151',
+        status: 'Voluntário'
+      },
+      {
+        name: 'Luiz Guilherme Gardelin',
+        email: 'gardelin@gmail.com',
+        phone: '(11) 99900-4151',
+        status: 'Voluntário'
+      }];
       window.nonprofit = $scope.nonprofit;
+      if ($scope.nonprofit.user.address) {
+        $scope.nonprofit.address = $scope.nonprofit.user.address;
+        $scope.markers.push($scope.nonprofit.address);
+        $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+        $scope.zoom = 15;
+      }
     }
   }, 2000);
+
+  $scope.changeActiveProject = function (newProject) {
+    $scope.activeProject = newProject;
+  };
+
+  $scope.changeVolunteerStatus = function (volunteer, newStatus) {
+    volunteer.status = newStatus;
+  };
+
+  $scope.volunteerStatusOptions = [
+    'Voluntário',
+    'Candidato',
+    'Desistente'
+  ];
 });
 
 app.controller('ProjectCtrl', function () {

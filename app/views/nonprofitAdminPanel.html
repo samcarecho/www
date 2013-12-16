@@ -1,14 +1,14 @@
 <div id="nonprofit-admin">
   <div id="nonprofit-page">
     <div class="cover">
-      <img alt="{{nonprofit.slug}}" ng-src="{{coverImage}}"/>
+      <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}"/>
     </div>
 
     <div id="nonprofit-details" class="row">
 
       <div id="left-sidebar" class="col-xs-2">
         <div id="logo">
-          <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image}}"/>
+          <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image_url}}"/>
         </div>
         <div id="nonprofit-map">
           <gm-map
@@ -32,8 +32,8 @@
       </div>
       <div class="col-md-9 col-sm-8 col-xs-7">
         <h1>{{nonprofit.name}}</h1>
-        <p>Status da ONG : {{nonprofit.status}}</p>
-        <button class="btn btn-info pull-right" ng-class="{active: alreadyVolunteer}" ng-show="showAddVolunteerToNonprofitButton()" ng-click="addVolunteerToNonprofit()"><i class="fa fa-heart"></i> Já sou voluntário(a) da ONG</button>
+        <button class="btn btn-info pull-right" ng-click="createNewProject()">Criar Novo Ato</button>
+
         <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
         <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
         <p ng-if="nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
@@ -43,23 +43,53 @@
             <img tooltip="{{cause.name}}" width="20" height="20" ng-src="/images/{{cause.class}}.png"/>
           </div>
         </div>
+
         <h3>Sobre</h3>
-        <div ng-bind-html="nonprofit.description | noHTML | newlines"></div>
-        <br>
         <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
-        <div class="projectButtons">
-          <a type="button" class="btn btn-large buttonTab" ng-class="{active: activeProjects}" ng-click="activeProjects=true">Atos Abertos</a>
-          <a type="button" class="btn btn-large buttonTab" ng-class="{active: !activeProjects}" ng-click="activeProjects=false">Atos Encerrados</a>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 projects">
-            <project-card ng-repeat="project in getProjects()"></project-card>
-            <div class="alert center" ng-show="!getProjects().length">ONG não tem atos nessa categoria.</div>
+
+        <div id="project-management" class="row">
+          <div class="col-md-3" id="project-list">
+            <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)">{{project.name}}</button>
+          </div>
+          <div class="col-md-9" id="active-project">
+            <div id="project-name">
+              <h3>{{activeProject.name}}</h3>
+            </div>
+            <div class="" id="project-action-buttons">
+              <a class="" ng-click="editProject()" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
+              <a class="" ng-click="duplicateProject()" id="duplicate-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
+              <a class="" ng-click="closeProject()" id="close-project"><i class="fa fa-times-circle-o"></i> Fechar Ato</a>
+              <a class="" ng-click="sendEmailToAll()" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
+              <a class="" ng-click="exportList()" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
+            </div>
+            <table class="table table-striped" id="project-volunteer-table">
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Status</th>
+              </tr>
+              <tr ng-repeat="volunteer in activeProject.volunteers">
+                <td>{{volunteer.name}}</td>
+                <td>{{volunteer.email}}</td>
+                <td>{{volunteer.phone}}</td>
+                <td>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle">
+                      {{volunteer.status}} 
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li ng-repeat="status in volunteerStatusOptions">
+                      <a ng-click="changeVolunteerStatus(volunteer, status)">{{status}}</a>
+                      </li>
+                    </ul>
+                  </li>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button ui-sref="root.newproject" class="btn btn-primary btn-large">Criar novo Ato</button>
 </div>
-
