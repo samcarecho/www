@@ -243,8 +243,19 @@ fieldset {
         }
       }
       #project-volunteer-table {
+        #send-email-button {
+          cursor: pointer;
+        }
         .dropdown {
           list-style: none;
+          cursor: pointer;
+        }
+        .dropdown-toggle {
+          text-decoration: none;
+          cursor: pointer;
+        }
+        .dropdown-menu {
+          cursor: pointer;
         }
       }
     }

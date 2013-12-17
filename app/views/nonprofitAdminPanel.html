@@ -56,11 +56,11 @@
               <h3>{{activeProject.name}}</h3>
             </div>
             <div class="" id="project-action-buttons">
-              <a class="" ng-click="editProject()" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
-              <a class="" ng-click="duplicateProject()" id="duplicate-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
-              <a class="" ng-click="closeProject()" id="close-project"><i class="fa fa-times-circle-o"></i> Fechar Ato</a>
-              <a class="" ng-click="sendEmailToAll()" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
-              <a class="" ng-click="exportList()" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
+              <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
+              <a class="" ng-click="duplicateProject(activeProject)" id="duplicate-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
+              <a class="" ng-click="closeProject(activeProject)" id="close-project"><i class="fa fa-times-circle-o"></i> Fechar Ato</a>
+              <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
+              <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
             </div>
             <table class="table table-striped" id="project-volunteer-table">
               <tr>
@@ -71,22 +71,27 @@
               </tr>
               <tr ng-repeat="volunteer in activeProject.volunteers">
                 <td>{{volunteer.name}}</td>
-                <td>{{volunteer.email}}</td>
+                <td>
+                  {{volunteer.email}}
+                  <a href="mailto:{{volunteer.email}}" target="_blank" class="pull-right" id="send-email-button"><i tooltip="Mande email só para esse voluntário" class="fa fa-envelope-o"></i></a>
+                </td>
                 <td>{{volunteer.phone}}</td>
                 <td>
                   <li class="dropdown">
-                    <a class="dropdown-toggle">
+                    <a class="dropdown-toggle" ng-style="volunteer.statusStyle">
                       {{volunteer.status}} 
+                      <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                       <li ng-repeat="status in volunteerStatusOptions">
-                      <a ng-click="changeVolunteerStatus(volunteer, status)">{{status}}</a>
+                        <a ng-click="changeVolunteerStatus(volunteer, status)">{{status}}</a>
                       </li>
                     </ul>
                   </li>
                 </td>
               </tr>
             </table>
+            <p class="center" ng-hide="activeProject.volunteers">Esse ato não tem voluntários.</p>
           </div>
         </div>
       </div>

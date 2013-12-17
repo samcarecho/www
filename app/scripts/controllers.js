@@ -590,7 +590,17 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
   };
 });
 
-app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout) {
+app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, $http) {
+
+  function setStatusStyle(volunteer) {
+    if (volunteer.status === 'Voluntário') {
+      volunteer.statusStyle = {color: 'green'};
+    } else if (volunteer.status === 'Desistente') {
+      volunteer.statusStyle = {color: 'red'};
+    } else if (volunteer.status === 'Candidato') {
+      volunteer.statusStyle = {color: '#0081B2'};
+    }
+  }
 
   $scope.markers = [];
   $timeout(function () {
@@ -599,20 +609,23 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout) {
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
     } else {
       $scope.nonprofit = $scope.loggedUser;
+      $scope.nonprofit.projects.forEach(function (p) {
+        p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
+        Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
+          p.volunteers = response;
+          p.volunteers.forEach(function (v) {
+            p.emailAllString += v.email + ',';
+            v.apply.forEach(function (a) {
+              if (a.project === p.slug) {
+                v.status = a.status.name;
+                setStatusStyle(v);
+                return;
+              }
+            });
+          });
+        });
+      });
       $scope.activeProject = $scope.nonprofit.projects[0];
-      $scope.activeProject.volunteers = [ {
-        name: 'Luiz Guilherme Gardelin',
-        email: 'gardelin@gmail.com',
-        phone: '(11) 99900-4151',
-        status: 'Voluntário'
-      },
-      {
-        name: 'Luiz Guilherme Gardelin',
-        email: 'gardelin@gmail.com',
-        phone: '(11) 99900-4151',
-        status: 'Voluntário'
-      }];
-      window.nonprofit = $scope.nonprofit;
       if ($scope.nonprofit.user.address) {
         $scope.nonprofit.address = $scope.nonprofit.user.address;
         $scope.markers.push($scope.nonprofit.address);
@@ -628,6 +641,33 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout) {
 
   $scope.changeVolunteerStatus = function (volunteer, newStatus) {
     volunteer.status = newStatus;
+    setStatusStyle(volunteer);
+    console.log(volunteer.status);
+    $http.post(constants.api + 'change_volunteer_status/', {volunteer: volunteer.email, project: $scope.activeProject.slug, volunteerStatus: volunteer.status});
+  };
+
+  $scope.sendEmailToAll = function (project) {
+    console.log('send email to all');
+    project.volunteers.forEach(function (v) {
+      console.log(v.email);
+    });
+  };
+
+  $scope.editProject = function (project) {
+    $state.transitionTo('root.project', {slug: project.slug});
+    console.log(project.slug);
+  };
+
+  $scope.duplicateProject = function (project) {
+    console.log('duplicate project ' + project.slug);
+  };
+
+  $scope.closeProject = function (project) {
+    console.log('closing project ' + project.slug);
+  };
+
+  $scope.exportList = function (project) {
+    console.log('exportingList ' + project.slug);
   };
 
   $scope.volunteerStatusOptions = [
