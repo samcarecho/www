@@ -33,6 +33,7 @@
       <div class="col-md-9 col-sm-8 col-xs-7">
         <h1>{{nonprofit.name}}</h1>
         <button class="btn btn-info pull-right" ng-click="createNewProject()">Criar Novo Ato</button>
+        <button class="btn btn-info pull-right" ng-click="createNewProject()">Editar Perfil</button>
 
         <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
         <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
@@ -64,7 +65,7 @@
               <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
               <a class="" ng-click="cloneProject(activeProject)" id="clone-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
               <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
-              <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Ato</a>
+              <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Inscrições</a>
               <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
               <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
             </div>
