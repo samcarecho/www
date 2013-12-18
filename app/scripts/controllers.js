@@ -642,15 +642,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
   $scope.changeVolunteerStatus = function (volunteer, newStatus) {
     volunteer.status = newStatus;
     setStatusStyle(volunteer);
-    console.log(volunteer.status);
     $http.post(constants.api + 'change_volunteer_status/', {volunteer: volunteer.email, project: $scope.activeProject.slug, volunteerStatus: volunteer.status});
-  };
-
-  $scope.sendEmailToAll = function (project) {
-    console.log('send email to all');
-    project.volunteers.forEach(function (v) {
-      console.log(v.email);
-    });
   };
 
   $scope.editProject = function (project) {
@@ -662,8 +654,18 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     console.log('duplicate project ' + project.slug);
   };
 
-  $scope.closeProject = function (project) {
-    console.log('closing project ' + project.slug);
+  $scope.closeOrOpenProject = function (project) {
+    project.closed = ! project.closed;
+    Restangular.one('project', project.slug).get().then(function (response) {
+      response.closed = project.closed;
+      delete response.nonprofit.image;
+      delete response.nonprofit.cover;
+      delete response.work;
+      delete response.job;
+      delete response.causes;
+      delete response.skills;
+      response.put();
+    });
   };
 
   $scope.exportList = function (project) {

@@ -141,6 +141,9 @@ app.config(['RestangularProvider', function(RestangularProvider) {
   RestangularProvider.setBaseUrl(constants.api);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
+  RestangularProvider.setRestangularFields({
+    id: 'slug'
+  });
   // This function is used to map the JSON data to something Restangular expects
   RestangularProvider.setResponseExtractor( function(response, operation) {
     if (operation === 'getList') {
