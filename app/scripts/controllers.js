@@ -675,7 +675,15 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
   };
 
   $scope.exportList = function (project) {
-    console.log('exportingList ' + project.slug);
+    $http.get(constants.api + 'project/' + project.slug + '/export/').success(function (response) {
+      console.log(response);
+      var dataUrl = 'data:text/csv;utf-9,' + encodeURI(response.volunteers);
+      var link = document.createElement('a');
+      angular.element(link)
+        .attr('href', dataUrl)
+        .attr('download', 'Voluntários ' + project.name); // Pretty much only works in chrome
+      link.click();
+    });
   };
 
   $scope.volunteerStatusOptions = [
