@@ -602,8 +602,19 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     }
   }
 
+  function setProjectStatusStyle(project) {
+    if (!project.published) {
+      project.statusStyle = '#f2ae43'; // label-warning color
+    } else if (project.closed) {
+      project.statusStyle = '#db524b'; // label-danger color
+    } else if (!project.closed) {
+      project.statusStyle = '#58b957'; // label-success color
+    }
+  }
+
   function sanitize(p) {
     p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
+    setProjectStatusStyle(p);
     Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
       p.volunteers = response;
       p.volunteers.forEach(function (v) {

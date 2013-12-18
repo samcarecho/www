@@ -49,7 +49,7 @@
 
         <div id="project-management" class="row">
           <div class="col-md-3" id="project-list">
-            <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)">{{project.name}}</button>
+            <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)" ><span ng-style="{'background-color': '{{project.statusStyle}}'}" class="badge">{{project.volunteers.length}}</span> {{project.name}}</button>
           </div>
           <div class="col-md-9" id="active-project">
             <div id="project-name">
