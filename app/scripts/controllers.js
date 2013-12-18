@@ -697,6 +697,11 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     });
   };
 
+  $scope.doneEditing = function(project) {
+    // TODO(mpomarole): send information of edited project to nonprofit
+    console.log('editing ' + project.name);
+  };
+
   $scope.volunteerStatusOptions = [
     'Voluntário',
     'Candidato',

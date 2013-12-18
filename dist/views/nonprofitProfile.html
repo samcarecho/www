@@ -4,55 +4,47 @@
   </div>
 
   <div id="nonprofit-details" class="row">
-
-    <div class="image col-md-2">
-      <img alt="{{nonprofit.slug}}" ng-src="{{image}}">
+    <div id="left-sidebar" class="col-xs-2">
+      <div id="logo">
+        <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{image}}">
+      </div>
+      <div id="nonprofit-map">
+        <gm-map gm-map-id="'nonprofitAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:100%;height:100%">
+        <gm-markers gm-objects="markers" gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }" gm-events="markerEvents">
+        </gm-markers>
+        </gm-map>
+      </div>
+      <div id="nonprofit-social">
+        <a ng-if="nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook"></i></a>
+        <a ng-if="nonprofit.google_page" href="{{nonprofit.google_page}}" target="_blank"><i class="fa fa-twitter"></i></a>
+        <a ng-if="nonprofit.twitter_handle" href="{{nonprofit.twitter_handle}}" target="_blank"><i class="fa fa-google-plus"></i></a>
+      </div>
+      <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9 col-sm-8 col-xs-7">
       <h1>{{nonprofit.name}}</h1>
-      <p>{{ nonprofit.user.address | as_location_string }}</p>
-
-      <h2>Quem somos e o que fazemos</h2>
-      <p>{{nonprofit.details}}</p>
-      <p>{{nonprofit.description}}</p>
-
-      <h2>Causas</h2>
-      <span class="tag" ng-repeat="cause in nonprofit.causes">{{cause.name}}</span>
-
-      <h2>Atos</h2>
-      <div class="project-list">
-        <div class="row">
-          <!-- TODO: Include project box here for project-item -->
+      <button class="btn btn-info pull-right" ng-class="{active: alreadyVolunteer}" ng-show="showAddVolunteerToNonprofitButton()" ng-click="addVolunteerToNonprofit()"><i class="fa fa-heart"></i> Já sou voluntário(a) da ONG</button>
+      <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
+      <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
+      <p ng-if="nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
+      <p ng-if="nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
+      <div id="nonprofit-causes">
+        <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
+          <img tooltip="{{cause.name}}" width="20" height="20" ng-src="/images/{{cause.class}}.png">
         </div>
       </div>
-      <div>
-        <div class="well">
-          <span class="well-title">ONG na Rede</span>
-          <div ng-if="nonprofit.facebook_page">
-            <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
-          </div>
-          <div ng-if="nonprofit.google_page">
-
-            <!--<script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang: 'pt-PT'}</script>
-            <div class="g-page" data-href="https://{{nonprofit.google_page}}" data-layout="landscape" data-width="200"></div>-->
-          </div>
-          <div ng-if="nonprofit.twitter_handle">
-            <a href="https://twitter.com/{{nonprofit.twitter_handle}}" class="twitter-follow-button" data-show-count="false" data-lang="pt" data-size="large">Seguir @gastromotiva</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-          </div>
-        </div>
-
-        <div class="well">
-          <span class="well-title">Contato</span>
-          <p>{{nonprofit.user.first_name}} {{nonprofit.user.last_name}}</p>
-          <email email="{{nonprofit.user.email}}"></email>
-          <phone number="{{nonprofit.phone}}"></phone>
-          <!--<google-map refresh="mapReady" center="center" draggable="true" zoom="zoom" markers="markers" mark-click="true"></google-map>-->
-        </div>
-        <div class="well">
-          <span class="well-title">Voluntários</span>
-          <div class="media" ng-repeat="volunteer in nonprofit.volunteers">
-          </div>
+      <h3>Sobre</h3>
+      <div ng-bind-html="nonprofit.description | noHTML | newlines"></div>
+      <br>
+      <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
+      <div class="projectButtons">
+        <a type="button" class="btn btn-large buttonTab" ng-class="{active: activeProjects}" ng-click="activeProjects=true">Atos Abertos</a>
+        <a type="button" class="btn btn-large buttonTab" ng-class="{active: !activeProjects}" ng-click="activeProjects=false">Atos Encerrados</a>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 projects">
+          <project-card ng-repeat="project in getProjects()"></project-card>
+          <div class="alert center" ng-show="!getProjects().length">ONG não tem atos nessa categoria.</div>
         </div>
       </div>
     </div>

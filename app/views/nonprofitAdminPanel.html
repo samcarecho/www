@@ -31,9 +31,14 @@
         <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
       </div>
       <div class="col-md-9 col-sm-8 col-xs-7">
-        <h1>{{nonprofit.name}}</h1>
+        <h1 ng-hide="editing">{{nonprofit.name}}</h1>
+        <form ng-show="editing" ng-submit="doneEditing(nonprofit)">
+          <input ng-model="nonprofit.name">
+        </form>
+
         <button class="btn btn-info pull-right" ng-click="createNewProject()">Criar Novo Ato</button>
-        <button class="btn btn-info pull-right" ng-click="createNewProject()">Editar Perfil</button>
+        <button class="btn btn-info pull-right" ng-hide="editing" ng-click="editing=true">Editar Perfil</button>
+        <button class="btn btn-info pull-right" ng-show="editing" ng-click="editing=false">Parar de Editar Perfil</button>
 
         <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
         <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
@@ -46,7 +51,11 @@
         </div>
 
         <h3>Sobre</h3>
-        <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
+        <div ng-hide="editing" ng-bind-html="nonprofit.details | noHTML | newlines"></div>
+        <form ng-show="editing" ng-submit="doneEditing(nonprofit)">
+          <textarea ng-model="nonprofit.details"></textarea>
+        </form>
+        <div ng-show="editing" ng-bind-html="nonprofit.details | noHTML | newlines"></div>
 
         <div id="project-management" class="row">
           <div class="col-md-3" id="project-list">
@@ -56,7 +65,7 @@
             <div id="project-name">
               <h3>
                 <a ng-href="/ato/{{activeProject.slug}}">{{activeProject.name}}</a>
-                <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
+                                <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
                 <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed && activeProject.published" class="pull-right label label-success">Ato Aberto</span>
                 <span tooltip="O pessoal do Atados está analisando o seu Ato e já entrará em contato!" ng-show="!activeProject.published" class="pull-right label label-warning">Ato em aprovação</span>
               </h3>
