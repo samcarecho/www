@@ -33,7 +33,7 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
     }
   });
 
-  /*$rootScope.$on('userLoggedIn', function(event, user) {
+  $rootScope.$on('userLoggedIn', function(event, user) {
     if (user) {
       $scope.loggedUser = user;
       console.log('userloggedin');
@@ -51,7 +51,7 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
       toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
       $state.transitionTo('root.explore');
     }
-  });*/
+  });
 
   $scope.logout = function () {
     toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
