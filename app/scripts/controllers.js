@@ -602,6 +602,23 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     }
   }
 
+  function sanitize(p) {
+    p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
+    Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
+      p.volunteers = response;
+      p.volunteers.forEach(function (v) {
+        p.emailAllString += v.email + ',';
+        v.apply.forEach(function (a) {
+          if (a.project === p.slug) {
+            v.status = a.status.name;
+            setStatusStyle(v);
+            return;
+          }
+        });
+      });
+    });
+  }
+
   $scope.markers = [];
   $timeout(function () {
     if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
@@ -609,22 +626,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
     } else {
       $scope.nonprofit = $scope.loggedUser;
-      $scope.nonprofit.projects.forEach(function (p) {
-        p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
-        Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
-          p.volunteers = response;
-          p.volunteers.forEach(function (v) {
-            p.emailAllString += v.email + ',';
-            v.apply.forEach(function (a) {
-              if (a.project === p.slug) {
-                v.status = a.status.name;
-                setStatusStyle(v);
-                return;
-              }
-            });
-          });
-        });
-      });
+      $scope.nonprofit.projects.forEach(sanitize);
       $scope.activeProject = $scope.nonprofit.projects[0];
       if ($scope.nonprofit.user.address) {
         $scope.nonprofit.address = $scope.nonprofit.user.address;
@@ -650,8 +652,12 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     console.log(project.slug);
   };
 
-  $scope.duplicateProject = function (project) {
-    console.log('duplicate project ' + project.slug);
+  $scope.cloneProject = function (project) {
+    console.log(project);
+    $http.post(constants.api + 'project/' + project.slug + '/clone/').success(function (response) {
+      sanitize(project);
+      $scope.nonprofit.projects.push(response);
+    });
   };
 
   $scope.closeOrOpenProject = function (project) {
