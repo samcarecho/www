@@ -54,15 +54,16 @@
           <div class="col-md-9" id="active-project">
             <div id="project-name">
               <h3>
-                {{activeProject.name}}
-                <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed" class="pull-right label label-danger">Ato Fechado</span>
-                <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed" class="pull-right label label-success">Ato Aberto</span>
+                <a ng-href="/ato/{{activeProject.slug}}">{{activeProject.name}}</a>
+                <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
+                <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed && activeProject.published" class="pull-right label label-success">Ato Aberto</span>
+                <span tooltip="O pessoal do Atados está analisando o seu Ato e já entrará em contato!" ng-show="!activeProject.published" class="pull-right label label-warning">Ato em aprovação</span>
               </h3>
             </div>
             <div class="" id="project-action-buttons">
               <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
               <a class="" ng-click="cloneProject(activeProject)" id="clone-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
-              <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Ato</a>
+              <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
               <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Ato</a>
               <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
               <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
