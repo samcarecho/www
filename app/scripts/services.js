@@ -59,7 +59,7 @@ app.factory('Site', function(Restangular, $http) {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
       _causes = response;
       _causes.forEach(function (c) {
-        c.class = 'cause_' + c.id;
+        c.image = constants.storage + 'cause_' + c.id + '.png';
       });
       _causes.splice(0, 0, {name: 'Todas Causas', id: '', class: 'cause_0'});
     }, function () {
@@ -165,7 +165,7 @@ app.factory('Search', function (Restangular) {
 
   var sanitizeProject = function (p) {
     p.causes.forEach(function (c) {
-      c.class = 'cause_' + c.id;
+      c.image = constants.storage + 'cause_' + c.id + '.png';
     });
     _projects.push(p);
     p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;

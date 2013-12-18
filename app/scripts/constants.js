@@ -16,5 +16,5 @@ var constants = {
   'static_page_size': 50
 };
 
-constants.api = constants.prodApi;
-constants.storage = constants.prodStorage;
+constants.api = constants.devApi;
+constants.storage = constants.devStorage;

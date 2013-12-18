@@ -19,7 +19,7 @@
           <a ng-href="/ong/{{project.nonprofit.slug}}"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.city.name }}, {{ project.address.city.state.code }}</p>
           <div class="img-circle cause-image" ng-repeat="cause in project.causes"> 
-            <img tooltip="{{cause.name}}" width="15" height="15" ng-src="/images/{{cause.class}}.png"/>
+            <img tooltip="{{cause.name}}" width="15" height="15" ng-src="{{cause.image}}"/>
           </div>
         </span>
       </div>

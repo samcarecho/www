@@ -46,7 +46,7 @@
         <p ng-if="nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
         <div id="nonprofit-causes">
           <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
-            <img tooltip="{{cause.name}}" width="20" height="20" ng-src="/images/{{cause.class}}.png"/>
+            <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
           </div>
         </div>
 

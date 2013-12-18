@@ -22,11 +22,11 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
       window.loggedUser = $scope.loggedUser;
       $scope.loggedUser.address = $scope.loggedUser.user.address;
       $scope.loggedUser.causes.forEach(function (c) {
-        c.class = 'cause_' + c.id;
+        c.image = constants.storage + 'cause_' + c.id + '.png';
       });
       $scope.loggedUser.projects.forEach(function (p) {
         p.causes.forEach(function (c) {
-          c.class = 'cause_' + c.id;
+          c.image = constants.storage + 'cause_' + c.id + '.png';
         });
       });
 
@@ -107,6 +107,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   $rootScope.closeNonprofitLoginModal = function () {
     $rootScope.modalInstance.close();
   };
+  $scope.mapUrl = constants.storage + 'map.png';
 });
 
 app.controller('HomeCtrl', ['$scope', function($scope) {
@@ -515,7 +516,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
     $scope.nonprofit = response;
     $scope.nonprofit.projects.forEach(function (p) {
       p.causes.forEach( function (c) {
-        c.class = 'cause_' + c.id;
+        c.image = constants.storage + 'cause_' + c.id + '.png';
       });
       p.nonprofit.slug = p.nonprofit.user.slug;
       p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
@@ -534,7 +535,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
     }
     $scope.nonprofit.causes.forEach(function (c) {
-      c.class = 'cause_' + c.id;
+      c.image = constants.storage + 'cause_' + c.id + '.png';
     });
 
     isVolunteerToNonprofit();
