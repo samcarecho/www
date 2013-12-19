@@ -870,34 +870,6 @@ app.controller('AboutCtrl', function ($scope) {
 app.controller('ExplorerCtrl', function ($scope) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
-
-  angular.extend($scope, {
-    map: {
-      center: {
-        latitude: -23.553287,
-        longitude: -46.638535
-      },
-      markers: [],
-      zoom: 10,
-      dragging: false
-    }
-  });
-
-  var onMarkerClicked = function(marker){
-    marker.showWindow = true;
-  };
-
-  $scope.onMarkerClicked = onMarkerClicked;
-
-  $scope.map.markers.forEach(function(marker){
-    marker.closeClick = function(){
-      marker.showWindow = false;
-      $scope.$apply();
-    };
-    marker.onClicked = function(){
-      onMarkerClicked(marker);
-    };
-  });
 });
 
 app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
@@ -944,5 +916,52 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     } else {
       toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
     }
+  };
+
+  $scope.center = new google.maps.LatLng(-23.553287, -46.638535);
+  $scope.zoom = 13;
+
+  $scope.mapOptions = {
+    map : {
+      center : new google.maps.LatLng(-23.553287, -46.638535),
+      zoom : 13,
+      mapType : google.maps.MapTypeId.ROADMAP
+    },
+    marker : {
+      clickable : false,
+      draggable : true
+    },
+    projects: {
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',
+    },
+    nonprofits: {
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png'
+    },
+    selected: {
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png',
+    }
+  };
+
+  $scope.projects = [];
+  $scope.$watch('search.projects()', function (values, old) {
+    console.log(old);
+    $scope.projects = $scope.search.projects();
+  });
+  $scope.getMarkerOpts = function (object) {
+    return angular.extend(
+      { title: object.name },
+      $scope.mapOptions.markers
+    );
+  };
+  $scope.selectMarker = function (object, marker) {
+    marker.setOptions($scope.mapOptions.selected);
+    if ($scope.prev) {
+      $scope.setOptions($scope.mapOptions.markers);
+    }
+    $scope.prev = marker;
+  };
+
+  $scope.hoverOnProjectCard = function (project) {
+    window.project = project;
   };
 });

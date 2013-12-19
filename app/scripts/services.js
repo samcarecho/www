@@ -143,8 +143,6 @@ app.factory('Search', function (Restangular) {
 
   var _nextUrl = '';
 
-  var _showProjects = true;
-
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
@@ -225,7 +223,6 @@ app.factory('Search', function (Restangular) {
     nonprofits: function () {
       return _nonprofits;
     },
-    showProjects: _showProjects
   };
 });
 

@@ -523,9 +523,18 @@ a:focus {
   margin-top: auto;
 }
 
-.atados-explorer-outer {
+#atados-explorer-outer {
+  .map-outer {
+    box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    .map {
+      width:100%;
+      height:800px;
+    }
+  }
   height: 800px;
 }
+
 .atados-explorer {
   background-color: #efefef;
   padding: 20px 0;
@@ -719,18 +728,6 @@ atados-search {
 
 $explorer-map-height: 800px;
 
-.map {
-  box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
-  .angular-google-map-container {
-    display: block;
-    width: 100%;
-    height: $explorer-map-height;
-  }
-
-  .angular-google-map {
-    margin: 0 -8px;
-  }
-}
 
 .sidebar {
   height: $explorer-map-height;
@@ -752,6 +749,7 @@ $card-img-height: 170px;
   }
   
   .card:hover {
+    box-shadow: 0px 0px 13px #4AABD0;
     .card-img {
       .card-description {
         visibility: visible;
