@@ -216,6 +216,7 @@ app.factory('Search', function (Restangular) {
     cause: _cause,
     skill: _skill,
     city: _city,
+    showProjects: true,
     nextUrl: _nextUrl,
     projects: function () {
       return _projects;

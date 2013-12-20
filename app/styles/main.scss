@@ -367,7 +367,7 @@ h1, h2, h3, h4, h5, h6,
 
 .navbar-inverse {
   li {
-    a {
+    a.dropdown-toggle {
       font-weight: bold;
       margin-right: 10px;
       text-transform:uppercase;
@@ -870,7 +870,7 @@ $card-img-height: 170px;
           width: 22px;
           padding: 2px 2px 4px 4px;
           display: inline-block;
-          margin-right: 7px;
+          margin-left: 7px;
         }
       }
       

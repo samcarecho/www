@@ -16,10 +16,13 @@ var app = angular.module('atadosApp');
 
 app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
   $scope.getLoggedUser = Auth.getUser;
+
   $scope.$watch('getLoggedUser()', function (value) {
     $scope.loggedUser = value;
+    if ($rootScope.modalInstance) {
+      $rootScope.modalInstance.close();
+    }
     if ($scope.loggedUser && $scope.loggedUser.role === NONPROFIT) {
-      window.loggedUser = $scope.loggedUser;
       $scope.loggedUser.address = $scope.loggedUser.user.address;
       $scope.loggedUser.causes.forEach(function (c) {
         c.image = constants.storage + 'cause_' + c.id + '.png';
@@ -29,18 +32,16 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
           c.image = constants.storage + 'cause_' + c.id + '.png';
         });
       });
-
+      $state.transitionTo('root.nonprofitadmin');
     }
   });
 
   $rootScope.$on('userLoggedIn', function(event, user) {
     if (user) {
-      $scope.loggedUser = user;
-      console.log('userloggedin');
-      if ($rootScope.modalInstance.close()) {
+      if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
       }
-
+      $scope.loggedUser = user;
       if ($scope.loggedUser.role === NONPROFIT) {
         $state.transitionTo('root.nonprofitadmin');
       } else if ($scope.loggedUser.role === VOLUNTEER) {}
@@ -147,8 +148,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
     }, function () {
       Auth.getCurrentUser(
         function (user) {
-          console.log(user);
-          // $rootScope.$emit('userLoggedIn', user);
+          $rootScope.$emit('userLoggedIn', user);
         }, function (error) {
           toastr.error(error);
         });
@@ -170,7 +170,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
   };
 }]);
 
-app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope', function($scope, Facebook, Auth) {
+app.controller('VolunteerModalCtrl', function($scope, $rootScope, Facebook, Auth) {
   $scope.loginActive = true;
 
   $scope.$watch('loginActive', function (value) {
@@ -190,8 +190,7 @@ app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope'
   function sendFacebookCredentials(authResponse) {
     Auth.facebookAuth(authResponse,
       function (user) {
-        console.log(user);
-        // $rootScope.$emit('userLoggedIn', user);
+        $rootScope.$emit('userLoggedIn', user);
       }, function () {
         toastr.error('Houve um error no servidor tentando logar com sua conta no Facebook.');
       });
@@ -217,7 +216,7 @@ app.controller('VolunteerModalCtrl', ['$scope', 'Facebook', 'Auth', '$rootScope'
       }
     });
   };
-}]);
+});
 
 app.controller('VolunteerSignupCtrl',
     ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
@@ -277,7 +276,7 @@ app.controller('VolunteerSignupCtrl',
             Auth.getCurrentUser(
               function (user) {
                 toastr.success('Oi!', user.slug);
-                // $rootScope.$emit('userLoggedIn', user);
+                $rootScope.$emit('userLoggedIn', user);
               }, function (error) {
                 toastr.error(error);
               });
@@ -661,11 +660,9 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
 
   $scope.editProject = function (project) {
     $state.transitionTo('root.project', {slug: project.slug});
-    console.log(project.slug);
   };
 
   $scope.cloneProject = function (project) {
-    console.log(project);
     $http.post(constants.api + 'project/' + project.slug + '/clone/').success(function (response) {
       sanitize(project);
       $scope.nonprofit.projects.push(response);
@@ -688,7 +685,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
 
   $scope.exportList = function (project) {
     $http.get(constants.api + 'project/' + project.slug + '/export/').success(function (response) {
-      console.log(response);
       var dataUrl = 'data:text/csv;utf-9,' + encodeURI(response.volunteers);
       var link = document.createElement('a');
       angular.element(link)
@@ -698,9 +694,23 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     });
   };
 
-  $scope.doneEditing = function(project) {
-    // TODO(mpomarole): send information of edited project to nonprofit
-    console.log('editing ' + project.name);
+  $scope.doneEditingNonprofit = function(nonprofit) {
+    if (!$scope.editing) {
+      var nonprofitCopy = {};
+      angular.copy(nonprofit, nonprofitCopy);
+      delete nonprofitCopy.projects;
+      delete nonprofitCopy.image_url;
+      delete nonprofitCopy.cover_url;
+      delete nonprofitCopy.user;
+      delete nonprofitCopy.causes;
+      $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
+        .success(function(response) {
+          toastr.success('Perfil da ONG salva!');
+          console.log(response);
+        }).error(function() {
+          toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
+        });
+    }
   };
 
   $scope.volunteerStatusOptions = [
@@ -943,8 +953,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   };
 
   $scope.projects = [];
-  $scope.$watch('search.projects()', function (values, old) {
-    console.log(old);
+  $scope.$watch('search.projects()', function () {
     $scope.projects = $scope.search.projects();
   });
   $scope.getMarkerOpts = function (object) {
