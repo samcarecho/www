@@ -592,6 +592,8 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
 
 app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, $http) {
 
+  $scope.editing = false;
+
   function setStatusStyle(volunteer) {
     if (volunteer.status === 'Voluntário') {
       volunteer.statusStyle = {color: 'green'};
@@ -604,11 +606,11 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
 
   function setProjectStatusStyle(project) {
     if (!project.published) {
-      project.statusStyle = '#f2ae43'; // label-warning color
+      project.statusStyle = {'background-color': '#f2ae43'}; // label-warning color
     } else if (project.closed) {
-      project.statusStyle = '#db524b'; // label-danger color
+      project.statusStyle = {'background-color': '#db524b'}; // label-danger color
     } else if (!project.closed) {
-      project.statusStyle = '#58b957'; // label-success color
+      project.statusStyle = {'background-color': '#58b957'}; // label-success color
     }
   }
 
@@ -671,6 +673,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
 
   $scope.closeOrOpenProject = function (project) {
     project.closed = ! project.closed;
+    setProjectStatusStyle(project);
     Restangular.one('project', project.slug).get().then(function (response) {
       response.closed = project.closed;
       delete response.nonprofit.image;
@@ -694,8 +697,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     });
   };
 
-  $scope.doneEditingNonprofit = function(nonprofit) {
-    if (!$scope.editing) {
+  $scope.doneEditingNonprofit = function() {
+    /*if (!$scope.editing) {
       var nonprofitCopy = {};
       angular.copy(nonprofit, nonprofitCopy);
       delete nonprofitCopy.projects;
@@ -704,13 +707,12 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       delete nonprofitCopy.user;
       delete nonprofitCopy.causes;
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
-        .success(function(response) {
+        .success(function() {
           toastr.success('Perfil da ONG salva!');
-          console.log(response);
         }).error(function() {
           toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
         });
-    }
+    }*/
   };
 
   $scope.volunteerStatusOptions = [
