@@ -385,6 +385,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
 
   $scope.signup = function () {
     $scope.nonprofit.user.password = $scope.password;
+    $scope.facebook_page = 'http://facebook.com/' + $scope.facebook_page;
     Auth.nonprofitSignup($scope.nonprofit, function () {
       toastr.success('Bem vinda ONG ao atados!');
       $state.transitionTo('root.nonprofitadmin');
@@ -590,9 +591,47 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
   };
 });
 
-app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, $http) {
+app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, Photos, $http) {
 
   $scope.editing = false;
+
+  $scope.addCause = function(cause) {
+    cause.checked = !cause.checked;
+    if (cause.checked) {
+      $scope.nonprofit.causes.push(cause);
+    } else {
+      var index = $scope.nonprofit.causes.indexOf(cause);
+      if (index > -1) {
+        $scope.nonprofit.causes.splice(index, 1);
+      }
+    }
+  };
+
+  $scope.uploadProfileFile = function(files) {
+    if (files) {
+      var fd = new FormData();
+      fd.append('file', files[0]);
+      Photos.setNonprofitProfilePhoto(fd, function(response) {
+        $scope.nonprofit.image_url = response.file;
+        console.log(response.file);
+        toastr.success('Logo da ONG salva com sucesso.');
+      }, function() {
+        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
+      });
+    }
+  };
+  $scope.uploadCoverFile = function(files) {
+    if (files) {
+      var fd = new FormData();
+      fd.append('file', files[0]);
+      Photos.setNonprofitCoverPhoto(fd, function(response) {
+        $scope.nonprofit.cover_url = response.file;
+        toastr.success('Foto cover da ONG salva com sucesso.');
+      }, function() {
+        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
+      });
+    }
+  };
 
   function setStatusStyle(volunteer) {
     if (volunteer.status === 'Voluntário') {
@@ -639,6 +678,36 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
     } else {
       $scope.nonprofit = $scope.loggedUser;
+      window.nonprofit = $scope.nonprofit;
+      $scope.causes().forEach(function(c) {
+        $scope.nonprofit.causes.forEach(function(nc) {
+          if (c.id === nc) {
+            c.checked = true;
+            var i = $scope.nonprofit.causes.indexOf(nc);
+            $scope.nonprofit.causes[i] = c;
+          }
+        });
+      });
+
+      if ($scope.nonprofit.facebook_page) {
+        var parser = document.createElement('a');
+        parser.href = $scope.nonprofit.facebook_page;
+        $scope.nonprofit.facebook_page_short = parser.pathname;
+        $scope.nonprofit.facebook_page_short = $scope.nonprofit.facebook_page_short.replace(/\//, '');
+      }
+      if ($scope.nonprofit.google_page) {
+        var parser2 = document.createElement('a');
+        parser2.href = $scope.nonprofit.google_page;
+        $scope.nonprofit.google_page_short = parser2.pathname;
+        $scope.nonprofit.google_page_short = $scope.nonprofit.google_page_short.replace(/\//, '');
+      }
+      if ($scope.nonprofit.twitter_handle) {
+        var parser3 = document.createElement('a');
+        parser3.href = $scope.nonprofit.google_page;
+        $scope.nonprofit.twitter_handle_short = parser3.pathname;
+        $scope.nonprofit.twitter_handle_short = $scope.nonprofit.twitter_handle_short.replace(/\//, '');
+      }
+
       $scope.nonprofit.projects.forEach(sanitize);
       $scope.activeProject = $scope.nonprofit.projects[0];
       if ($scope.nonprofit.user.address) {
@@ -697,22 +766,42 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     });
   };
 
-  $scope.doneEditingNonprofit = function() {
-    /*if (!$scope.editing) {
+  $scope.doneEditingNonprofit = function(nonprofit) {
+    if ($scope.editing) {
+      if (nonprofit.facebook_page_short) {
+        nonprofit.facebook_page = 'http://www.facebook.com/' + nonprofit.facebook_page_short;
+      } else {
+        nonprofit.facebook_page = null;
+      }
+      if (nonprofit.google_page_short) {
+        nonprofit.google_page = 'http://plus.google.com/' + nonprofit.google_page_short;
+      } else {
+        nonprofit.google_page = null;
+      }
+      if (nonprofit.twitter_handle_short) {
+        nonprofit.twitter_handle = 'http://twitter.com/' + nonprofit.twitter_handle_short;
+      } else {
+        nonprofit.twitter_handle = null;
+      }
       var nonprofitCopy = {};
       angular.copy(nonprofit, nonprofitCopy);
       delete nonprofitCopy.projects;
       delete nonprofitCopy.image_url;
       delete nonprofitCopy.cover_url;
-      delete nonprofitCopy.user;
-      delete nonprofitCopy.causes;
+      var causes = [];
+      nonprofitCopy.causes.forEach(function(nc) {
+        causes.push(nc.id);
+      });
+      nonprofitCopy.causes = causes;
+      window.copy = nonprofitCopy;
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {
           toastr.success('Perfil da ONG salva!');
+          $scope.editing = false;
         }).error(function() {
           toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
         });
-    }*/
+    }
   };
 
   $scope.volunteerStatusOptions = [

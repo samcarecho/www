@@ -60,6 +60,7 @@ app.factory('Site', function(Restangular, $http) {
       _causes = response;
       _causes.forEach(function (c) {
         c.image = constants.storage + 'cause_' + c.id + '.png';
+        c.class = 'cause_' + c.id;
       });
       _causes.splice(0, 0, {name: 'Todas Causas', id: '', class: 'cause_0'});
     }, function () {
@@ -164,6 +165,7 @@ app.factory('Search', function (Restangular) {
   var sanitizeProject = function (p) {
     p.causes.forEach(function (c) {
       c.image = constants.storage + 'cause_' + c.id + '.png';
+      c.class = 'cause_' + c.id;
     });
     _projects.push(p);
     p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
@@ -236,7 +238,19 @@ app.factory('Photos', ['$http', function($http) {
           headers: {'Content-Type': undefined },
           transformRequest: angular.identity
         }).success(success).error(error);
-    }
+    },
+    setNonprofitProfilePhoto: function (file, success, error) {
+      $http.post(apiUrl + 'upload_nonprofit_profile_image/', file, {
+        headers: {'Content-Type': undefined },
+        transformRequest: angular.indenty
+      }).success(success).error(error);
+    },
+    setNonprofitCoverPhoto: function (file, success, error) {
+      $http.post(apiUrl + 'upload_nonprofit_cover_image/', file, {
+        headers: {'Content-Type': undefined },
+        transformRequest: angular.indenty
+      }).success(success).error(error);
+    },
   };
 }]);
 
