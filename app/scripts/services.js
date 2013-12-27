@@ -303,7 +303,7 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
     },
     isEmailUsed: function (email, success, error) {
       if (email) {
-        $http.get(apiUrl + 'check_email/?email=' + email)
+        $http.get(apiUrl + 'check_email/?email=' + email + '?id=' + new Date().getTime())
           .success(function (response) {success(response);}).error(error);
       }
     },

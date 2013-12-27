@@ -1,7 +1,7 @@
 /* exported constants */
 var constants = {
-  'devApi': 'http://localhost:8000/v1/',
-  'devStorage': 'http://localhost:8000/static/images/',
+  'devApi': 'http://www.atadoslocal.com.br:8000/v1/',
+  'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'prodApi': 'http://beta.atados.com.br/v1/',
   'prodStorage': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
   'clientId': 'da4bc76b44b73cda7e4d',
