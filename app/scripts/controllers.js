@@ -618,7 +618,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       fd.append('file', files[0]);
       Photos.setNonprofitProfilePhoto(fd, function(response) {
         $scope.nonprofit.image_url = response.file;
-        console.log(response.file);
         toastr.success('Logo da ONG salva com sucesso.');
       }, function() {
         toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
