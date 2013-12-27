@@ -534,8 +534,13 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
     } else {
       $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
     }
-    $scope.nonprofit.causes.forEach(function (c) {
-      c.image = constants.storage + 'cause_' + c.id + '.png';
+    $scope.causes().forEach(function(c) {
+      $scope.nonprofit.causes.forEach(function(nc) {
+        if (c.id === nc) {
+          var i = $scope.nonprofit.causes.indexOf(nc);
+          $scope.nonprofit.causes[i] = c;
+        }
+      });
     });
 
     isVolunteerToNonprofit();
