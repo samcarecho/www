@@ -782,7 +782,7 @@ $card-img-height: 170px;
     .card-img {
       border-radius:3px 3px 0 0;
       height: $card-img-height;
-      width: $card-width - 1;
+      width: $card-width - 2; // Minus 2 for the border
       overflow: hidden;
       .card-description {
         width: $card-width;

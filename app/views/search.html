@@ -43,11 +43,13 @@
   <div class="row">
     <div class="col-sm-12">
       <div ng-show="search.showProjects" class="projects">
-        <project-card ng-repeat="project in search.projects()"></project-card>
+        <project-card ng-show="landing" ng-repeat="project in search.projects() | limitTo:8"></project-card>
+        <project-card ng-hide="landing" ng-repeat="project in search.projects()"></project-card>
         <div class="alert center" ng-show="!search.projects().length">Não encontramos projetos para essa busca.</div>
       </div>
-      <div ng-hide="search.showProjects "class="nonprofits">
-        <nonprofit-card ng-repeat="nonprofit in search.nonprofits()"></nonprofit-card>
+      <div ng-hide="search.showProjects" class="nonprofits">
+        <nonprofit-card ng-show="landing" ng-repeat="nonprofit in search.nonprofits() | limitTo:8"></nonprofit-card>
+        <nonprofit-card ng-hide="landing" ng-repeat="nonprofit in search.nonprofits()"></nonprofit-card>
         <div class="alert center" ng-show="!search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
       </div>
     </div>

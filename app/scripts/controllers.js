@@ -1012,14 +1012,33 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       };
       $scope.$emit('landingToExplorer', vars);
     }
-    else if ($scope.search.nextUrl) {
-      $http.get($scope.search.nextUrl).success( function (response) {
-        response.results._restultmeta = {next: response.next };
-      }).error(function () {
-        toastr.error('Erro ao buscar mais atos do servidor');
-      });
+    if ($scope.search.showProjects) {
+      if ($scope.search.nextUrlProject()) {
+        console.log($scope.search.nextUrlProject());
+        $http.get($scope.search.nextUrlProject()).success( function (response) {
+          response.results.forEach(function (project) {
+            $scope.search.projects().push(project);
+          });
+          $scope.search.setNextUrlProject(response.next);
+        }).error(function () {
+          toastr.error('Erro ao buscar mais atos do servidor');
+        });
+      } else {
+        toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
+      }
     } else {
-      toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
+      if ($scope.search.nextUrlNonprofit()) {
+        $http.get($scope.search.nextUrlNonprofit()).success( function (response) {
+          response.results.forEach(function (nonprofit) {
+            $scope.search.nonprofits().push(nonprofit);
+          });
+          $scope.search.setNextUrlNonprofit(response.next);
+        }).error(function () {
+          toastr.error('Erro ao buscar mais ONGs do servidor');
+        });
+      } else {
+        toastr.error('Não conseguimos achar mais ONGs. Tente mudar os filtros.');
+      }
     }
   };
 
@@ -1048,9 +1067,11 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   };
 
   $scope.projects = [];
+
   $scope.$watch('search.projects()', function () {
     $scope.projects = $scope.search.projects();
   });
+
   $scope.getMarkerOpts = function (object) {
     return angular.extend(
       { title: object.name },

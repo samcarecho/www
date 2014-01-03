@@ -142,23 +142,24 @@ app.factory('Search', function (Restangular) {
   var _projects = [];
   var _nonprofits = [];
 
-  var _nextUrl = '';
+  var _nextUrlProject = '';
+  var _nextUrlNonprofit = '';
 
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
-      _nextUrl = response._resultmeta.next;
+      _nextUrlProject = response._resultmeta.next;
     } else {
-      _nextUrl = '';
+      _nextUrlProject = '';
     }
   };
 
   var fixNonprofit = function (response) {
     response.forEach(sanitizeNonprofit);
     if (response._resultmeta) {
-      _nextUrl = response._resultmeta.next;
+      _nextUrlNonprofit = response._resultmeta.next;
     } else {
-      _nextUrl = '';
+      _nextUrlNonprofit = '';
     }
   };
 
@@ -194,7 +195,7 @@ app.factory('Search', function (Restangular) {
 
   var searchNonprofits = function (query, cause, city) {
     var urlHeaders = {
-      page_size: 300,
+      page_size: 20,
       query: query,
       cause: cause,
       city: city
@@ -219,7 +220,18 @@ app.factory('Search', function (Restangular) {
     skill: _skill,
     city: _city,
     showProjects: true,
-    nextUrl: _nextUrl,
+    nextUrlProject: function () {
+      return _nextUrlProject;
+    },
+    nextUrlNonprofit: function () {
+      return _nextUrlNonprofit;
+    },
+    setNextUrlProject: function (url) {
+      _nextUrlProject = url;
+    },
+    setNextUrlNonprofit: function (url) {
+      _nextUrlNonprofit = url;
+    },
     projects: function () {
       return _projects;
     },
