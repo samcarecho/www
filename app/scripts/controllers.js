@@ -1016,7 +1016,14 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       if ($scope.search.nextUrlProject()) {
         console.log($scope.search.nextUrlProject());
         $http.get($scope.search.nextUrlProject()).success( function (response) {
+          window.response = response;
           response.results.forEach(function (project) {
+            var aws_credential = project.image_url.split('?');
+            project.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + project.nonprofit.image + '?' + aws_credential;
+            project.causes.forEach(function (c) {
+              c.image = constants.storage + 'cause_' + c.id + '.png';
+              c.class = 'cause_' + c.id;
+            });
             $scope.search.projects().push(project);
           });
           $scope.search.setNextUrlProject(response.next);
