@@ -168,6 +168,11 @@ app.factory('Search', function (Restangular) {
       c.image = constants.storage + 'cause_' + c.id + '.png';
       c.class = 'cause_' + c.id;
     });
+    p.skills.forEach(function (s) {
+      s.image = constants.storage + 'skill_' + s.id + '.png';
+      s.class = 'skill_' + s.id;
+    });
+
     _projects.push(p);
     p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
     p.nonprofit.slug = p.nonprofit.user.slug;
