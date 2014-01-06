@@ -14,7 +14,7 @@
           <img ng-href="/ong/{{nonprofit.slug}}" ng-src="{{ nonprofit.image_url }}">
         </a>
         <span>
-          <a ng-href="/ong/{{nonprofit.slug}}"><p class="nonprofit-name"><strong>{{nonprofit.name}}</strong></p></a>
+          <a ng-href="/ong/{{nonprofit.slug}}"><p class="nonprofit-name"><strong>{{nonprofit.name | limitTo:20}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.city.name }}, {{ nonprofit.address.city.state.code }}</p>
           <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
             <img tooltip="{{cause.name}}" width="15" height="15" ng-src="{{cause.image}}"/>
@@ -22,7 +22,7 @@
         </span>
       </div>
       <div class="row card-second">
-        <div class="card-volunteer center col-xs-3">
+        <div class="card-volunteer center col-xs-offset-9 col-xs-3">
           <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{nonprofit.volunteers}}</span>
         </div>
       </div>
