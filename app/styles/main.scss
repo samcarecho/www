@@ -757,12 +757,11 @@ $card-img-height: 170px;
   height: $card-height;
   width: $card-width;
 
-  .card-name h4 {
-    top: -130px;
-  }
-  
   .card.hover {
     box-shadow: 0px 0px 13px #4AABD0;
+    .card-name h4 {
+      top: -130px;
+    }
     .card-img {
       .card-description {
         visibility: visible;
