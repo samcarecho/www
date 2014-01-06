@@ -979,6 +979,9 @@ app.controller('ExplorerCtrl', function ($scope) {
 
 app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
 
+  var saoPauloCenter = new google.maps.LatLng(-23.5505199, -46.6333094);
+  // var curitibaCenter = new google.maps.LatLng(-25.4808762, -49.3044253);
+  // var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
   $scope.search =  Search;
 
   $scope.$watch('search.cause', function (value, old) {
@@ -1005,7 +1008,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   $scope.getMore = function () {
     if ($scope.landing) {
       var vars = {
-        showProjects: $scope.showProjects,
+        showProjects: $scope.search.showProjects,
         city: $scope.search.city,
         cause: $scope.search.cause,
         skill: $scope.search.skill
@@ -1014,7 +1017,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
     if ($scope.search.showProjects) {
       if ($scope.search.nextUrlProject()) {
-        console.log($scope.search.nextUrlProject());
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           window.response = response;
           response.results.forEach(function (project) {
@@ -1049,51 +1051,98 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
   };
 
-  $scope.center = new google.maps.LatLng(-23.553287, -46.638535);
-  $scope.zoom = 13;
+  //TODO If logged user, see what city he has set on his profile and change the default
+  var defaultZoom = 11;
+  $scope.center = saoPauloCenter;
+  $scope.zoom = defaultZoom;
+
+  $scope.$watch('center', function (value, old) {
+    // Hack to recenter the map back to the default city.
+    if (value.nb === 46 && value.ob === -120) {
+      if ($scope.search.showProjects) {
+        $scope.markers = $scope.search.projects();
+      } else {
+        $scope.markers = $scope.search.nonprofits();
+      }
+      $scope.center = old;
+      $scope.mapOptions.map.center = old;
+      $scope.zoom = defaultZoom;
+      $scope.mapOptions.map.zoom = defaultZoom;
+    }
+  });
 
   $scope.mapOptions = {
     map : {
-      center : new google.maps.LatLng(-23.553287, -46.638535),
-      zoom : 13,
+      center : saoPauloCenter,
+      zoom : defaultZoom,
       mapType : google.maps.MapTypeId.ROADMAP
     },
     marker : {
-      clickable : false,
-      draggable : true
-    },
-    projects: {
-      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',
-    },
-    nonprofits: {
-      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png'
+      clickable : true,
+      draggable : false
     },
     selected: {
       icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png',
-    }
+    },
+    notselected: {
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',
+    },
   };
 
-  $scope.projects = [];
+  $scope.markers = [];
 
   $scope.$watch('search.projects()', function () {
-    $scope.projects = $scope.search.projects();
+    if ($scope.search.showProjects) {
+      $scope.markers = $scope.search.projects();
+    }
+  });
+
+  $scope.$watch('search.nonprofits()', function () {
+    if (!$scope.search.showProjects) {
+      $scope.markers = $scope.search.nonprofits();
+    }
+  });
+
+  $scope.$watch('search.showProjects', function () {
+    if ($scope.search.showProjects) {
+      $scope.markers = $scope.search.projects();
+    } else {
+      $scope.markers = $scope.search.nonprofits();
+    }
   });
 
   $scope.getMarkerOpts = function (object) {
     return angular.extend(
       { title: object.name },
-      $scope.mapOptions.markers
+      object.selected ? $scope.mapOptions.selected :
+                        $scope.mapOptions.notselected
     );
   };
-  $scope.selectMarker = function (object, marker) {
-    marker.setOptions($scope.mapOptions.selected);
-    if ($scope.prev) {
-      $scope.setOptions($scope.mapOptions.markers);
-    }
-    $scope.prev = marker;
-  };
 
-  $scope.hoverOnProjectCard = function (project) {
-    window.project = project;
+  $scope.selectMarker = function (object) {
+    var cardId = 'card-' + object.slug;
+    if ($scope.previousObject) {
+      $scope.previousObject.selected = false;
+      angular.element(document.querySelector('#card-' + $scope.previousObject.slug))
+        .removeClass('hover');
+    }
+    $scope.previousObject = object;
+    $scope.previousObject.selected = true;
+    
+    if (object.address.latitude && object.address.longitude) {
+      $scope.center  = new google.maps.LatLng(object.address.latitude, object.address.longitude);
+    }
+
+    // $location.hash(cardId);
+    // $anchorScroll();
+
+    angular.element(document.querySelector('#' + cardId))
+      .addClass('hover');
+
+    $scope.markerEvents = [{
+      event: 'openinfowindow',
+      ids: [object.slug]
+    }];
+    $scope.$broadcast('gmMarkersUpdate', 'markers');
   };
 });

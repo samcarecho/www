@@ -1,17 +1,25 @@
 <div id="atados-explorer-outer"> 
   <div class="map-outer col-sm-4">
+    <div gm-info-window="infoWindow">
+      <p>{{selectedObject.address | as_location_string}}</p>
+    </div>
     <gm-map
       gm-map-id="'explorerMap'"
       gm-center="center"
       gm-zoom="zoom"
       gm-map-options="mapOptions.map"
       class="map">
-      <gm-markers gm-objects="projects"
-      gm-get-lat-lng="{ lat: object.address.latitude, lng: object.address.longitude }"
-      gm-events="markerEvents"
-      gm-get-marker-options="getMarkerOpts(object)"
-      gm-on-click="selectMarker(object, marker)">
+
+      <gm-markers
+        gm-objects="markers"
+        gm-id="object.slug"
+        gm-position="{ lat: object.address.latitude, lng: object.address.longitude }"
+        gm-marker-options="getMarkerOpts(object)"
+        gm-on-click="selectMarker(object)"
+        gm-on-openinfowindow="selectedObject = object; infoWindow.open(marker.getMap(), marker);"
+        gm-events="markerEvents">
       </gm-markers>
+
     </gm-map>
   </div>
   <div class="atados-explorer sidebar col-sm-8">

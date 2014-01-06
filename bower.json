@@ -35,7 +35,7 @@
     "toastr": "~2.0.1",
     "font-awesome": "~4.0.3",
     "angular-google-maps": "*",
-    "AngularGM": "0.3.1",
+    "AngularGM": "1.0.0",
     "pace": "~0.4.15",
     "jquery": "~1.10.2",
     "jquery.cookie": "~1.4.0"
