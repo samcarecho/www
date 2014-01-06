@@ -1033,7 +1033,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     if ($scope.search.showProjects) {
       if ($scope.search.nextUrlProject()) {
         $http.get($scope.search.nextUrlProject()).success( function (response) {
-          window.response = response;
           response.results.forEach(function (project) {
             var aws_credential = project.image_url.split('?');
             project.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + project.nonprofit.image + '?' + aws_credential;
@@ -1054,6 +1053,11 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       if ($scope.search.nextUrlNonprofit()) {
         $http.get($scope.search.nextUrlNonprofit()).success( function (response) {
           response.results.forEach(function (nonprofit) {
+            nonprofit.address = nonprofit.user.address;
+            nonprofit.causes.forEach(function (c) {
+              c.image = constants.storage + 'cause_' + c.id + '.png';
+              c.class = 'cause_' + c.id;
+            });
             $scope.search.nonprofits().push(nonprofit);
           });
           $scope.search.setNextUrlNonprofit(response.next);
