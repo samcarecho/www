@@ -980,9 +980,24 @@ app.controller('ExplorerCtrl', function ($scope) {
 app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
 
   var saoPauloCenter = new google.maps.LatLng(-23.5505199, -46.6333094);
-  // var curitibaCenter = new google.maps.LatLng(-25.4808762, -49.3044253);
-  // var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
+  var curitibaCenter = new google.maps.LatLng(-25.4808762, -49.3044253);
+  var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
+  var defaultZoom = 11;
   $scope.search =  Search;
+
+  $scope.$watch('search.city', function (city) {
+    $scope.zoom = defaultZoom;
+    if (city.name === 'São Paulo') {
+      $scope.center = saoPauloCenter;
+    } else if (city.name === 'Curitiba') {
+      $scope.center = curitibaCenter;
+    } else if (city.name === 'Brasília') {
+      $scope.center = brasiliaCenter;
+    } else if (city.id === 0) {
+      $scope.center = null;
+      $scope.zoom  = 1;
+    }
+  });
 
   $scope.$watch('search.cause', function (value, old) {
     if (value !== old) {
@@ -1052,7 +1067,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   };
 
   //TODO If logged user, see what city he has set on his profile and change the default
-  var defaultZoom = 11;
   $scope.center = saoPauloCenter;
   $scope.zoom = defaultZoom;
 
