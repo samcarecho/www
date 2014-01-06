@@ -1072,7 +1072,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
 
   $scope.$watch('center', function (value, old) {
     // Hack to recenter the map back to the default city.
-    if (value.nb === 46 && value.ob === -120) {
+    if (value && value.nb === 46 && value.ob === -120) {
       if ($scope.search.showProjects) {
         $scope.markers = $scope.search.projects();
       } else {

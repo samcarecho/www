@@ -174,6 +174,10 @@ app.factory('Search', function (Restangular) {
   };
 
   var sanitizeNonprofit = function (n) {
+    n.causes.forEach(function (c) {
+      c.image = constants.storage + 'cause_' + c.id + '.png';
+      c.class = 'cause_' + c.id;
+    });
     n.address = n.user.address;
     _nonprofits.push(n);
   };
