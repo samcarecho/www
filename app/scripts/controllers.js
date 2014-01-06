@@ -1120,6 +1120,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   };
 
   $scope.selectMarker = function (object) {
+    window.object = object;
     var cardId = 'card-' + object.slug;
     if ($scope.previousObject) {
       $scope.previousObject.selected = false;
@@ -1129,7 +1130,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     $scope.previousObject = object;
     $scope.previousObject.selected = true;
     
-    if (object.address.latitude && object.address.longitude) {
+    if (object.address && object.address.latitude && object.address.longitude) {
       $scope.center  = new google.maps.LatLng(object.address.latitude, object.address.longitude);
     }
 

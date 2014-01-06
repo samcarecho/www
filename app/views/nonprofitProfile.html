@@ -15,8 +15,9 @@
         gm-zoom="zoom"
         gm-map-type-id="mapTypeId"
         style="width:100%;height:100%">
-        <gm-markers gm-objects="markers"
-        gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }"
+        <gm-markers gm-id="nonprofit-address-marker"
+        gm-objects="markers"
+        gm-position="{ lat: object.latitude, lng: object.longitude }"
         gm-events="markerEvents">
         </gm-markers>
         </gm-map>

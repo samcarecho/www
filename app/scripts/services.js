@@ -174,6 +174,7 @@ app.factory('Search', function (Restangular) {
   };
 
   var sanitizeNonprofit = function (n) {
+    n.address = n.user.address;
     _nonprofits.push(n);
   };
 
