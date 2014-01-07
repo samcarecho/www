@@ -76,9 +76,9 @@ app.factory('Site', function(Restangular, $http) {
     });
   };
   var getCities = function () {
-    Restangular.all('cities').getList({page_size: constants.static_page_size}).then( function(response) {
+    Restangular.all('cities').getList({page_size: 4 /* number of active cities TODO*/ }).then( function(response) {
       _cities = response;
-      _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true});
+      _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true, state: 0});
       window.cities = _cities;
     }, function () {
       console.error('Não consegui pegar as cidades do servidor.');

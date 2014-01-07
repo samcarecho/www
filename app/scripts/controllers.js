@@ -291,7 +291,8 @@ app.controller('VolunteerSignupCtrl',
   };
 }]);
 
-app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos) {
+app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos, Restangular) {
+  $scope.cityLoaded = false;
 
   $scope.nonprofit = {
     address: {
@@ -351,6 +352,30 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
       $scope.signupForm.slug.alreadyUsed = false;
       $scope.signupForm.slug.hasSpace = false;
       $scope.signupForm.slug.$invalid = false;
+    }
+  });
+  $scope.$watch('nonprofit.address.state', function (value) {
+    $scope.cityLoaded = false;
+    $scope.stateCities = [];
+    if (value && !value.citiesLoaded) {
+      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
+        response.forEach(function(c) {
+          $scope.stateCities.push(c);
+          if (!c.active) {
+            $scope.cities().push(c);
+          }
+        });
+        value.citiesLoaded = true;
+        $scope.cityLoaded = true;
+      });
+    } else if(value){
+      var cities = $scope.cities();
+      cities.forEach(function (c) {
+        if (c.state.id === $scope.nonprofit.address.state.id) {
+          $scope.stateCities.push(c);
+        }
+      });
+      $scope.cityLoaded = true;
     }
   });
 
