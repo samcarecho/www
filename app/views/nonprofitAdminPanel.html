@@ -142,7 +142,7 @@
 
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofit.city]">
             <div class="col-sm-8 col-sm-offset-3">
-              <select class="form-control" ng-model="nonprofit.address.city.state" ng-options="s.name for s in states()">
+             <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
                 <option value="" disabled selected>Estado</option>
               </select>
             </div>

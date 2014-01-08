@@ -133,7 +133,7 @@ app.factory('Site', function(Restangular, $http) {
   };
 });
 
-app.factory('Search', function (Restangular, Site) {
+app.factory('Search', function (Restangular, Site, $http) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -187,8 +187,10 @@ app.factory('Search', function (Restangular, Site) {
       c.class = 'cause_' + c.id;
     });
     n.causes = causes;
-    console.log(n.causes);
     n.address = n.user.address;
+    $http.get('/cities/'+ n.address.city).success(function (city) {
+      n.address.city = city;
+    });
     _nonprofits.push(n);
   };
 
@@ -298,7 +300,14 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
         setAuthHeader(token);
         return $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
           .success(function(response) {
-            _currentUser = response;
+            if (response.user.address) {
+              $http.get(apiUrl + 'cities/'+ response.user.address.city + '/').success(function (city) {
+                _currentUser = response;
+                _currentUser.user.address.city = city;
+              });
+            } else {
+              _currentUser = response;
+            }
           });
       }
     });

@@ -426,7 +426,7 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
 
   $scope.site.title = 'Voluntário - ' + $stateParams.slug;
 
-  Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
+  Restangular.one('volunteer', $stateParams.slug).get().then(function(response) {
     $scope.volunteer = response;
     $scope.volunteer.id = $scope.volunteer.slug;
     $scope.image = $scope.volunteer.image_url;
@@ -638,8 +638,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     }
   };
 
-  window.nonprofit = $scope.nonprofit ;
-
   $scope.cityLoaded = false;
   $scope.$watch('nonprofit.address.state', function (value) {
     $scope.cityLoaded = false;
@@ -648,6 +646,9 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
         response.forEach(function(c) {
           $scope.stateCities.push(c);
+          if (c.id === $scope.nonprofit.address.city.id) {
+            $scope.nonprofit.address.city = c;
+          }
           if (!c.active) {
             $scope.cities().push(c);
           }
@@ -737,15 +738,15 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     } else {
       $scope.nonprofit = $scope.loggedUser;
       window.nonprofit = $scope.nonprofit;
-      $scope.causes().forEach(function(c) {
-        $scope.nonprofit.causes.forEach(function(nc) {
-          if (c.id === nc) {
-            c.checked = true;
-            var i = $scope.nonprofit.causes.indexOf(nc);
-            $scope.nonprofit.causes[i] = c;
-          }
-        });
+      var causes = [];
+      $scope.nonprofit.causes.forEach(function(c) {
+        c = $scope.causes()[c];
+        c.checked = true;
+        causes.push(c);
       });
+      $scope.nonprofit.causes = causes;
+
+      $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.address.city.state.id - 1];
 
       if ($scope.nonprofit.facebook_page) {
         var parser = document.createElement('a');
@@ -774,6 +775,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
         $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
         $scope.zoom = 15;
       }
+
     }
   }, 2000);
 
@@ -846,11 +848,13 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       delete nonprofitCopy.projects;
       delete nonprofitCopy.image_url;
       delete nonprofitCopy.cover_url;
+      delete nonprofitCopy.address.state;
       var causes = [];
       nonprofitCopy.causes.forEach(function(nc) {
         causes.push(nc.id);
       });
       nonprofitCopy.causes = causes;
+      nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
       window.copy = nonprofitCopy;
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {

@@ -940,7 +940,7 @@ $card-img-height: 170px;
   }
 }
 
-#volunteer-details {
+#volunteer-page {
   .causes,
   .skills {
     list-style:none;
@@ -970,7 +970,7 @@ $card-img-height: 170px;
 }
 
 @media (min-width: $screen-sm) and (max-width: 979px) {
-  #volunteer-details {
+  #volunteer-page {
     .image {
       & > label {
         width:122px;
@@ -983,7 +983,7 @@ $card-img-height: 170px;
 }
 
 @media (max-width: 767px) {
-  #volunteer-details {
+  #volunteer-page {
     .image {
       width:220px;
       margin:0 auto;
