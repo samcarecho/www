@@ -133,7 +133,7 @@ app.factory('Site', function(Restangular, $http) {
   };
 });
 
-app.factory('Search', function (Restangular) {
+app.factory('Search', function (Restangular, Site) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -179,10 +179,15 @@ app.factory('Search', function (Restangular) {
   };
 
   var sanitizeNonprofit = function (n) {
+    var causes = [];
     n.causes.forEach(function (c) {
+      c = Site.causes()[c];
+      causes.push(c);
       c.image = constants.storage + 'cause_' + c.id + '.png';
       c.class = 'cause_' + c.id;
     });
+    n.causes = causes;
+    console.log(n.causes);
     n.address = n.user.address;
     _nonprofits.push(n);
   };

@@ -292,7 +292,6 @@ app.controller('VolunteerSignupCtrl',
 }]);
 
 app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos, Restangular) {
-  $scope.cityLoaded = false;
 
   $scope.nonprofit = {
     address: {
@@ -354,6 +353,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
       $scope.signupForm.slug.$invalid = false;
     }
   });
+
+  $scope.cityLoaded = false;
   $scope.$watch('nonprofit.address.state', function (value) {
     $scope.cityLoaded = false;
     $scope.stateCities = [];
@@ -637,6 +638,34 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     }
   };
 
+  window.nonprofit = $scope.nonprofit ;
+
+  $scope.cityLoaded = false;
+  $scope.$watch('nonprofit.address.state', function (value) {
+    $scope.cityLoaded = false;
+    $scope.stateCities = [];
+    if (value && !value.citiesLoaded) {
+      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
+        response.forEach(function(c) {
+          $scope.stateCities.push(c);
+          if (!c.active) {
+            $scope.cities().push(c);
+          }
+        });
+        value.citiesLoaded = true;
+        $scope.cityLoaded = true;
+      });
+    } else if(value){
+      var cities = $scope.cities();
+      cities.forEach(function (c) {
+        if (c.state.id === $scope.nonprofit.address.state.id) {
+          $scope.stateCities.push(c);
+        }
+      });
+      $scope.cityLoaded = true;
+    }
+  });
+
   $scope.uploadProfileFile = function(files) {
     if (files) {
       var fd = new FormData();
@@ -828,6 +857,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
           toastr.success('Perfil da ONG salva!');
           $scope.editing = false;
         }).error(function() {
+          $scope.editing = false;
           toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
         });
     }
@@ -1012,11 +1042,11 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
 
   $scope.$watch('search.city', function (city) {
     $scope.zoom = defaultZoom;
-    if (city.name === 'São Paulo') {
+    if (city.name === 'Sao Paulo') {
       $scope.center = saoPauloCenter;
     } else if (city.name === 'Curitiba') {
       $scope.center = curitibaCenter;
-    } else if (city.name === 'Brasília') {
+    } else if (city.name === 'Brasilia') {
       $scope.center = brasiliaCenter;
     } else if (city.id === 0) {
       $scope.center = null;

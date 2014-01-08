@@ -20,19 +20,20 @@
               <input class="form-control" id="image-input" type="file" name="file" onchange="angular.element(this).scope().uploadProfileFile(this.files)"/>
             </div>
           </div>
-          <div id="nonprofit-map" ng-hide="editing">
-            <gm-map
-            gm-map-id="'nonprofitAddressMap'"
-            gm-center="center"
-            gm-zoom="zoom"
-            gm-map-type-id="mapTypeId"
-            style="width:100%;height:100%">
-            <gm-markers gm-objects="markers"
-            gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }"
-            gm-events="markerEvents">
-            </gm-markers>
-            </gm-map>
-          </div>
+          <div id="nonprofit-map">
+        <gm-map
+        gm-map-id="'nonprofitAddressMap'"
+        gm-center="center"
+        gm-zoom="zoom"
+        gm-map-type-id="mapTypeId"
+        style="width:100%;height:100%">
+        <gm-markers gm-id="nonprofit-address-marker"
+        gm-objects="markers"
+        gm-position="{ lat: object.latitude, lng: object.longitude }"
+        gm-events="markerEvents">
+        </gm-markers>
+        </gm-map>
+      </div>
           <div id="nonprofit-social">
             <a ng-hide="editing || !nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook"></i></a>
             <div ng-show="editing" class="form-group">
@@ -79,7 +80,6 @@
 
           <button class="btn btn-info pull-right" ng-hide="editing" ng-click="createNewProject()">Criar Novo Ato</button>
           <button class="btn btn-info pull-right" ng-hide="editing" ng-click="editing=true">Editar Perfil</button>
-          <button ng-click="doneEditingNonprofit(nonprofit)" class="btn btn-info" ng-show="editing">Salvar Perfil</button>
 
           <p ng-hide="editing || !nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
           <div ng-show="editing" class="form-group">
@@ -139,21 +139,23 @@
             <label class="help-block" ng-show="signupForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
             <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
           </div>
+
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofit.city]">
             <div class="col-sm-8 col-sm-offset-3">
-              <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in cities()">
-                <option value="" disabled selected>Cidade</option>
+              <select class="form-control" ng-model="nonprofit.address.city.state" ng-options="s.name for s in states()">
+                <option value="" disabled selected>Estado</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label"></label>
             <div class="col-sm-8">
-              <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
-                <option value="" disabled selected>Estado</option>
+              <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
+                <option value="" disabled selected>Cidade</option>
               </select>
             </div>
           </div>
+
         </fieldset>
 
 
@@ -204,6 +206,8 @@
               <label class="help-block" ng-show="signupForm.details.$error.maxlength">Não pode ter menos de 1024 caracteres.</label>
             </div>
           </div>
+
+          <button ng-click="doneEditingNonprofit(nonprofit)" class="btn btn-info pull-right" ng-show="editing">Salvar Perfil</button>
 
           <div id="project-management" class="row" ng-hide="editing">
             <div class="col-md-3" id="project-list">
