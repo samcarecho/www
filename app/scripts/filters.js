@@ -18,8 +18,8 @@ app.filter('as_location_string', function() {
     if (address.neighborhood) {
       out += address.neighborhood + ' - ';
     }
-    if (address.city) {
-      out += address.city.name + ', ' + address.city.state.code;
+    if (address.city_state) {
+      out += address.city_state;
     }
     if (address.zipcode) {
       out += ' - ' + address.zipcode;

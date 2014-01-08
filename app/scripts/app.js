@@ -10,7 +10,7 @@ angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider
     .state('root', {
@@ -25,60 +25,56 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
       controller: 'HomeCtrl'
     })
     .state('root.about', {
-      url: '/sobre',
+      url: '/sobre/',
       templateUrl: '/views/about.html',
       controller: 'AboutCtrl'
     })
     .state('root.404', {
-      url: '/404',
+      url: '/404/',
       templateUrl: '/views/404.html'
     })
     .state('root.explore', {
-      url: '/explore',
+      url: '/explore/',
       templateUrl: '/views/explore.html',
       controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
-      url: '/voluntario/:slug',
+      url: '/voluntario/:slug/',
       templateUrl: '/views/volunteerProfile.html',
-      controller: 'VolunteerCtrl',
-      resolve: { // TODO(mpomarole): Fix this resolve
-        volunteer: function (Restangular, $stateParams) {
-          Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
-            console.log('response ' + response);
-          }, function (error) {
-            console.log('error ' + error);
-          });
-        }
-      }
+      controller: 'VolunteerCtrl'
+    })
+    .state('root.volunteeredit', {
+      url: '/editar/',
+      templateUrl: '/views/volunteerEdit.html',
+      controller: 'VolunteerEditCtrl'
     })
     .state('root.nonprofit', {
-      url: '/ong/:slug',
+      url: '/ong/:slug/',
       templateUrl: '/views/nonprofitProfile.html',
       controller: 'NonprofitCtrl',
       resolve: {}
     })
     .state('root.nonprofitadmin', {
-        url: '/controle',
+        url: '/controle/',
         templateUrl: '/views/nonprofitAdminPanel.html',
         controller: 'NonprofitAdminCtrl',
         resolve: {
         }
       })
     .state('root.nonprofitsignup', {
-        url: '/cadastro/ong',
+        url: '/cadastro/ong/',
         templateUrl: '/views/nonprofitSignup.html',
         controller: 'NonprofitSignupCtrl',
         resolve: {}
       })
     .state('root.project', {
-        url: '/ato/:slug',
+        url: '/ato/:slug/',
         templateUrl: '/views/projectPage.html',
         controller: 'ProjectCtrl',
         resolve: {}
       })
     .state('root.newproject', {
-        url: '/ato',
+        url: '/ato/',
         templateUrl: '/views/projectNew.html',
         controller: 'ProjectNewCtrl',
         resolve: {}
@@ -97,11 +93,11 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
       });
 
   // $urlRouterProvider.when('/test', '/test1');
-  // $urlRouterProvider.otherwise('/404');
+  // $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true).hashPrefix('!');
-}]);
+});
 
-app.config(['$httpProvider', function ($httpProvider) {
+app.config(function ($httpProvider) {
 
   var securityInterceptor = ['$location', '$q', function($location, $q) {
 
@@ -128,16 +124,16 @@ app.config(['$httpProvider', function ($httpProvider) {
   }];
 
   $httpProvider.responseInterceptors.push(securityInterceptor);
-}]);
+});
 
-app.config(['FacebookProvider', function(FacebookProvider) {
+app.config(function(FacebookProvider) {
   FacebookProvider.init(constants.facebookClientId);
   FacebookProvider.setLocale(constants.locale);
   FacebookProvider.setCookie(false);
   window.facebook = FacebookProvider;
-}]);
+});
 
-app.config(['RestangularProvider', function(RestangularProvider) {
+app.config(function(RestangularProvider) {
   RestangularProvider.setBaseUrl(constants.api);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/.json');
@@ -159,4 +155,4 @@ app.config(['RestangularProvider', function(RestangularProvider) {
     }
     return response;
   });
-}]);
+});

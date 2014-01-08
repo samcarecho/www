@@ -422,18 +422,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
   };
 });
 
-app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, $http,  Auth, Photos, Restangular) {
-
-  $scope.site.title = 'Voluntário - ' + $stateParams.slug;
-
-  Restangular.one('volunteer', $stateParams.slug).get().then(function(response) {
-    $scope.volunteer = response;
-    $scope.volunteer.id = $scope.volunteer.slug;
-    $scope.image = $scope.volunteer.image_url;
-  }, function() {
-    $state.transitionTo('root.home');
-    toastr.error('Voluntário não encontrado');
-  });
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos) {
 
   // $scope.volunteer = volunteer; from resolve TODO
   $scope.saveVolunteer = function () {
@@ -509,11 +498,6 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
     }
   });
 
-  $scope.$watch('password + passwordConfirm', function() {
-    $scope.profileForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
-    $scope.profileForm.password.$invalid = $scope.profileForm.password.doesNotMatch;
-  });
-
   $scope.uploadFile = function(files) {
     if (files) {
       var fd = new FormData();
@@ -525,6 +509,78 @@ app.controller('VolunteerCtrl', function($scope, $filter, $state, $stateParams, 
       });
     }
   };
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.profileForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.profileForm.password.$invalid = $scope.profileForm.password.doesNotMatch;
+  });
+});
+
+app.controller('VolunteerCtrl', function($scope, $state, $stateParams, Restangular) {
+
+  if (!$stateParams.slug) {
+    $state.transitionTo('root.home');
+    toastr.error('Voluntário não encontrado');
+  } else {
+
+    $scope.site.title = 'Voluntário - ' + $stateParams.slug;
+
+    var sanitizeProject = function (p) {
+      p.causes.forEach(function (c) {
+        c.image = constants.storage + 'cause_' + c.id + '.png';
+        c.class = 'cause_' + c.id;
+      });
+      p.skills.forEach(function (s) {
+        s.image = constants.storage + 'skill_' + s.id + '.png';
+        s.class = 'skill_' + s.id;
+      });
+      p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+      p.nonprofit.slug = p.nonprofit.user.slug;
+    };
+    var sanitizeNonprofit = function (n) {
+      var causes = [];
+      n.causes.forEach(function (c) {
+        c = $scope.causes()[c];
+        causes.push(c);
+        c.image = constants.storage + 'cause_' + c.id + '.png';
+        c.class = 'cause_' + c.id;
+      });
+      n.causes = causes;
+      n.address = n.user.address;
+    };
+
+    var sanitizeVolunteer = function (v) {
+      window.volunteer = v;
+      $scope.image = v.image_url;
+      var causes = [];
+      v.causes.forEach(function(c) {
+        c = $scope.causes()[c];
+        c.checked = true;
+        causes.push(c);
+      });
+      v.causes = causes;
+      var skills = [];
+      v.skills.forEach(function(s) {
+        s = $scope.skills()[s];
+        skills.push(s);
+      });
+      v.skills = skills;
+      v.projects.forEach(function(p) {
+        sanitizeProject(p);
+      });
+      v.nonprofits.forEach(function(n) {
+        sanitizeNonprofit(n);
+      });
+    };
+
+    Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
+      $scope.volunteer = response;
+      sanitizeVolunteer($scope.volunteer);
+    }, function() {
+      $state.transitionTo('root.home');
+      toastr.error('Voluntário não encontrado');
+    });
+  }
+
 });
 
 app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular) {
@@ -738,14 +794,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
     } else {
       $scope.nonprofit = $scope.loggedUser;
       window.nonprofit = $scope.nonprofit;
-      var causes = [];
-      $scope.nonprofit.causes.forEach(function(c) {
-        c = $scope.causes()[c];
-        c.checked = true;
-        causes.push(c);
-      });
-      $scope.nonprofit.causes = causes;
-
       $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.address.city.state.id - 1];
 
       if ($scope.nonprofit.facebook_page) {

@@ -54,7 +54,6 @@ app.factory('Site', function(Restangular, $http) {
       });
   };
 
-
   var getCauses = function () {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
       _causes = response;
@@ -70,6 +69,10 @@ app.factory('Site', function(Restangular, $http) {
   var getSkills = function () {
     Restangular.all('skills').getList({page_size: constants.static_page_size}).then( function(response) {
       _skills = response;
+      _skills.forEach(function (s) {
+        s.image = constants.storage + 'skill_' + s.id + '.png';
+        s.class = 'skill_' + s.id;
+      });
       _skills.splice(0, 0, {name: 'Todas Habilidades', id: ''});
     }, function () {
       console.error('Não consegui pegar as habilidades do servidor.');
@@ -133,7 +136,7 @@ app.factory('Site', function(Restangular, $http) {
   };
 });
 
-app.factory('Search', function (Restangular, Site, $http) {
+app.factory('Search', function (Restangular, Site) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -188,9 +191,11 @@ app.factory('Search', function (Restangular, Site, $http) {
     });
     n.causes = causes;
     n.address = n.user.address;
-    $http.get('/cities/'+ n.address.city).success(function (city) {
-      n.address.city = city;
-    });
+    /*if (n.address.city) {
+      $http.get('/cities/'+ n.address.city).success(function (city) {
+        n.address.city = city;
+      });
+    }*/
     _nonprofits.push(n);
   };
 
@@ -283,7 +288,7 @@ app.factory('Photos', ['$http', function($http) {
   };
 }]);
 
-app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
+app.factory('Auth', function($http, Cookies, Site) {
   
   function setAuthHeader(accessToken) {
     if (accessToken) {
@@ -293,6 +298,17 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
 
   var apiUrl = constants.api;
   var _currentUser;
+  var fixCauses = function (user) {
+    if (user && user.causes) {
+      var causes = [];
+      user.causes.forEach(function(c) {
+        c = Site.causes()[c];
+        c.checked = true;
+        causes.push(c);
+      });
+      user.causes = causes;
+    }
+  };
 
   var getCurrentUser = function () {
     Cookies.get(constants.accessTokenCookie).then(function(token) {
@@ -303,10 +319,12 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
             if (response.user.address) {
               $http.get(apiUrl + 'cities/'+ response.user.address.city + '/').success(function (city) {
                 _currentUser = response;
+                fixCauses(_currentUser);
                 _currentUser.user.address.city = city;
               });
             } else {
               _currentUser = response;
+              fixCauses(_currentUser);
             }
           });
       }
@@ -396,4 +414,4 @@ app.factory('Auth', ['$http', 'Cookies', function($http, Cookies) {
       return _currentUser;
     }
   };
-}]);
+});

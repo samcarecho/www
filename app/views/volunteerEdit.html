@@ -1,0 +1,61 @@
+<div id="volunteer-edit" class="container">
+  <form novalidate class="form-horizontal" name="profileForm" ng-submit="saveVolunteer()">
+    <button type="submit" class="btn btn-primary pull-right" ng-disabled="profileForm.$invalid">Salvar</button>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Nome</label>
+      <div class="col-lg-5">                     
+        <input class="form-control" type='text' name="first_name" ng-model='volunteer.user.first_name' placeholder="Nome"/>
+        <input class="form-control" type='text' name="last_name" ng-model='volunteer.user.last_name' placeholder="Sobrenome"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-5">                     
+        <input class="form-control" type="email" name="email" ng-model="volunteer.user.email" required/>
+        <label class="help-block" ng-show="profileForm.email.alreadyUsed">Email já é usado.</label>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{error:profileForm.phone.$dirty && profileForm.phone.$invalid}">
+      <label class="col-lg-2 control-label">Telefone</label>
+      <div class="col-lg-5">                     
+        <input class="form-control" type="text" name="phone" ng-model="volunteer.phone" ng-maxlength="20" placeholder="Telefone"/>
+        <label class="help-block" ng-show="profileForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{error:profileForm.password.$dirty && profileForm.password.$invalid}">
+      <label class="col-lg-2 control-label">Mudar senha</label>
+      <div class="col-lg-5">
+        <input class="form-control" type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
+        <input class="form-control" type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
+        <label class="help-block" ng-show="profileForm.password.doesNotMatch">Senhas tem que ser igual!</label>
+        <label class="help-block" ng-show="profileForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <label>Causas</label>
+      <div>
+        <ul class="select-button-list">
+          <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
+          <label>
+            {{cause.name}}
+            <input class="form-control" type="checkbox" name="causes[]" ng-checked="cause.checked" ng-model="cause.checked"/>
+          </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <label>Habilidades</label>
+      <div>
+        <ul class="select-button-list">
+          <li ng-repeat="skill in skills" ng-class="{active:skill.checked}">
+          <label>
+            {{skill.name}}
+            <input class="form-control" type="checkbox" name="skills[]" ng-checked="skill.checked" ng-model="skill.checked"/>
+          </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>
