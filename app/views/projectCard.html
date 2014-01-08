@@ -2,7 +2,7 @@
   <div class="card" id="card-{{project.slug}}">
     <div class="card-img">
         <div class="card-description"> 
-          <a ng-href="/ato/{{project.slug}}">
+          <a ui-sref="root.project({slug: project.slug})">
             <p>{{project.description}}</p>
           </a>
           <div tooltip="Compartilhe esse ato na sua timeline!" class="fb-share-button" data-href="http://www.atadoslocal.com.br:9000/ato/{{project.slug}}" data-type="icon"></div>
@@ -10,13 +10,13 @@
         <img alt="" ng-src="{{ project.image_url }}">
     </div>
     <div class="card-footer clearfix">
-      <a class="card-name" ng-href="/ato/{{project.slug}}"><h4>{{ project.name }}</h4></a>
+      <a class="card-name" ui-sref="root.project({slug: project.slug})"><h4>{{ project.name }}</h4></a>
       <div class="row card-quick-info">
-        <a ng-href="/ong/{{project.nonprofit.slug}}" class="nonprofit-img">
-          <img ng-href="/ong/{{project.nonprofit.slug}}" ng-src="{{ project.nonprofit.image_url }}">
+        <a ui-sref="root.nonprofit({slug: project.nonprofit.slug})" class="nonprofit-img">
+          <img ui-sref="root.nonprofit({slug: project.nonprofit.slug})" ng-src="{{ project.nonprofit.image_url }}">
         </a>
         <span>
-          <a ng-href="/ong/{{project.nonprofit.slug}}"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
+          <a ui-sref="root.nonprofit({slug: project.nonprofit.slug})"><p class="nonprofit-name"><strong>{{project.nonprofit.name}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.city_state }}</p>
           <div class="img-circle cause-image" ng-repeat="cause in project.causes"> 
             <img tooltip="Causa: {{cause.name}}" width="15" height="15" ng-src="{{cause.image}}"/>
