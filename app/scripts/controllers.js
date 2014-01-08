@@ -600,6 +600,10 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       p.causes.forEach( function (c) {
         c.image = constants.storage + 'cause_' + c.id + '.png';
       });
+      p.skills.forEach(function (s) {
+        s.image = constants.storage + 'skill_' + s.id + '.png';
+        s.class = 'skill_' + s.id;
+      });
       p.nonprofit.slug = p.nonprofit.user.slug;
       p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
     });
