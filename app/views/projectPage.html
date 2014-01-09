@@ -4,6 +4,7 @@
       <div id="project-image">
         <img alt="{{project.slug}}" class="img-responsive" ng-src="{{image}}"/>
       </div>
+      <h4>Localize-se</h4>
       <div id="project-map">
         <gm-map
         gm-map-id="'projectAddressMap'"
@@ -21,19 +22,39 @@
       <div ng-if="project.facebook_event" class="fb-like-box" data-href="{{project.facebook_event}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
     </div>
     <div class="col-md-9 col-sm-8 col-xs-7">
+
       <h1>{{project.name}}</h1>
+      <a ui-sref="root.nonprofit({slug: project.nonprofit.user.slug})">{{project.nonprofit.name}}</a>
+
+
+      <div ng-if="project.work"> <!-- recorrente -->
+        <p><i class="fa fa-refresh"></i> Ato Recorrente</p>
+        <p>{{project.work.weekly_hours}} horas por semana</p>
+        <p>Pode ser feito remotamente? {{project.work.can_be_done_remotely}}</p>
+      </div>
       <div class="row">
         <button class="btn btn-info col-sm-offset-9" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="addVolunteerToproject()"><i class="fa fa-heart"></i> Me atar</button>
       </div>
 
+      <h3>Posições que precisam da sua ajuda</h3>
+      <div ng-if="project.roles" id="project-roles">
+        <div ng-repeat="role in project.roles">
+          <p>{{role.name}}</p>
+          <p>{{role.details}}</p>
+          <p>{{role.prerequisites}}</p>
+          <p>{{role.vacancies}}</p>
+        </div>
+      </div>
+
+
       <div class="row" id="project-icons">
-        <div class="col-sm-6">
+        <div class="col-sm-6" ng-if="project.causes">
           <h3>Causas</h3>
           <div class="img-circle cause-image" ng-repeat="cause in project.causes"> 
             <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6" ng-if="project.skills">
           <h3>Habilidades</h3>
           <div class="skill-image" ng-repeat="skill in project.skills"> 
             <img tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
