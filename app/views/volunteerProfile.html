@@ -7,7 +7,7 @@
     <div class="col-sm-3 image">
       <img class="img-rounded img-responsive" alt="{{volunteer.slug}}" ng-src="{{image}}"/>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-12">
       <div ng-show="volunteer.causes" id="volunteer-causes" class="col-sm-6">
         <h3>Causas</h3>
         <div class="img-circle cause-image" ng-repeat="cause in volunteer.causes"> 
@@ -29,7 +29,7 @@
       <div class="row">
         <h3>Atos que já participei</h3>
         <div class="col-sm-12 projects">
-          <project-card ng-repeat="project in volunteer.projects"></nonprofit-card>
+          <project-card ng-repeat="project in volunteer.projects"></project-card>
         </div>
       </div>
     </div>

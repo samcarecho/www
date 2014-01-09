@@ -431,7 +431,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       if ($scope.volunteer.address.city) {
         $scope.volunteer.address.state = $scope.states()[$scope.volunteer.address.city.state.id - 1];
       }
-      window.volunteer = $scope.volunteer;
     }
   });
 
@@ -620,7 +619,6 @@ app.controller('VolunteerCtrl', function($scope, $state, $stateParams, Restangul
     };
 
     var sanitizeVolunteer = function (v) {
-      window.volunteer = v;
       $scope.image = v.image_url;
       var causes = [];
       v.causes.forEach(function(c) {
@@ -665,7 +663,6 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
   $scope.landing = false;
 
   Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
-    window.nonprofit = response;
     $scope.nonprofit = response;
     $scope.nonprofit.projects.forEach(function (p) {
       p.causes.forEach( function (c) {
@@ -700,7 +697,6 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       });
     });
 
-    isVolunteerToNonprofit();
     if ($scope.nonprofit.user.address) {
       $scope.nonprofit.address = $scope.nonprofit.user.address;
       $scope.markers.push($scope.nonprofit.address);
@@ -739,10 +735,11 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       });
   };
   $scope.alreadyVolunteer = false;
-  var isVolunteerToNonprofit = function () {
-    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
+  $scope.$watch('loggedUser', function () {
+    if ($scope.getLoggedUser() && $scope.getLoggedUser().role === VOLUNTEER) {
       $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
         .success(function (response) {
+          console.log(response);
           if (response[0] === 'YES') {
             $scope.alreadyVolunteer = true;
           } else {
@@ -750,7 +747,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
           }
         });
     }
-  };
+  });
 });
 
 app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, Photos, $http) {
@@ -1001,7 +998,7 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
   $scope.landing = false;
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
-    window.project = $scope.project = response;
+    $scope.project = response;
     $scope.site.title = 'Ato - ' + $scope.project.name;
     if ($scope.project.image_url) {
       $scope.image = $scope.project.image_url;
@@ -1289,8 +1286,10 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       if ($scope.search.nextUrlProject()) {
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
-            var aws_credential = project.image_url.split('?');
-            project.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + project.nonprofit.image + '?' + aws_credential;
+            if (project.image_url) {
+              var aws_credential = project.image_url.split('?');
+              project.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + project.nonprofit.image + '?' + aws_credential;
+            }
             project.causes.forEach(function (c) {
               c.image = constants.storage + 'cause_' + c.id + '.png';
               c.class = 'cause_' + c.id;
@@ -1392,8 +1391,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     );
   };
 
-  $scope.selectMarker = function (object) {
-    window.object = object;
+  $scope.selectMarker = function (object, marker) {
     var cardId = 'card-' + object.slug;
     if ($scope.previousObject) {
       $scope.previousObject.selected = false;

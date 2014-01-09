@@ -16,7 +16,7 @@
         gm-id="object.slug"
         gm-position="{ lat: object.address.latitude, lng: object.address.longitude }"
         gm-marker-options="getMarkerOpts(object)"
-        gm-on-click="selectMarker(object)"
+        gm-on-click="selectMarker(object, marker)"
         gm-on-openinfowindow="selectedObject = object; infoWindow.open(marker.getMap(), marker);"
         gm-events="markerEvents">
       </gm-markers>
