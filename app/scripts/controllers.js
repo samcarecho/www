@@ -999,6 +999,7 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
+    window.project = $scope.project;
     $scope.site.title = 'Ato - ' + $scope.project.name;
     if ($scope.project.image_url) {
       $scope.image = $scope.project.image_url;

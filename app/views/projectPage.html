@@ -20,13 +20,22 @@
         </gm-map>
       </div>
       <div ng-if="project.facebook_event" class="fb-like-box" data-href="{{project.facebook_event}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
+
+      <h4>Voluntários</h4>
+      <div id="project-volunteers"> 
+        <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in project.volunteers"><img alt="volunteer.slug" width="32" height="32" ng-src="{{volunteer.image_url}}"/></a>
+      </div>
     </div>
     <div class="col-md-9 col-sm-8 col-xs-7">
 
       <h1>{{project.name}}</h1>
+
       <a ui-sref="root.nonprofit({slug: project.nonprofit.user.slug})">{{project.nonprofit.name}}</a>
 
-
+      <div ng-if="project.job">
+        <p><i class=""></i> Ato Pontual </p>
+        <p>{{project.job.start_date | date:"dd 'de' MMMM 'de' yyyy (EEEE) 'as' HH:MM"}} até {{project.job.end_date | date:"dd 'de' MMMM 'de' yyyy (EEEE) 'as' HH:MM"}}</p>
+      </div>
       <div ng-if="project.work"> <!-- recorrente -->
         <p><i class="fa fa-refresh"></i> Ato Recorrente</p>
         <p>{{project.work.weekly_hours}} horas por semana</p>
