@@ -304,13 +304,14 @@ fieldset {
     }
     .active {
       background-image: linear-gradient(#009BD4, #0081B2) !important;
-      color: #FFF;
+      color: #FFF !important;
     }
     .buttonTab {
       margin-right: 20px;
       text-transform: uppercase;
       background-image: linear-gradient(#FFF, #E8E8E8);
       font-weight: bold;
+      color: #919191;
       &:hover {
         color: $link-color;
       }
