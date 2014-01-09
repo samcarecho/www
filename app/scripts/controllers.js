@@ -422,24 +422,95 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
   };
 });
 
-app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos) {
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular) {
 
-  // $scope.volunteer = volunteer; from resolve TODO
+  $scope.$watch('loggedUser', function (user) {
+    if (user) {
+      $scope.volunteer = user;
+      $scope.volunteer.address = user.address ? user.address : {};
+      if ($scope.volunteer.address.city) {
+        $scope.volunteer.address.state = $scope.states()[$scope.volunteer.address.city.state.id - 1];
+      }
+      window.volunteer = $scope.volunteer;
+    }
+  });
+
+  $scope.addCause = function(cause) {
+    cause.checked = !cause.checked;
+    if (cause.checked) {
+      $scope.volunteer.causes.push(cause);
+    } else {
+      var index = $scope.volunteer.causes.indexOf(cause);
+      if (index > -1) {
+        $scope.volunteer.causes.splice(index, 1);
+      }
+    }
+  };
+  $scope.addSkill = function(skill) {
+    skill.checked = !skill.checked;
+    if (skill.checked) {
+      $scope.volunteer.skills.push(skill);
+    } else {
+      var index = $scope.volunteer.skills.indexOf(skill);
+      if (index > -1) {
+        $scope.volunteer.skills.splice(index, 1);
+      }
+    }
+  };
+
+  $scope.cityLoaded = false;
+  $scope.$watch('volunteer.address.state', function (value) {
+    $scope.cityLoaded = false;
+    $scope.stateCities = [];
+    if (value && !value.citiesLoaded) {
+      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
+        response.forEach(function(c) {
+          $scope.stateCities.push(c);
+          if ($scope.volunteer.address.city && (c.id === $scope.volunteer.address.city.id)) {
+            $scope.volunteer.address.city = c;
+          }
+          if (!c.active) {
+            $scope.cities().push(c);
+          }
+        });
+        value.citiesLoaded = true;
+        $scope.cityLoaded = true;
+      });
+    } else if(value){
+      var cities = $scope.cities();
+      cities.forEach(function (c) {
+        if (c.state.id === $scope.volunteer.address.state.id) {
+          $scope.stateCities.push(c);
+        }
+      });
+      $scope.cityLoaded = true;
+    }
+  });
+
+
   $scope.saveVolunteer = function () {
-    $scope.volunteer.causes = $filter('filter')($scope.causes(), {checked: true});
-    var index = 0;
-    $scope.volunteer.causes.forEach( function (cause) {
-      $scope.volunteer.causes[index++] = cause.url;
+    var volunteerCopy = {};
+    angular.copy($scope.volunteer, volunteerCopy);
+    delete volunteerCopy.projects;
+    delete volunteerCopy.nonprofits;
+    var causes = [];
+    volunteerCopy.causes.forEach(function(nc) {
+      causes.push(nc.id);
     });
-    $scope.volunteer.skills = $filter('filter')($scope.skills, {checked: true});
-    index = 0;
-    $scope.volunteer.skills.forEach( function (skill) {
-      $scope.volunteer.skills[index++] = skill.url;
+    volunteerCopy.causes = causes;
+    var skills = [];
+    volunteerCopy.skills.forEach(function(s) {
+      skills.push(s.id);
     });
+    volunteerCopy.skills = skills;
 
-    $scope.volunteer.put().then( function () {
+    volunteerCopy.address.city = volunteerCopy.address.city.id;
+    volunteerCopy.user.address = volunteerCopy.address;
+
+    $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
+      .success(function() {
       toastr.success('Perfil salvo!', $scope.volunteer.slug);
-    }, function () {
+    }).error(function () {
       toastr.error('Problema em salvar seu perfil :(');
     });
     if ($scope.password && $scope.password === $scope.passwordConfirm) {
@@ -485,15 +556,15 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos) {
     }
 
     if (value && value !== $scope.loggedUser.user.email) {
-      $scope.profileForm.email.alreadyUsed = false;
+      $scope.volunteerForm.email.alreadyUsed = false;
     }
     else if (value !== $scope.loggedUser.user.email) {
       Auth.isEmailUsed(value, function () {
-        $scope.profileForm.email.alreadyUsed = false;
-        $scope.profileForm.email.$invalid = false;
+        $scope.volunteerForm.email.alreadyUsed = false;
+        $scope.volunteerForm.email.$invalid = false;
       }, function () {
-        $scope.profileForm.email.alreadyUsed = true;
-        $scope.profileForm.email.$invalid = true;
+        $scope.volunteerForm.email.alreadyUsed = true;
+        $scope.volunteerForm.email.$invalid = true;
       });
     }
   });
@@ -510,8 +581,8 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos) {
     }
   };
   $scope.$watch('password + passwordConfirm', function() {
-    $scope.profileForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
-    $scope.profileForm.password.$invalid = $scope.profileForm.password.doesNotMatch;
+    $scope.volunteerForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.volunteerForm.password.$invalid = $scope.volunteerForm.password.doesNotMatch;
   });
 });
 

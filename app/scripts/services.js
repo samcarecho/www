@@ -309,6 +309,17 @@ app.factory('Auth', function($http, Cookies, Site) {
       user.causes = causes;
     }
   };
+  var fixSkills = function (user) {
+    if (user && user.skills) {
+      var skills = [];
+      user.skills.forEach(function(s) {
+        s = Site.skills()[s];
+        s.checked = true;
+        skills.push(s);
+      });
+      user.skills = skills;
+    }
+  };
 
   var getCurrentUser = function () {
     Cookies.get(constants.accessTokenCookie).then(function(token) {
@@ -316,15 +327,21 @@ app.factory('Auth', function($http, Cookies, Site) {
         setAuthHeader(token);
         return $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
           .success(function(response) {
+            console.log(response);
             if (response.user.address) {
               $http.get(apiUrl + 'cities/'+ response.user.address.city + '/').success(function (city) {
                 _currentUser = response;
                 fixCauses(_currentUser);
+                fixSkills(_currentUser);
                 _currentUser.user.address.city = city;
+                _currentUser.address = _currentUser.user.address;
               });
             } else {
               _currentUser = response;
+              _currentUser.user.address = {};
+              _currentUser.address = _currentUser.user.address;
               fixCauses(_currentUser);
+              fixSkills(_currentUser);
             }
           });
       }
