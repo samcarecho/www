@@ -216,6 +216,7 @@ app.factory('Search', function (Restangular, Site) {
   }
 
   var searchNonprofits = function (query, cause, city) {
+    console.log(city);
     var urlHeaders = {
       page_size: 20,
       query: query,

@@ -868,7 +868,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
     } else {
       $scope.nonprofit = $scope.loggedUser;
-      window.nonprofit = $scope.nonprofit;
       $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.address.city.state.id - 1];
 
       if ($scope.nonprofit.facebook_page) {
@@ -978,7 +977,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       });
       nonprofitCopy.causes = causes;
       nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
-      window.copy = nonprofitCopy;
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {
           toastr.success('Perfil da ONG salva!');
@@ -997,7 +995,82 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
   ];
 });
 
-app.controller('ProjectCtrl', function () {
+app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular) {
+
+  $scope.markers = [];
+  $scope.landing = false;
+
+  Restangular.one('project', $stateParams.slug).get().then(function(response) {
+    window.project = $scope.project = response;
+    $scope.site.title = 'Ato - ' + $scope.project.name;
+    if ($scope.project.image_url) {
+      $scope.image = $scope.project.image_url;
+    } else {
+      $scope.image = 'http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif'; // TODO 
+    }
+
+    $scope.project.causes.forEach( function (c) {
+      c.image = constants.storage + 'cause_' + c.id + '.png';
+    });
+    $scope.project.skills.forEach(function (s) {
+      s.image = constants.storage + 'skill_' + s.id + '.png';
+    });
+
+
+    if ($scope.project.cover_url) {
+      $scope.coverImage = $scope.project.cover_url;
+    } else {
+      $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
+    }
+    $scope.causes().forEach(function(c) {
+      $scope.project.causes.forEach(function(nc) {
+        if (c.id === nc) {
+          var i = $scope.project.causes.indexOf(nc);
+          $scope.nonprofit.causes[i] = c;
+        }
+      });
+    });
+
+    if ($scope.project.address) {
+      $scope.markers.push($scope.project.address);
+      $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
+      $scope.zoom = 15;
+    }
+  }, function() {
+    $state.transitionTo('root.home');
+    toastr.error('Ato não encontrado.');
+  });
+
+  $scope.showApplyToProjectButton = function () {
+    return $scope.loggedUser && $scope.loggedUser.role === VOLUNTEER;
+  };
+
+  $scope.applyVolunteerToProject = function () {
+    /*$http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
+      .success(function (response) {
+        if (response[0] === 'Added') {
+          $scope.alreadyVolunteer = true;
+        } else {
+          $scope.alreadyVolunteer = false;
+        }
+      }).error(function () {
+        toastr.error('Não conseguimos te adicionar a lista de voluntários da ONG :(');
+      });*/
+  };
+  $scope.alreadyApplied = false;
+
+  var hasVolunteerApplied = function () {
+    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
+      /*$http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
+        .success(function (response) {
+          if (response[0] === 'YES') {
+            $scope.alreadyVolunteer = true;
+          } else {
+            $scope.alreadyVolunteer = false;
+          }
+        });*/
+    }
+  };
 });
 
 app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular) {
