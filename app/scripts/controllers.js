@@ -486,6 +486,18 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
   });
 
+  $scope.uploadProfileFile = function(files) {
+    if (files) {
+      var fd = new FormData();
+      fd.append('file', files[0]);
+      Photos.setVolunteerPhoto(fd, function(response) {
+        $scope.volunteer.image_url = response.file;
+        toastr.success('Foto do voluntário salva com sucesso.');
+      }, function() {
+        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
+      });
+    }
+  };
 
   $scope.saveVolunteer = function () {
     var volunteerCopy = {};
@@ -505,6 +517,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
     volunteerCopy.address.city = volunteerCopy.address.city.id;
     volunteerCopy.user.address = volunteerCopy.address;
+    window.copy = volunteerCopy;
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
@@ -1412,30 +1425,52 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     );
   };
 
-  $scope.selectMarker = function (object) {
-    var cardId = 'card-' + object.slug;
-    if ($scope.previousObject) {
-      $scope.previousObject.selected = false;
-      angular.element(document.querySelector('#card-' + $scope.previousObject.slug))
-        .removeClass('hover');
+  $scope.bringToFront = function (object, marker) {
+    window.marker = marker;
+  };
+
+  $scope.selectMarker = function (object, marker) {
+
+    if ($scope.previousObjects.length !== 0) {
+      $scope.previousObjects.forEach(function (o) {
+        o.selected = false;
+        angular.element(document.querySelector('#card-' + o.slug))
+          .removeClass('hover');
+      });
+      $scope.previousObjects = [];
     }
-    $scope.previousObject = object;
-    $scope.previousObject.selected = true;
     
     if (object.address && object.address.latitude && object.address.longitude) {
       $scope.center  = new google.maps.LatLng(object.address.latitude, object.address.longitude);
     }
 
-    // $location.hash(cardId);
-    // $anchorScroll();
-
-    angular.element(document.querySelector('#' + cardId))
-      .addClass('hover');
-
+    window.marker = marker;
+    if (marker) {
+      $scope.markers.forEach(function(m) {
+        if (m.address.latitude === object.address.latitude && m.address.longitude === object.address.longitude) {
+          $scope.previousObjects.push(m);
+          m.selected = true;
+          var cardId = 'card-' + m.slug;
+          angular.element(document.querySelector('#' + cardId))
+            .addClass('hover');
+        }
+      });
+    } else {
+      $scope.previousObjects.push(object);
+      object.selected = true;
+      var cardId = 'card-' + object.slug;
+      angular.element(document.querySelector('#' + cardId))
+        .addClass('hover');
+    }
+    
     $scope.markerEvents = [{
       event: 'openinfowindow',
       ids: [object.slug]
+    },{
+      event: 'hover',
+      ids: [object.slug]
     }];
+
     $scope.$broadcast('gmMarkersUpdate', 'markers');
   };
 });

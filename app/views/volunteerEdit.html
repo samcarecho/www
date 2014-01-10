@@ -2,6 +2,13 @@
   <form novalidate class="form-horizontal" name="volunteerForm" ng-submit="saveVolunteer()">
     <button type="submit" class="btn btn-primary pull-right" ng-disabled="volunteerForm.$invalid">Salvar</button>
 
+
+    <img alt="{{volunteer.slug}}" class="img-responsive" height="120" width="120" ng-src="{{volunteer.image_url}}"/>
+    <div>
+      <label class="btn" for="image-input"><i class="icon-edit"></i>Editar foto</label>
+      <input class="form-control" id="image-input" type="file" name="file" onchange="angular.element(this).scope().uploadProfileFile(this.files)"/>
+    </div>
+
     <div class="form-group">
       <label class="col-lg-2 control-label">Nome</label>
       <div class="col-lg-5">                     
@@ -38,6 +45,13 @@
         <label class="help-block" ng-show="volunteerForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
       </div>
     </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon">facebook.com/</span>
+        <input type="text" name="facebookpage"  ng-model="volunteer.facebook_page_short" placeholder="ong" class="form-control">
+      </div>
+    </div>
+
     <fieldset id="address-fieldset">
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.addressline.$invalid]">
         <label class="col-sm-3 control-label">Endereço</label>
