@@ -13,7 +13,21 @@ var constants = {
   'sessionIdCookie': 'sessionid',
   'grantType': 'password',
   'page_size': 8,
-  'static_page_size': 300
+  'static_page_size': 300,
+  'weekdays': [
+    {1: 'Segunda'},
+    {2: 'Terça'},
+    {3: 'Quarta'},
+    {4: 'Quinta'},
+    {5: 'Sexta'},
+    {6: 'Sabado'},
+    {7: 'Domingo'}
+  ],
+  'periods': [
+    {0: 'Manha'},
+    {1: 'Tarde'},
+    {2: 'Noite'}
+  ]
 };
 
 constants.api = constants.devApi;

@@ -21,7 +21,8 @@
       </div>
       <div ng-if="project.facebook_event" class="fb-like-box" data-href="{{project.facebook_event}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
 
-      <h4>Voluntários</h4>
+      <h4>{{project.volunteers.length}} Voluntários</h4>
+      <p ng-if="project.volunteers.length === 0">Seja o primeiro a se atar!</p>
       <div id="project-volunteers"> 
         <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in project.volunteers"><img alt="volunteer.slug" width="32" height="32" ng-src="{{volunteer.image_url}}"/></a>
       </div>
@@ -40,9 +41,30 @@
         <p><i class="fa fa-refresh"></i> Ato Recorrente</p>
         <p>{{project.work.weekly_hours}} horas por semana</p>
         <p>Pode ser feito remotamente? {{project.work.can_be_done_remotely}}</p>
+        <table cellspacing="0" cellpadding="0">
+          <colgroup span="7"></colgroup>
+          <tbody>
+            <tr class="weekdays">
+              <th scope="col" title="Domingo">Dom</th>
+              <th scope="col" title="Segunda">Seg</th>
+              <th scope="col" title="Terça">Ter</th>
+              <th scope="col" title="Quarta">Qua</th>
+              <th scope="col" title="Quinta">Qui</th>
+              <th scope="col" title="Sexta">Sex</th>
+              <th scope="col" title="Sabado">Sab</th>
+            </tr>
+            <tr ng-repeat="days in project.work.availabilities">
+              <td ng-repeat="period in days">
+                {{period.checked}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
       </div>
       <div class="row">
-        <button class="btn btn-info col-sm-offset-9" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="addVolunteerToproject()"><i class="fa fa-heart"></i> Me atar</button>
+        <button ng-hide="alreadyApplied" class="btn btn-info col-sm-offset-9" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Me atar</button>
+        <button ng-show="alreadyApplied" class="btn btn-info col-sm-offset-9" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Desatar</button>
       </div>
 
       <h3>Posições que precisam da sua ajuda</h3>

@@ -677,17 +677,10 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
     });
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
 
-    if ($scope.nonprofit.image_url) {
-      $scope.image = $scope.nonprofit.image_url;
-    } else {
-      $scope.image = 'http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif'; // TODO 
-    }
+    $scope.image = $scope.nonprofit.image_url;
 
-    if ($scope.nonprofit.cover_url) {
-      $scope.coverImage = $scope.nonprofit.cover_url;
-    } else {
-      $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
-    }
+    $scope.coverImage = $scope.nonprofit.cover_url;
+
     $scope.causes().forEach(function(c) {
       $scope.nonprofit.causes.forEach(function(nc) {
         if (c.id === nc) {
@@ -735,11 +728,10 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       });
   };
   $scope.alreadyVolunteer = false;
-  $scope.$watch('loggedUser', function () {
-    if ($scope.getLoggedUser() && $scope.getLoggedUser().role === VOLUNTEER) {
+  $scope.$watch('loggedUser + $scope.nonprofit', function () {
+    if ($scope.getLoggedUser() && $scope.getLoggedUser().role === VOLUNTEER && $scope.nonprofit) {
       $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
         .success(function (response) {
-          console.log(response);
           if (response[0] === 'YES') {
             $scope.alreadyVolunteer = true;
           } else {
@@ -992,7 +984,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
   ];
 });
 
-app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular) {
+app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular, $modal) {
 
   $scope.markers = [];
   $scope.landing = false;
@@ -1001,11 +993,7 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
     $scope.project = response;
     window.project = $scope.project;
     $scope.site.title = 'Ato - ' + $scope.project.name;
-    if ($scope.project.image_url) {
-      $scope.image = $scope.project.image_url;
-    } else {
-      $scope.image = 'http://www.tokyocomp.com.br/imagens/estrutura/sem_foto.gif'; // TODO 
-    }
+    $scope.image = $scope.project.image_url;
 
     $scope.project.causes.forEach( function (c) {
       c.image = constants.storage + 'cause_' + c.id + '.png';
@@ -1014,12 +1002,21 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
       s.image = constants.storage + 'skill_' + s.id + '.png';
     });
 
-
-    if ($scope.project.cover_url) {
-      $scope.coverImage = $scope.project.cover_url;
-    } else {
-      $scope.coverImage = 'http://www.jonloomer.com/wp-content/uploads/2012/04/cover_profile_new_layers3.jpg'; // TODO
+    if ($scope.project.work) {
+      var availabilities = [];
+      for (var period = 0; period < 3; period++) {
+        var periods = [];
+        availabilities.push(periods);
+        for (var weekday = 0; weekday < 7; weekday++) {
+          periods.push({checked: false});
+        }
+      }
+      $scope.project.work.availabilities.forEach(function(a) {
+        availabilities[a.period][a.weekday].checked = true;
+      });
+      $scope.project.work.availabilities = availabilities;
     }
+
     $scope.causes().forEach(function(c) {
       $scope.project.causes.forEach(function(nc) {
         if (c.id === nc) {
@@ -1043,32 +1040,55 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
     return $scope.loggedUser && $scope.loggedUser.role === VOLUNTEER;
   };
 
+  $scope.alreadyApplied = false;
   $scope.applyVolunteerToProject = function () {
-    /*$http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
+    var template = '/views/volunteerContractModal.html';
+    if ($scope.alreadyApplied) {
+      template = '/views/volunteerUnapplyModal.html';
+    }
+
+    var modalInstance = $modal.open({
+      templateUrl: template,
+      controller: function ($scope, $modalInstance) {
+        $scope.ok = function () {
+          $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+      }
+    });
+    modalInstance.result.then(function () {
+      $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id})
       .success(function (response) {
-        if (response[0] === 'Added') {
-          $scope.alreadyVolunteer = true;
+        if (response[0] === 'Applied') {
+          $scope.project.volunteers.push($scope.loggedUser);
+          $scope.alreadyApplied = true;
         } else {
-          $scope.alreadyVolunteer = false;
+          $scope.project.volunteers.splice($scope.project.volunteers.indexOf($scope.loggedUser),1);
+          $scope.alreadyApplied = false;
         }
       }).error(function () {
-        toastr.error('Não conseguimos te adicionar a lista de voluntários da ONG :(');
-      });*/
+        toastr.error('Não conseguimos te atar. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+      });
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
   };
-  $scope.alreadyApplied = false;
 
-  var hasVolunteerApplied = function () {
-    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
-      /*$http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
+  $scope.$watch('loggedUser + $scope.project', function () {
+    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER && $scope.project) {
+      $http.get(constants.api + 'has_volunteer_applied/?project=' + $scope.project.id.toString())
         .success(function (response) {
           if (response[0] === 'YES') {
-            $scope.alreadyVolunteer = true;
+            $scope.alreadyApplied = true;
           } else {
-            $scope.alreadyVolunteer = false;
+            $scope.alreadyApplied = false;
           }
-        });*/
+        });
     }
-  };
+  });
 });
 
 app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular) {
@@ -1392,7 +1412,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     );
   };
 
-  $scope.selectMarker = function (object, marker) {
+  $scope.selectMarker = function (object) {
     var cardId = 'card-' + object.slug;
     if ($scope.previousObject) {
       $scope.previousObject.selected = false;
