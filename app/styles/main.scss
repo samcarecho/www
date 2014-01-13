@@ -1,12 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Francois+One|Open+Sans:400,800|Noto+Sans:4000,700|Coming+Soon);
 
 // Where the logo is
-$atados-sprite:url("http://www.atadoslocal.com.br:8000/static/images/atados-sprite.png");
+/*$atados-sprite:url("http://www.atadoslocal.com.br:8000/static/images/atados-sprite.png");
 $causes-sprite:url("http://www.atadoslocal.com.br:8000/static/images/causes-sprite.png");
-$atados-arrow:url("http://www.atadoslocal.com.br:8000/static/images/arrow-down.png");
-/*$atados-sprite:url("http://beta.atados.com.br/static/images/atados-sprite.png");
+$atados-arrow:url("http://www.atadoslocal.com.br:8000/static/images/arrow-down.png");*/
+$atados-sprite:url("http://beta.atados.com.br/static/images/atados-sprite.png");
 $causes-sprite:url("http://beta.atados.com.br/static/images/causes-sprite.png");
-$atados-arrow:url("http://beta.atados.com.br/static/images/arrow-down.png");*/
+$atados-arrow:url("http://beta.atados.com.br/static/images/arrow-down.png");
 
 
 // Atados Bootstrap Theme
@@ -456,6 +456,7 @@ h1, h2, h3, h4, h5, h6,
 // _navbar.scss
 
 .navbar-inverse {
+  /
   li {
     a.dropdown-toggle {
       margin-right: 10px;
