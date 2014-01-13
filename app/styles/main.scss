@@ -69,7 +69,7 @@ $screen-sm: 768px;  // tablet
 $screen-md: 992px;  // desktop 
 $screen-lg: 1200px; // desktop lg
 
-$grid-float-breakpoint: 1059px;
+$grid-float-breakpoint: $screen-md;
 
 .row {
   margin-right: 0px;
@@ -445,14 +445,6 @@ h1, h2, h3, h4, h5, h6,
   text-rendering: optimizelegibility
 }
 
-// _navs.scss
-.nav-tabs.nav-stacked > .active > a,
-.nav-tabs.nav-stacked > .active > a:hover,
-.nav-tabs.nav-stacked > .active > a:focus {
-  color: $white;
-  background-color: $orange;
-}
-
 // _navbar.scss
 
 .navbar-inverse {
@@ -462,15 +454,55 @@ h1, h2, h3, h4, h5, h6,
       font-weight: bold;
       text-transform:uppercase;
     }
+    button {
+      margin-right: 15px;
+    }
   }
   #sobreLink {
     margin-right: 30px;
+  }
+  #volunteerNavbarButton {
+    margin-right: 15px;        
   }
   
   .navbar-btn {
     text-transform:uppercase;
   }
-  
+}
+#searchIcon {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+  color: #808080;
+  border: 0;
+  width: 30px;
+  height: 35px;
+  padding: 0;
+  margin: 0 -35px;
+}
+
+@media (min-width: $grid-float-breakpoint) {
+  #siteSearch {
+    width: 350px;
+    font-size: 14px;
+  }
+}
+@media (min-width: $grid-float-breakpoint) and (max-width: 1190px) {
+  #siteSearch {
+    width: 200px;
+  }
+}
+
+@media (max-width: $grid-float-breakpoint) {
+  .navbar-inverse {
+    li {
+      margin-left: 10px;
+    }
+  }
+  #siteSearch {
+    width: 95%;
+  }
+  #searchIcon {
+  }
 }
 
 .navbar-brand {
@@ -1007,21 +1039,6 @@ $card-img-height: 170px;
       }
     }
   }
-
-#siteSearch {
-  width: 350px;
-  font-size: 14px;
-}
-.searchIcon {
-  width: 30px;
-  height: 35px;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
-  border: 0;
-  padding: 0;
-  margin: 0 -35px;
-  color: #808080;
-}
 
 #volunteer-signup-form {
   button {
