@@ -18,7 +18,7 @@
             <i class="fa fa-search"></i>
           </button>
         </div>
-        <a ui-sref="root.explore" href=""><img ng-src="{{mapUrl}}" width="20" height="20"></a>
+        <a ui-sref="root.explore" href=""> <img ng-src="{{mapUrl}}" width="20" height="20"></a>
       </form>
 
       <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
@@ -36,7 +36,8 @@
           <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.slug }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a ng-href="/voluntario/{{loggedUser.slug}}">Meu perfil</a></li>
+            <li><a ui-sref="root.volunteer({slug: loggedUser.slug})">Meu perfil</a></li>
+            <li><a ui-sref="root.volunteeredit">Editar perfil</a></li>
             <li><a ui-sref="root.home" ng-click="logout()">Sair</a></li>
           </ul>
           </li>
@@ -47,8 +48,8 @@
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.name }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a ng-href="/ong/{{loggedUser.slug}}">Perfil da ONG</a></li>
-          <li><a ng-href="/controle">Painel de controle</a></li>
+          <li><a ui-sref="root.nonprofit({slug: loggedUser.slug})">Perfil da ONG</a></li>
+          <li><a ui-sref="root.nonprofitadmin">Painel de controle</a></li>
           <li><a ui-sref="root.home" ng-click="logout()">Sair</a></li>
         </ul>
         </li>
@@ -68,9 +69,9 @@
         <div class="col-xs-6">
           <h4>Cidades que te chamam</h4>
           <ul>  
-            <li><a ng-click="citySearch('São Paulo')" ui-sref="root.explore">Atos em São Paulo</a></li>
+            <li><a ng-click="citySearch('Sao Paulo')" ui-sref="root.explore">Atos em São Paulo</a></li>
             <li><a ng-click="citySearch('Curitiba')" ui-sref="root.explore">Atos em Curitiba</a></li>
-            <li><a ng-click="citySearch('Brasília')" ui-sref="root.explore">Atos em Brasília</a></li>
+            <li><a ng-click="citySearch('Brasilia')" ui-sref="root.explore">Atos em Brasília</a></li>
           </ul>
         </div>
         <div class="col-xs-6">

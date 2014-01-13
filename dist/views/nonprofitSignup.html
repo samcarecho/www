@@ -82,16 +82,16 @@
           </div>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofit.city]">
             <div class="col-sm-8 col-sm-offset-3">
-              <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in cities()">
-                <option value="" disabled="disabled" selected="selected">Cidade</option>
+              <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
+                <option value="" disabled="disabled" selected="selected">Estado</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label"></label>
             <div class="col-sm-8">
-              <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
-                <option value="" disabled="disabled" selected="selected">Estado</option>
+              <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
+                <option value="" disabled="disabled" selected="selected">Cidade</option>
               </select>
             </div>
           </div>

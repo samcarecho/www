@@ -1,91 +1,37 @@
-<div id="volunteer-details">
+<div id="volunteer-page" class="container">
   <div class="page-header">
     <h1 ng-if="volunteer.user.first_name && volunteer.user.last_name">{{volunteer.user.first_name}} {{volunteer.user.last_name}}</h1>
     <h1 ng-if="!(volunteer.user.first_name && volunteer.user.last_name)">{{volunteer.slug}}</h1>
   </div>
-  <div class="well col-lg-3">
-    <div class="image">
-      <img class="img-rounded" alt="{{volunteer.slug}}" ng-src="{{image}}" width="270" height="270">
-      <label ng-if="loggedUser.slug==volunteer.slug" class="btn" for="file-input class=" form-control=""><i class="icon-edit"></i>Editar foto</label>
-      <input class="form-control" id="file-input class=" form-control="" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
+  <div class="row">
+    <div class="col-sm-3 image">
+      <img class="img-rounded img-responsive" alt="{{volunteer.slug}}" ng-src="{{image}}">
     </div>
-    <email email="{{volunteer.user.email}}"></email>
-    <phone number="{{volunteer.phone}}"></phone>
-    <div ng-show="volunteer.causes">
-      <h3 class="well-title">Causas</h3>
-      <span class="tag" ng-repeat="cause in causes|filter:{checked:true}">{{cause.name}}</span>
+    <div class="col-sm-12">
+      <div ng-show="volunteer.causes" id="volunteer-causes" class="col-sm-6">
+        <h3>Causas</h3>
+        <div class="img-circle cause-image" ng-repeat="cause in volunteer.causes"> 
+          <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}">
+        </div>
+      </div>
+      <div ng-show="volunteer.skills" id="volunteer-skills" class="col-sm-6">
+        <h3>Habilidades</h3>
+        <div class="img-circle skill-image" ng-repeat="skill in volunteer.skills"> 
+          <img tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}">
+        </div>
+      </div>
+      <div class="row">
+        <h3>ONGs que suporto</h3>
+        <div class="col-sm-12 nonprofits">
+          <nonprofit-card ng-repeat="nonprofit in volunteer.nonprofits"></nonprofit-card>
+        </div>
+      </div>
+      <div class="row">
+        <h3>Atos que já participei</h3>
+        <div class="col-sm-12 projects">
+          <project-card ng-repeat="project in volunteer.projects"></project-card>
+        </div>
+      </div>
     </div>
-    <div ng-show="volunteer.skills">
-      <h3 class="well-title">Habilidades</h3>
-      <span class="tag" ng-repeat="skill in skills|filter:{checked:true}">{{skill.name}}</span>
-    </div>
-  </div>
-  <div class="well col-lg-9">
-    <h2>Atividades recentes</h2>
-    <ul ng-if="volunteer.activities" class="activities">
-      <li ng-repeat="activity in activities">{{activity.name}}</li>
-    </ul>
-    <span ng-if="!volunteer.activities">Não tem atividades.</span>
-  </div>
-  <div class="well col-lg-9" ng-show="loggedUser.slug==volunteer.slug">
-    <form novalidate="" class="form-horizontal" name="profileForm" ng-submit="saveVolunteer()">
-      <button type="submit" class="btn btn-primary pull-right" ng-disabled="profileForm.$invalid">Salvar</button>
-      <div class="form-group">
-        <label class="col-lg-2 control-label">Nome</label>
-        <div class="col-lg-5">                     
-          <input class="form-control" type="text" name="first_name" ng-model="volunteer.user.first_name" placeholder="Nome">
-          <input class="form-control" type="text" name="last_name" ng-model="volunteer.user.last_name" placeholder="Sobrenome">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-lg-2 control-label">Email</label>
-        <div class="col-lg-5">                     
-          <input class="form-control" type="email" name="email" ng-model="volunteer.user.email" required="">
-          <label class="help-block" ng-show="profileForm.email.alreadyUsed">Email já é usado.</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{error:profileForm.phone.$dirty && profileForm.phone.$invalid}">
-        <label class="col-lg-2 control-label">Telefone</label>
-        <div class="col-lg-5">                     
-          <input class="form-control" type="text" name="phone" ng-model="volunteer.phone" ng-maxlength="20" placeholder="Telefone">
-          <label class="help-block" ng-show="profileForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{error:profileForm.password.$dirty && profileForm.password.$invalid}">
-        <label class="col-lg-2 control-label">Mudar senha</label>
-        <div class="col-lg-5">
-          <input class="form-control" type="password" name="password" ng-model="password" ng-minlength="6" placeholder="Senha">
-          <input class="form-control" type="password" name="passwordConfirm" ng-model="passwordConfirm" ng-minlength="6" placeholder="Confirme senha">
-          <label class="help-block" ng-show="profileForm.password.doesNotMatch">Senhas tem que ser igual!</label>
-          <label class="help-block" ng-show="profileForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <label>Causas</label>
-        <div>
-          <ul class="select-button-list">
-            <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
-            <label>
-              {{cause.name}}
-              <input class="form-control" type="checkbox" name="causes[]" ng-checked="cause.checked" ng-model="cause.checked">
-            </label>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <label>Habilidades</label>
-        <div>
-          <ul class="select-button-list">
-            <li ng-repeat="skill in skills" ng-class="{active:skill.checked}">
-            <label>
-              {{skill.name}}
-              <input class="form-control" type="checkbox" name="skills[]" ng-checked="skill.checked" ng-model="skill.checked">
-            </label>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </form>
   </div>
 </div>

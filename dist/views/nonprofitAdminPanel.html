@@ -1,109 +1,263 @@
 <div id="nonprofit-admin">
-  <div id="nonprofit-page">
-    <div class="cover">
-      <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}">
-    </div>
-
-    <div id="nonprofit-details" class="row">
-
-      <div id="left-sidebar" class="col-xs-2">
-        <div id="logo">
-          <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image_url}}">
+  <form>
+    <div id="nonprofit-page">
+      <div id="cover">
+        <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}">
+        <div ng-show="editing">
+          <label class="btn" for="cover-input"><i class="icon-edit"></i>Editar foto</label>
+          <input class="form-control" id="cover-input" type="file" name="file" onchange="angular.element(this).scope().uploadCoverFile(this.files)">
         </div>
-        <div id="nonprofit-map">
-          <gm-map gm-map-id="'nonprofitAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:100%;height:100%">
-          <gm-markers gm-objects="markers" gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }" gm-events="markerEvents">
-          </gm-markers>
-          </gm-map>
-        </div>
-        <div id="nonprofit-social">
-          <a ng-if="nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook"></i></a>
-          <a ng-if="nonprofit.google_page" href="{{nonprofit.google_page}}" target="_blank"><i class="fa fa-twitter"></i></a>
-          <a ng-if="nonprofit.twitter_handle" href="{{nonprofit.twitter_handle}}" target="_blank"><i class="fa fa-google-plus"></i></a>
-        </div>
-        <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
       </div>
-      <div class="col-md-9 col-sm-8 col-xs-7">
-        <h1 ng-hide="editing">{{nonprofit.name}}</h1>
-        <form ng-show="editing" ng-submit="doneEditing(nonprofit)">
-          <input ng-model="nonprofit.name">
-        </form>
 
-        <button class="btn btn-info pull-right" ng-click="createNewProject()">Criar Novo Ato</button>
-        <button class="btn btn-info pull-right" ng-hide="editing" ng-click="editing=true">Editar Perfil</button>
-        <button class="btn btn-info pull-right" ng-show="editing" ng-click="editing=false">Parar de Editar Perfil</button>
+      <div id="nonprofit-details" class="row">
 
-        <p ng-if="nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
-        <p ng-if="nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
-        <p ng-if="nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
-        <p ng-if="nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
-        <div id="nonprofit-causes">
-          <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
-            <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}">
+        <div id="left-sidebar" class="col-xs-2">
+          <div id="logo">
+            <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image_url}}">
+
+            <div ng-show="editing">
+              <label class="btn" for="image-input"><i class="icon-edit"></i>Editar foto</label>
+              <input class="form-control" id="image-input" type="file" name="file" onchange="angular.element(this).scope().uploadProfileFile(this.files)">
+            </div>
           </div>
+          <div id="nonprofit-map">
+        <gm-map gm-map-id="'nonprofitAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:100%;height:100%">
+        <gm-markers gm-id="nonprofit-address-marker" gm-objects="markers" gm-position="{ lat: object.latitude, lng: object.longitude }" gm-events="markerEvents">
+        </gm-markers>
+        </gm-map>
+      </div>
+          <div id="nonprofit-social">
+            <a ng-hide="editing || !nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook"></i></a>
+            <div ng-show="editing" class="form-group">
+              <div class="">
+                <div class="input-group">
+                  <span class="input-group-addon">facebook.com/</span>
+                  <input type="text" name="facebookpage" ng-model="nonprofit.facebook_page_short" placeholder="ong" class="form-control">
+                </div>
+              </div>
+            </div>
+            <a ng-hide="editing || !nonprofit.google_page" href="{{nonprofit.google_page}}" target="_blank"><i class="fa fa-google-plus"></i></a>
+            <div ng-show="editing" class="form-group">
+              <div class="">
+                <div class="input-group">
+                  <span class="input-group-addon">plus.google.com/</span>
+                  <input type="text" name="googlePage" ng-model="nonprofit.google_page_short" placeholder="+ong" class="form-control">
+                </div>
+              </div>
+            </div>
+            <a ng-hide="editing || !nonprofit.twitter_handle" href="{{nonprofit.twitter_handle}}" target="_blank"><i class="fa fa-twitter"></i></a>
+            <div ng-show="editing" class="form-group">
+              <div class="">
+                <div class="input-group">
+                  <span class="input-group-addon">@</span>
+                  <input type="text" name="twitterHandle" ng-model="nonprofit.twitter_handle_short" placeholder="nomeong" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
+
         </div>
+        <div class="col-md-9 col-sm-8 col-xs-7">
+          <h1 ng-hide="editing">{{nonprofit.name}}</h1>
 
-        <h3>Sobre</h3>
-        <div ng-hide="editing" ng-bind-html="nonprofit.details | noHTML | newlines"></div>
-        <form ng-show="editing" ng-submit="doneEditing(nonprofit)">
-          <textarea ng-model="nonprofit.details"></textarea>
-        </form>
-        <div ng-show="editing" ng-bind-html="nonprofit.details | noHTML | newlines"></div>
-
-        <div id="project-management" class="row">
-          <div class="col-md-3" id="project-list">
-            <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)">{{project.name}} <span ng-show="project.volunteers.length" ng-style="{'background-color': '{{project.statusStyle}}'}" class="badge">{{project.volunteers.length}}</span></button>
+          <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.name.$error.required || signupForm.name.$invalid]">
+            <div class="">
+              <input required="" type="text" class="form-control" name="name" ng-model="nonprofit.name" ng-minlength="3" ng-maxlength="50" placeholder="Nome da ONG">
+              <label class="help-block" ng-show="editForm.name.$error.minlength">Não pode ter menos de 3 caracteres.</label>
+              <label class="help-block" ng-show="editForm.name.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+            </div>
           </div>
-          <div class="col-md-9" id="active-project">
-            <div id="project-name">
-              <h3>
-                <a ng-href="/ato/{{activeProject.slug}}">{{activeProject.name}}</a>
-                                <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
-                <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed && activeProject.published" class="pull-right label label-success">Ato Aberto</span>
-                <span tooltip="O pessoal do Atados está analisando o seu Ato e já entrará em contato!" ng-show="!activeProject.published" class="pull-right label label-warning">Ato em aprovação</span>
-              </h3>
+
+          <button class="btn btn-info pull-right" ng-hide="editing" ng-click="createNewProject()">Criar Novo Ato</button>
+          <button class="btn btn-info pull-right" ng-hide="editing" ng-click="editing=true">Editar Perfil</button>
+
+          <p ng-hide="editing || !nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
+          <div ng-show="editing" class="form-group">
+            <label class="col-sm-3 control-label">Website</label>
+            <div class="col-sm-8">
+              <input type="text" name="website" ng-model="nonprofit.website" class="form-control" placeholder="wwww.ong.com.br">
             </div>
-            <div class="" id="project-action-buttons">
-              <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
-              <a class="" ng-click="cloneProject(activeProject)" id="clone-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
-              <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
-              <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Inscrições</a>
-              <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
-              <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
+          </div>
+
+          <p ng-hide="editing || !nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
+          <div ng-show="editing" class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[signupForm.email.$invalid]">
+            <label class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="email" name="email" ng-model="nonprofit.user.email" placeholder="Email" required="">
+              <label class="help-block" ng-show="signupForm.email.alreadyUsed">Email já é usado</label>
             </div>
-            <table class="table table-striped" id="project-volunteer-table">
-              <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Status</th>
-              </tr>
-              <tr ng-repeat="volunteer in activeProject.volunteers">
-                <td>{{volunteer.name}}</td>
-                <td>
-                  {{volunteer.email}}
-                  <a href="mailto:{{volunteer.email}}" target="_blank" class="pull-right" id="send-email-button"><i tooltip="Mande email só para esse voluntário" class="fa fa-envelope-o"></i></a>
-                </td>
-                <td>{{volunteer.phone}}</td>
-                <td>
-                  <li class="dropdown">
+          </div>
+
+          <p ng-hide="editing || !nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
+          <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.phone.$error.required || signupForm.phone.$invalid]">
+            <label class="col-sm-3 control-label">Telefone</label>
+            <div class="col-sm-8">
+              <input required="" type="text" class="form-control" name="phone" ng-model="nonprofit.user.phone" ng-minlength="8" ng-maxlength="20" placeholder="Telefone">
+              <label class="help-block" ng-show="signupForm.phone.$error.minlength">Não pode ter menos de 8 caracteres.</label>
+              <label class="help-block" ng-show="signupForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
+            </div>
+          </div>
+
+          <p ng-hide="editing || !nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
+          <fieldset ng-show="editing" id="address-fieldset">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.addressline.$error.required || signupForm.addressline.$invalid]">
+            <label class="col-sm-3 control-label">Endereço</label>
+            <div class="col-sm-6">
+              <input required="" type="text" class="form-control" name="addressline" ng-model="nonprofit.address.addressline" placeholder="Rua">
+            </div>
+          </div>
+          <div ng-class="{true: 'has-error', false: 'has-success'}[signupForm.addressnumber.$error.required || signupForm.addressnumber.$invalid]">
+            <div class="col-sm-2" id="addressNumberField">
+              <input required="" type="text" class="form-control" name="addressnumber" ng-model="nonprofit.address.addressnumber" placeholder="#">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="addressline2" ng-model="nonprofit.address.addressline2" placeholder="Complemento">
+            </div>
+          </div>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.neighborhood.$error.required || signupForm.neighborhood.$invalid]">
+            <div class="col-sm-4 col-sm-offset-3">
+              <input required="" type="text" class="form-control" name="neighborhood" ng-model="nonprofit.address.neighborhood" placeholder="Bairro">
+            </div>
+          </div>
+          <div ng-class="{true: 'has-error', false: 'has-success'}[signupForm.zipcode.$error.required || signupForm.zipcode.$invalid]">
+            <div class="col-sm-4">
+              <input required="" type="text" class="form-control" name="zipcode" ng-model="nonprofit.address.zipcode" ng-minlength="8" ng-maxlength="9" placeholder="CEP" id="zipcodeField">
+            </div>
+            <label class="help-block" ng-show="signupForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
+            <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofit.city]">
+            <div class="col-sm-8 col-sm-offset-3">
+             <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
+                <option value="" disabled="disabled" selected="selected">Estado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-8">
+              <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
+                <option value="" disabled="disabled" selected="selected">Cidade</option>
+              </select>
+            </div>
+          </div>
+
+        </fieldset>
+
+
+          <div ng-hide="editing" id="nonprofit-causes">
+            <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
+              <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}">
+            </div>
+          </div>
+          <fieldset ng-show="editing" class="col-sm-12">
+            <legend>Causas (selecione uma ou mais)</legend>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <ul class="select-button-list">
+                  <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
+                  <div class="square center" ng-click="addCause(cause)">
+                    <div ng-class="cause.class" class="center"></div>
+                    <p>{{cause.name}}</p>
+                  </div>
+                  <i class="fa fa-check-circle"></i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </fieldset>
+
+          <div ng-hide="editing">
+            <h3>Em poucas palavras...</h3>
+            <div ng-bind-html="nonprofit.description | noHTML | newlines"></div>
+          </div>
+          <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.description.$error.required || signupForm.description.$invalid]">
+            <label class="col-sm-3 control-label">Em poucas palavras</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="3" name="de" ng-model="nonprofit.description" ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição"></textarea>
+              <label class="help-block" ng-show="signupForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+              <label class="help-block" ng-show="signupForm.description.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
+            </div>
+          </div>
+
+          <div ng-hide="editing">
+            <h3>Sobre</h3>
+            <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
+          </div>
+          <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.details.$error.required || signupForm.details.$invalid]">
+            <label class="col-sm-3 control-label">Detalhe</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="5" name="details" ng-model="nonprofit.details" ng-minlength="10" ng-maxlength="1024" placeholder="Descrição em detalhe"></textarea>
+              <label class="help-block" ng-show="signupForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+              <label class="help-block" ng-show="signupForm.details.$error.maxlength">Não pode ter menos de 1024 caracteres.</label>
+            </div>
+          </div>
+
+          <button ng-click="doneEditingNonprofit(nonprofit)" class="btn btn-info pull-right" ng-show="editing">Salvar Perfil</button>
+
+          <div id="project-management" class="row" ng-hide="editing">
+            <div class="col-md-3" id="project-list">
+              <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)">
+                {{project.name}} <span ng-show="project.volunteers.length" ng-style="project.statusStyle" class="badge">{{project.volunteers.length}}</span>
+              </button>
+            </div>
+            <div class="col-md-9" id="active-project">
+              <div id="project-name">
+                <h3>
+                  <a ng-href="/ato/{{activeProject.slug}}">{{activeProject.name}}</a>
+                  <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
+                  <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed && activeProject.published" class="pull-right label label-success">Ato Aberto</span>
+                  <span tooltip="O pessoal do Atados está analisando o seu Ato e já entrará em contato!" ng-show="!activeProject.published" class="pull-right label label-warning">Ato em aprovação</span>
+                </h3>
+              </div>
+              <div class="" id="project-action-buttons">
+                <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
+                <a class="" ng-click="cloneProject(activeProject)" id="clone-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
+                <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
+                <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Inscrições</a>
+                <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
+                <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
+              </div>
+              <table class="table table-striped" id="project-volunteer-table">
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Status</th>
+                </tr>
+                <tr ng-repeat="volunteer in activeProject.volunteers">
+                  <td>{{volunteer.name}}</td>
+                  <td>
+                    {{volunteer.email}}
+                    <a href="mailto:{{volunteer.email}}" target="_blank" class="pull-right" id="send-email-button"><i tooltip="Mande email só para esse voluntário" class="fa fa-envelope-o"></i></a>
+                  </td>
+                  <td>{{volunteer.phone}}</td>
+                  <td>
+                    <li class="dropdown">
                     <a class="dropdown-toggle" ng-style="volunteer.statusStyle">
                       {{volunteer.status}} 
                       <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                       <li ng-repeat="status in volunteerStatusOptions">
-                        <a ng-click="changeVolunteerStatus(volunteer, status)">{{status}}</a>
+                      <a ng-click="changeVolunteerStatus(volunteer, status)">{{status}}</a>
                       </li>
                     </ul>
-                  </li>
-                </td>
-              </tr>
-            </table>
-            <p class="center" ng-hide="activeProject.volunteers">Esse ato não tem voluntários.</p>
+                    </li>
+                  </td>
+                </tr>
+              </table>
+              <p class="center" ng-hide="activeProject.volunteers">Esse ato não tem voluntários.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

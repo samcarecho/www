@@ -1,14 +1,15 @@
-<div class="atados-explorer-outer"> 
-  <div class="map col-sm-4">
-    <div class="google-map" center="map.center" zoom="map.zoom" draggable="true">        
-      <marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
-        <marker-label content="m.title" anchor="22 0" class="marker-labels">
-        <window show="m.showWindow" closeclick="m.closeClick()">
-          <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
-          <p class="muted">My marker will stay open when the window is popped up!</p>
-        </window>
-      </marker>
+<div id="atados-explorer-outer"> 
+  <div class="map-outer col-sm-4">
+    <div gm-info-window="infoWindow">
+      <h4>{{selectedObject.name}}</h4>
+      <p>{{selectedObject.address | as_location_string}}</p>
     </div>
+    <gm-map gm-map-id="'explorerMap'" gm-center="center" gm-zoom="zoom" gm-map-options="mapOptions.map" class="map">
+
+      <gm-markers gm-objects="markers" gm-id="object.slug" gm-position="{ lat: object.address.latitude, lng: object.address.longitude }" gm-marker-options="getMarkerOpts(object)" gm-on-click="selectMarker(object, marker)" gm-on-hover="bringToFront(object, marker)" gm-on-openinfowindow="selectedObject = object; infoWindow.open(marker.getMap(), marker);" gm-events="markerEvents">
+      </gm-markers>
+
+    </gm-map>
   </div>
   <div class="atados-explorer sidebar col-sm-8">
     <atados-search></atados-search>

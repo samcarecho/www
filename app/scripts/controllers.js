@@ -1429,6 +1429,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     window.marker = marker;
   };
 
+  $scope.previousObjects = [];
   $scope.selectMarker = function (object, marker) {
 
     if ($scope.previousObjects.length !== 0) {
