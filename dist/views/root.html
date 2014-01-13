@@ -18,8 +18,11 @@
             <i class="fa fa-search"></i>
           </button>
         </div>
-        <a ui-sref="root.explore" href=""> <img ng-src="{{mapUrl}}" width="20" height="20"></a>
       </form>
+      <ul class="nav navbar-nav">
+        <li><a id="see-map" ui-sref="root.explore" href=""><img ng-src="{{mapUrl}}" width="20" height="20"> Ver Mapa</a></li>
+      </ul>
+
 
       <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
         <li><a ui-sref="root.about">Sobre</a></li>

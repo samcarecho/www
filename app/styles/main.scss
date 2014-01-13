@@ -457,7 +457,7 @@ h1, h2, h3, h4, h5, h6,
 
 .navbar-inverse {
   li {
-    a.dropdown-toggle {
+    a{
       font-weight: bold;
       margin-right: 10px;
       text-transform:uppercase;
@@ -470,7 +470,6 @@ h1, h2, h3, h4, h5, h6,
   .navbar-btn {
     text-transform:uppercase;
   }
-  
 }
 
 .navbar-brand {
