@@ -1055,6 +1055,9 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
 
   $scope.alreadyApplied = false;
   $scope.applyVolunteerToProject = function () {
+    if (!$scope.loggedUser) {
+
+    }
     var template = '/views/volunteerContractModal.html';
     if ($scope.alreadyApplied) {
       template = '/views/volunteerUnapplyModal.html';
@@ -1062,7 +1065,14 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
 
     var modalInstance = $modal.open({
       templateUrl: template,
-      controller: function ($scope, $modalInstance) {
+      resolve: {
+        nonprofit: function () {
+          return $scope.project.nonprofit;
+        }
+      },
+      controller: function ($scope, $modalInstance, nonprofit) {
+        $scope.nonprofit = nonprofit;
+
         $scope.ok = function () {
           $modalInstance.close();
         };
@@ -1474,4 +1484,36 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
 
     $scope.$broadcast('gmMarkersUpdate', 'markers');
   };
+});
+
+app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Legacy) {
+
+  if ($stateParams.nonprofitUid) {
+    Legacy.nonprofit($stateParams.nonprofitUid, function (response) {
+      var slug = response.slug;
+      $state.transitionTo('root.nonprofit', {slug: slug});
+    }, function () {
+      $state.transitionTo('root.home');
+      toastr.error('Essa ong não existe');
+    });
+  } else if ($stateParams.projectUid) {
+    Legacy.project($stateParams.projectUid, function (response) {
+      var slug = response.slug;
+      $state.transitionTo('root.project', {slug: slug});
+    }, function () {
+      $state.transitionTo('root.home');
+      toastr.error('Este ato não existe');
+    });
+  } else if ($stateParams.slug) {
+    Legacy.users($stateParams.slug, function (response) {
+      console.log(response);
+      if (response.type === VOLUNTEER) {
+        $state.transitionTo('root.volunteer', {slug: $stateParams.slug});
+      } else if (response.type === NONPROFIT) {
+        $state.go('root.nonprofit', {slug: $stateParams.slug});
+      }
+    }, function () {
+      toastr.error('Não existe;');
+    });
+  }
 });

@@ -87,10 +87,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('root.newproject.donation', {
         templateUrl: '/views/projectNewDonation.html',
         resolve: {}
+      })
+    .state('legacynonprofit', {
+        url: '/site/instituicoes/:nonprofitUid/profile/',
+        controller: 'LegacyCtrl'
+      })
+      .state('legacyVolunteerOrNonprofit', {
+        url: '/site/users/:slug/',
+        controller: 'LegacyCtrl'
+      })
+     .state('legacyproject', {
+        url: '/site/ato/:projectUid/',
+        controller: 'LegacyCtrl'
       });
 
-  // $urlRouterProvider.when('/test', '/test1');
-  // $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/404/');
   $locationProvider.html5Mode(true).hashPrefix('!');
 });
 

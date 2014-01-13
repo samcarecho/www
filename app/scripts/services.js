@@ -182,7 +182,6 @@ app.factory('Search', function (Restangular, Site) {
   var sanitizeNonprofit = function (n) {
     var causes = [];
     n.causes.forEach(function (c) {
-      console.log(c);
       c = Site.causes()[c];
       causes.push(c);
       c.image = constants.storage + 'cause_' + c.id + '.png';
@@ -282,6 +281,21 @@ app.factory('Photos', ['$http', function($http) {
   };
 }]);
 
+app.factory('Legacy', function($http) {
+  var apiUrl = constants.api;
+
+  return {
+    nonprofit: function (uid, success, error) {
+      $http.get(apiUrl + 'legacy_to_slug/nonprofit/?uid=' + uid).success(success).error(error);
+    },
+    project: function (uid, success, error) {
+      $http.get(apiUrl + 'legacy_to_slug/project/?uid=' + uid).success(success).error(error);
+    },
+    users: function (slug, success, error) {
+      $http.get(apiUrl + 'slug_role/?slug=' + slug).success(success).error(error);
+    }
+  };
+});
 app.factory('Auth', function($http, Cookies, Site) {
   
   function setAuthHeader(accessToken) {
