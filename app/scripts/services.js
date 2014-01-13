@@ -79,7 +79,7 @@ app.factory('Site', function(Restangular, $http) {
     });
   };
   var getCities = function () {
-    Restangular.all('cities').getList({page_size: 4 /* number of active cities TODO*/ }).then( function(response) {
+    Restangular.all('cities').getList({page_size: constants.active_cities}).then( function(response) {
       _cities = response;
       _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true, state: 0});
     }, function () {
@@ -182,6 +182,7 @@ app.factory('Search', function (Restangular, Site) {
   var sanitizeNonprofit = function (n) {
     var causes = [];
     n.causes.forEach(function (c) {
+      console.log(c);
       c = Site.causes()[c];
       causes.push(c);
       c.image = constants.storage + 'cause_' + c.id + '.png';
@@ -189,11 +190,6 @@ app.factory('Search', function (Restangular, Site) {
     });
     n.causes = causes;
     n.address = n.user.address;
-    /*if (n.address.city) {
-      $http.get('/cities/'+ n.address.city).success(function (city) {
-        n.address.city = city;
-      });
-    }*/
     _nonprofits.push(n);
   };
 

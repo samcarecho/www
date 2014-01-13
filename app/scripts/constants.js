@@ -13,6 +13,7 @@ var constants = {
   'sessionIdCookie': 'sessionid',
   'grantType': 'password',
   'page_size': 8,
+  'active_cities': 4,
   'static_page_size': 300,
   'weekdays': [
     {1: 'Segunda'},
@@ -30,5 +31,5 @@ var constants = {
   ]
 };
 
-constants.api = constants.prodApi;
-constants.storage = constants.prodStorage;
+constants.api = constants.devApi;
+constants.storage = constants.devStorage;
