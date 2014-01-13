@@ -31,5 +31,5 @@ var constants = {
   ]
 };
 
-constants.api = constants.prodApi;
-constants.storage = constants.prodStorage;
+constants.api = constants.devApi;
+constants.storage = constants.devStorage;
