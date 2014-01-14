@@ -746,7 +746,7 @@ atados-search {
     font-weight: bold;
     font-size: 23px;
     text-transform:uppercase;
-    margin-bottom: 40px;
+    margin: 40px 0;
   }
 }
 
@@ -922,8 +922,13 @@ $card-img-height: 170px;
         padding: 50px 10px 10px 20px;
       }
 
-      img {
+      .projectImg {
         margin-top: -50px;
+        width: 100%;
+        border-radius:3px 3px 0 0;
+      }
+      .nonprofitImg {
+        margin-top: -25px;
         width: 100%;
         border-radius:3px 3px 0 0;
       }

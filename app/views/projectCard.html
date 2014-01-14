@@ -7,7 +7,7 @@
           </a>
           <div tooltip="Compartilhe esse ato na sua timeline!" class="fb-share-button" data-href="http://www.atadoslocal.com.br:9000/ato/{{project.slug}}" data-type="icon"></div>
         </div>
-        <img alt="{{project.slug}}" ng-src="{{ project.image_url }}">
+        <img class="projectImg" alt="{{project.slug}}" ng-src="{{ project.image_url }}">
     </div>
     <div class="card-footer clearfix">
       <a class="card-name" ui-sref="root.project({slug: project.slug})"><h4>{{ project.name}}</h4></a>
