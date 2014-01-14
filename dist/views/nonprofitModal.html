@@ -1,5 +1,4 @@
 <div class="modal-body" ng-controller="LoginCtrl">
-
   <p>Cadastre sua ONG <a ng-click="closeNonprofitLoginModal()" ui-sref="root.nonprofitsignup">agora</a>!</p>
   <form novalidate="" role="form" name="loginForm" ng-submit="login()">
     <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.email.$error.required || loginForm.email.$invalid]">
@@ -25,12 +24,11 @@
   </form> 
   <form novalidate="" name="resetPasswordForm" role="form" ng-show="showForgotPassword">
     <label class="help-block">Digite seu email para receber uma nova senha.</label>
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.email.$error.required || resetPasswordForm.email.$invalid]">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[resetPasswordForm.forgotEmail.$error.required || resetPasswordForm.forgotEmail.$invalid]">
       <input required="" type="email" name="forgotEmail" class="form-control" ng-model="forgotEmail" placeholder="Email">
-      <label class="help-block" ng-show="!resetPasswordForm.forgotEmail.alreadyUsed">Email não existe.</label>
+      <label class="help-block" ng-show="resetPasswordForm.forgotEmail.$dirty && !resetPasswordForm.forgotEmail.alreadyUsed">Email não existe.</label>
     </div>
     <button class="btn" ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Mandar senha</button>
   </form>
-
 </div>
 <div class="modal-footer"><contactatados></div>

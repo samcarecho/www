@@ -11,30 +11,25 @@
     </div>
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <form class="navbar-form pull-left" role="search" ng-submit="siteSearch()">
-        <div class="form-group">
-          <input id="siteSearch" class="form-control input-sm" ng-model="search.query" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
-          <button class="searchIcon">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </form>
-      <ul class="nav navbar-nav">
-        <li><a id="see-map" ui-sref="root.explore" href=""><img ng-src="{{mapUrl}}" width="20" height="20"> Ver Mapa</a></li>
-      </ul>
 
+      <form class="navbar-form navbar-left" role="search" ng-submit="siteSearch()">
+        <input id="siteSearch" class="form-control" ng-model="search.query" type="text" placeholder="Procure por atos e ONGS que fazem o bem!">
+        <button id="searchIcon"><i class="fa fa-search"></i></button>
+      </form>
+
+      <ul class="nav navbar-nav">
+        <li><a id="see-map" ui-sref="root.explore" href="">Ver Mapa</a></li>
+      </ul>
 
       <ul class="nav navbar-nav navbar-right" ng-hide="loggedUser">
         <li><a ui-sref="root.about">Sobre</a></li>
         <li><a ng-click="openHowModal()" href="">Como funciona?</a></li>
         <li><a id="sobreLink" target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
-        <li>
-        <button class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button>
-        <button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button>
-        </li>
+        <li><button id="volunteerNavbarButton" class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button></li>
+        <li><button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button></li>
       </ul>
 
-      <form class="navbar-form pull-right" ng-show="loggedUser">
+      <form class="navbar-form navbar-right" ng-show="loggedUser">
         <ul class="nav navbar-nav" ng-show="loggedUser.role=='VOLUNTEER'">
           <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.slug }}<span class="caret"></span></a>

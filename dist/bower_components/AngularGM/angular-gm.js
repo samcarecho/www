@@ -55,8 +55,8 @@
       'markerConstructor': google.maps.Marker,
       'polylineConstructor': google.maps.Polyline,
       'mapOptions': {
-        zoom : 8,
-        center : new google.maps.LatLng(46, -120),
+        zoom : 11,
+        center : new google.maps.LatLng(-23.5505199, -46.6333094),
         mapTypeId : google.maps.MapTypeId.ROADMAP
       }
     };
@@ -1009,6 +1009,8 @@
 
           // set up element event handlers
           angular.forEach(handlers, function(handler, event) {
+            var iw = new google.maps.InfoWindow();
+            
             controller.addListener(element, event, function() {
               $timeout(function() {
                 var context = {object: object};
@@ -1363,6 +1365,8 @@
       this._map = this._createMap(mapId, mapDiv, config, angulargmContainer, $scope);
       this._elements = {};
       this._listeners = {};
+      window.elements = this._elements;
+      window.angularGMap = this._map;
 
       // 'public' properties
       this.dragging = false;
@@ -1571,7 +1575,8 @@
             if (!(opts.position instanceof google.maps.LatLng)) {
               throw 'markerOptions did not contain a position';
             }
-            return new angulargmDefaults.markerConstructor(opts);
+            var marker =  new angulargmDefaults.markerConstructor(opts);
+            return marker;
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {
                 throw 'polylineOptions did not contain a path';
