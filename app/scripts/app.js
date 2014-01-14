@@ -2,7 +2,6 @@
 
 /* global constants: false */
 /* global $: false */
-/* global google: false */
 
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps', 'AngularGM']);
@@ -166,7 +165,7 @@ app.config(function(RestangularProvider) {
   });
 });
 
-app.config(function($provide) {
+/*app.config(function($provide) {
   var angulargmDefaults = 'angulargmDefaults';
   $provide.decorator(angulargmDefaults, function($delegate) {
     return angular.extend($delegate, {
@@ -179,4 +178,4 @@ app.config(function($provide) {
       }
     });
   });
-});
+});*/
