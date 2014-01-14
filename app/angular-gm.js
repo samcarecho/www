@@ -1363,8 +1363,7 @@
       this._map = this._createMap(mapId, mapDiv, config, angulargmContainer, $scope);
       this._elements = {};
       this._listeners = {};
-      constants.elements = this._elements;
-      constants.angularGMap = this._map;
+      constants.map = this._map;
 
       // 'public' properties
       this.dragging = false;
@@ -1573,7 +1572,10 @@
             if (!(opts.position instanceof google.maps.LatLng)) {
               throw 'markerOptions did not contain a position';
             }
-            return new angulargmDefaults.markerConstructor(opts);
+            var marker = new angulargmDefaults.markerConstructor(opts);
+            constants.markers[marker.slug] = marker;
+            console.log(constants.markers);
+            return marker;
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {
                 throw 'polylineOptions did not contain a path';

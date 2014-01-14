@@ -1281,8 +1281,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
   var defaultZoom = 11;
   $scope.search =  Search;
-  var elements = constants.elements;
-  var map = constants.angularGMap;
 
   $scope.$watch('search.city', function (city) {
     $scope.zoom = defaultZoom;
@@ -1397,23 +1395,24 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     $scope.$broadcast('gmMarkersUpdate', 'markers');
   });
 
+  $scope.objects = [];
   $scope.$watch('search.projects()', function () {
     if ($scope.search.showProjects) {
-      $scope.markers = $scope.search.projects();
+      $scope.objects = $scope.search.projects();
     }
   });
 
   $scope.$watch('search.nonprofits()', function () {
     if (!$scope.search.showProjects) {
-      $scope.markers = $scope.search.nonprofits();
+      $scope.objects = $scope.search.nonprofits();
     }
   });
   
   $scope.$watch('search.showProjects', function () {
     if ($scope.search.showProjects) {
-      $scope.markers = $scope.search.projects();
+      $scope.objects = $scope.search.projects();
     } else {
-      $scope.markers = $scope.search.nonprofits();
+      $scope.objects = $scope.search.nonprofits();
     }
   });
 
@@ -1441,7 +1440,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       return out;
     };
 
-  $scope.markers = [];
   $scope.previousMarker = null;
   $scope.selectMarker = function (marker, object) {
     if ($scope.previousMarker) {
@@ -1453,26 +1451,23 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
     
     if (object && !marker) {
-      marker = elements.marker['00D'][object.slug];
+      marker = $scope.markers[object.slug];
     }
     if (marker) {
       var cardId = 'card-' + marker.slug;
       iw.setContent(marker.title);
-      iw.open(map, marker);
+      iw.open(constants.map, marker);
 
       marker.setIcon($scope.mapOptions.selected.icon);
       angular.element(document.querySelector('#' + cardId))
         .addClass('hover');
       marker.setZIndex(100);
       $scope.previousMarker = marker;
-      map.setCenter(marker.getPosition());
+      constants.map.setCenter(marker.getPosition());
     }
-    window.marker = marker;
-    window.object = object;
   };
 
-  var oms = new OverlappingMarkerSpiderfier(map);
-
+  var oms = new OverlappingMarkerSpiderfier(constants.map);
   var iw = new google.maps.InfoWindow();
   oms.addListener('spiderfy', function() {
     iw.close();
@@ -1481,18 +1476,12 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     iw.close();
   });
   oms.addListener('click', $scope.selectMarker);
-
   $scope.updated = false;
+  $scope.markers = constants.markers;
   $scope.$on('gmMarkersUpdated', function() {
-    if (elements.marker && !$scope.updated) {
-      for (var marker in elements.marker['00D']) {
-        if (elements.marker['00D'].hasOwnProperty(marker)) {
-          var m = elements.marker['00D'][marker];
-          m.setIcon($scope.mapOptions.notselected.icon);
-          oms.addMarker(m);
-          $scope.updated = true;
-        }
-      }
+    for (var m in $scope.markers) {
+      $scope.markers[m].setIcon($scope.mapOptions.notselected.icon);
+      oms.addMarker($scope.markers[m]);
     }
   });
 
@@ -1502,9 +1491,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       { slug: object.slug}
     );
   };
-
-
-  
 });
 
 app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Legacy) {
