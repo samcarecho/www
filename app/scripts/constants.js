@@ -28,7 +28,9 @@ var constants = {
     {0: 'Manha'},
     {1: 'Tarde'},
     {2: 'Noite'}
-  ]
+  ],
+  'elements': null,
+  'angularGMap': null
 };
 
 constants.api = constants.devApi;

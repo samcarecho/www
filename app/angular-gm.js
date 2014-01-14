@@ -1363,6 +1363,8 @@
       this._map = this._createMap(mapId, mapDiv, config, angulargmContainer, $scope);
       this._elements = {};
       this._listeners = {};
+      constants.elements = this._elements;
+      constants.angularGMap = this._map;
 
       // 'public' properties
       this.dragging = false;

@@ -167,7 +167,8 @@ app.config(function(RestangularProvider) {
 });
 
 app.config(function($provide) {
-  $provide.decorator('angulargmDefaults', function($delegate) {
+  var angulargmDefaults = 'angulargmDefaults';
+  $provide.decorator(angulargmDefaults, function($delegate) {
     return angular.extend($delegate, {
       'precision': 3,
       'markerConstructor': google.maps.Marker,

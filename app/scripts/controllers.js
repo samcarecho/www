@@ -1281,6 +1281,8 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
   var defaultZoom = 11;
   $scope.search =  Search;
+  var elements = constants.elements;
+  var map = constants.angularGMap;
 
   $scope.$watch('search.city', function (city) {
     $scope.zoom = defaultZoom;
@@ -1451,7 +1453,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
     
     if (object && !marker) {
-      marker = window.elements.marker['00D'][object.slug];
+      marker = elements.marker['00D'][object.slug];
     }
     if (marker) {
       var cardId = 'card-' + marker.slug;
@@ -1469,7 +1471,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     window.object = object;
   };
 
-  var map = window.angularGMap;
   var oms = new OverlappingMarkerSpiderfier(map);
 
   var iw = new google.maps.InfoWindow();
@@ -1483,10 +1484,10 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
 
   $scope.updated = false;
   $scope.$on('gmMarkersUpdated', function() {
-    if (window.elements.marker && !$scope.updated) {
-      for (var marker in window.elements.marker['00D']) {
-        if (window.elements.marker['00D'].hasOwnProperty(marker)) {
-          var m = window.elements.marker['00D'][marker];
+    if (elements.marker && !$scope.updated) {
+      for (var marker in elements.marker['00D']) {
+        if (elements.marker['00D'].hasOwnProperty(marker)) {
+          var m = elements.marker['00D'][marker];
           m.setIcon($scope.mapOptions.notselected.icon);
           oms.addMarker(m);
           $scope.updated = true;
