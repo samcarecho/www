@@ -3,6 +3,7 @@
 /* global toastr: false */
 /* global google: false */
 /* global constants: false */
+/* global OverlappingMarkerSpiderfier: false */
 
 // ----
 // Global Constants
@@ -1372,40 +1373,27 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   $scope.center = saoPauloCenter;
   $scope.zoom = defaultZoom;
 
-  $scope.$watch('center', function (value, old) {
-    // Hack to recenter the map back to the default city.
-    if (value && value.nb === 46 && value.ob === -120) {
-      if ($scope.search.showProjects) {
-        $scope.markers = $scope.search.projects();
-      } else {
-        $scope.markers = $scope.search.nonprofits();
-      }
-      $scope.center = old;
-      $scope.mapOptions.map.center = old;
-      $scope.zoom = defaultZoom;
-      $scope.mapOptions.map.zoom = defaultZoom;
-    }
-  });
-
   $scope.mapOptions = {
     map : {
       center : saoPauloCenter,
       zoom : defaultZoom,
-      mapType : google.maps.MapTypeId.ROADMAP
     },
     marker : {
       clickable : true,
       draggable : false
     },
     selected: {
-      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png',
+      icon: 'http://www.atadoslocal.com.br:9000/images/heart.png',
     },
     notselected: {
-      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',
+      icon: 'http://www.atadoslocal.com.br:9000/images/blue.png',
     },
   };
 
-  $scope.markers = [];
+  $scope.$watch('markers', function () {
+    $scope.updated = false;
+    $scope.$broadcast('gmMarkersUpdate', 'markers');
+  });
 
   $scope.$watch('search.projects()', function () {
     if ($scope.search.showProjects) {
@@ -1418,7 +1406,7 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
       $scope.markers = $scope.search.nonprofits();
     }
   });
-
+  
   $scope.$watch('search.showProjects', function () {
     if ($scope.search.showProjects) {
       $scope.markers = $scope.search.projects();
@@ -1427,63 +1415,95 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
   });
 
+  var as_location_string = function(address) {
+      if (!address) {
+        return 'Não tem endereço.';
+      }
+
+      var out = address.addressline + ', ';
+      if (address.addressnumber) {
+        out += address.addressnumber + ' - ';
+      }
+      if (address.addressline2) {
+        out += address.addressline2 + ' - ';
+      }
+      if (address.neighborhood) {
+        out += address.neighborhood + ' - ';
+      }
+      if (address.city_state) {
+        out += address.city_state;
+      }
+      if (address.zipcode) {
+        out += ' - ' + address.zipcode;
+      }
+      return out;
+    };
+
+  $scope.markers = [];
+  $scope.previousMarker = null;
+  $scope.selectMarker = function (marker, object) {
+    if ($scope.previousMarker) {
+      $scope.previousMarker.setIcon($scope.mapOptions.notselected.icon);
+      angular.element(document.querySelector('#card-' + $scope.previousMarker.slug))
+        .removeClass('hover');
+      $scope.previousMarker.setZIndex(1);
+      $scope.previousMarker = null;
+    }
+    
+    if (object && !marker) {
+      marker = window.elements.marker['00D'][object.slug];
+    }
+    if (marker) {
+      var cardId = 'card-' + marker.slug;
+      iw.setContent(marker.title);
+      iw.open(map, marker);
+
+      marker.setIcon($scope.mapOptions.selected.icon);
+      angular.element(document.querySelector('#' + cardId))
+        .addClass('hover');
+      marker.setZIndex(100);
+      $scope.previousMarker = marker;
+      map.setCenter(marker.getPosition());
+    }
+    window.marker = marker;
+    window.object = object;
+  };
+
+  var map = window.angularGMap;
+  var oms = new OverlappingMarkerSpiderfier(map);
+
+  var iw = new google.maps.InfoWindow();
+  oms.addListener('spiderfy', function() {
+    iw.close();
+  });
+  oms.addListener('unspiderfy', function () {
+    iw.close();
+  });
+  oms.addListener('click', $scope.selectMarker);
+
+  $scope.updated = false;
+  $scope.$on('gmMarkersUpdated', function() {
+    if (window.elements.marker && !$scope.updated) {
+      for (var marker in window.elements.marker['00D']) {
+        if (window.elements.marker['00D'].hasOwnProperty(marker)) {
+          var m = window.elements.marker['00D'][marker];
+          m.setIcon($scope.mapOptions.notselected.icon);
+          oms.addMarker(m);
+          $scope.updated = true;
+        }
+      }
+    }
+  });
+
   $scope.getMarkerOpts = function (object) {
     return angular.extend(
-      { title: object.name },
-      object.selected ? $scope.mapOptions.selected :
-                        $scope.mapOptions.notselected
+      { title: '<h4>' + object.name  + '</h4><p> ' + as_location_string(object.address) + '</p>'},
+      { slug: object.slug}
     );
   };
 
-  $scope.bringToFront = function (object, marker) {
-    window.marker = marker;
-  };
 
-  $scope.previousObjects = [];
-  $scope.selectMarker = function (object, marker) {
-
-    if ($scope.previousObjects.length !== 0) {
-      $scope.previousObjects.forEach(function (o) {
-        o.selected = false;
-        angular.element(document.querySelector('#card-' + o.slug))
-          .removeClass('hover');
-      });
-      $scope.previousObjects = [];
-    }
-    
-    if (object.address && object.address.latitude && object.address.longitude) {
-      $scope.center  = new google.maps.LatLng(object.address.latitude, object.address.longitude);
-    }
-
-    window.marker = marker;
-    if (marker) {
-      $scope.markers.forEach(function(m) {
-        if (m.address.latitude === object.address.latitude && m.address.longitude === object.address.longitude) {
-          $scope.previousObjects.push(m);
-          m.selected = true;
-          var cardId = 'card-' + m.slug;
-          angular.element(document.querySelector('#' + cardId))
-            .addClass('hover');
-        }
-      });
-    } else {
-      $scope.previousObjects.push(object);
-      object.selected = true;
-      var cardId = 'card-' + object.slug;
-      angular.element(document.querySelector('#' + cardId))
-        .addClass('hover');
-    }
-    
-    $scope.markerEvents = [{
-      event: 'openinfowindow',
-      ids: [object.slug]
-    },{
-      event: 'hover',
-      ids: [object.slug]
-    }];
-
-    $scope.$broadcast('gmMarkersUpdate', 'markers');
-  };
+  
 });
 
 app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Legacy) {
@@ -1506,7 +1526,6 @@ app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Lega
     });
   } else if ($stateParams.slug) {
     Legacy.users($stateParams.slug, function (response) {
-      console.log(response);
       if (response.type === VOLUNTEER) {
         $state.transitionTo('root.volunteer', {slug: $stateParams.slug});
       } else if (response.type === NONPROFIT) {

@@ -2,6 +2,7 @@
 
 /* global constants: false */
 /* global $: false */
+/* global google: false */
 
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps', 'AngularGM']);
@@ -162,5 +163,19 @@ app.config(function(RestangularProvider) {
       return newResponse;
     }
     return response;
+  });
+});
+
+app.config(function($provide) {
+  $provide.decorator('angulargmDefaults', function($delegate) {
+    return angular.extend($delegate, {
+      'precision': 3,
+      'markerConstructor': google.maps.Marker,
+      'polylineConstructor': google.maps.Polyline,
+      'mapOptions': {
+        center: new google.maps.LatLng(-23.5505199, -46.6333094),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+    });
   });
 });
