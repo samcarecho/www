@@ -1,8 +1,6 @@
 /* exported constants */
 /* global google: false */
 var constants = {
-  'devUrl': 'http://www.atadoslocal.com.br:9000/',
-  'prodUrl': 'http://beta.atados.com.br/',
   'devApi': 'http://www.atadoslocal.com.br:8000/v1/',
   'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'prodApi': 'http://beta.atados.com.br/v1/',
@@ -42,6 +40,5 @@ var constants = {
 
 constants.api = constants.prodApi;
 constants.storage = constants.prodStorage;
-constants.url = constants.prodUrl;
-constants.selected = constants.url + 'images/heart.png';
-constants.notselected = constants.url + 'images/blue.png';
+constants.selected = constants.storage + 'heart.png';
+constants.notselected = constants.storage + 'blue.png';
