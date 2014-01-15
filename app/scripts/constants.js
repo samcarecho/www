@@ -35,10 +35,12 @@ var constants = {
   'saoPauloCenter': new google.maps.LatLng(-23.5505199, -46.6333094),
   'curitibaCenter': new google.maps.LatLng(-25.4808762, -49.3044253),
   'brasiliaCenter': new google.maps.LatLng(-15.79211, -47.897751),
-  'defaultZoom': 11
+  'defaultZoom': 11,
+  'VOLUNTEER': 'VOLUNTEER',
+  'NONPROFIT': 'NONPROFIT'
 };
 
-constants.api = constants.prodApi;
-constants.storage = constants.prodStorage;
+constants.api = constants.devApi;
+constants.storage = constants.devStorage;
 constants.selected = constants.storage + 'heart.png';
 constants.notselected = constants.storage + 'blue.png';
