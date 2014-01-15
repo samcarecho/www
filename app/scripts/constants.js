@@ -1,5 +1,8 @@
 /* exported constants */
+/* global google: false */
 var constants = {
+  'devUrl': 'http://www.atadoslocal.com.br:9000/',
+  'prodUrl': 'http://beta.atados.com.br/',
   'devApi': 'http://www.atadoslocal.com.br:8000/v1/',
   'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'prodApi': 'http://beta.atados.com.br/v1/',
@@ -30,8 +33,15 @@ var constants = {
     {2: 'Noite'}
   ],
   'markers': [],
-  'map': null
+  'map': null,
+  'saoPauloCenter': new google.maps.LatLng(-23.5505199, -46.6333094),
+  'curitibaCenter': new google.maps.LatLng(-25.4808762, -49.3044253),
+  'brasiliaCenter': new google.maps.LatLng(-15.79211, -47.897751),
+  'defaultZoom': 11
 };
 
 constants.api = constants.devApi;
 constants.storage = constants.devStorage;
+constants.url = constants.devUrl;
+constants.selected = constants.url + 'images/heart.png';
+constants.notselected = constants.url + 'images/blue.png';

@@ -109,7 +109,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   $rootScope.closeNonprofitLoginModal = function () {
     $rootScope.modalInstance.close();
   };
-  $scope.mapUrl = constants.storage + 'map.png';
 });
 
 app.controller('HomeCtrl', ['$scope', function($scope) {
@@ -1269,27 +1268,117 @@ app.controller('AboutCtrl', function ($scope) {
   $scope.site.title = 'Atados - Sobre';
 });
 
-app.controller('ExplorerCtrl', function ($scope) {
+app.controller('ExplorerCtrl', function ($scope, $filter) {
+
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
+  if ($scope.search.showProjects) {
+    $scope.objects = $scope.search.projects();
+  } else {
+    $scope.objects = $scope.search.nonprofits();
+  }
+  $scope.previousMarker = null;
+  $scope.iw = new google.maps.InfoWindow();
+  $scope.oms = null;
+  $scope.markers = constants.markers;
+
+
+  window.scope = $scope;
+  $scope.$on('gmMarkersUpdated', function() {
+    if ($scope.map && !$scope.oms) {
+      $scope.oms = new OverlappingMarkerSpiderfier($scope.map);
+      $scope.oms.addListener('spiderfy', function() {
+        $scope.iw.close();
+      });
+      $scope.oms.addListener('unspiderfy', function () {
+        $scope.iw.close();
+      });
+      $scope.oms.addListener('click', $scope.selectMarker);
+    }
+    for (var m in $scope.markers) {
+      $scope.markers[m].setIcon(constants.notselected);
+      $scope.oms.addMarker($scope.markers[m]);
+    }
+  });
+
+  $scope.mapOptions = {
+    map : {
+      center : constants.saoPauloCenter,
+      zoom : constants.defaultZoom,
+    },
+    marker : {
+      clickable : true,
+      draggable : false
+    }
+  };
+
+  $scope.$watch('search.projects()', function () {
+    if ($scope.search.showProjects) {
+      $scope.objects = $scope.search.projects();
+    }
+  });
+
+  $scope.$watch('search.nonprofits()', function () {
+    if (!$scope.search.showProjects) {
+      $scope.objects = $scope.search.nonprofits();
+    }
+  });
+  
+  $scope.$watch('search.showProjects', function () {
+    if ($scope.search.showProjects) {
+      $scope.objects = $scope.search.projects();
+    } else {
+      $scope.objects = $scope.search.nonprofits();
+    }
+  });
+
+  $scope.selectMarker = function (marker, object) {
+    if ($scope.previousMarker) {
+      $scope.previousMarker.setIcon(constants.notselected);
+      angular.element(document.querySelector('#card-' + $scope.previousMarker.slug))
+        .removeClass('hover');
+      $scope.previousMarker.setZIndex(1);
+      $scope.previousMarker = null;
+    }
+    
+    if (object && !marker) {
+      marker = $scope.markers[object.slug];
+    }
+    if (marker) {
+      var cardId = 'card-' + marker.slug;
+      $scope.iw.setContent(marker.title);
+      $scope.iw.open(constants.map, marker);
+
+      marker.setIcon(constants.selected);
+      angular.element(document.querySelector('#' + cardId))
+        .addClass('hover');
+      marker.setZIndex(100);
+      $scope.previousMarker = marker;
+      constants.map.setCenter(marker.getPosition());
+    }
+  };
+
+  $scope.getMarkerOpts = function (object) {
+    return angular.extend(
+      { title: '<h4>' + object.name  + '</h4><p>' + $filter('as_location_string')(object.address) + '</p>'},
+      { slug: object.slug}
+    );
+  };
 });
 
 app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
 
-  var saoPauloCenter = new google.maps.LatLng(-23.5505199, -46.6333094);
-  var curitibaCenter = new google.maps.LatLng(-25.4808762, -49.3044253);
-  var brasiliaCenter = new google.maps.LatLng(-15.79211, -47.897751);
-  var defaultZoom = 11;
   $scope.search =  Search;
+  $scope.map = constants.map;
 
   $scope.$watch('search.city', function (city) {
-    $scope.zoom = defaultZoom;
+    $scope.zoom = constants.defaultZoom;
     if (city.name === 'Sao Paulo') {
-      $scope.center = saoPauloCenter;
+      $scope.center = constants.saoPauloCenter;
     } else if (city.name === 'Curitiba') {
-      $scope.center = curitibaCenter;
+      $scope.center = constants.curitibaCenter;
     } else if (city.name === 'Brasilia') {
-      $scope.center = brasiliaCenter;
+      $scope.center = constants.brasiliaCenter;
     } else if (city.id === 0) {
       $scope.center = null;
       $scope.zoom  = 1;
@@ -1353,10 +1442,14 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
         $http.get($scope.search.nextUrlNonprofit()).success( function (response) {
           response.results.forEach(function (nonprofit) {
             nonprofit.address = nonprofit.user.address;
+            var causes = [];
             nonprofit.causes.forEach(function (c) {
-              c.image = constants.storage + 'cause_' + c.id + '.png';
-              c.class = 'cause_' + c.id;
+              var cause = {};
+              cause.image = constants.storage + 'cause_' + c + '.png';
+              cause.class = 'cause_' + c;
+              causes.push(cause);
             });
+            nonprofit.causes = causes;
             $scope.search.nonprofits().push(nonprofit);
           });
           $scope.search.setNextUrlNonprofit(response.next);
@@ -1367,129 +1460,6 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
         toastr.error('Não conseguimos achar mais ONGs. Tente mudar os filtros.');
       }
     }
-  };
-
-  //TODO If logged user, see what city he has set on his profile and change the default
-  $scope.center = saoPauloCenter;
-  $scope.zoom = defaultZoom;
-
-  $scope.mapOptions = {
-    map : {
-      center : saoPauloCenter,
-      zoom : defaultZoom,
-    },
-    marker : {
-      clickable : true,
-      draggable : false
-    },
-    selected: {
-      icon: 'http://www.atadoslocal.com.br:9000/images/heart.png',
-    },
-    notselected: {
-      icon: 'http://www.atadoslocal.com.br:9000/images/blue.png',
-    },
-  };
-
-  $scope.$watch('markers', function () {
-    $scope.updated = false;
-    $scope.$broadcast('gmMarkersUpdate', 'markers');
-  });
-
-  $scope.objects = [];
-  $scope.$watch('search.projects()', function () {
-    if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.projects();
-    }
-  });
-
-  $scope.$watch('search.nonprofits()', function () {
-    if (!$scope.search.showProjects) {
-      $scope.objects = $scope.search.nonprofits();
-    }
-  });
-  
-  $scope.$watch('search.showProjects', function () {
-    if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.projects();
-    } else {
-      $scope.objects = $scope.search.nonprofits();
-    }
-  });
-
-  var as_location_string = function(address) {
-      if (!address) {
-        return 'Não tem endereço.';
-      }
-
-      var out = address.addressline + ', ';
-      if (address.addressnumber) {
-        out += address.addressnumber + ' - ';
-      }
-      if (address.addressline2) {
-        out += address.addressline2 + ' - ';
-      }
-      if (address.neighborhood) {
-        out += address.neighborhood + ' - ';
-      }
-      if (address.city_state) {
-        out += address.city_state;
-      }
-      if (address.zipcode) {
-        out += ' - ' + address.zipcode;
-      }
-      return out;
-    };
-
-  $scope.previousMarker = null;
-  $scope.selectMarker = function (marker, object) {
-    if ($scope.previousMarker) {
-      $scope.previousMarker.setIcon($scope.mapOptions.notselected.icon);
-      angular.element(document.querySelector('#card-' + $scope.previousMarker.slug))
-        .removeClass('hover');
-      $scope.previousMarker.setZIndex(1);
-      $scope.previousMarker = null;
-    }
-    
-    if (object && !marker) {
-      marker = $scope.markers[object.slug];
-    }
-    if (marker) {
-      var cardId = 'card-' + marker.slug;
-      iw.setContent(marker.title);
-      iw.open(constants.map, marker);
-
-      marker.setIcon($scope.mapOptions.selected.icon);
-      angular.element(document.querySelector('#' + cardId))
-        .addClass('hover');
-      marker.setZIndex(100);
-      $scope.previousMarker = marker;
-      constants.map.setCenter(marker.getPosition());
-    }
-  };
-
-  var oms = new OverlappingMarkerSpiderfier(constants.map);
-  var iw = new google.maps.InfoWindow();
-  oms.addListener('spiderfy', function() {
-    iw.close();
-  });
-  oms.addListener('unspiderfy', function () {
-    iw.close();
-  });
-  oms.addListener('click', $scope.selectMarker);
-  $scope.updated = false;
-  $scope.markers = constants.markers;
-  $scope.$on('gmMarkersUpdated', function() {
-    for (var m in $scope.markers) {
-      $scope.markers[m].setIcon($scope.mapOptions.notselected.icon);
-      oms.addMarker($scope.markers[m]);
-    }
-  });
-
-  $scope.getMarkerOpts = function (object) {
-    return angular.extend(
-      { title: '<h4>' + object.name  + '</h4><p> ' + as_location_string(object.address) + '</p>'},
-      { slug: object.slug}
-    );
   };
 });
 

@@ -1363,7 +1363,6 @@
       this._map = this._createMap(mapId, mapDiv, config, angulargmContainer, $scope);
       this._elements = {};
       this._listeners = {};
-      constants.map = this._map;
 
       // 'public' properties
       this.dragging = false;
@@ -1466,6 +1465,8 @@
         this.mapTrigger('resize');
         map.setOptions(config);
       }
+
+      constants.map = map;
       return map;
     };
 
@@ -1574,7 +1575,6 @@
             }
             var marker = new angulargmDefaults.markerConstructor(opts);
             constants.markers[marker.slug] = marker;
-            console.log(constants.markers);
             return marker;
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {
