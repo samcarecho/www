@@ -4,8 +4,6 @@
 /* global google: false */
 /* global constants: false */
 
-var VOLUNTEER = 'VOLUNTEER';
-
 var app = angular.module('atadosApp');
 
 app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular, $modal) {
@@ -15,7 +13,9 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
+    $scope.nonprofit = $scope.project.nonprofit;
     window.project = $scope.project;
+    window.nonprofit = $scope.nonprofit;
     $scope.site.title = 'Ato - ' + $scope.project.name;
     $scope.image = $scope.project.image_url;
 
@@ -61,7 +61,7 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
   });
 
   $scope.showApplyToProjectButton = function () {
-    return $scope.loggedUser && $scope.loggedUser.role === VOLUNTEER;
+    return $scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER;
   };
 
   $scope.alreadyApplied = false;
@@ -112,7 +112,7 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
   };
 
   $scope.$watch('loggedUser + $scope.project', function () {
-    if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER && $scope.project) {
+    if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER && $scope.project) {
       $http.get(constants.api + 'has_volunteer_applied/?project=' + $scope.project.id.toString())
         .success(function (response) {
           if (response[0] === 'YES') {
@@ -124,5 +124,3 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
     }
   });
 });
-
-
