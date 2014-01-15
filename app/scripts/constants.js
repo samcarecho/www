@@ -40,8 +40,8 @@ var constants = {
   'defaultZoom': 11
 };
 
-constants.api = constants.devApi;
-constants.storage = constants.devStorage;
-constants.url = constants.devUrl;
+constants.api = constants.prodApi;
+constants.storage = constants.prodStorage;
+constants.url = constants.prodUrl;
 constants.selected = constants.url + 'images/heart.png';
 constants.notselected = constants.url + 'images/blue.png';
