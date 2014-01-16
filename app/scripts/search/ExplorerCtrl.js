@@ -96,6 +96,7 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
 
   $scope.getMarkerOpts = function (object) {
     return angular.extend(
+      // TODO: add link to nonprofit or project page here
       { title: '<h4>' + object.name  + '</h4><p>' + $filter('as_location_string')(object.address) + '</p>'},
       { slug: object.slug}
     );
