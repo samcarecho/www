@@ -492,6 +492,9 @@ fieldset {
     }
     
     #left-sidebar {
+      #project-remote {
+        margin-top:40px;
+      }
       
       #project-map {
         margin: 20px 0;
@@ -506,9 +509,9 @@ fieldset {
       #project-responsible {
         margin-top: 60px;
       }
-      .fb-like-box {
-        margin-top: 20px;
-      }
+    }
+    #project-facebook {
+      margin-top: 60px;
     }
 
     h1, h2, h3, h4, h5, h6 {
