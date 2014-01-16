@@ -20,8 +20,6 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
   $scope.oms = null;
   $scope.markers = constants.markers;
 
-
-  window.scope = $scope;
   $scope.$on('gmMarkersUpdated', function() {
     if ($scope.map && !$scope.oms) {
       $scope.oms = new OverlappingMarkerSpiderfier($scope.map);
