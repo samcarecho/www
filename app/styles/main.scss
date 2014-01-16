@@ -372,14 +372,17 @@ fieldset {
       font-weight: bold;
     }
     #project-image {
+      width: 375px;
+      height: 260px;
+      overflow: hidden;
+      margin-bottom: 15px;
+
       img {
-        width: 375px;
-        height: 260px;
+        width: 100%;
         border: 1px solid #E5E5E5;
         background: white;
         box-shadow: 0 2px 10px #888888;
       }
-      margin-bottom: 15px;
     }
     #project-name {
       color: white;
