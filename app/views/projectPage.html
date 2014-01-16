@@ -7,7 +7,17 @@
       <h1 id="project-name">{{project.name}}</h1>
       <div id="project-type">
         <p ng-if="project.work"><i class="fa fa-refresh"></i> Ato Recorrente</p>
-        <p ng-if="project.job"><i class="fa fa-clock-o"></i> Ato Pontual </p>
+        <p ng-if="project.job">
+          <i class="fa fa-clock-o"></i> Ato Pontual 
+          
+        </p>
+        <small ng-if="project.job && (project.job.start_date === project.job.end_date)">
+           {{project.job.end_date | date:"(EEEE) dd 'de' MMMM 'de' yyyy"}}
+        </small>
+        <small ng-if="project.job && (project.job.start_date !== project.job.end_date)">
+           {{project.job.start_date | date:"dd 'de' MMMM 'de' yyyy"}} até {{project.job.end_date | date:"dd 'de' MMMM 'de' yyyy"}}
+        </small>
+
       </div>
       <div id="project-nonprofit">
         <a ui-sref="root.nonprofit({slug: nonprofit.user.slug})" id="nonprofit-img">
@@ -98,9 +108,6 @@
         </div>
       </div>
 
-      <div ng-if="project.job">
-        <p>{{project.job.start_date | date:"dd 'de' MMMM 'de' yyyy (EEEE) 'as' HH:MM"}} até {{project.job.end_date | date:"dd 'de' MMMM 'de' yyyy (EEEE) 'as' HH:MM"}}</p>
-      </div>
 
       <div ng-if="project.work" id="project-availabilities">
         <h3>Horários</h3>
