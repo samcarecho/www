@@ -6,7 +6,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth, Restangular, $modal) {
+app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, Restangular, $modal, Volunteer) {
 
   $scope.markers = [];
   $scope.landing = false;
@@ -60,30 +60,15 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
     toastr.error('Ato não encontrado.');
   });
 
-  $scope.showApplyToProjectButton = function () {
-    return $scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER;
-  };
-
   $scope.alreadyApplied = false;
-  $scope.applyVolunteerToProject = function () {
-    if (!$scope.loggedUser) {
-
-    }
+  window.scope = $scope;
+  function openApplyModal () {
     var template = '/views/volunteerContractModal.html';
+    var controller = 'ProjectModalCtrl';
+
     if ($scope.alreadyApplied) {
       template = '/views/volunteerUnapplyModal.html';
-    }
-
-    var modalInstance = $modal.open({
-      templateUrl: template,
-      resolve: {
-        nonprofit: function () {
-          return $scope.project.nonprofit;
-        }
-      },
-      controller: function ($scope, $modalInstance, nonprofit) {
-        $scope.nonprofit = nonprofit;
-
+      controller = function ($scope, $modalInstance) {
         $scope.ok = function () {
           $modalInstance.close();
         };
@@ -91,17 +76,58 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
         $scope.cancel = function () {
           $modalInstance.dismiss('cancel');
         };
-      }
+      };
+    }
+
+    var modalInstance = $modal.open({
+      templateUrl: template,
+      resolve: {
+        nonprofit: function () {
+          return $scope.project.nonprofit;
+        },
+        phone: function () {
+          return $scope.loggedUser.user.phone;
+        }
+      },
+      controller: controller
     });
-    modalInstance.result.then(function () {
+
+    modalInstance.result.then(function (response) {
+      if (response) {
+        var volunteerPhone = response.phone;
+        var volunteerMessage = response.message;
+
+        if (!$scope.alreadyApplied) {
+          if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
+            $http.post(constants.api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
+            .success(function () {
+              toastr.success('Email enviado com sucesso!');
+            }).error(function () {
+              toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+            });
+          } else {
+            toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+          }
+
+          if (volunteerPhone) {
+            $scope.loggedUser.user.phone = volunteerPhone;
+            Volunteer.save($scope.loggedUser, function() {
+            }, function() {
+            });
+          }
+        }
+      }
+
       $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id})
       .success(function (response) {
         if (response[0] === 'Applied') {
           $scope.project.volunteers.push($scope.loggedUser);
           $scope.alreadyApplied = true;
+          toastr.success('Parabéns! Você é voluntário para ' + $scope.project.name);
         } else {
           $scope.project.volunteers.splice($scope.project.volunteers.indexOf($scope.loggedUser),1);
           $scope.alreadyApplied = false;
+          toastr.success('Você não é mais voluntário para ' + $scope.project.name);
         }
       }).error(function () {
         toastr.error('Não conseguimos te atar. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
@@ -109,6 +135,30 @@ app.controller('ProjectCtrl', function($scope, $state, $stateParams, $http, Auth
     }, function () {
       console.log('Modal dismissed at: ' + new Date());
     });
+  }
+
+  $rootScope.$on('userLoggedIn', function(/*event, user*/) {
+    if ($scope.showApplyModal && !$scope.alreadyApplied) {
+      openApplyModal();
+    }
+    else {
+      $scope.showApplyModal = false;
+    }
+  });
+
+  $rootScope.$on('userLoggedOut', function(/*event,*/) {
+    $scope.alreadyApplied = false;
+  });
+
+  $scope.showApplyModal = false;
+  $scope.applyVolunteerToProject = function () {
+    if (!$scope.loggedUser) {
+      $scope.openVolunteerModal();
+      $scope.showApplyModal = true;
+      toastr.info('Você tem que logar primeiro!');
+    } else {
+      openApplyModal();
+    }
   };
 
   $scope.$watch('loggedUser + $scope.project', function () {

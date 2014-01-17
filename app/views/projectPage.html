@@ -50,8 +50,8 @@
 
     </div>
     <div class="col-sm-2">
-      <button ng-hide="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Cadastrar</button>
-      <button ng-show="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-show="showApplyToProjectButton()" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Descadastrar</button>
+      <button ng-hide="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Cadastrar</button>
+      <button ng-show="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Descadastrar</button>
 
       <div id="project-volunteers"> 
         <h4>{{project.volunteers.length}} voluntários cadastrados</h4>
@@ -65,7 +65,7 @@
 
   <div id="project-details" class="row">
     <div id="left-sidebar" class="col-sm-offset-1 col-sm-3">
-      <div id="project-map" ng-if="!project.work || !project.work.can_be_done_remotely">
+      <div id="project-map" ng-if="(!project.work || !project.work.can_be_done_remotely) && project.address.addressline">
         <gm-map class="center"
         gm-map-id="'projectAddressMap'"
         gm-center="center"

@@ -335,7 +335,7 @@ app.factory('Auth', function($http, Cookies, Site) {
         setAuthHeader(token);
         return $http.get(apiUrl + 'current_user/?id=' + new Date().getTime())
           .success(function(response) {
-            if (response.user.address) {
+            if (response.user.address && response.user.address.city) {
               $http.get(apiUrl + 'cities/'+ response.user.address.city + '/').success(function (city) {
                 _currentUser = response;
                 fixCauses(_currentUser);
@@ -345,7 +345,7 @@ app.factory('Auth', function($http, Cookies, Site) {
               });
             } else {
               _currentUser = response;
-              _currentUser.user.address = {};
+              //_currentUser.user.address = {};
               _currentUser.address = _currentUser.user.address;
               fixCauses(_currentUser);
               fixSkills(_currentUser);
@@ -436,6 +436,22 @@ app.factory('Auth', function($http, Cookies, Site) {
     },
     getUser: function () {
       return _currentUser;
+    }
+  };
+});
+
+app.factory('Volunteer', function($http) {
+
+  return {
+    // For now this is only to save the phone number of atar
+    save: function (volunteer, success, error) {
+      var volunteerCopy = {};
+      angular.copy(volunteer, volunteerCopy);
+      delete volunteerCopy.projects;
+      delete volunteerCopy.nonprofits;
+      delete volunteerCopy.address;
+      $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
+        .success(success).error(error);
     }
   };
 });

@@ -5,9 +5,9 @@
 </style>
 
 <div id="volunteer-contract-modal" class="modal-body">
-  
-  <p> Parabéns! Esse é o primeiro passo em virar um voluntário</p>
-  <p> Agora vamos pedia que você revise o termo do voluntário e aceite os termos postos para um trabalho super legal com a ONG</p>
+
+  <p> Parabéns! Esse é o primeiro passo em virar um voluntário do {{nonprofit.name}}.</p>
+  <p> Agora só falta revisar o termo do voluntário e aceitar os termos para um trabalho de sucesso com a ONG.</p>
   <div id="contract" >
     <p><strong>CONDIÇÕES GERAIS:</strong></p>
 
@@ -42,24 +42,24 @@
 
   <p>Vamos entrar em contato com a ONG com as suas informações.</p>
 
-  <div class="row">
-    <div class="form-group" ng-class="{error:contractForm.phone.$dirty && contractForm.phone.$invalid}">
+
+  <div class="row" id="phone-field">
+    <div class="form-group" ng-class="{error:contractForm.phone.$dirty && contractForm.phone.$invalid && phoneWarningMessage}">
       <label class="col-lg-2 control-label">Telefone</label>
       <div class="col-lg-5">                     
-        <input class="form-control" type="text" name="phone" ng-model="phone" ng-maxlength="20" placeholder="Telefone"/>
+        <input class="form-control" type="text" name="phone" ng-model="contractForm.phone" ng-maxlength="20" placeholder="Telefone"/>
         <label class="help-block" ng-show="contractForm.phone.$error.maxlength">Tem que ter menos de 20 caracteres</label>
+        <label class="help-block" >{{phoneWarningMessage}}</label>
       </div>
     </div>
   </div>
 
   <p>Para ajudar a ONG entender como você pode ajudar, escreva uma pequena mensagem para <strong>{{nonprofit.name}}</strong>!</p>
-  <textarea>
-    {{volunteer_message}}
-  </textarea/>
+  <textarea ng-model="contractForm.message"></textarea>
 </div>
 
-<div class="modal-footer">
-  <button class="btn btn-primary" ng-click="ok()">OK</button>
-  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-  <doubt-atados/>
-</div>
+  <div class="modal-footer">
+    <button class="btn btn-info" ng-click="ok()">Ok, quero ser voluntário!</button>
+    <button class="btn btn-danger" ng-click="cancel()">Cancelar</button>
+    <doubt-atados/>
+  </div>

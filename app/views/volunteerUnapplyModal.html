@@ -1,14 +1,15 @@
 <style>
   .modal .modal-dialog {
-    width: 1030px;
+    width: 390px;
   }
 </style>
 <div id="volunteerUnapplyModal" class="modal-body">
-  Tem certeza que você quer se desatar ? A ONG precisa de você!
+  <p>Tem certeza que não quer ser mais voluntário ? A ONG precisa de você!</p>
+  <!-- TODO Add form to why he does not want to be a volunteer anymore -->
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="ok()">Sim</button>
-  <button class="btn btn-warning" ng-click="cancel()">Não! Ainda quero ser voluntário</button>
+  <button class="btn btn-info" ng-click="ok()">Sim</button>
+  <button class="btn btn-danger" ng-click="cancel()">Não! Ainda quero ser voluntário</button>
   <doubt-atados/>
 </div>

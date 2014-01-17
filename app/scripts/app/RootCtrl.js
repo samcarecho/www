@@ -41,12 +41,12 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
         // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
       }
       toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
-      $state.transitionTo('root.explore');
     }
   });
 
   $scope.logout = function () {
     toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
+    $scope.$emit('userLoggedOut');
     Auth.logout();
     $scope.loggedUser = null;
   };
