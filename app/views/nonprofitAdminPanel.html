@@ -1,5 +1,5 @@
 <div id="nonprofit-admin">
-  <form >
+  <form novalidate>
     <div id="nonprofit-page">
       <div id="cover">
         <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}"/>
@@ -68,7 +68,24 @@
 
         </div>
         <div class="col-md-9 col-sm-8 col-xs-7">
-          <h1 ng-hide="editing">{{nonprofit.name}}</h1>
+          <div id="nonprofit-header" class="row" ng-hide="editing">
+            <div class="col-sm-8">
+              <h1>{{nonprofit.name}}</h1>
+              <p ng-hide="!nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
+              <p ng-hide="!nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
+              <p ng-hide="!nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
+              <p ng-hide="!nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
+              <div id="nonprofit-causes">
+                <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
+                  <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <button id="new-project-button" class="btn btn-infov" ng-click="createNewProject()">Criar Novo Ato</button>
+              <button id="edit-nonprofit-button" class="btn btn-info" ng-click="editing=true">Editar Perfil</button>
+            </div>
+          </div>
 
           <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.name.$error.required || signupForm.name.$invalid]">
             <div class="">
@@ -77,11 +94,7 @@
               <label class="help-block" ng-show="editForm.name.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
             </div>
           </div>
-
-          <button class="btn btn-info pull-right" ng-hide="editing" ng-click="createNewProject()">Criar Novo Ato</button>
-          <button class="btn btn-info pull-right" ng-hide="editing" ng-click="editing=true">Editar Perfil</button>
-
-          <p ng-hide="editing || !nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
+          
           <div ng-show="editing" class="form-group">
             <label class="col-sm-3 control-label">Website</label>
             <div class="col-sm-8">
@@ -89,7 +102,6 @@
             </div>
           </div>
 
-          <p ng-hide="editing || !nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
           <div ng-show="editing" class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[signupForm.email.$invalid]">
             <label class="col-sm-3 control-label">Email</label>
             <div class="col-sm-8">
@@ -98,7 +110,6 @@
             </div>
           </div>
 
-          <p ng-hide="editing || !nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
           <div ng-show="editing" class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.phone.$error.required || signupForm.phone.$invalid]">
             <label class="col-sm-3 control-label">Telefone</label>
             <div class="col-sm-8">
@@ -108,7 +119,6 @@
             </div>
           </div>
 
-          <p ng-hide="editing || !nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
           <fieldset ng-show="editing" id="address-fieldset">
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.addressline.$error.required || signupForm.addressline.$invalid]">
             <label class="col-sm-3 control-label">Endereço</label>
@@ -155,15 +165,10 @@
               </select>
             </div>
           </div>
-
         </fieldset>
 
 
-          <div ng-hide="editing" id="nonprofit-causes">
-            <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
-              <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
-            </div>
-          </div>
+          
           <fieldset ng-show="editing" class="col-sm-12">
             <legend>Causas (selecione uma ou mais)</legend>
             <div class="form-group">

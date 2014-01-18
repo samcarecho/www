@@ -6,10 +6,6 @@
 var app = angular.module('atadosApp',
     ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'AngularGM']);
 
-angular.element(document).ready(function() {
-  angular.bootstrap(document, ['atadosApp']);
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider

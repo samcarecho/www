@@ -24,6 +24,7 @@ module.exports = function(config) {
       'app/bower_components/angular-facebook/lib/angular-facebook.js',
       'app/bower_components/toastr/toastr.js',
       'app/bower_components/jquery.cookie/jquery.cookie.js',
+      'app/bower_components/AngularGM/angular-gm.js',
       'http://maps.googleapis.com/maps/api/js?sensor=false&language=en&v=3.13',
       'app/bower_components/angular-google-maps/dist/angular-google-maps.js',
       'app/ui-bootstrap-0.6.0.js',

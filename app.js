@@ -1,12 +1,12 @@
- var express = require('express')
-  , http = require('http')
-  , path = require('path');
+'use strict';
+
+var express = require('express'),
+    http = require('http');
 
 var app = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 9000);
-  app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.cookieParser());
   app.use(express.json());
@@ -17,5 +17,5 @@ app.configure(function(){
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log('Express server listening on port ' + app.get('port'));
 });

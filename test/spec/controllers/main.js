@@ -1,16 +1,16 @@
 'use strict';
 
-describe('AppController', function () {
+describe('AppCtrl', function () {
 
   // load the controller's module
   beforeEach(module('atadosApp'));
 
-  var AppController, $scope;
+  var AppCtrl, $scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function (_$controller_, _$rootScope_) {
     $scope = _$rootScope_.$new();
-    AppController = _$controller_('AppController', {
+    AppCtrl = _$controller_('AppCtrl', {
       $scope: $scope
     });
   }));
@@ -25,7 +25,5 @@ describe('AppController', function () {
     expect($scope.loggedUser).not.toBeDefined();
     $scope.loggedUser = user;
     expect($scope.loggedUser).toBe(user);
-    $scope.logout();
-    expect($scope.loggedUser).toBeNull();
   });
 });
