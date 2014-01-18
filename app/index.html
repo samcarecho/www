@@ -10,13 +10,16 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <!-- build:css(.tmp) /styles/main.css -->
-    <link href="/styles/main.css" rel="stylesheet">
-    <link href="/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="/bower_components/toastr/toastr.css" rel="stylesheet">
-    <link href="/bower_components/pace/themes/pace-theme-flash.css" rel="stylesheet">
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
+    <!-- endbower -->
     <!-- endbuild -->
 
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
   </head>
   <body>
 
@@ -24,9 +27,9 @@
 
     <!--[if lt IE 7]>
       <div class="alert">
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <p class="browsehappy">Você está usando um navegador <strong>antiquado</strong>. Por favor <a href="https://www.google.com/intl/pt/chrome/browser/">atualize seu navegador</a> para melhorar sua experiencia na web.</p>
-    </div>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      </div>
     <![endif]-->
 
     <!--[if lt IE 9]>
@@ -34,7 +37,6 @@
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Google Analytics
     <script>
      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -44,45 +46,38 @@
      ga('create', 'UA-35727388-1');
      ga('send', 'pageview');
     </script>
-    End Google Analytics -->
 
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/restangular/dist/restangular.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/toastr/toastr.js"></script>
+    <script src="bower_components/AngularGM/angular-gm.js"></script>
+    <script src="bower_components/pace/pace.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <!-- endbower -->
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"></script>
-
-    <!-- build:js /scripts/plugins.js -->
-    <script src="/bower_components/jquery/jquery.js"></script>
-    <script src="/bower_components/underscore/underscore.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/affix.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/alert.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/dropdown.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/tooltip.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/modal.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/transition.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/button.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/popover.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/carousel.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/scrollspy.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/collapse.js"></script>
-    <script src="/bower_components/sass-bootstrap/js/tab.js"></script>
-    <script src="/bower_components/toastr/toastr.js"></script>
-    <script src="/bower_components/pace/pace.js"></script>
-    <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js /scripts/modules.js -->
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-i18n/angular-locale_pt-br.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="/bower_components/angular-facebook/lib/angular-facebook.js"></script>
-    <script src="/bower_components/restangular/dist/restangular.js"></script>
-    <script src="/bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
     <script src="/ui-bootstrap-0.6.0.js"></script>
     <script src="/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="/angular-gm.js"></script>
     <script src="/oms.js"></script>
+    <script src="bower_components/angular-i18n/angular-locale_pt-br.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) /scripts/scripts.js -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="/scripts/app.js"></script>
     <script src="/scripts/constants.js"></script>
     <script src="/scripts/directives.js"></script>

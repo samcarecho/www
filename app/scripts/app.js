@@ -4,7 +4,7 @@
 /* global $: false */
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'google-maps', 'AngularGM']);
+    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'AngularGM']);
 
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['atadosApp']);
@@ -25,53 +25,53 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeCtrl'
     })
     .state('root.about', {
-      url: '/sobre/',
+      url: '/sobre',
       templateUrl: '/views/about.html',
       controller: 'AboutCtrl'
     })
     .state('root.404', {
-      url: '/404/',
+      url: '/404',
       templateUrl: '/views/404.html'
     })
     .state('root.explore', {
-      url: '/explore/',
+      url: '/explore',
       templateUrl: '/views/explore.html',
       controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
-      url: '/voluntario/:slug/',
+      url: '/voluntario/:slug',
       templateUrl: '/views/volunteerProfile.html',
       controller: 'VolunteerCtrl'
     })
     .state('root.volunteeredit', {
-      url: '/editar/',
+      url: '/editar',
       templateUrl: '/views/volunteerEdit.html',
       controller: 'VolunteerEditCtrl'
     })
     .state('root.nonprofit', {
-      url: '/ong/:slug/',
+      url: '/ong/:slug',
       templateUrl: '/views/nonprofitProfile.html',
       controller: 'NonprofitCtrl'
     })
     .state('root.nonprofitadmin', {
-        url: '/controle/',
-        templateUrl: '/views/nonprofitAdminPanel.html',
-        controller: 'NonprofitAdminCtrl'
-      })
+      url: '/controle',
+      templateUrl: '/views/nonprofitAdminPanel.html',
+      controller: 'NonprofitAdminCtrl'
+    })
     .state('root.nonprofitsignup', {
-        url: '/cadastro/ong/',
+        url: '/cadastro/ong',
         templateUrl: '/views/nonprofitSignup.html',
         controller: 'NonprofitSignupCtrl',
         resolve: {}
       })
     .state('root.project', {
-        url: '/ato/:slug/',
+        url: '/ato/:slug',
         templateUrl: '/views/projectPage.html',
         controller: 'ProjectCtrl',
         resolve: {}
       })
     .state('root.newproject', {
-        url: '/ato/',
+        url: '/ato',
         templateUrl: '/views/projectNew.html',
         controller: 'ProjectNewCtrl',
         resolve: {}
@@ -84,24 +84,20 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: '/views/projectNewWork.html',
         resolve: {}
       })
-    .state('root.newproject.donation', {
-        templateUrl: '/views/projectNewDonation.html',
-        resolve: {}
-      })
     .state('legacynonprofit', {
-        url: '/site/instituicoes/:nonprofitUid/profile/',
+        url: '/site/instituicoes/:nonprofitUid/profile',
         controller: 'LegacyCtrl'
       })
       .state('legacyVolunteerOrNonprofit', {
-        url: '/site/users/:slug/',
+        url: '/site/users/:slug',
         controller: 'LegacyCtrl'
       })
      .state('legacyproject', {
-        url: '/site/ato/:projectUid/',
+        url: '/site/ato/:projectUid',
         controller: 'LegacyCtrl'
       });
 
-  $urlRouterProvider.otherwise('/404/');
+  // $urlRouterProvider.otherwise('/404');
   $locationProvider.html5Mode(true).hashPrefix('!');
 });
 
