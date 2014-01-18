@@ -18,18 +18,20 @@
         <span>
           <a ui-sref="root.nonprofit({slug: project.nonprofit.slug})"><p class="nonprofit-name"><strong>{{project.nonprofit.name| limitTo:20}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ project.address.city_state }}</p>
-          <div class="img-circle cause-image" ng-repeat="cause in project.causes"> 
-            <img tooltip="Causa: {{cause.name}}" width="15" height="15" ng-src="{{cause.image}}">
-          </div>
-          <div class="skill-image" ng-repeat="skill in project.skills"> 
-            <img tooltip="Habilidade: {{skill.name}}" width="15" height="15" ng-src="{{skill.image}}">
+          <div class="card-icons">
+            <div class="img-circle icon-image" ng-repeat="cause in project.causes"> 
+              <img tooltip="Causa: {{cause.name}}" width="15" height="15" ng-src="{{cause.image}}">
+            </div>
+            <div class="img-circle icon-image" ng-repeat="skill in project.skills"> 
+              <img tooltip="Habilidade: {{skill.name}}" width="15" height="15" ng-src="{{skill.image}}">
+            </div>
           </div>
         </span>
       </div>
       <div class="row card-second">
         <div class="card-date col-xs-9">
           <strong ng-if="project.work"><i class="fa fa-refresh"></i> Ato Recorrente</strong>
-          <strong ng-if="project.job"><i class="fa fa-calendar"></i> {{project.job.start_date | date: 'longDate'}}</strong>
+          <strong ng-if="project.job && project.job.start_date"><i class="fa fa-calendar"></i> {{project.job.start_date | date: 'longDate'}}</strong>
         </div>
         <div class="card-volunteer center col-xs-3">
           <span><i tooltip="Numero de voluntários que já se ataram." class="fa fa-user"></i> {{project.volunteers.length}}</span>

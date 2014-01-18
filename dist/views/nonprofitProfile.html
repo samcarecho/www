@@ -41,8 +41,6 @@
         </div>
       </div>
       <h3>Sobre</h3>
-      <div ng-bind-html="nonprofit.description | noHTML | newlines"></div>
-      <br>
       <div ng-bind-html="nonprofit.details | noHTML | newlines"></div>
       <div class="projectButtons">
         <a type="button" class="btn btn-large buttonTab" ng-class="{active: activeProjects}" ng-click="activeProjects=true">Atos Abertos</a>

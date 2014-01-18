@@ -14,10 +14,12 @@
           <img ui-sref="root.nonprofit({slug: nonprofit.slug})" ng-src="{{ nonprofit.image_url }}">
         </a>
         <span>
-          <a ui-sref="root.nonprofit({slug: nonprofit.slug})"><p class="nonprofit-name"><strong>{{nonprofit.name | limitTo:20}}</strong></p></a>
+          <a ui-sref="root.nonprofit({slug: nonprofit.slug})"><p class="nonprofit-name"><strong>{{nonprofit.name | limitTo:25}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.city_state }}</p>
-          <div class="img-circle cause-image" ng-repeat="cause in nonprofit.causes"> 
-            <img tooltip="{{cause.name}}" width="15" height="15" ng-src="{{cause.image}}">
+          <div class="card-icons">
+            <div class="img-circle icon-image" ng-repeat="cause in nonprofit.causes"> 
+              <img tooltip="{{cause.name}}" width="15" height="15" ng-src="{{cause.image}}">
+            </div>
           </div>
         </span>
       </div>
