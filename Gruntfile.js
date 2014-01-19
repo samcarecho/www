@@ -43,7 +43,7 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= express.options.port %>'
+        url: 'http://www.atadoslocal.com.br:<%= express.options.port %>'
       }
     },
     watch: {
