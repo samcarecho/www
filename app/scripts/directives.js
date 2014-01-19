@@ -36,14 +36,14 @@ app.directive('button-facebook', function() {
 app.directive('projectCard', function() {
   return {
     restrict: 'E',
-    templateUrl: '/views/projectCard.html'
+    templateUrl: 'partials/projectCard.html'
   };
 });
 
 app.directive('atadosSearch', function() {
   return {
     restrict: 'E',
-    templateUrl: '/views/search.html',
+    templateUrl: 'partials/search.html',
     controller: 'SearchCtrl'
   };
 });
@@ -51,23 +51,7 @@ app.directive('atadosSearch', function() {
 app.directive('nonprofitCard', function() {
   return {
     restrict: 'E',
-    templateUrl: '/views/nonprofitCard.html'
-  };
-});
-
-
-app.directive('debug', function() {
-  return {
-    restrict: 'E',
-    scope: {
-      expression: '=val'
-    },
-    template: '<pre>{{debug(expression)}}</pre>',
-    link: function(scope) {
-      scope.debug = function(exp) {
-        return angular.toJson(exp, true);
-      };
-    }
+    templateUrl: 'partials/nonprofitCard.html'
   };
 });
 

@@ -12,72 +12,72 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('root', {
       url: '',
       abstract: true,
-      templateUrl: '/views/root.html',
+      templateUrl: 'partials/root.html',
       controller: 'RootCtrl'
     })
     .state('root.home', {
       url: '/',
-      templateUrl: '/views/home.html',
+      templateUrl: 'partials/home.html',
       controller: 'HomeCtrl'
     })
     .state('root.about', {
       url: '/sobre',
-      templateUrl: '/views/about.html',
+      templateUrl: 'partials/about.html',
       controller: 'AboutCtrl'
     })
     .state('root.404', {
       url: '/404',
-      templateUrl: '/views/404.html'
+      templateUrl: 'partials/404.html'
     })
     .state('root.explore', {
       url: '/explore',
-      templateUrl: '/views/explore.html',
+      templateUrl: 'partials/explore.html',
       controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
       url: '/voluntario/:slug',
-      templateUrl: '/views/volunteerProfile.html',
+      templateUrl: 'partials/volunteerProfile.html',
       controller: 'VolunteerCtrl'
     })
     .state('root.volunteeredit', {
       url: '/editar',
-      templateUrl: '/views/volunteerEdit.html',
+      templateUrl: 'partials/volunteerEdit.html',
       controller: 'VolunteerEditCtrl'
     })
     .state('root.nonprofit', {
       url: '/ong/:slug',
-      templateUrl: '/views/nonprofitProfile.html',
+      templateUrl: 'partials/nonprofitProfile.html',
       controller: 'NonprofitCtrl'
     })
     .state('root.nonprofitadmin', {
       url: '/controle',
-      templateUrl: '/views/nonprofitAdminPanel.html',
+      templateUrl: 'partials/nonprofitAdminPanel.html',
       controller: 'NonprofitAdminCtrl'
     })
     .state('root.nonprofitsignup', {
         url: '/cadastro/ong',
-        templateUrl: '/views/nonprofitSignup.html',
+        templateUrl: 'partials/nonprofitSignup.html',
         controller: 'NonprofitSignupCtrl',
         resolve: {}
       })
     .state('root.project', {
         url: '/ato/:slug',
-        templateUrl: '/views/projectPage.html',
+        templateUrl: 'partials/projectPage.html',
         controller: 'ProjectCtrl',
         resolve: {}
       })
     .state('root.newproject', {
         url: '/ato',
-        templateUrl: '/views/projectNew.html',
+        templateUrl: 'partials/projectNew.html',
         controller: 'ProjectNewCtrl',
         resolve: {}
       })
     .state('root.newproject.job', {
-        templateUrl: '/views/projectNewJob.html',
+        templateUrl: 'partials/projectNewJob.html',
         resolve: {}
       })
     .state('root.newproject.work', {
-        templateUrl: '/views/projectNewWork.html',
+        templateUrl: 'partials/projectNewWork.html',
         resolve: {}
       })
     .state('legacynonprofit', {
@@ -93,7 +93,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: 'LegacyCtrl'
       });
 
-  // $urlRouterProvider.otherwise('/404');
+  $urlRouterProvider.otherwise('/404');
   $locationProvider.html5Mode(true).hashPrefix('!');
 });
 

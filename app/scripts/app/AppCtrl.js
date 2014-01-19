@@ -33,17 +33,17 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
 
   $scope.openVolunteerModal = function() {
     $rootScope.modalInstance = $modal.open({
-      templateUrl: '/views/volunteerModal.html'
+      templateUrl: 'partials/volunteerModal.html'
     });
   };
   $scope.openNonprofitModal = function () {
     $rootScope.modalInstance = $modal.open({
-      templateUrl: '/views/nonprofitModal.html'
+      templateUrl: 'partials/nonprofitModal.html'
     });
   };
   $scope.openTermsModal = function() {
     $rootScope.modalInstance = $modal.open({
-      templateUrl: '/views/termsModal.html',
+      templateUrl: 'partials/termsModal.html',
       windowClass: 'width: 1000px;'
     });
   };

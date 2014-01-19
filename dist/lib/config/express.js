@@ -37,9 +37,8 @@ module.exports = function(app) {
     app.engine('html', require('ejs').renderFile);
     app.set('view engine', 'html');
     app.use(express.logger('dev'));
+    app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.json());
-    app.use(express.urlencoded());
     // Router needs to be last
     app.use(app.router);
   });
