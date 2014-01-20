@@ -103,12 +103,10 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       p.volunteers = response;
       p.volunteers.forEach(function (v) {
         p.emailAllString += v.email + ',';
-        v.apply.forEach(function (a) {
-          if (a.project === p.slug) {
-            v.status = a.status.name;
-            setStatusStyle(v);
-            return;
-          }
+        Restangular.all('applies').getList({project_slug: p.slug, volunteer_slug: v.slug}).then(function (a) {
+          v.status = a[0].status.name;
+          setStatusStyle(v);
+          return;
         });
       });
     });
