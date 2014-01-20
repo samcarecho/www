@@ -32,9 +32,11 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
       });
       $scope.oms.addListener('click', $scope.selectMarker);
     }
-    for (var m in $scope.markers) {
-      $scope.markers[m].setIcon(constants.notselected);
-      $scope.oms.addMarker($scope.markers[m]);
+    if ($scope.oms) {
+      for (var m in $scope.markers) {
+        $scope.markers[m].setIcon(constants.notselected);
+        $scope.oms.addMarker($scope.markers[m]);
+      }
     }
   });
 

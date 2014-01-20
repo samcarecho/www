@@ -146,6 +146,8 @@ app.factory('Search', function (Restangular, Site) {
   var _nextUrlProject = '';
   var _nextUrlNonprofit = '';
 
+  var _loading = false;
+
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
@@ -201,10 +203,13 @@ app.factory('Search', function (Restangular, Site) {
       skill: skill,
       city: city
     };
+    _loading = true;
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
       fixProject(response);
+      _loading = false;
     }, function () {
       console.error('Não consegui pegar os atos do servidor.');
+      _loading = false;
     });
   }
 
@@ -215,8 +220,13 @@ app.factory('Search', function (Restangular, Site) {
       cause: cause,
       city: city
     };
+    _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
       fixNonprofit(response);
+      _loading = false;
+    }, function () {
+      console.error('Não consegui pegar ONGs do servidor.');
+      _loading = false;
     });
   };
 
@@ -234,6 +244,10 @@ app.factory('Search', function (Restangular, Site) {
     cause: _cause,
     skill: _skill,
     city: _city,
+    loading: function () {
+      console.log(_loading);
+      return _loading;
+    },
     showProjects: true,
     nextUrlProject: function () {
       return _nextUrlProject;

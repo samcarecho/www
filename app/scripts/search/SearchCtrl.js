@@ -24,25 +24,22 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
   });
 
-  $scope.$watch('search.cause', function (value, old) {
+  var search = function(value, old) {
     if (value !== old) {
       $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
+  };
+  $scope.$watch('search.cause', function (value, old) {
+    search(value, old);
   });
   $scope.$watch('search.skill', function (value, old) {
-    if (value !== old) {
-      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
-    }
+    search(value, old);
   });
   $scope.$watch('search.city', function (value, old) {
-    if (value !== old) {
-      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
-    }
+    search(value, old);
   });
   $scope.$watch('search.query', function (value, old) {
-    if (value !== old) {
-      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
-    }
+    search(value, old);
   });
 
   $scope.getMore = function () {

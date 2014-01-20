@@ -45,12 +45,12 @@
       <div ng-show="search.showProjects" class="projects clearfix">
         <project-card ng-if="landing" ng-repeat="project in search.projects() | limitTo:8"></project-card>
         <project-card ng-if="!landing" ng-repeat="project in search.projects()"></project-card>
-        <div class="alert center" ng-show="!search.projects().length">Não encontramos projetos para essa busca.</div>
+        <div class="alert center" ng-show="!search.loading() && !search.projects().length">Não encontramos projetos para essa busca.</div>
       </div>
       <div ng-hide="search.showProjects" class="nonprofits clearfix">
         <nonprofit-card ng-if="landing" ng-repeat="nonprofit in search.nonprofits() | limitTo:8"></nonprofit-card>
         <nonprofit-card ng-if="!landing" ng-repeat="nonprofit in search.nonprofits()"></nonprofit-card>
-        <div class="alert center" ng-show="!search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
+        <div class="alert center" ng-show="!search.loading() && !search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
       </div>
     </div>
   </div>
