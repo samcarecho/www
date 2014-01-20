@@ -184,6 +184,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       delete response.job;
       delete response.causes;
       delete response.skills;
+      delete response.volunteers;
       response.put();
     });
   };
