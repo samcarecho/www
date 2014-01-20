@@ -10,6 +10,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
   $scope.markers = [];
   $scope.landing = false;
+  window.user = $scope.loggedUser;
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;

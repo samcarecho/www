@@ -50,8 +50,8 @@
 
     </div>
     <div class="col-sm-2">
-      <button ng-hide="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Cadastrar</button>
-      <button ng-show="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Descadastrar</button>
+      <button ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Cadastrar</button>
+      <button ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-show="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Descadastrar</button>
 
       <div id="project-volunteers"> 
         <h4>{{project.volunteers.length}} voluntários cadastrados</h4>
