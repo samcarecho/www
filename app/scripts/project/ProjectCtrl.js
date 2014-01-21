@@ -64,11 +64,11 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.alreadyApplied = false;
   window.scope = $scope;
   function openApplyModal () {
-    var template = 'partials/volunteerContractModal.html';
+    var template = '/partials/volunteerContractModal.html';
     var controller = 'ProjectModalCtrl';
 
     if ($scope.alreadyApplied) {
-      template = 'partials/volunteerUnapplyModal.html';
+      template = '/partials/volunteerUnapplyModal.html';
       controller = function ($scope, $modalInstance) {
         $scope.ok = function () {
           $modalInstance.close();
