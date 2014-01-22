@@ -23,7 +23,6 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
           c.image = constants.storage + 'cause_' + c.id + '.png';
         });
       });
-      $state.transitionTo('root.nonprofitadmin');
     }
   });
 
@@ -34,7 +33,7 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
       }
       $scope.loggedUser = user;
       if ($scope.loggedUser.role === constants.NONPROFIT) {
-        $state.transitionTo('root.nonprofitadmin');
+        $state.transitionTo('root.nonprofitadmin({slug: ' + $scope.loggedUser.slug + '})');
       } else if ($scope.loggedUser.role === constants.VOLUNTEER) {}
       else {
         toastr.error('Usuário desconhecido acabou de logar.');

@@ -50,7 +50,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'NonprofitCtrl'
     })
     .state('root.nonprofitadmin', {
-      url: '/controle',
+      url: '/controle/:slug',
       templateUrl: '/partials/nonprofitAdminPanel.html',
       controller: 'NonprofitAdminCtrl'
     })

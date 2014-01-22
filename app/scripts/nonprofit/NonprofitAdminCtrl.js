@@ -6,9 +6,10 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangular, Photos, $http) {
+app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $timeout, Restangular, Photos, $http) {
 
   $scope.editing = false;
+
 
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
@@ -113,11 +114,13 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
   }
 
   $scope.markers = [];
-  $timeout(function () {
-    if (!$scope.loggedUser || $scope.loggedUser.role === 'VOLUNTEER') {
+  $scope.$watch('loggedUser', function (user) {
+    if (!user || user.role === 'VOLUNTEER') {
       $state.transitionTo('root.home');
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+      return;
     } else {
+      console.log(user.slug + ' logged');
       $scope.nonprofit = $scope.loggedUser;
       $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.address.city.state.id - 1];
 
@@ -150,7 +153,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $timeout, Restangu
       }
 
     }
-  }, 2000);
+  });
 
   $scope.changeActiveProject = function (newProject) {
     $scope.activeProject = newProject;
