@@ -5,9 +5,10 @@
       <input required="" class="form-control" type="email" name="email" ng-model="email" placeholder="Email">
       <label class="help-block" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">Email inválido.</label>
     </div>
-    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid]">
+    <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[loginForm.password.$error.required || loginForm.password.$invalid || wrongCredentials]">
       <input required="" class="form-control" type="password" name="password" ng-model="password" ng-minlength="6" placeholder="Senha">
       <div class="help-block" ng-show="loginForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</div>
+      <label class="help-block" ng-show="wrongCredentials">Usuário ou senha estão errados :(</label>
     </div>
     <div class="label label-important">{{ error }}</div>
     <div class="row">
