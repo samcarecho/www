@@ -10,6 +10,10 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
   $scope.search =  Search;
   $scope.map = constants.map;
 
+  if (Search.nonprofits().length === 0 && Search.projects().length === 0) {
+    Search.filter();
+  }
+
   $scope.$watch('search.city', function (city) {
     $scope.zoom = constants.defaultZoom;
     if (city.name === 'Sao Paulo') {
