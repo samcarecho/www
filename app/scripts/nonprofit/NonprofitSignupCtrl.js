@@ -156,5 +156,3 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     });
   };
 });
-
-

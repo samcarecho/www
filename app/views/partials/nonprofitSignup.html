@@ -53,6 +53,7 @@
           </div>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.addressline.$error.required || signupForm.addressline.$invalid]">
             <label class="col-sm-3 control-label">Endereço</label>
+            
             <div class="col-sm-6">
               <input required type="text" class="form-control" name="addressline" ng-model="nonprofit.address.addressline" placeholder="Rua">
             </div>
@@ -80,21 +81,27 @@
             <label class="help-block" ng-show="signupForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
             <label class="help-block" ng-show="signupForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
           </div>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofit.city]">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!nonprofit.address.state]">
             <div class="col-sm-8 col-sm-offset-3">
+              <label class="help-block" ng-hide="nonprofit.address.state">Estado obrigatório.</label>
               <select class="form-control" ng-model="nonprofit.address.state" ng-options="s.name for s in states()">
                 <option value="" disabled selected>Estado</option>
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label"></label>
-            <div class="col-sm-8">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!nonprofit.address.city]">
+            <div class="col-sm-8 col-sm-offset-3">
+              <label class="help-block" ng-hide="nonprofit.address.city">Cidade obrigatório.</label>
               <select class="form-control" ng-model="nonprofit.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
                 <option value="" disabled selected>Cidade</option>
               </select>
             </div>
           </div>
+          <br>
+          <label class="col-sm-offset-3">
+            <input type="checkbox" ng-model="nonprofit.hidden_address"> Por motivos de segurança, por favor não publique o endereço da ONG para o público.
+          </label>
+
         </fieldset>
         <fieldset>
           <legend>Sobre você</legend>
@@ -206,7 +213,7 @@
           </div>
         </fieldset>
       </div> <!-- 2nd column -->
-      <fieldset>
+      <fieldset class="col-sm-12">
         <div class="alert alert-warning col-md-12">
           <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
         </div>

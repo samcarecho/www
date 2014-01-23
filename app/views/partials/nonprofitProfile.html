@@ -8,7 +8,7 @@
       <div id="logo">
         <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{image}}"/>
       </div>
-      <div id="nonprofit-map">
+      <div id="nonprofit-map" ng-hide="nonprofit.address.city && nonprofit.address.city === 0">
         <gm-map
         gm-map-id="'nonprofitAddressMap'"
         gm-center="center"

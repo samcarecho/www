@@ -8,6 +8,10 @@ app.filter('as_location_string', function() {
       return 'Não tem endereço.';
     }
 
+    if (address.city === 0) {
+      return address.city_state;
+    }
+
     var out = address.addressline + ', ';
     if (address.addressnumber) {
       out += address.addressnumber + ' - ';
