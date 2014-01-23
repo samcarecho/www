@@ -1024,6 +1024,41 @@ $explorer-map-height: 800px;
   overflow: scroll;
 }
 
+#volunteer-edit {
+  margin: 50px 0;
+  #img-edit {
+    input {
+      display: none;
+    }
+  }
+  #save-button {
+    margin: 30px 0;
+  }
+  #volunteerEditForm {
+    margin-bottom: 40px;
+    fieldset {
+      margin-bottom: 30px;
+    }
+
+    #addressNumberField {
+
+      @media screen and (max-width: $screen-lg) {
+        margin-left: 374px;
+      }
+
+      margin-top: -49px;
+      margin-left: 390px;
+    }
+    #zipcodeField {
+      @media screen and (max-width: $screen-lg) {
+        margin-left: 287px;
+      }
+      margin-top: -49px;
+      margin-left: 315px;
+    }
+  }
+}
+
 #volunteer-contract-modal {
   textarea {
     width: 100%;
