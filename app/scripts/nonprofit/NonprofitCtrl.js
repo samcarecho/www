@@ -18,6 +18,11 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
 
   Restangular.one('nonprofit', $stateParams.slug).get().then(function(response) {
     $scope.nonprofit = response;
+    if (!$scope.nonprofit.published) {
+      $state.transitionTo('root.home');
+      toastr.error('ONG ainda não foi aprovada. Se isso é um erro entre em contato por favor.');
+    }
+
     $scope.nonprofit.projects.forEach(function (p) {
       p.causes.forEach( function (c) {
         c.image = constants.storage + 'cause_' + c.id + '.png';
