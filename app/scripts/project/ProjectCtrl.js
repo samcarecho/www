@@ -10,13 +10,15 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
   $scope.markers = [];
   $scope.landing = false;
-  window.user = $scope.loggedUser;
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
+    if (!$scope.project.published) {
+      $state.transitionTo('root.home');
+      toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
+    }
+
     $scope.nonprofit = $scope.project.nonprofit;
-    window.project = $scope.project;
-    window.nonprofit = $scope.nonprofit;
     $scope.site.title = 'Ato - ' + $scope.project.name;
     $scope.image = $scope.project.image_url;
 
@@ -62,7 +64,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   });
 
   $scope.alreadyApplied = false;
-  window.scope = $scope;
   function openApplyModal () {
     var template = '/partials/volunteerContractModal.html';
     var controller = 'ProjectModalCtrl';
