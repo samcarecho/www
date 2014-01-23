@@ -175,8 +175,9 @@
 
         <fieldset class="col-sm-12">
           <legend>Causas (selecione uma ou mais)</legend>
-          <div class="form-group">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
             <div class="col-sm-12">
+              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para sua ONG.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
@@ -209,7 +210,7 @@
         <div class="alert alert-warning col-md-12">
           <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
         </div>
-        <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded)">Terminar cadastro</button>
+        <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChoosen)">Terminar cadastro</button>
       </fieldset>
     </form>
   </div>

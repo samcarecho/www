@@ -109,6 +109,11 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
         $scope.nonprofit.causes.splice(index, 1);
       }
     }
+    if ($scope.nonprofit.causes.length !== 0) {
+      $scope.causeChoosen = true;
+    } else {
+      $scope.causeChoosen = false;
+    }
   };
 
   $scope.uploadImageFile = function(files) {
