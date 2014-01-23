@@ -116,8 +116,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
   $scope.markers = [];
   $scope.$watch('loggedUser', function (user) {
     if (!user || user.role === 'VOLUNTEER') {
-      $state.transitionTo('root.home');
-      toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+      //$state.transitionTo('root.home');
+      //toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
       return;
     } else {
       console.log(user.slug + ' logged');
@@ -147,9 +147,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
       $scope.activeProject = $scope.nonprofit.projects[0];
       if ($scope.nonprofit.user.address) {
         $scope.nonprofit.address = $scope.nonprofit.user.address;
-        $scope.markers.push($scope.nonprofit.address);
-        $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
-        $scope.zoom = 15;
       }
 
     }
@@ -204,6 +201,10 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
   };
 
   $scope.doneEditingNonprofit = function(nonprofit) {
+
+    if (nonprofit.website.substring(0,4) !== 'http') {
+      nonprofit.website = 'http://'  + nonprofit.website;
+    }
     if ($scope.editing) {
       if (nonprofit.facebook_page_short) {
         nonprofit.facebook_page = 'http://www.facebook.com/' + nonprofit.facebook_page_short;
@@ -226,6 +227,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
       delete nonprofitCopy.image_url;
       delete nonprofitCopy.cover_url;
       delete nonprofitCopy.address.state;
+      delete nonprofitCopy.volunteers;
+
       var causes = [];
       nonprofitCopy.causes.forEach(function(nc) {
         causes.push(nc.id);

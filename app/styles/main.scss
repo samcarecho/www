@@ -101,15 +101,15 @@ $grid-float-breakpoint: $screen-md;
 .page-header {
   h1 {
     font-weight: bold;
-  }
-  border-bottom: 0;
+}
+border-bottom: 0;
 }
 
 fieldset {
   legend {
     font-weight: bold;
     border-bottom: 0;
-  }
+}
 }
 
 doubt-atados {
@@ -205,6 +205,23 @@ doubt-atados {
 }
 
 #nonprofit-admin {
+  #save-button {
+    margin: 20px 40px;
+  }
+  .cover-edit {
+    top: -100px;
+    position: relative;
+    margin: 0 0 0px 700px;
+    color: #686767;
+    background-color: #FFF;
+  }
+  .photo-edit {
+    top: -150px;
+    position: relative;
+    margin: 0 0 0px 26px;;
+    color: #686767;
+    background-color: #FFF;
+  }
   #edit-nonprofit-button {
     margin-right: 20px;
     text-transform: uppercase;
@@ -301,9 +318,6 @@ doubt-atados {
       width:100%;
       height: 340px;
     }
-    label {
-      margin: -200px 0 0 10px;
-    }
     input {
       display: none;
     }
@@ -355,10 +369,6 @@ doubt-atados {
       #logo {
         input {
           display: none;
-        }
-        label {
-          margin-top: -214px;
-          margin-left: 30px;
         }
         img {
           width: 200px;
