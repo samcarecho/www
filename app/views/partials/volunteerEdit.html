@@ -35,12 +35,12 @@
           <label class="help-block" ng-show="volunteerForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:volunteerForm.password.$dirty && volunteerForm.password.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.password.$dirty && volunteerForm.password.$invalid]">
         <div class="col-sm-9 col-sm-offset-3">
           <input class="form-control" type='password' name='password' ng-model='password' ng-minlength="6" placeholder="Senha"/>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:volunteerForm.password.$dirty && volunteerForm.password.$invalid}">
+      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.password.$dirty && volunteerForm.password.$invalid]">
         <div class="col-sm-9 col-sm-offset-3">
           <input class="form-control" type='password' name='passwordConfirm' ng-model='passwordConfirm' ng-minlength="6" placeholder="Confirme senha"/>
           <label class="help-block" ng-show="volunteerForm.password.doesNotMatch">Senhas tem que ser igual!</label>
