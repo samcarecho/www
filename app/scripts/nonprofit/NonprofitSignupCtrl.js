@@ -31,6 +31,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     website:null,
     causes:[]
   };
+  window.nonprofit = $scope.nonprofit;
 
   // Checking that email is valid and not already used.
   $scope.$watch('nonprofit.user.email', function (value) {
@@ -110,22 +111,38 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     }
   };
 
-  $scope.uploadFile = function(files) {
+  $scope.uploadImageFile = function(files) {
     if (files) {
-      var fd = new FormData();
-      fd.append('file', files[0]);
-      Photos.setVolunteerPhoto(fd, function(response) {
-        $scope.image = response.file;
-      }, function() {
-        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
-      });
+      if (!$scope.files) {
+        $scope.files = new FormData();
+      }
+      $scope.files.append('image', files[0]);
+      $scope.imageUploaded = true;
+      $scope.$apply();
+      return;
     }
+    $scope.imageUploaded = false;
+    $scope.$apply();
+  };
+  $scope.uploadCoverFile = function(files) {
+    if (files) {
+      if (!$scope.files) {
+        $scope.files = new FormData();
+      }
+      $scope.files.append('cover', files[0]);
+      $scope.coverUploaded = true;
+      $scope.$apply();
+      return;
+    }
+    $scope.coverUploaded = false;
+    $scope.$apply();
   };
 
   $scope.signup = function () {
     $scope.nonprofit.user.password = $scope.password;
     $scope.facebook_page = 'http://facebook.com/' + $scope.facebook_page;
-    Auth.nonprofitSignup($scope.nonprofit, function () {
+    $scope.files.append('nonprofit', angular.toJson($scope.nonprofit));
+    Auth.nonprofitSignup($scope.files, function () {
       toastr.success('Bem vinda ONG ao atados!');
       $state.transitionTo('root.nonprofitadmin');
     },

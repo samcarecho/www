@@ -133,12 +133,6 @@
             </div>
           </div>
         </fieldset>
-        <fieldset>
-          <div class="alert alert-warning col-md-12">
-            <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
-          </div>
-          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid">Terminar cadastro</button>
-        </fieldset>
       </div> <!-- 1st column -->
 
       <div class="col-md-6">
@@ -195,24 +189,28 @@
             </div>
           </div>
         </fieldset>
-
-        <fieldset>
+ 
+        <fieldset class="col-sm-12">
           <legend>Logo da ONG</legend>
-          <div class="form-group">
-            <input required id="image-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
-            <img ng-show="{{nonprofit.image}}" class="img-rounded" alt="{{nonprofit.slug}}" ng-src="{{image}}" width="270" height="270">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!imageUploaded]">
+            <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar o logo da ONG. </label>
+            <input required id="image-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadImageFile(this.files)" />
           </div>
         </fieldset>
-
-        <fieldset>
+        <fieldset class="col-sm-12">
           <legend>Foto cover da ONG</legend>
-          <div class="form-group">
-            <input required id="cover-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
-            <img ng-show="{{nonprofit.cover}}" class="img-rounded" alt="{{nonprofit.slug}}" ng-src="{{cover_image}}" width="270" height="270">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!coverUploaded]">
+            <label class="help-block" ng-hide="coverUploaded">Escolha uma foto cover bem bonita e de alta qualidade!</label>
+            <input required id="cover-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadCoverFile(this.files)" />
           </div>
         </fieldset>
-
-      </div>
+      </div> <!-- 2nd column -->
+      <fieldset>
+        <div class="alert alert-warning col-md-12">
+          <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
+        </div>
+        <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded)">Terminar cadastro</button>
+      </fieldset>
     </form>
   </div>
 </div>

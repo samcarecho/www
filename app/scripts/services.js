@@ -230,9 +230,6 @@ app.factory('Search', function (Restangular, Site) {
     });
   };
 
-  searchProjects();
-  searchNonprofits();
-
   return {
     filter: function (query, cause, skill, city) {
       _projects = [];
@@ -416,8 +413,11 @@ app.factory('Auth', function($http, Cookies, Site) {
         success();
       }).error(error);
     },
-    nonprofitSignup: function(nonprofit, success, error) {
-      $http.post(apiUrl + 'create/nonprofit/', nonprofit).success( function() {
+    nonprofitSignup: function(data, success, error) {
+      $http.post(apiUrl + 'create/nonprofit/', data, {
+        headers: {'Content-Type': undefined },
+        transformRequest: angular.identity
+      }).success( function() {
         success();
       }).error(error);
     },

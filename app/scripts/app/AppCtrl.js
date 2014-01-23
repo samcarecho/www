@@ -43,8 +43,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
   $scope.openTermsModal = function() {
     $rootScope.modalInstance = $modal.open({
-      templateUrl: '/partials/termsModal.html',
-      windowClass: 'width: 1000px;'
+      templateUrl: '/partials/termsModal.html'
     });
   };
 
