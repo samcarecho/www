@@ -5,7 +5,7 @@
       <img alt="{{volunteer.slug}}" class="img-responsive" ng-src="{{volunteer.image_url}}"/>
       <label class="btn btn-info" for="image-input"><i class="fa fa-edit"></i> Editar foto</label>
       <input class="form-control" id="image-input" type="file" name="file" onchange="angular.element(this).scope().uploadProfileFile(this.files)"/>
-      <button id="save-button" type="submit" class="btn btn-info" ng-disabled="volunteerForm.$invalid">Salvar</button>
+      <button id="save-button" type="submit" class="btn btn-info">Salvar</button>
     </div>
 
     <div class="col-sm-3">
@@ -49,61 +49,26 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="form-group">
-        <div class="input-group col-sm-offset-3 col-sm-9">
-          <span class="input-group-addon">facebook.com/</span>
-          <input type="text" name="facebookpage"  ng-model="volunteer.facebook_page_short" placeholder="nome-do-voluntário" class="form-control">
-        </div>
-      </div>
-      <fieldset id="address-fieldset">
-        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.addressline.$invalid]">
-          <label class="col-sm-3 control-label">Endereço</label>
-          <div class="col-sm-7">
-            <input type="text" class="form-control" name="addressline" ng-model="volunteer.address.addressline" placeholder="Rua">
-          </div>
-        </div>
 
-        <div ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.addressnumber.$invalid]">
-          <div class="col-sm-2" id="addressNumberField">
-            <input type="text" class="form-control" name="addressnumber" ng-model="volunteer.address.addressnumber" placeholder="#">
-          </div>
-        </div>
+      <fieldset id="address-fieldset">
         <div class="form-group">
           <div class="col-sm-8 col-sm-offset-3">
-            <input type="text" class="form-control" name="addressline2" ng-model="volunteer.address.addressline2" placeholder="Complemento">
-          </div>
-        </div>
-        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.neighborhood.$invalid]">
-          <div class="col-sm-5 col-sm-offset-3">
-            <input type="text" class="form-control" name="neighborhood" ng-model='volunteer.address.neighborhood' placeholder="Bairro">
-          </div>
-        </div>
-        <div ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.zipcode.$invalid]">
-          <div class="col-sm-4">
-            <input type="text" class="form-control" name="zipcode" ng-model='volunteer.address.zipcode' ng-minlength="8" ng-maxlength="9" placeholder="CEP" id="zipcodeField">
-          </div>
-          <label class="help-block" ng-show="volunteerForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
-          <label class="help-block" ng-show="volunteerForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
-        </div>
-
-        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteer.city]">
-          <div class="col-sm-9 col-sm-offset-3">
             <select required class="form-control" ng-model="volunteer.address.state" ng-options="s.name for s in states()">
               <option value="" disabled selected>Estado</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-9 col-sm-offset-3">
+          <div class="col-sm-8 col-sm-offset-3">
             <select required class="form-control" ng-model="volunteer.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
               <option value="" disabled selected>Cidade</option>
             </select>
           </div>
         </div>
-      </div>
-    </fieldset>
-    <div class="col-sm-offset-2 col-sm-9">
+      </fieldset>
 
+    </div> <!-- end of 2nd column -->
+    <div class="col-sm-offset-2 col-sm-9">
       <fieldset class="col-sm-6">
         <legend>Causas (selecione uma ou mais)</legend>
         <div class="form-group">
@@ -137,6 +102,6 @@
           </div>
         </div>
       </fieldset>
-    </div> <!-- end of 2nd column -->
+    </div>
   </form>
 </div>

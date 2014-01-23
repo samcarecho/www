@@ -84,6 +84,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   $scope.saveVolunteer = function () {
     var volunteerCopy = {};
+    window.copy = volunteerCopy;
     angular.copy($scope.volunteer, volunteerCopy);
     delete volunteerCopy.projects;
     delete volunteerCopy.nonprofits;
@@ -98,9 +99,12 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     });
     volunteerCopy.skills = skills;
 
-    volunteerCopy.address.city = volunteerCopy.address.city.id;
+    if (volunteerCopy.address.city) {
+      volunteerCopy.address.city = volunteerCopy.address.city.id;
+      delete volunteerCopy.address.state;
+    }
     volunteerCopy.user.address = volunteerCopy.address;
-    window.copy = volunteerCopy;
+    console.log(volunteerCopy.address);
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
