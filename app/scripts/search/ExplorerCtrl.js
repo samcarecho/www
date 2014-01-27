@@ -98,10 +98,15 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
   };
 
   $scope.getMarkerOpts = function (object) {
+    var titleStr = '';
+    if (object.user) {
+      titleStr = '<h4><a href="/ong/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p>';
+    } else {
+      titleStr = '<h4><a href="/ato/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p>';
+    }
     return angular.extend(
-      // TODO: add link to nonprofit or project page here
-      { title: '<h4>' + object.name  + '</h4><p>' + $filter('as_location_string')(object.address) + '</p>'},
-      { slug: object.slug}
+      {title: titleStr},
+      {slug: object.slug}
     );
   };
 });
