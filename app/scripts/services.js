@@ -177,7 +177,7 @@ app.factory('Search', function (Restangular, Site) {
     });
 
     _projects.push(p);
-    p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+    p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
     p.nonprofit.slug = p.nonprofit.user.slug;
   };
 
@@ -411,6 +411,7 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
         sanitizeProject(p, nonprofit);
       });
     },
+    adminProject: sanitizeProject,
   };
 });
 app.factory('Auth', function($http, Cookies, Site) {

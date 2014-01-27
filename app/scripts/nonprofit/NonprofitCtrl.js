@@ -33,7 +33,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
           s.class = 'skill_' + s.id;
         });
         p.nonprofit.slug = p.nonprofit.user.slug;
-        p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+        p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
       });
     }
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;

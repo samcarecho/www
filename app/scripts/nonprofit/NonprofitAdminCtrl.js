@@ -97,22 +97,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
     }
   }
 
-  function sanitizeProject(p) {
-    p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
-    setProjectStatusStyle(p);
-    Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
-      p.volunteers = response;
-      p.volunteers.forEach(function (v) {
-        p.emailAllString += v.email + ',';
-        Restangular.all('applies').getList({project_slug: p.slug, volunteer_slug: v.slug}).then(function (a) {
-          v.status = a[0].status.name;
-          setStatusStyle(v);
-          return;
-        });
-      });
-    });
-  }
-
   $scope.$watch('loggedUser', function (user) {
     if (!user || (user && user.role === constants.VOLUNTEER && !user.user.is_staff)) {
       // $state.transitionTo('root.home');
@@ -153,7 +137,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
 
   $scope.cloneProject = function (project) {
     $http.post(constants.api + 'project/' + project.slug + '/clone/').success(function (response) {
-      sanitizeProject(project);
+      Cleanup.adminProject(project, $scope.nonprofit);
       $scope.nonprofit.projects.push(response);
     });
   };
@@ -217,8 +201,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       });
       nonprofitCopy.causes = causes;
 
-
-
       delete nonprofitCopy.address;
       delete nonprofitCopy.projects;
       delete nonprofitCopy.image_url;
@@ -226,7 +208,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       delete nonprofitCopy.volunteers;
       delete nonprofitCopy.user.address.city_state;
       delete nonprofitCopy.user.address.state;
-
       
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {

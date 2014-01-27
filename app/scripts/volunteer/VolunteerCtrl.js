@@ -23,7 +23,7 @@ app.controller('VolunteerCtrl', function($scope, $state, $stateParams, Restangul
         s.image = constants.storage + 'skill_' + s.id + '.png';
         s.class = 'skill_' + s.id;
       });
-      p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+      p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
       p.nonprofit.slug = p.nonprofit.user.slug;
     };
     var sanitizeNonprofit = function (n) {
