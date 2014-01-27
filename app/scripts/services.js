@@ -315,6 +315,8 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
       volunteer.statusStyle = {color: 'red'};
     } else if (volunteer.status === 'Candidato') {
       volunteer.statusStyle = {color: '#0081B2'};
+    } else if (volunteer.status === 'Ex-Voluntário') {
+      volunteer.statusStyle = {color: 'black'};
     }
   }
 
@@ -386,8 +388,6 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
       }
     },
     nonprofitForAdmin: function (nonprofit) {
-      window.nonprofit = nonprofit;
-
       if (nonprofit.facebook_page) {
         var parser = document.createElement('a');
         parser.href = nonprofit.facebook_page;

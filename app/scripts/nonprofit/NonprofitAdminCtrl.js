@@ -82,6 +82,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       volunteer.statusStyle = {color: 'red'};
     } else if (volunteer.status === 'Candidato') {
       volunteer.statusStyle = {color: '#0081B2'};
+    } else if (volunteer.status === 'Ex-Voluntário') {
+      volunteer.statusStyle = {color: 'black'};
     }
   }
 
@@ -119,7 +121,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
     } else if (user.role === constants.VOLUNTEER && user.user.is_staff) {
       $http.get(constants.api + 'nonprofit/'+ $stateParams.slug + '/')
         .success(function(response) {
-          console.log(response);
           $scope.nonprofit = response;
           Cleanup.currentUser($scope.nonprofit);
           Cleanup.nonprofitForAdmin($scope.nonprofit);
@@ -241,6 +242,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   $scope.volunteerStatusOptions = [
     'Voluntário',
     'Candidato',
-    'Desistente'
+    'Desistente',
+    'Ex-Voluntário'
   ];
 });
