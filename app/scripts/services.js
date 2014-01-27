@@ -146,6 +146,9 @@ app.factory('Search', function (Restangular, Site) {
   var _nextUrlProject = '';
   var _nextUrlNonprofit = '';
 
+  var _projectCount = 0;
+  var _nonprofitCount = 0;
+
   var _loading = false;
 
   var toHttps = function (url) {
@@ -158,6 +161,7 @@ app.factory('Search', function (Restangular, Site) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
       _nextUrlProject = toHttps(response._resultmeta.next);
+      _projectCount = response._resultmeta.count;
     } else {
       _nextUrlProject = '';
     }
@@ -167,6 +171,7 @@ app.factory('Search', function (Restangular, Site) {
     response.forEach(sanitizeNonprofit);
     if (response._resultmeta) {
       _nextUrlNonprofit = toHttps(response._resultmeta.next);
+      _nonprofitCount = response._resultmeta.count;
     } else {
       _nextUrlNonprofit = '';
     }
@@ -251,6 +256,12 @@ app.factory('Search', function (Restangular, Site) {
       return _loading;
     },
     showProjects: true,
+    projectCount: function () {
+      return _projectCount;
+    },
+    nonprofitCount: function () {
+      return _nonprofitCount;
+    },
     nextUrlProject: function () {
       return _nextUrlProject;
     },

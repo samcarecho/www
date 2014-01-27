@@ -34,7 +34,9 @@
           <div id="nonprofit-header" class="row" ng-hide="editing">
             <div class="col-sm-8">
               <h1>{{nonprofit.name}}</h1>
-              <p ng-hide="!nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
+              <p tooltip="Atados está analizando a sua ONG para ser aprovada no site. Espere um pouco e entraremos em contato :)" ng-show="!nonprofit.published" class="label label-danger">ONG em processo de revisão
+              <small>Entre em contato com contato@atados.com.br se tiver alguma dúvida</small></p>
+              <p id="nonprofit-website" ng-hide="!nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
               <p ng-hide="!nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
               <p ng-hide="!nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
               <p ng-hide="!nonprofit.address"><i class="fa fa-map-marker col-xs-1"></i>{{nonprofit.address | as_location_string}}</p>
