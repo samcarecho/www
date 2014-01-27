@@ -306,6 +306,113 @@ app.factory('Legacy', function($http) {
     }
   };
 });
+
+app.factory('Cleanup', function ($http, Site, Restangular) {
+  function setStatusStyle(volunteer) {
+    if (volunteer.status === 'Voluntário') {
+      volunteer.statusStyle = {color: 'green'};
+    } else if (volunteer.status === 'Desistente') {
+      volunteer.statusStyle = {color: 'red'};
+    } else if (volunteer.status === 'Candidato') {
+      volunteer.statusStyle = {color: '#0081B2'};
+    }
+  }
+
+  function setProjectStatusStyle(project) {
+    if (!project.published) {
+      project.statusStyle = {'background-color': '#f2ae43'}; // label-warning color
+    } else if (project.closed) {
+      project.statusStyle = {'background-color': '#db524b'}; // label-danger color
+    } else if (!project.closed) {
+      project.statusStyle = {'background-color': '#58b957'}; // label-success color
+    }
+  }
+  var sanitizeProject = function (p, nonprofit) {
+    p.emailAllString = 'mailto:' + nonprofit.user.email + '?bcc=';
+    setProjectStatusStyle(p);
+    Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
+      p.volunteers = response;
+      p.volunteers.forEach(function (v) {
+        p.emailAllString += v.email + ',';
+        Restangular.all('applies').getList({project_slug: p.slug, volunteer_slug: v.slug}).then(function (a) {
+          v.status = a[0].status.name;
+          setStatusStyle(v);
+          return;
+        });
+      });
+    });
+
+  };
+
+  var fixCauses = function (user) {
+    if (user && user.causes) {
+      var causes = [];
+      user.causes.forEach(function(c) {
+        c = Site.causes()[c];
+        c.checked = true;
+        causes.push(c);
+      });
+      user.causes = causes;
+    }
+  };
+  var fixSkills = function (user) {
+    if (user && user.skills) {
+      var skills = [];
+      user.skills.forEach(function(s) {
+        s = Site.skills()[s];
+        s.checked = true;
+        skills.push(s);
+      });
+      user.skills = skills;
+    }
+  };
+
+
+  return {
+    currentUser: function (user) {
+      user.address = user.user.address;
+      if (user.address && user.address.city) {
+        $http.get(constants.api + 'cities/'+ user.address.city + '/').success(function (city) {
+          user.address.city = city;
+          if (user.address.city) {
+            user.address.state = Site.states()[user.address.city.state.id - 1];
+          }
+          fixCauses(user);
+          fixSkills(user);
+        });
+      } else {
+        fixCauses(user);
+        fixSkills(user);
+      }
+    },
+    nonprofitForAdmin: function (nonprofit) {
+      window.nonprofit = nonprofit;
+
+      if (nonprofit.facebook_page) {
+        var parser = document.createElement('a');
+        parser.href = nonprofit.facebook_page;
+        nonprofit.facebook_page_short = parser.pathname;
+        nonprofit.facebook_page_short = nonprofit.facebook_page_short.replace(/\//, '');
+      }
+      if (nonprofit.google_page) {
+        var parser2 = document.createElement('a');
+        parser2.href = nonprofit.google_page;
+        nonprofit.google_page_short = parser2.pathname;
+        nonprofit.google_page_short = nonprofit.google_page_short.replace(/\//, '');
+      }
+      if (nonprofit.twitter_handle) {
+        var parser3 = document.createElement('a');
+        parser3.href = nonprofit.google_page;
+        nonprofit.twitter_handle_short = parser3.pathname;
+        nonprofit.twitter_handle_short = nonprofit.twitter_handle_short.replace(/\//, '');
+      }
+
+      nonprofit.projects.forEach(function (p) {
+        sanitizeProject(p, nonprofit);
+      });
+    },
+  };
+});
 app.factory('Auth', function($http, Cookies, Site) {
   
   function setAuthHeader(accessToken) {

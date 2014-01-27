@@ -23,21 +23,22 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
       toastr.error('ONG ainda não foi aprovada. Se isso é um erro entre em contato por favor.');
     }
 
-    $scope.nonprofit.projects.forEach(function (p) {
-      p.causes.forEach( function (c) {
-        c.image = constants.storage + 'cause_' + c.id + '.png';
+    if ($scope.nonprofit.projects) {
+      $scope.nonprofit.projects.forEach(function (p) {
+        p.causes.forEach( function (c) {
+          c.image = constants.storage + 'cause_' + c.id + '.png';
+        });
+        p.skills.forEach(function (s) {
+          s.image = constants.storage + 'skill_' + s.id + '.png';
+          s.class = 'skill_' + s.id;
+        });
+        p.nonprofit.slug = p.nonprofit.user.slug;
+        p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
       });
-      p.skills.forEach(function (s) {
-        s.image = constants.storage + 'skill_' + s.id + '.png';
-        s.class = 'skill_' + s.id;
-      });
-      p.nonprofit.slug = p.nonprofit.user.slug;
-      p.nonprofit.image_url = 'http://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
-    });
+    }
     $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
 
     $scope.image = $scope.nonprofit.image_url;
-
     $scope.coverImage = $scope.nonprofit.cover_url;
 
     $scope.causes().forEach(function(c) {
@@ -86,7 +87,9 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
         toastr.error('Não conseguimos te adicionar a lista de voluntários da ONG :(');
       });
   };
+
   $scope.alreadyVolunteer = false;
+
   $scope.$watch('loggedUser + $scope.nonprofit', function () {
     if ($scope.getLoggedUser() && $scope.getLoggedUser().role === constants.VOLUNTEER && $scope.nonprofit) {
       $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())

@@ -5,10 +5,9 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $timeout, Restangular, Photos, $http) {
+app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParams, $timeout, Restangular, Photos, Cleanup) {
 
   $scope.editing = false;
-
 
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
@@ -96,7 +95,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
     }
   }
 
-  function sanitize(p) {
+  function sanitizeProject(p) {
     p.emailAllString = 'mailto:' + $scope.nonprofit.user.email + '?bcc=';
     setProjectStatusStyle(p);
     Restangular.one('project', p.slug).getList('volunteers', {page_size: 1000}).then(function (response) {
@@ -112,42 +111,28 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
     });
   }
 
-  $scope.markers = [];
   $scope.$watch('loggedUser', function (user) {
-    if (!user || user.role === 'VOLUNTEER') {
-      //$state.transitionTo('root.home');
-      //toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+    if (!user || (user && user.role === constants.VOLUNTEER && !user.user.is_staff)) {
+      // $state.transitionTo('root.home');
+      // toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
       return;
-    } else {
-      console.log(user.slug + ' logged');
+    } else if (user.role === constants.VOLUNTEER && user.user.is_staff) {
+      $http.get(constants.api + 'nonprofit/'+ $stateParams.slug + '/')
+        .success(function(response) {
+          console.log(response);
+          $scope.nonprofit = response;
+          Cleanup.currentUser($scope.nonprofit);
+          Cleanup.nonprofitForAdmin($scope.nonprofit);
+          $scope.activeProject = $scope.nonprofit.projects[0];
+        }).error(function() {
+          $state.transitionto('root.home');
+          toastr.error('ong não encontrada.');
+        });
+
+    } else if (user.role === constants.NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
-      $scope.nonprofit.address.state = $scope.states()[$scope.nonprofit.address.city.state.id - 1];
-
-      if ($scope.nonprofit.facebook_page) {
-        var parser = document.createElement('a');
-        parser.href = $scope.nonprofit.facebook_page;
-        $scope.nonprofit.facebook_page_short = parser.pathname;
-        $scope.nonprofit.facebook_page_short = $scope.nonprofit.facebook_page_short.replace(/\//, '');
-      }
-      if ($scope.nonprofit.google_page) {
-        var parser2 = document.createElement('a');
-        parser2.href = $scope.nonprofit.google_page;
-        $scope.nonprofit.google_page_short = parser2.pathname;
-        $scope.nonprofit.google_page_short = $scope.nonprofit.google_page_short.replace(/\//, '');
-      }
-      if ($scope.nonprofit.twitter_handle) {
-        var parser3 = document.createElement('a');
-        parser3.href = $scope.nonprofit.google_page;
-        $scope.nonprofit.twitter_handle_short = parser3.pathname;
-        $scope.nonprofit.twitter_handle_short = $scope.nonprofit.twitter_handle_short.replace(/\//, '');
-      }
-
-      $scope.nonprofit.projects.forEach(sanitize);
+      Cleanup.nonprofitForAdmin($scope.nonprofit);
       $scope.activeProject = $scope.nonprofit.projects[0];
-      if ($scope.nonprofit.user.address) {
-        $scope.nonprofit.address = $scope.nonprofit.user.address;
-      }
-
     }
   });
 
@@ -167,7 +152,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
 
   $scope.cloneProject = function (project) {
     $http.post(constants.api + 'project/' + project.slug + '/clone/').success(function (response) {
-      sanitize(project);
+      sanitizeProject(project);
       $scope.nonprofit.projects.push(response);
     });
   };
@@ -201,43 +186,51 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
 
   $scope.doneEditingNonprofit = function(nonprofit) {
 
-    if (nonprofit.website.substring(0,4) !== 'http') {
-      nonprofit.website = 'http://'  + nonprofit.website;
-    }
     if ($scope.editing) {
-      if (nonprofit.facebook_page_short) {
-        nonprofit.facebook_page = 'http://www.facebook.com/' + nonprofit.facebook_page_short;
-      } else {
-        nonprofit.facebook_page = null;
-      }
-      if (nonprofit.google_page_short) {
-        nonprofit.google_page = 'http://plus.google.com/' + nonprofit.google_page_short;
-      } else {
-        nonprofit.google_page = null;
-      }
-      if (nonprofit.twitter_handle_short) {
-        nonprofit.twitter_handle = 'http://twitter.com/' + nonprofit.twitter_handle_short;
-      } else {
-        nonprofit.twitter_handle = null;
-      }
       var nonprofitCopy = {};
       angular.copy(nonprofit, nonprofitCopy);
-      delete nonprofitCopy.projects;
-      delete nonprofitCopy.image_url;
-      delete nonprofitCopy.cover_url;
-      delete nonprofitCopy.address.state;
-      delete nonprofitCopy.volunteers;
 
+      if (nonprofitCopy.website.substring(0,4) !== 'http') {
+        nonprofitCopy.website = 'http://'  + nonprofitCopy.website;
+      }
+      if (nonprofitCopy.facebook_page_short) {
+        nonprofitCopy.facebook_page = 'http://www.facebook.com/' + nonprofitCopy.facebook_page_short;
+      } else {
+        nonprofitCopy.facebook_page = null;
+      }
+      if (nonprofitCopy.google_page_short) {
+        nonprofitCopy.google_page = 'http://plus.google.com/' + nonprofitCopy.google_page_short;
+      } else {
+        nonprofitCopy.google_page = null;
+      }
+      if (nonprofitCopy.twitter_handle_short) {
+        nonprofitCopy.twitter_handle = 'http://twitter.com/' + nonprofitCopy.twitter_handle_short;
+      } else {
+        nonprofitCopy.twitter_handle = null;
+      }
+
+      nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
       var causes = [];
       nonprofitCopy.causes.forEach(function(nc) {
         causes.push(nc.id);
       });
       nonprofitCopy.causes = causes;
-      nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
+
+
+
+      delete nonprofitCopy.address;
+      delete nonprofitCopy.projects;
+      delete nonprofitCopy.image_url;
+      delete nonprofitCopy.cover_url;
+      delete nonprofitCopy.volunteers;
+      delete nonprofitCopy.user.address.city_state;
+      delete nonprofitCopy.user.address.state;
+
+      
       $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {
-          toastr.success('Perfil da ONG salva!');
           $scope.editing = false;
+          toastr.success('Perfil da ONG salva!');
         }).error(function() {
           $scope.editing = false;
           toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
@@ -251,5 +244,3 @@ app.controller('NonprofitAdminCtrl', function($scope, $state, $stateParams, $tim
     'Desistente'
   ];
 });
-
-
