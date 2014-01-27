@@ -1,13 +1,13 @@
 <div class="card-outer" ng-class="{true: 'col-lg-3 col-md-4 col-sm-5 col-xs-6',  false: 'col-lg-4 col-md-5 col-sm-6'}[landing]" ng-mouseenter="selectMarker(null, project)">
   <div class="card" id="card-{{project.slug}}">
     <div class="card-img">
-        <div class="card-description"> 
-          <a ui-sref="root.project({slug: project.slug})">
-            <p>{{project.description}}</p>
-          </a>
-          <div tooltip="Compartilhe esse ato na sua timeline!" class="fb-share-button" data-href="http://www.atadoslocal.com.br:9000/ato/{{project.slug}}" data-type="icon"></div>
-        </div>
-        <img class="projectImg" alt="{{project.slug}}" ng-src="{{ project.image_url }}">
+      <div class="card-description"> 
+        <a ui-sref="root.project({slug: project.slug})">
+          <p>{{project.description}}</p>
+        </a>
+        <div tooltip="Compartilhe esse ato na sua timeline!" class="fb-share-button" data-href="http://www.atadoslocal.com.br:9000/ato/{{project.slug}}" data-type="icon"></div>
+      </div>
+      <img class="projectImg" alt="{{project.slug}}" ng-src="{{ project.image_url }}">
     </div>
     <div class="card-footer clearfix">
       <a class="card-name" ui-sref="root.project({slug: project.slug})"><h4>{{ project.name}}</h4></a>

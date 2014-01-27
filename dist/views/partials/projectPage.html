@@ -24,7 +24,9 @@
           <img alt="{{nonprofit.slug}}" ng-src="{{project.nonprofit_image}}">
         </a>
         <span>
-          <p id="nonprofit-name"><strong>{{nonprofit.name}}</strong></p>
+          <a ui-sref="root.nonprofit({slug: nonprofit.user.slug})">
+            <p id="nonprofit-name"><strong>{{nonprofit.name}}</strong></p>
+          </a>
           <p id="nonprofit-local">{{project.nonprofit_city_state}}</p>
           <a ng-if="nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook-square"></i></a>
           <a ng-if="nonprofit.google_page" href="{{nonprofit.google_page}}" target="_blank"><i class="fa fa-twitter"></i></a>
