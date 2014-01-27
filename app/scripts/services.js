@@ -149,7 +149,10 @@ app.factory('Search', function (Restangular, Site) {
   var _loading = false;
 
   var toHttps = function (url) {
-    return url.replace('http','https');
+    if (url) {
+      return url.replace('http','https');
+    }
+    return url;
   };
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
