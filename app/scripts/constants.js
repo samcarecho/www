@@ -2,11 +2,11 @@
 /* global google: false */
 var constants = {
   'devApi': 'http://www.atadoslocal.com.br:8000/v1/',
+  'devAuthApi': 'http://www.atadoslocal.com.br:9000/auth/client',
   'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'prodApi': 'https://api.atados.com.br/v1/',
+  'prodAuthApi': 'https://beta.atados.com.br/auth/client',
   'prodStorage': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
-  'clientId': 'da4bc76b44b73cda7e4d',
-  'clientSecret': '3414d4cc0fb94521f0361ee5aba1b7eb73b5a468',
   'facebookClientId': '307143646092581',
   'locale': 'pt_BR',
   'accessTokenCookie': 'access_token',
@@ -41,6 +41,7 @@ var constants = {
 };
 
 constants.api = constants.devApi;
+constants.authApi = constants.devAuthApi;
 constants.storage = constants.devStorage;
 constants.selected = constants.storage + 'heart.png';
 constants.notselected = constants.storage + 'blue.png';

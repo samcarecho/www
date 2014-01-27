@@ -130,7 +130,6 @@ app.config(function(FacebookProvider) {
   FacebookProvider.init(constants.facebookClientId);
   FacebookProvider.setLocale(constants.locale);
   FacebookProvider.setCookie(false);
-  window.facebook = FacebookProvider;
 });
 
 app.config(function(RestangularProvider) {

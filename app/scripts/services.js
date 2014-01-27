@@ -422,23 +422,26 @@ app.factory('Auth', function($http, Cookies, Site) {
       }).error(error);
     },
     login: function(user, success, error) {
-      user.client_id = constants.clientId;
-      user.client_secret = constants.clientSecret;
       user.grant_type = constants.grantType;
-      $http({
-        method: 'POST',
-        url: apiUrl + 'oauth2/access_token/',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: $.param(user)
-      }).success( function(response){
-          setAuthHeader(response.access_token);
-          if (user.remember) {
-            Cookies.set(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
-          } else {
-            Cookies.set(constants.accessTokenCookie, response.access_token);
-          }
-          success(response);
-        }).error(error);
+      $http.get(constants.authApi)
+        .success(function (response) {
+          user.client_id = response.id;
+          user.client_secret = response.secret;
+          $http({
+            method: 'POST',
+            url: apiUrl + 'oauth2/access_token/',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $.param(user)
+          }).success( function(response){
+              setAuthHeader(response.access_token);
+              if (user.remember) {
+                Cookies.set(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
+              } else {
+                Cookies.set(constants.accessTokenCookie, response.access_token);
+              }
+              success(response);
+            }).error(error);
+        });
     },
     logout: function() {
       $http.post(apiUrl + 'logout/');
