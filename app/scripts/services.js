@@ -148,10 +148,13 @@ app.factory('Search', function (Restangular, Site) {
 
   var _loading = false;
 
+  var toHttps = function (url) {
+    return url.replace('http','https');
+  };
   var fixProject = function (response) {
     response.forEach(sanitizeProject);
     if (response._resultmeta) {
-      _nextUrlProject = response._resultmeta.next;
+      _nextUrlProject = toHttps(response._resultmeta.next);
     } else {
       _nextUrlProject = '';
     }
@@ -160,7 +163,7 @@ app.factory('Search', function (Restangular, Site) {
   var fixNonprofit = function (response) {
     response.forEach(sanitizeNonprofit);
     if (response._resultmeta) {
-      _nextUrlNonprofit = response._resultmeta.next;
+      _nextUrlNonprofit = toHttps(response._resultmeta.next);
     } else {
       _nextUrlNonprofit = '';
     }
@@ -252,10 +255,10 @@ app.factory('Search', function (Restangular, Site) {
       return _nextUrlNonprofit;
     },
     setNextUrlProject: function (url) {
-      _nextUrlProject = url;
+      _nextUrlProject = toHttps(url);
     },
     setNextUrlNonprofit: function (url) {
-      _nextUrlNonprofit = url;
+      _nextUrlNonprofit = toHttps(url);
     },
     projects: function () {
       return _projects;
