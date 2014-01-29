@@ -67,6 +67,10 @@ $screen-lg: 1200px; // desktop lg
 
 $grid-float-breakpoint: $screen-md;
 
+.pace {
+  margin-top: 50px;
+}
+
 .pace .pace-activity {
   background: $orange !important;
 }

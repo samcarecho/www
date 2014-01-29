@@ -79,7 +79,7 @@ app.directive('contactatados', function() {
   return {
     restrict: 'E',
     scope: {},
-    template: '<p>Entre em <a href="mailto:contato@atados.com.br?Subject=Ajuda%20Atados!" target="_blank">contato</a> se estiver tendo problemas.</p>'
+    template: '<p>Entre em <a href="" ng-click="openOlark()">contato</a> se estiver tendo problemas.</p>'
   };
 });
 
