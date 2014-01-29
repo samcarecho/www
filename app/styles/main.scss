@@ -1251,6 +1251,7 @@ $card-img-height: 170px;
       margin-right: 0px;
       font-size: 12px;
       line-height: normal;
+      padding-right: 5px;
       p {
         color: #6f6f6f;
       }
@@ -1259,6 +1260,9 @@ $card-img-height: 170px;
         text-decoration: none;  
       }
       .nonprofit-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         margin-top: 7px;
       }
       .card-icons {

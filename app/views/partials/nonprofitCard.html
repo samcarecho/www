@@ -14,7 +14,7 @@
           <img ui-sref="root.nonprofit({slug: nonprofit.slug})" ng-src="{{ nonprofit.image_url }}">
         </a>
         <span>
-          <a ui-sref="root.nonprofit({slug: nonprofit.slug})"><p class="nonprofit-name"><strong>{{nonprofit.name | limitTo:25}}</strong></p></a>
+          <a ui-sref="root.nonprofit({slug: nonprofit.slug})"><p class="nonprofit-name"><strong>{{nonprofit.name}}</strong></p></a>
           <p class="card-local"><i class="fa fa-map-marker"></i> {{ nonprofit.address.city_state }}</p>
           <div class="card-icons">
             <div class="img-circle icon-image" ng-repeat="cause in nonprofit.causes"> 
