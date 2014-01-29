@@ -690,16 +690,15 @@ h1, h2, h3, h4, h5, h6,
   white-space:nowrap;
 }
 
+
 #searchIcon {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
   color: #808080;
   border: 0;
-  width: 30px;
-  height: 35px;
-  padding: 0;
+  display: inline-block;
+  margin-left: -28px;
 }
-
 @media (min-width: $grid-float-breakpoint) {
   #siteSearch {
     width: 350px;
