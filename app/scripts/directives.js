@@ -36,14 +36,15 @@ app.directive('button-facebook', function() {
 app.directive('projectCard', function() {
   return {
     restrict: 'E',
-    templateUrl: 'partials/projectCard.html'
+    transclude: true,
+    templateUrl: '/partials/projectCard.html'
   };
 });
 
 app.directive('atadosSearch', function() {
   return {
     restrict: 'E',
-    templateUrl: 'partials/search.html',
+    templateUrl: '/partials/search.html',
     controller: 'SearchCtrl'
   };
 });
@@ -51,7 +52,8 @@ app.directive('atadosSearch', function() {
 app.directive('nonprofitCard', function() {
   return {
     restrict: 'E',
-    templateUrl: 'partials/nonprofitCard.html'
+    transclude: true,
+    templateUrl: '/partials/nonprofitCard.html'
   };
 });
 
