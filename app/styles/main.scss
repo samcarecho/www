@@ -404,6 +404,23 @@ doubt-atados {
       .fb-like-box {
         margin-top: 20px;
       }
+      #nonprofit-volunteers {
+        width: 250px;
+        h4 {
+          font-size: 16px;
+          font-weight: bold;
+          color: white;
+        }
+        #cards {
+          width: 250px;
+          height: 151px;
+          overflow: scroll;
+          img {
+            margin-right: 3px;
+            margin-bottom: 5px;
+          }
+        }
+      }
     }
     
     margin: 10px 50px;
@@ -969,14 +986,23 @@ atados-search {
     .quote-author {
       width: 255px;
     }
+    #quote1 {
+      padding: 11px 22px;
+    }
+    #quote2 {
+      padding: 33px 22px;
+    }
+    #quote3 {
+      padding: 35px 22px;
+    }
     blockquote {
+      height: 256px;
       margin: 0 0 20px;
       background-color: #F6F9FA;
       border-left: none;
       font-size: 14px;
       line-height: 26px;
       margin-bottom: 30px;
-      padding: 11px 22px;
       border-radius: 5px;
       position: relative;
       box-shadow: 0 3px 0 #DCE8ED;
