@@ -10,7 +10,6 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
 
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
-  window.project = $scope.objects;
   if ($scope.search.showProjects) {
     $scope.objects = $scope.search.projects();
   } else {
@@ -70,6 +69,11 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
       $scope.objects = $scope.search.nonprofits();
     }
   });
+
+  $scope.removeMarker = function (marker, object) {
+    angular.element(document.querySelector('#card-' + object.slug))
+      .removeClass('hover');
+  };
 
   $scope.selectMarker = function (marker, object) {
     if ($scope.previousMarker) {
