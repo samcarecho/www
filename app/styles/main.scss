@@ -965,22 +965,23 @@ atados-search {
       height: 32px;
     }
     .quote-author {
-      width: 200px;
+      width: 255px;
     }
     blockquote {
-      padding: 10px 20px;
-      margin: 0 0  20px;
-      border-left: 5px solid #EEE;
+      height: 265px;
+      margin: 0 0 20px;
       background-color: #F6F9FA;
       border-left: none;
-      color: rgba(85, 94, 106, 0.8);
-      font-size: 16px;
-      line-height: 27px;
+      font-size: 14px;
+      line-height: 26px;
       margin-bottom: 30px;
-      padding: 26px;
+      padding: 11px 22px;
       border-radius: 5px;
       position: relative;
       box-shadow: 0 3px 0 #DCE8ED;
+      color: #717F86;
+      font-style: italic;
+      font-weight: 300;
       &:before {
         border: solid 14px;
         border-color: #F6F9FA rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
@@ -997,11 +998,6 @@ atados-search {
         z-index: 2;
         position: absolute;
       }
-      color: #717F86;
-      font-size: 16px;
-      font-style: italic;
-      font-weight: 300;
-  
     }
   }
 

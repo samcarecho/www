@@ -20,46 +20,49 @@
     <div class="container">
       <div id="numbers" class="row">
         <h3>é fácil começar !  </h3>
-        <div class="col-xs-4 center" style="border-right: 1px solid #ccc;">
+        <div class="col-xs-4" style="border-right: 1px solid #ccc;">
 
-          <div class="number-outer">
+          <div class="number-outer center">
             <span class="number"><i class="fa fa-rocket"></i> {{ numbers().projects | number }}</span>
             <br>
             <span class="number-label">Oportunidades para agir</span>
           </div>
 
           <div class="depoimento">
-            <blockquote>
-              Lorem Atados dolor sit amet, consectetur adipiscing elit. Integer congue purus us, justo bus lucus.
+            <blockquote class="center">
+              Atar-se a alguém é de fato um ato de coragem  e essa é uma qualidade que não falta nos corações de quem é do Atados.Grande exemplo para aqueles que nasceram incomodados. Se voce é um¨tipo desse, experimente atar-se e nunca mais será o mesmo.Seja uma cartinha toda semana, um dia no asilo ou uma festa com gente de várias nações, viva a experiência!
             </blockquote>
             <img ng-src="{{storage}}depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
             <div class="quote-author">
-              <strong class="text-muted">Zézinho Maria</strong>
-              <small>Voluntário do <a ng-href="/ong/teto"><strong> Teto</strong></a></small>
+              <strong class="text-muted">Talyta Santos</strong>
+              <br>
+              <small>Funcionária da <a href="http://www.boehringer-ingelheim.com.br/" target="_blank"><strong> Boehringer</strong></a></small>
             </div>
           </div>
         </div>
-        <div class="col-xs-4 center" style="border-right: 1px solid #ccc;">
-          <div class="number-outer">
+        <div class="col-xs-4" style="border-right: 1px solid #ccc;">
+          <div class="number-outer center">
             <span class="number"><i class="fa fa-smile-o"></i> {{numbers().volunteers |  number}}</span>
             <br>
             <span class="number-label">Pessoas que acreditam na mudança</span>
           </div>
 
           <div class="depoimento">
-            <blockquote>
-              Lorem Atados dolor sit amet, consectetur adipiscing elit. Integer congue purus us, justo bus lucus.
+            <blockquote class="center">
+              O atados e um grupo de pessoas que quer mudar; pessoas; indignadas, que se juntaram para propiciar a outros novas possibilidades de ver e viver. Pessoas que acreditam que toda nova experiência e transformadora, e que querem tornar acessíveis diferentes formas de conhecer e de encontrar com o outro.
             </blockquote>
             <img ng-src="{{storage}}depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
             <div class="quote-author">
-              <strong class="text-muted">Zézinho Maria</strong>
-              <small>Voluntário do <a ng-href="/ong/teto"><strong> Teto</strong></a></small>
+              <strong class="text-muted">Marcela Aruda</strong>
+              <br>
+              <small>Voluntária da <a ui-sref="root.nonprofit({slug: 'mudacoletivo'})" target="_blank"><strong> Muda Coletivo</strong></a></small>
             </div>
           </div>
-        </div>
-        <div class="col-xs-4 center">
 
-          <div class="number-outer">
+        </div>
+        <div class="col-xs-4">
+
+          <div class="number-outer center">
             <span class="number">
               <i class="fa fa-home"></i>
               {{numbers().nonprofits | number}}</span>
@@ -67,15 +70,17 @@
             <span class="number-label">ONGs para ajudar</span>
           </div>
           <div class="depoimento">
-            <blockquote>
-              Lorem Atados dolor sit amet, consectetur adipiscing elit. Integer congue purus us, justo bus lucus.
+            <blockquote class="center">
+              Quando decidimos nos cadastrar no site sabíamos que lidaríamos com o mundo virtual, ou seja nada de contato pessoal.A grande surpresa é que essa relação passou do virtual para o real é como se vocês tivessem pulado da tela para trabalhar aqui do nosso lado e hoje somos amigos.
             </blockquote>
             <img ng-src="{{storage}}depoimento-img-1.png" width="100" height="100" class="img-responsive img-circle" alt="Foto do voluntário">
             <div class="quote-author">
-              <strong class="text-muted">Zézinho Maria</strong>
-              <small>Voluntário do <a ng-href="/ong/teto"><strong> Teto</strong></a></small>
+              <strong class="text-muted">Dayse</strong>
+              <br>
+              <small>Funcionária da ONG <a ui-sref="root.nonprofit({slug: 'parceiros'})" target="_blank"><strong> Monte Azul</strong></a></small>
             </div>
           </div>
+
         </div>
       </div>
     </div>
