@@ -104,9 +104,9 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
   $scope.getMarkerOpts = function (object) {
     var titleStr = '';
     if (object.user) {
-      titleStr = '<h4><a href="/ong/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p>';
+      titleStr = '<div id="info-window"><h4><a href="/ong/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p></div>';
     } else {
-      titleStr = '<h4><a href="/ato/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p>';
+      titleStr = '<div id="info-window"><h4><a href="/ato/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p></div>';
     }
     return angular.extend(
       {title: titleStr},
