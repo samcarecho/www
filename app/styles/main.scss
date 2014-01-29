@@ -932,6 +932,9 @@ a:focus {
   .form-group {
     padding: 0px 5px;
       select {
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: ' ';
         height: 44px;
         background: #fafafa $atados-arrow no-repeat 95% 50%;
         color: $gray-light;
