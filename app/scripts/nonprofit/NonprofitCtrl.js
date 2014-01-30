@@ -49,7 +49,14 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
       .success(function (response) {
         if (response[0] === 'Added') {
           $scope.alreadyVolunteer = true;
+          $scope.nonprofit.volunteers.push($scope.loggedUser);
+          toastr.success('Parabéns você foi adicionada(o) a lista de voluntários da ONG!', $scope.loggedUser.slug);
         } else {
+          toastr.success('Você foi removida(o) da lista de voluntários da ONG. Ela vai sentir sua falta.', $scope.loggedUser.slug);
+          var index = $scope.nonprofit.volunteers.indexOf($scope.loggedUser);
+          if (index > -1) {
+            $scope.nonprofit.volunteers.splice(index, 1);
+          }
           $scope.alreadyVolunteer = false;
         }
       }).error(function () {
@@ -60,7 +67,7 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
   $scope.alreadyVolunteer = false;
 
   if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
-    $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
+    $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString() + '&id=' + new Date().getTime())
       .success(function (response) {
         if (response[0] === 'YES') {
           $scope.alreadyVolunteer = true;
