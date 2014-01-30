@@ -60,10 +60,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       if ($scope.search.nextUrlProject()) {
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
-            if (project.image_url) {
-              var aws_credential = project.image_url.split('?');
-              project.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + project.nonprofit.image + '?' + aws_credential;
-            }
             project.causes.forEach(function (c) {
               c.image = constants.storage + 'cause_' + c.id + '.png';
               c.class = 'cause_' + c.id;
