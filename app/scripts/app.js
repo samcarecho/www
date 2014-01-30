@@ -52,7 +52,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('root.nonprofit', {
       url: '/ong/:slug',
       templateUrl: '/partials/nonprofitProfile.html',
-      controller: 'NonprofitCtrl'
+      controller: 'NonprofitCtrl',
+      resolve: {
+        nonprofit: function (Nonprofit, $stateParams) {
+          return Nonprofit.get($stateParams.slug);
+        },
+      }
     })
     .state('root.nonprofitadmin', {
       url: '/controle/:slug',
