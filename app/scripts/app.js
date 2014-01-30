@@ -16,6 +16,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'RootCtrl',
       resolve: {
         loggedUser: function (Auth) {
+          console.log(Auth);
           return Auth.getCurrentUser();
         },
       }

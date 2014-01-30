@@ -6,6 +6,7 @@
 var app = angular.module('atadosApp');
 
 app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser) {
+  console.log(loggedUser);
   $scope.loggedUser = loggedUser;
 
   if ($rootScope.modalInstance) {
@@ -30,13 +31,6 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
         $rootScope.modalInstance.close();
       }
       $scope.loggedUser = user;
-      if ($scope.loggedUser.role === constants.NONPROFIT) {
-        $state.transitionTo('root.nonprofitadmin({slug: ' + $scope.loggedUser.slug + '})');
-      } else if ($scope.loggedUser.role === constants.VOLUNTEER) {}
-      else {
-        toastr.error('Usuário desconhecido acabou de logar.');
-        $scope.loggedUser = {};
-      }
       toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
     }
   });
