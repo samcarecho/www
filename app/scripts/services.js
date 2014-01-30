@@ -209,6 +209,7 @@ app.factory('Search', function (Restangular, Site) {
     };
     _loading = true;
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
+      _projects = [];
       fixProject(response);
       _loading = false;
     }, function () {
@@ -226,6 +227,7 @@ app.factory('Search', function (Restangular, Site) {
     };
     _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
+      _nonprofits = [];
       fixNonprofit(response);
       _loading = false;
     }, function () {
