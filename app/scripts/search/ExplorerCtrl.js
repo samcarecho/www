@@ -114,5 +114,3 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
     );
   };
 });
-
-

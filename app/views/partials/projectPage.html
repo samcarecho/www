@@ -52,7 +52,7 @@
 
     </div>
     <div class="col-sm-2">
-      <button disabled ng-show="project.closed" class="btn"><i class="fa fa-times"></i> Ato Fechado</button>
+      <button disabled ng-show="project.closed && !alreadyApplied." class="btn"><i class="fa fa-times"></i> Ato Fechado</button>
       <button ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Cadastrar</button>
       <button ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-show="alreadyApplied && !project.closed" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Descadastrar</button>
 

@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $anchorScroll, Search) {
+app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search) {
 
   $scope.search =  Search;
   $scope.map = constants.map;
@@ -102,5 +102,3 @@ app.controller('SearchCtrl', function ($scope, Restangular, $http, $location, $a
     }
   };
 });
-
-
