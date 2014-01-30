@@ -15,9 +15,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       templateUrl: '/partials/root.html',
       controller: 'RootCtrl',
       resolve: {
-        loggedUser: function (Auth) {
+        loggedUser: ['Auth', function (Auth) {
           return Auth.getCurrentUser();
-        },
+        }],
       }
     })
     .state('root.home', {
