@@ -61,7 +61,7 @@ app.controller('VolunteerCtrl', function($scope, $state, $stateParams, Restangul
       });
     };
 
-    Restangular.one('volunteers', $stateParams.slug).get().then(function(response) {
+    Restangular.one('volunteers_public', $stateParams.slug).get().then(function(response) {
       $scope.volunteer = response;
       sanitizeVolunteer($scope.volunteer);
     }, function() {

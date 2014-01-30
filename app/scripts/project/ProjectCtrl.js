@@ -135,7 +135,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
         toastr.error('Não conseguimos te atar. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
       });
     }, function () {
-      console.log('Modal dismissed at: ' + new Date());
     });
   }
 
@@ -167,7 +166,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER && $scope.project) {
       $http.get(constants.api + 'has_volunteer_applied/?project=' + $scope.project.id.toString())
         .success(function (response) {
-          console.log(response);
           if (response[0] === 'YES') {
             $scope.alreadyApplied = true;
           } else {
