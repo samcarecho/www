@@ -9,7 +9,6 @@ app.controller('VolunteerSignupCtrl',
 
   $scope.$watch('slug', function (value) {
     if (value) {
-      console.log(value);
       if (value.indexOf(' ') >= 0) {
         $scope.signupForm.slug.$invalid = true;
         $scope.signupForm.slug.hasSpace = true;

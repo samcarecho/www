@@ -91,13 +91,11 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     volunteerCopy.causes.forEach(function(nc) {
       causes.push(nc.id);
     });
-    console.log(causes);
     volunteerCopy.causes = causes;
     var skills = [];
     volunteerCopy.skills.forEach(function(s) {
       skills.push(s.id);
     });
-    console.log(skills);
     volunteerCopy.skills = skills;
 
 
@@ -106,7 +104,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       delete volunteerCopy.address.state;
     }
     volunteerCopy.user.address = volunteerCopy.address;
-    console.log(volunteerCopy.address);
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
