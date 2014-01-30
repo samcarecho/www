@@ -10,6 +10,7 @@ app.controller('ExplorerCtrl', function ($scope, $filter) {
 
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
+
   if ($scope.search.showProjects) {
     $scope.objects = $scope.search.projects();
   } else {

@@ -91,7 +91,7 @@ app.controller('NonprofitCtrl', function($scope, $state, $stateParams, $http, Au
   $scope.alreadyVolunteer = false;
 
   $scope.$watch('loggedUser + $scope.nonprofit', function () {
-    if ($scope.getLoggedUser() && $scope.getLoggedUser().role === constants.VOLUNTEER && $scope.nonprofit) {
+    if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER && $scope.nonprofit) {
       $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString())
         .success(function (response) {
           if (response[0] === 'YES') {

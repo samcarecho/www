@@ -5,26 +5,23 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth) {
-  $scope.getLoggedUser = Auth.getUser;
+app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser) {
+  $scope.loggedUser = loggedUser;
 
-  $scope.$watch('getLoggedUser()', function (value) {
-    $scope.loggedUser = value;
-    if ($rootScope.modalInstance) {
-      $rootScope.modalInstance.close();
-    }
-    if ($scope.loggedUser && $scope.loggedUser.role === constants.NONPROFIT) {
-      $scope.loggedUser.address = $scope.loggedUser.user.address;
-      $scope.loggedUser.causes.forEach(function (c) {
+  if ($rootScope.modalInstance) {
+    $rootScope.modalInstance.close();
+  }
+  if ($scope.loggedUser && $scope.loggedUser.role === constants.NONPROFIT) {
+    $scope.loggedUser.address = $scope.loggedUser.user.address;
+    $scope.loggedUser.causes.forEach(function (c) {
+      c.image = constants.storage + 'cause_' + c.id + '.png';
+    });
+    $scope.loggedUser.projects.forEach(function (p) {
+      p.causes.forEach(function (c) {
         c.image = constants.storage + 'cause_' + c.id + '.png';
       });
-      $scope.loggedUser.projects.forEach(function (p) {
-        p.causes.forEach(function (c) {
-          c.image = constants.storage + 'cause_' + c.id + '.png';
-        });
-      });
-    }
-  });
+    });
+  }
 
   $rootScope.$on('userLoggedIn', function(event, user) {
     if (user) {
