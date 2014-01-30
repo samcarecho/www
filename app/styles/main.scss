@@ -433,6 +433,21 @@ doubt-atados {
 }
 
 #project-page {
+  #atar-button {
+    i {
+      color: #BA2524;
+    }
+    border:none;
+    box-shadow: 0 0px 1px #858484;
+    margin-right: 20px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    background-image: linear-gradient(#FFF, #E8E8E8);
+    font-weight: bold;
+    color: #0281B2;
+    width: 250px;
+    height: 44px;
+  }
   #project-header {
     height: 373px;
     background-color: #0E6281;
@@ -514,19 +529,6 @@ doubt-atados {
         margin-right: 10px;
         background-color: white;
       }
-    }
-    button {
-      i {
-        color: #BA2524;
-      }
-      margin-right: 20px;
-      margin-bottom: 50px;
-      text-transform: uppercase;
-      background-image: linear-gradient(#FFF, #E8E8E8);
-      font-weight: bold;
-      color: #0281B2;
-      width: 250px;
-      height: 44px;
     }
     #project-volunteers {
 

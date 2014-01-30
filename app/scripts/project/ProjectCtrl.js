@@ -163,10 +163,11 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     }
   };
 
-  $scope.$watch('loggedUser + $scope.project', function () {
+  $scope.$watch('project', function () {
     if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER && $scope.project) {
       $http.get(constants.api + 'has_volunteer_applied/?project=' + $scope.project.id.toString())
         .success(function (response) {
+          console.log(response);
           if (response[0] === 'YES') {
             $scope.alreadyApplied = true;
           } else {

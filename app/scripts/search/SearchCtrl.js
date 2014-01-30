@@ -43,6 +43,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     search(value, old);
   });
   $scope.$watch('search.query', function (value, old) {
+    console.log(value + ' ' + old);
     search(value, old);
   });
 

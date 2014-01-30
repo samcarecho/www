@@ -7,7 +7,7 @@
 </div>
 
 <div ng-class="{true: 'col-sm-10 col-sm-offset-1', false: 'col-sm-12'}[landing]">
-  <button class="btn btn-tab active" ng-click="search.showProjects=true" ng-class="{active: search.showProjects}">Pesquisar Atos</button>
+  <button class="btn btn-tab" ng-click="search.showProjects=true" ng-class="{active: search.showProjects}">Pesquisar Atos</button>
   <button class="btn btn-tab" ng-click="search.showProjects=false" ng-class="{active: !search.showProjects}">Pesquisar ONGs</button>
   <small ng-show="search.showProjects" class="pull-right"> {{search.projects().length}} de {{search.projectCount()}} atos</small>
   <small ng-hide="search.showProjects" class="pull-right"> {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
