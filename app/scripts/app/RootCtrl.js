@@ -6,7 +6,6 @@
 var app = angular.module('atadosApp');
 
 app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser) {
-  console.log(loggedUser);
   $scope.loggedUser = loggedUser;
 
   if ($rootScope.modalInstance) {

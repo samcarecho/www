@@ -16,7 +16,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'RootCtrl',
       resolve: {
         loggedUser: function (Auth) {
-          console.log(Auth);
           return Auth.getCurrentUser();
         },
       }
@@ -32,7 +31,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'AboutCtrl'
     })
     .state('root.404', {
-      url: '/404',
+      url: '/ops',
       templateUrl: '/partials/404.html'
     })
     .state('root.explore', {
@@ -104,7 +103,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: 'LegacyCtrl'
       });
 
-  $urlRouterProvider.otherwise('/404');
+  $urlRouterProvider.otherwise('/ops');
   $locationProvider.html5Mode(true).hashPrefix('!');
 });
 
