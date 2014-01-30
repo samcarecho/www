@@ -11,6 +11,7 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
   if ($rootScope.modalInstance) {
     $rootScope.modalInstance.close();
   }
+
   if ($scope.loggedUser && $scope.loggedUser.role === constants.NONPROFIT) {
     $scope.loggedUser.address = $scope.loggedUser.user.address;
     $scope.loggedUser.causes.forEach(function (c) {
@@ -34,7 +35,7 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
       } else if ($scope.loggedUser.role === constants.VOLUNTEER) {}
       else {
         toastr.error('Usuário desconhecido acabou de logar.');
-        // TODO(mpomarole): proper handle this case and disconect the user. Send email to administrador.
+        $scope.loggedUser = {};
       }
       toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
     }

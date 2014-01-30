@@ -35,12 +35,13 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
       password: $scope.password,
       remember: $scope.remember
     }, function () {
-      Auth.getCurrentUser(
+      Auth.getCurrentUser().then(
         function (user) {
           $rootScope.$emit('userLoggedIn', user);
         }, function (error) {
           toastr.error(error);
         });
+
     }, function () {
       $scope.wrongCredentials = true;
     });
