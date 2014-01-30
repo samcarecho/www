@@ -84,7 +84,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   $scope.saveVolunteer = function () {
     var volunteerCopy = {};
-    window.copy = volunteerCopy;
     angular.copy($scope.volunteer, volunteerCopy);
     delete volunteerCopy.projects;
     delete volunteerCopy.nonprofits;
@@ -92,12 +91,15 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     volunteerCopy.causes.forEach(function(nc) {
       causes.push(nc.id);
     });
+    console.log(causes);
     volunteerCopy.causes = causes;
     var skills = [];
     volunteerCopy.skills.forEach(function(s) {
       skills.push(s.id);
     });
+    console.log(skills);
     volunteerCopy.skills = skills;
+
 
     if (volunteerCopy.address.city) {
       volunteerCopy.address.city = volunteerCopy.address.city.id;
