@@ -62,7 +62,6 @@ app.controller('VolunteerSignupCtrl',
           }, function () {
             Auth.getCurrentUser().then(
               function (user) {
-                toastr.success('Oi!', user.slug);
                 $rootScope.$emit('userLoggedIn', user);
               }, function (error) {
                 toastr.error(error);

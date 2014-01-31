@@ -11,6 +11,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.markers = [];
   $scope.landing = false;
 
+
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
     if (!$scope.project.published) {
@@ -77,6 +78,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
         $scope.cancel = function () {
           $modalInstance.dismiss('cancel');
+          $scope.showApplyModal = false;
         };
       };
     }
@@ -139,7 +141,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   }
 
   $rootScope.$on('userLoggedIn', function(/*event, user*/) {
-    if ($scope.showApplyModal && !$scope.alreadyApplied) {
+    if ($state.is('root.project') && $scope.showApplyModal && !$scope.alreadyApplied) {
       openApplyModal();
     }
     else {
