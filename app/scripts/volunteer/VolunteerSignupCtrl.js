@@ -60,7 +60,7 @@ app.controller('VolunteerSignupCtrl',
             password: $scope.password,
             remember: $scope.remember
           }, function () {
-            Auth.getCurrentUser(
+            Auth.getCurrentUser().then(
               function (user) {
                 toastr.success('Oi!', user.slug);
                 $rootScope.$emit('userLoggedIn', user);

@@ -449,6 +449,7 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
         return $http.get(constants.api + 'current_user/?id=' + new Date().getTime())
           .then(function (response) {
             Cleanup.currentUser(response.data);
+            _currentUser = response.data;
             return response.data;
           });
       }
