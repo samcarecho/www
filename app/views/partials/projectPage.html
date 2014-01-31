@@ -39,13 +39,13 @@
         <div class="col-sm-6" ng-if="project.causes">
           <p>Causas</p>
           <div class="img-circle icon-image" ng-repeat="cause in project.causes"> 
-            <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
+            <img alt="{{cause.name}}" tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
           </div>
         </div>
         <div class="col-sm-6" ng-if="project.skills">
           <p>Habilidades</p>
           <div class="img-circle icon-image" ng-repeat="skill in project.skills"> 
-            <img tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
+            <img alt="{{skill.name}}" tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
           </div>
         </div>
       </div>

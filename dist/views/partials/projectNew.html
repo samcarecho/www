@@ -72,7 +72,7 @@
       Foto do Ato
     </div>
     <div class="panel-body">
-      <img ng-show="{{project.image}}" class="img-rounded" alt="{{project.slug}}" ng-src="{{image}}" width="270" height="270">
+      <img alt="Foto do ato" ng-show="{{project.image}}" class="img-rounded" alt="{{project.slug}}" ng-src="{{image}}" width="270" height="270">
       <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
     </div>
   </div>

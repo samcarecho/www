@@ -11,13 +11,13 @@
       <div ng-show="volunteer.causes" id="volunteer-causes" class="col-sm-6">
         <h3>Causas</h3>
         <div class="img-circle cause-image" ng-repeat="cause in volunteer.causes"> 
-          <img tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
+          <img alt="{{cause.name}}" tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
         </div>
       </div>
       <div ng-show="volunteer.skills" id="volunteer-skills" class="col-sm-6">
         <h3>Habilidades</h3>
         <div class="img-circle skill-image" ng-repeat="skill in volunteer.skills"> 
-          <img tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
+          <img alt="{{skill.name}}" tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
         </div>
       </div>
       <div class="row">
