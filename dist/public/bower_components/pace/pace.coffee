@@ -13,7 +13,7 @@ defaultOptions =
 
   # What is the minimum amount of time the bar should sit after the last
   # update before disappearing
-  ghostTime: 250
+  ghostTime: 500
 
   # Its easy for a bunch of the bar to be eaten in the first few frames
   # before we know how much there is to load.  This limits how much of
@@ -86,10 +86,15 @@ runAnimation = (fn) ->
   last = now()
   tick = ->
     diff = now() - last
-    last = now()
 
-    fn diff, ->
-      requestAnimationFrame tick
+    if diff >= 33
+      # Don't run faster than 30 fps
+
+      last = now()
+      fn diff, ->
+        requestAnimationFrame tick
+    else
+      setTimeout tick, (33 - diff)
 
   tick()
 
@@ -130,9 +135,51 @@ getFromDOM = (key='options', json=true) ->
   catch e
     console?.error "Error parsing inline pace options", e
 
+class Evented
+  on: (event, handler, ctx, once=false) ->
+    @bindings ?= {}
+    @bindings[event] ?= []
+    @bindings[event].push {handler, ctx, once}
+
+  once: (event, handler, ctx) ->
+    @on(event, handler, ctx, true)
+
+  off: (event, handler) ->
+    return unless @bindings?[event]?
+
+    if not handler?
+      delete @bindings[event]
+    else
+      i = 0
+      while i < @bindings[event].length
+        if @bindings[event][i].handler is handler
+          @bindings[event].splice i, 1
+        else
+          i++
+
+  trigger: (event, args...) ->
+    if @bindings?[event]
+      i = 0
+      while i < @bindings[event].length
+        {handler, ctx, once} = @bindings[event][i]
+
+        handler.apply(ctx ? @, args)
+
+        if once
+          @bindings[event].splice i, 1
+        else
+          i++
+
 window.Pace ?= {}
 
-options = Pace.options = extend defaultOptions, window.paceOptions, getFromDOM()
+extend Pace, Evented::
+
+options = Pace.options = extend {}, defaultOptions, window.paceOptions, getFromDOM()
+
+for source in ['ajax', 'document', 'eventLag', 'elements']
+  # true enables them without configuration, so we grab the config from the defaults
+  if options[source] is true
+    options[source] = defaultOptions[source]
 
 class NoTargetError extends Error
 
@@ -175,14 +222,15 @@ class Bar
     document.body.className = document.body.className.replace 'pace-running', ''
     document.body.className += ' pace-done'
 
-
   update: (prog) ->
     @progress = prog
 
     do @render
 
   destroy: ->
-    @getElement().parentNode.removeChild(@getElement())
+    try
+      @getElement().parentNode.removeChild(@getElement())
+    catch NoTargetError
 
     @el = undefined
 
@@ -239,6 +287,32 @@ extendNative = (to, from) ->
         to[key] = val
     catch e
 
+ignoreStack = []
+
+Pace.ignore = (fn, args...) ->
+  ignoreStack.unshift 'ignore'
+  ret = fn(args...)
+  ignoreStack.shift()
+  ret
+
+Pace.track = (fn, args...) ->
+  ignoreStack.unshift 'track'
+  ret = fn(args...)
+  ignoreStack.shift()
+  ret
+
+shouldTrack = (method='GET') ->
+  if ignoreStack[0] is 'track'
+    return 'force'
+  
+  if not ignoreStack.length and options.ajax
+    if method is 'socket' and options.ajax.trackWebSockets
+      return true
+    else if method.toUpperCase() in options.ajax.trackMethods
+      return true
+
+  return false
+
 # We should only ever instantiate one of these
 class RequestIntercept extends Events
   constructor: ->
@@ -247,7 +321,7 @@ class RequestIntercept extends Events
     monitorXHR = (req) =>
       _open = req.open
       req.open = (type, url, async) =>
-        if (type ? 'GET').toUpperCase() in options.ajax.trackMethods
+        if shouldTrack(type)
           @trigger 'request', {type, url, request: req}
 
         _open.apply req, arguments
@@ -275,7 +349,8 @@ class RequestIntercept extends Events
       window.WebSocket = (url, protocols) =>
         req = new _WebSocket(url, protocols)
 
-        @trigger 'request', {type: 'socket', url, protocols, request: req}
+        if shouldTrack('socket')
+          @trigger 'request', {type: 'socket', url, protocols, request: req}
 
         req
 
@@ -287,30 +362,33 @@ getIntercept = ->
     _intercept = new RequestIntercept
   _intercept
 
-if options.restartOnRequestAfter isnt false
-  # If we want to start the progress bar
-  # on every request, we need to hear the request
-  # and then inject it into the new ajax monitor
-  # start will have created.
+# If we want to start the progress bar
+# on every request, we need to hear the request
+# and then inject it into the new ajax monitor
+# start will have created.
 
-  getIntercept().on 'request', ({type, request}) ->
-    if not Pace.running
-      args = arguments
+getIntercept().on 'request', ({type, request}) ->
+  if not Pace.running and (options.restartOnRequestAfter isnt false or shouldTrack(type) is 'force')
+    args = arguments
 
-      setTimeout ->
-        if type is 'socket'
-          stillActive = request.readyState < 2
-        else
-          stillActive = 0 < request.readyState < 4
+    after = options.restartOnRequestAfter or 0
+    if typeof after is 'boolean'
+      after = 0
 
-        if stillActive
-          Pace.restart()
+    setTimeout ->
+      if type is 'socket'
+        stillActive = request.readyState < 2
+      else
+        stillActive = 0 < request.readyState < 4
 
-          for source in Pace.sources
-            if source instanceof AjaxMonitor
-              source.watch args...
-              break
-      , options.restartOnRequestAfter
+      if stillActive
+        Pace.restart()
+
+        for source in Pace.sources
+          if source instanceof AjaxMonitor
+            source.watch args...
+            break
+    , after
 
 class AjaxMonitor
   constructor: ->
@@ -536,6 +614,7 @@ do init = ->
   uniScaler = new Scaler
 
 Pace.stop = ->
+  Pace.trigger 'stop'
   Pace.running = false
 
   bar.destroy()
@@ -550,8 +629,9 @@ Pace.stop = ->
   init()
 
 Pace.restart = ->
+  Pace.trigger 'restart'
   Pace.stop()
-  Pace.go()
+  Pace.start()
 
 Pace.go = ->
   Pace.running = true
@@ -596,10 +676,14 @@ Pace.go = ->
     if bar.done() or done or cancelAnimation
       bar.update 100
 
+      Pace.trigger 'done'
+
       setTimeout ->
         bar.finish()
 
         Pace.running = false
+
+        Pace.trigger 'hide'
       , Math.max(options.ghostTime, Math.min(options.minTime, now() - start))
     else
       enqueueNextFrame()
@@ -617,6 +701,7 @@ Pace.start = (_options) ->
   if not document.querySelector('.pace')
     setTimeout Pace.start, 50
   else
+    Pace.trigger 'start'
     Pace.go()
 
 if typeof define is 'function' and define.amd

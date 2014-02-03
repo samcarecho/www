@@ -55,8 +55,8 @@
       'markerConstructor': google.maps.Marker,
       'polylineConstructor': google.maps.Polyline,
       'mapOptions': {
-        zoom : 11,
-        center : new google.maps.LatLng(-23.5505199, -46.6333094),
+        zoom : 8,
+        center : new google.maps.LatLng(46, -120),
         mapTypeId : google.maps.MapTypeId.ROADMAP
       }
     };
@@ -1571,8 +1571,7 @@
             if (!(opts.position instanceof google.maps.LatLng)) {
               throw 'markerOptions did not contain a position';
             }
-            var marker = new angulargmDefaults.markerConstructor(opts);
-            return marker;
+            return new angulargmDefaults.markerConstructor(opts);
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {
                 throw 'polylineOptions did not contain a path';

@@ -1,6 +1,6 @@
 {
   "name": "angular-facebook",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "homepage": "https://github.com/Ciul/angularjs-facebook",
   "authors": [
     "Luis Carlos Osorio Jayk <luiscarlosjayk@gmail.com>"
@@ -25,13 +25,13 @@
     "angular": "~1.0.8",
     "angular-mocks": "~1.0.8"
   },
-  "_release": "0.1.2",
+  "_release": "0.2.2",
   "_resolution": {
     "type": "version",
-    "tag": "v0.1.2",
-    "commit": "d6f403274e760c1084a19452ab4bc1dd1e082875"
+    "tag": "v0.2.2",
+    "commit": "dffa80782655ca2ba5b484bba204611779a8a539"
   },
   "_source": "git://github.com/Ciul/Angularjs-Facebook.git",
-  "_target": "~0.1.1",
+  "_target": "~0.2.2",
   "_originalSource": "angular-facebook"
 }
