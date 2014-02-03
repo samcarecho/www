@@ -19,9 +19,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     slug:null,
     details:null,
     user:{
-      first_name:null,
+      name:null,
       slug:null,
-      last_name:null,
       email:null,
       password:null
     },
@@ -31,7 +30,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     website:null,
     causes:[]
   };
-  window.nonprofit = $scope.nonprofit;
 
   // Checking that email is valid and not already used.
   $scope.$watch('nonprofit.user.email', function (value) {
