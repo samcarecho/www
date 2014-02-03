@@ -560,6 +560,7 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams) {
         }
         if (nonprofit.projects) {
           nonprofit.projects.forEach(function (p) {
+            window.nonprofit = nonprofit;
             p.causes.forEach( function (c) {
               c.image = constants.storage + 'cause_' + c.id + '.png';
             });
