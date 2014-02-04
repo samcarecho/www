@@ -4,9 +4,10 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Photos, Restangular) {
+app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $state, Auth, Photos, Restangular) {
 
   $scope.nonprofit = {
+    hidden_address: false,
     address: {
       neighborhood:null,
       zipcode:null,
@@ -16,7 +17,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
     phone:null,
     description:null,
     name:null,
-    slug:null,
     details:null,
     user:{
       name:null,
@@ -67,6 +67,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
   });
 
   $scope.cityLoaded = false;
+
   $scope.$watch('nonprofit.address.state', function (value) {
     $scope.cityLoaded = false;
     $scope.stateCities = [];
@@ -143,14 +144,36 @@ app.controller('NonprofitSignupCtrl', function($scope, $filter, $state, Auth, Ph
 
   $scope.signup = function () {
     $scope.nonprofit.user.password = $scope.password;
+
     $scope.facebook_page = 'http://facebook.com/' + $scope.facebook_page;
+    $scope.google_page = 'http://plus.google.com/' + $scope.google_page;
+    $scope.twitter_handle = 'http://www.twitter.com/' + $scope.twitter_handle;
+
     $scope.files.append('nonprofit', angular.toJson($scope.nonprofit));
+
     Auth.nonprofitSignup($scope.files, function () {
-      toastr.success('Bem vinda ONG ao atados!');
-      $state.transitionTo('root.nonprofitadmin');
+      Auth.login({
+          username: $scope.nonprofit.user.email,
+          password: $scope.nonprofit.user.password,
+          remember: true
+        }, function () {
+          Auth.getCurrentUser().then(
+            function (user) {
+              $scope.loggedUser = user;
+              toastr.success('Bem vinda ONG ao atados! Sua ONG ainda precisa ser aprovada. Espere pelo nosso email.');
+              $state.transitionTo('root.home');
+            }, function (error) {
+              console.error(error);
+              toastr.error('Sua ONG foi criada mas não coseguimos te logar. Clique no botão acima "ONG" e use seu email e senha para logar.');
+              $state.transitionTo('root.home');
+            });
+        }, function () {
+          $scope.error = 'Usuário ou senha estão errados :(';
+        });
     },
     function (error) {
-      toastr.error(error);
+      console.error(error);
+      toastr.error('Erro no servidor. Por favor entre em contato.');
     });
   };
 });

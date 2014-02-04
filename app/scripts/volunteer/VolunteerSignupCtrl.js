@@ -71,7 +71,8 @@ app.controller('VolunteerSignupCtrl',
           });
         },
         function (error) {
-          toastr.error(error.detail);
+          console.error(error);
+          toastr.error('Não conseguimos criar sua conta agora. :(');
         });
     }
   };

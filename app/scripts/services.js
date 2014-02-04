@@ -52,6 +52,7 @@ app.factory('Site', function(Restangular, $http) {
     Restangular.all('causes').getList({page_size: constants.static_page_size}).then( function(response) {
       _causes = response;
       _causes.forEach(function (c) {
+        c.checked = false;
         c.image = constants.storage + 'cause_' + c.id + '.png';
         c.class = 'cause_' + c.id;
       });

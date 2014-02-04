@@ -111,7 +111,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
           $scope.activeProject = $scope.nonprofit.projects[0];
         }).error(function() {
           $state.transitionto('root.home');
-          toastr.error('ong não encontrada.');
+          toastr.error('ONG não encontrada.');
         });
 
     } else if (user.role === constants.NONPROFIT) {

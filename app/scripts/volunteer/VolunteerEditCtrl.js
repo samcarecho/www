@@ -5,17 +5,17 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular) {
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state) {
 
-  $scope.$watch('loggedUser', function (user) {
-    if (user) {
-      $scope.volunteer = user;
-      $scope.volunteer.address = user.address ? user.address : {};
-      if ($scope.volunteer.address.city) {
-        $scope.volunteer.address.state = $scope.states()[$scope.volunteer.address.city.state.id - 1];
-      }
+  if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
+    $scope.volunteer = $scope.loggedUser;
+    if ($scope.volunteer.address.city) {
+      $scope.volunteer.address.state = $scope.states()[$scope.volunteer.address.city.state.id - 1];
     }
-  });
+  } else {
+    $state.transitionTo('root.home');
+    toastr.error('Voluntário não logado para editar.');
+  }
 
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
