@@ -13,9 +13,16 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
 
-  $('#atados-explorer-outer').height(window.innerHeight - 100);
-  $('.map-outer.map').height(window.innerHeight - 100);
-  $('.atados-explorer').height(window.innerHeight - 100);
+  $('#atados-explorer-outer').height(window.innerHeight);
+  $('.atados-explorer').height(window.innerHeight);
+  $('.map-outer.map').height(window.innerHeight);
+
+  $('.atados-explorer').scroll(function() {
+    if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
+      $scope.getMore();
+    }
+  });
+
 
   if ($scope.search.showProjects) {
     $scope.objects = $scope.search.projects();
@@ -120,10 +127,4 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
       {slug: object.slug}
     );
   };
-
-  $('.atados-explorer').scroll(function() {
-    if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
-      $scope.getMore();
-    }
-  });
 });

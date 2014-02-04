@@ -9,9 +9,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
 
   $scope.search =  Search;
   $scope.map = constants.map;
+  $scope.highlighted = $scope.landing;
 
   if (Search.nonprofits().length === 0 && Search.projects().length === 0) {
-    Search.filter();
+    Search.filter(null, null, null, null, $scope.highlighted);
   }
 
   $scope.$watch('search.city', function (city) {
@@ -33,7 +34,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       if ($scope.landing) {
         $state.transitionTo('root.explore');
       }
-      $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
+      Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
     }
   };
   $scope.$watch('search.cause', function (value, old) {

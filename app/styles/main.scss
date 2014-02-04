@@ -878,7 +878,7 @@ a:focus {
     padding: 0;
     .map {
       width:100%;
-      height: 900px;
+      height: 1000px;
     }
   }
 }
@@ -1077,11 +1077,8 @@ a:focus {
   }
 }
 
-$explorer-map-height: 800px;
-
-
 .sidebar {
-  height: $explorer-map-height;
+ //  height: $explorer-map-height;
   overflow: auto;
 }
 
