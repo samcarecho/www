@@ -105,11 +105,11 @@
         </fieldset>
         <fieldset>
           <legend>Sobre você</legend>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.name.$error.required || signupForm.name.$invalid]">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[signupForm.responsiblename.$error.required || signupForm.responsiblename.$invalid]">
             <label class="col-sm-3 control-label">Nome</label>
             <div class="col-sm-8">
-              <input required="" class="form-control" type="text" name="name" ng-model="nonprofit.user.name" ng-maxlength="30" placeholder="Nome">
-              <label class="help-block" ng-show="signupForm.name.$error.maxlength">Não pode ter mais de 30 caracteres.</label>
+              <input required="" class="form-control" type="text" name="responsiblename" ng-model="nonprofit.user.name" ng-maxlength="30" placeholder="Nome">
+              <label class="help-block" ng-show="signupForm.responsiblename.$error.maxlength">Não pode ter mais de 30 caracteres.</label>
             </div>
           </div>
           <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[signupForm.email.$invalid]">

@@ -30,12 +30,13 @@
           <div class="fb-like-box" data-href="{{nonprofit.facebook_page}}" data-width="200" data-height="268" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
 
         </div>
-        <div class="col-md-10 col-sm-9 col-xs-8">
+        <div class="col-md-9 col-sm-9 col-xs-8">
           <div id="nonprofit-header" class="row" ng-hide="editing">
             <div class="col-sm-8">
+              <p tooltip="Atados está analizando a sua ONG para ser aprovada no site. Espere um pouco e entraremos em contato :)" ng-show="!nonprofit.published" class="label label-danger">
+                ONG em processo de revisão
+              </p>
               <h1>{{nonprofit.name}}</h1>
-              <p tooltip="Atados está analizando a sua ONG para ser aprovada no site. Espere um pouco e entraremos em contato :)" ng-show="!nonprofit.published" class="label label-danger">ONG em processo de revisão
-              <small>Entre em contato com contato@atados.com.br se tiver alguma dúvida</small></p>
               <p id="nonprofit-website" ng-hide="!nonprofit.website"><i class="fa fa-laptop col-xs-1"></i><a href="{{nonprofit.website}}" target="_blank">{{nonprofit.website}}</a></p>
               <p ng-hide="!nonprofit.user.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{nonprofit.user.email}}" target="_blank">{{nonprofit.user.email}}</a></p>
               <p ng-hide="!nonprofit.user.phone"><i class="fa fa-phone col-xs-1"></i>{{nonprofit.user.phone}}</p>
@@ -196,8 +197,7 @@
           </fieldset>
 
 
-
-          <div id="project-management" class="row" ng-hide="editing">
+          <div id="project-management" class="row" ng-hide="editing || nonprofit.projects.length === 0">
             <div class="col-md-3" id="project-list">
               <button class="btn col-md-12" ng-repeat="project in nonprofit.projects" ng-class="{choosenProject: project===activeProject}" ng-click="changeActiveProject(project)">
                 {{project.name}} <span ng-show="project.volunteers.length" ng-style="project.statusStyle" class="badge">{{project.volunteers.length}}</span>

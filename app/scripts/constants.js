@@ -40,8 +40,8 @@ var constants = {
   'NONPROFIT': 'NONPROFIT'
 };
 
-constants.api = constants.devApi;
-constants.authApi = constants.devAuthApi;
-constants.storage = constants.devStorage;
+constants.api = constants.prodApi;
+constants.authApi = constants.prodAuthApi;
+constants.storage = constants.prodStorage;
 constants.selected = constants.storage + 'heart.png';
 constants.notselected = constants.storage + 'blue.png';

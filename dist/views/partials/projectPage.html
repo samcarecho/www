@@ -68,8 +68,11 @@
 
   <div id="project-details" class="row">
     <div id="left-sidebar" class="col-sm-offset-1 col-sm-3">
+      <h5>Sobre a organização</h5>
+      <p>{{project.nonprofit.description}}</p>
       <div id="project-map" ng-if="(!project.work || !project.work.can_be_done_remotely) && project.address.addressline">
-        <gm-map class="center" gm-map-id="'projectAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:200px;height:200px">
+        <h5>Localização</h5>
+        <gm-map class="projectMap" gm-map-id="'projectAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:200px;height:200px">
         <gm-markers gm-id="project-address-marker" gm-objects="markers" gm-position="{ lat: object.latitude, lng: object.longitude }" gm-events="markerEvents">
         </gm-markers>
         </gm-map>
@@ -78,7 +81,7 @@
       <p ng-if="project.work && project.work.can_be_done_remotely" id="project-remote"><i class="fa fa-rss"></i> Trabalho remoto</p>
 
       <div id="project-responsible"> 
-        <h5>Responsável</h5>
+        <h5>Responsável pelo ato</h5>
         <p ng-if="project.responsible"><i class="fa fa-laptop col-xs-1"></i>{{project.responsible}}</p>
         <p ng-if="project.email"><i class="fa fa-inbox col-xs-1"></i><a href="mailto:{{project.email}}" target="_blank">{{project.email}}</a></p>
         <p ng-if="project.phone"><i class="fa fa-phone col-xs-1"></i>{{project.phone}}</p>
