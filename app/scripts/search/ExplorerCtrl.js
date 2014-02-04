@@ -120,4 +120,10 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
       {slug: object.slug}
     );
   };
+
+  $('.atados-explorer').scroll(function() {
+    if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
+      $scope.getMore();
+    }
+  });
 });
