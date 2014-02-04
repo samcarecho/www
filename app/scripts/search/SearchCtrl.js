@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search) {
+app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state) {
 
   $scope.search =  Search;
   $scope.map = constants.map;
@@ -30,6 +30,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
 
   var search = function(value, old) {
     if (value !== old) {
+      if ($scope.landing) {
+        $state.transitionTo('root.explore');
+      }
       $scope.search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
     }
   };
