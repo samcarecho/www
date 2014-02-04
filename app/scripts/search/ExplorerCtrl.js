@@ -3,13 +3,19 @@
 /* global google: false */
 /* global constants: false */
 /* global OverlappingMarkerSpiderfier: false */
+/* global $: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('ExplorerCtrl', function ($scope, $filter) {
+app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
 
+  $rootScope.explorerView = true;
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
+
+  $('#atados-explorer-outer').height(window.innerHeight - 100);
+  $('.map-outer.map').height(window.innerHeight - 100);
+  $('.atados-explorer').height(window.innerHeight - 100);
 
   if ($scope.search.showProjects) {
     $scope.objects = $scope.search.projects();

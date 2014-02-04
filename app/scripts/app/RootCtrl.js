@@ -34,6 +34,8 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
     }
   });
 
+  $rootScope.explorerView = false;
+
   $scope.logout = function () {
     toastr.success('Tchau até a próxima :)', $scope.loggedUser.slug);
     $scope.$emit('userLoggedOut');
