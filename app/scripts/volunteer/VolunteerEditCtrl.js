@@ -16,6 +16,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
     $scope.volunteer = $scope.loggedUser;
+    window.volunteer = $scope.volunteer;
   } else {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
@@ -171,17 +172,18 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
   });
 
-  $scope.uploadFile = function(files) {
-    if (files) {
-      var fd = new FormData();
-      fd.append('file', files[0]);
-      Photos.setVolunteerPhoto(fd, function(response) {
-        $scope.image = response.file;
-      }, function() {
-        toastr.error('Error no servidor. Não consigo atualizer sua foto :(');
+  $scope.getFacebookPhoto = function () {
+    if ($scope.volunteer.facebook_uid) {
+      Photos.getFacebookPhoto(function (response) {
+        toastr.success('Foto do facebook salva com sucesso');
+        $scope.volunteer.image_url = response;
+      }, function (error) {
+        console.error(error);
+        toastr.error('Error no servidor. Não consigo pegar foto do Facebook.');
       });
     }
   };
+
   $scope.$watch('password + passwordConfirm', function() {
     $scope.volunteerForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
     $scope.volunteerForm.password.$invalid = $scope.volunteerForm.password.doesNotMatch;

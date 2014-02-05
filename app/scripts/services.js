@@ -281,9 +281,27 @@ app.factory('Search', function (Restangular, Site) {
   };
 });
 
-app.factory('Photos', ['$http', function($http) {
+app.factory('Photos', ['$http', 'Facebook', function($http, Facebook) {
 
   return {
+    getFacebookPhoto: function (success, error) {
+      Facebook.getLoginStatus(function (response) {
+        console.log(response);
+        if (response.status === 'connected') {
+          if (response.authResponse) {
+            response.authResponse.getPhoto = true;
+            $http.post(constants.api + 'facebook/', response.authResponse).success( function(response) {
+              console.log(response.user.image_url);
+              success(response.user.image_url);
+            }).error(error);
+
+          } else {
+            toastr.error('Could not get facebook credentials');
+            error();
+          }
+        }
+      });
+    },
     setVolunteerPhoto: function (file, success, error) {
       $http.post(constants.api + 'upload_volunteer_image/', file, {
           headers: {'Content-Type': undefined },
