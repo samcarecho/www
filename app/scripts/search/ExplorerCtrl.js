@@ -9,21 +9,21 @@ var app = angular.module('atadosApp');
 
 app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
 
-  $rootScope.explorerView = true;
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
+  $rootScope.explorerView = true;
 
+  $scope.$on('$destroy', function () {
+    $rootScope.explorerView = false;
+  });
+
+  // TODO(marjoripomarole): Move this to directive Wed Feb  5 11:23:50 2014 
   function resizeExploreElements () {
     var newSize = window.innerHeight - $('.navbar-header').height() - 5;
     $('.atados-explorer').height(newSize - 40);
     $('.map-outer .map').height(newSize);
-
-    console.log('newSize: ' + newSize);
-    console.log('navbar-colapse: ' + $('.navbar-header').height());
-    console.log('#atados-explorer-outer: ' + $('#atados-explorer-outer').height());
-    console.log('.atados-explorer: ' + $('.atados-explorer').height());
-    console.log('Inner height: ' + window.innerHeight);
   }
+
   resizeExploreElements();
 
   $(window).resize(function() {
