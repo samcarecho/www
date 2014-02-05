@@ -9,9 +9,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
     $scope.volunteer = $scope.loggedUser;
-    if ($scope.volunteer.address.city) {
-      $scope.volunteer.address.state = $scope.states()[$scope.volunteer.address.city.state.id - 1];
-    }
   } else {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
@@ -99,7 +96,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     volunteerCopy.skills = skills;
 
 
-    if (volunteerCopy.address.city) {
+    if (volunteerCopy.address && volunteerCopy.address.city) {
       volunteerCopy.address.city = volunteerCopy.address.city.id;
       delete volunteerCopy.address.state;
     }
