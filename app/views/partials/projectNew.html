@@ -1,124 +1,99 @@
-<div class="page-header">
-  <h1>Novo Ato</h1>
+<div class="container">
+  <div class="page-header">
+    <h1 class="form-heading">Novo Ato da ONG {{loggedUser.name}}</h1>
+  </div>
+
+  <form novalidate role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
+    <div class="col-lg-6">
+      <fieldset>
+        <legend>Sobre o Ato</legend>
+
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.projectname.$error.required || newProjectForm.projectname.$invalid]">
+          <label class="col-md-2 control-label" for="projectname">Nome</label>
+          <div class="col-md-5">
+            <input required type="text" class="form-control" name="projectname" ng-minlength="1" ng-model="project.name" placeholder="Nome do Ato" />
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.slug.$error.required || newProjectForm.slug.$invalid]">
+          <div class="input-group col-md-offset-2 col-md-5">
+            <span class="input-group-addon">www.atados.com.br/ato/</span>
+            <input required type='text' class="form-control" name="slug" ng-model='project.slug' placeholder="nome-do-ato" />
+          </div>
+          <div class="col-sm-offset-3 col-sm-8">
+            <label class="help-block" ng-show="newProjectForm.slug.hasSpace">Não pode ter espaço</label>
+            <label class="help-block" ng-show="newProjectForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.details.$error.required || newProjectForm.details.$invalid]">
+          <label class="col-md-2 control-label">Detalhe</label>
+          <div class="col-md-10">                     
+            <textarea class="form-control" rows="2" name="details" ng-model='project.details' ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required></textarea>
+            <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+            <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
+          <label class="col-md-2 control-label">Descrição</label>
+          <div class="col-md-10">                     
+            <textarea class="form-control" rows="5" name="description" ng-model='project.description' ng-minlength="10" placeholder="Descrição" required></textarea>
+            <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="col-lg-6">
+      <fieldset>
+        <legend>Responsável pelo Ato</legend>
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.responsible.$error.required || newProjectForm.responsible.$invalid]">
+          <label class="col-md-2 control-label">Nome</label>
+          <div class="col-md-10">                     
+            <input required class="form-control"type='text' name="responsible" ng-model='project.responsible' placeholder="Nome" required/>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.phone.$error.required || newProjectForm.phone.$invalid]">
+          <label class="col-md-2 control-label">Telefone</label>
+          <div class="col-md-10">                     
+            <input type='text' class="form-control" name="phone" ng-model='project.phone' ng-maxlength="20" placeholder="Telefone" required/>
+            <label class="help-block" ng-show="newProjectForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[newProjectForm.email.$invalid]">
+          <label class="col-md-2 control-label">Email</label>
+          <div class="col-md-10">                     
+            <input class="form-control" type='email' name="email" ng-model='project.email' placeholder="Email" required/>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Foto do Ato</legend>
+        <div class="panel-body">
+          <img alt="Foto do ato" ng-show="{{project.image}}" class="img-rounded" alt="{{project.slug}}" ng-src="{{image}}" width="270" height="270" />
+          <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Causas</legend>
+        <legend>Habilidades</legend>
+      </fieldset>
+    </div>
+
+    <div class="btn-group btn-group-justified" data-toggle="buttons">
+      <label class="btn btn-info active" ng-click="changeType('job')">
+        <input type="radio" name="job"> Pontual
+      </label>
+      <label class="btn btn-info" ng-click="changeType('work')">
+        <input type="radio" name="work"> Recorrente
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-info btn-large center"  ng-disabled="newProjectForm.$invalid">Criar Ato</button>
+  </form>
 </div>
-
-<form novalidate role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Informações do Ato
-    </div>
-    <div class="panel-body">
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.projectname.$error.required || newProjectForm.projectname.$invalid]">
-        <label class="col-md-2 control-label" for="projectname">Nome</label>
-        <div class="col-md-5">
-          <input
-          required
-          type="text"
-          class="form-control"
-          name="projectname"
-          ng-minlength="1"
-          ng-model="project.name"
-          placeholder="Nome do Ato">
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.slug.$error.required || newProjectForm.slug.$invalid]">
-        <div class="input-group col-md-offset-2 col-md-5">
-          <span class="input-group-addon">www.atados.com.br/ato/</span>
-          <input
-          required
-          type='text'
-          class="form-control"
-          name="slug"
-          ng-model='project.slug'
-          placeholder="nome-do-ato">
-        </div>
-        <label class="help-block" ng-show="newProjectForm.slug.hasSpace">Não pode ter espaço</label>
-        <label class="help-block" ng-show="newProjectForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.details.$error.required || newProjectForm.details.$invalid]">
-        <label class="col-md-2 control-label" for="textarea">Detalhe</label>
-        <div class="col-md-10">                     
-          <textarea class="form-control" rows="2" name="details" ng-model='project.details' ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required></textarea>
-          <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-          <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
-        <label class="col-md-2 control-label">Descrição</label>
-        <div class="col-md-10">                     
-          <textarea class="form-control" rows="5" name="description" ng-model='project.description' ng-minlength="10" placeholder="Descrição" required></textarea>
-          <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Responsável pelo Ato
-    </div>
-    <div class="panel-body">
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.responsible.$error.required || newProjectForm.responsible.$invalid]">
-        <label class="col-md-2 control-label">Nome</label>
-        <div class="col-md-10">                     
-          <input required class="form-control"type='text' name="responsible" ng-model='project.responsible' placeholder="Nome" required/>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.phone.$error.required || newProjectForm.phone.$invalid]">
-        <label class="col-md-2 control-label">Telefone</label>
-        <div class="col-md-10">                     
-          <input type='text' class="form-control" name="phone" ng-model='project.phone' ng-maxlength="20" placeholder="Telefone" required/>
-          <label class="help-block" ng-show="newProjectForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[newProjectForm.email.$invalid]">
-        <label class="col-md-2 control-label">Email</label>
-        <div class="col-md-10">                     
-          <input class="form-control" type='email' name="email" ng-model='project.email' placeholder="Email" required/>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Foto do Ato
-    </div>
-    <div class="panel-body">
-      <img alt="Foto do ato" ng-show="{{project.image}}" class="img-rounded" alt="{{project.slug}}" ng-src="{{image}}" width="270" height="270"/>
-      <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Causas do Ato
-    </div>
-    <div class="panel-body">
-      <ul class="select-button-list">
-        <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
-        <label>{{cause.name}}
-          <input type="checkbox" name="causes[]" ng-checked="cause.checked" ng-model="cause.checked">
-        </label>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <div class="btn-group btn-group-justified" data-toggle="buttons">
-        <label class="btn btn-info active" ui-sref="root.newproject.job" ng-click="changeType('job')">
-          <input type="radio" name="job"> Pontual
-        </label>
-        <label class="btn btn-info" ui-sref="root.newproject.work" ng-click="changeType('work')">
-          <input type="radio" name="work"> Recorrente
-        </label>
-      </div>
-    </div>
-    <div class="panel-body">
-      <div ui-view=""></div>
-    </div>
-  </div>
-  <button type="submit" size="large" ng-disabled="newProjectForm.$invalid">Criar Ato</button>
-</form>

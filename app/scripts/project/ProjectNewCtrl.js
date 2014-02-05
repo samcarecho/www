@@ -1,46 +1,41 @@
 'use strict';
 
 /* global toastr: false */
+/* global constants: false */
 
 var app = angular.module('atadosApp');
 
 app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular) {
 
-  $scope.minDate = new Date();
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
-  };
-
-  $scope.typeOfProject = 'job';
-  $state.transitionTo('root.newproject.job');
-
-  $scope.changeType = function (type) {
-    $scope.typeOfProject = type;
-
-  };
-      
   $scope.project = {
     name: '',
     nonprofit: $scope.loggedUser,
     slug: '',
+    address: {
+      neighborhood: '',
+      zipcode: '',
+      addressline: '',
+      addressnumber: ''
+    },
+    description: '',
+    details: '',
     responsible: '',
-    causes: ''
+    phone: '',
+    email: '',
+    facebook_event: '',
+    legacy_id: null,
+    causes: [],
+    skills: [],
+    roles: [],
   };
 
   $scope.job = {
-    address: {},
-    skills: [],
-    roles: [],
     start_date: new Date(),
     end_date: new Date()
   };
 
   $scope.work = {
-    address: {},
     availabilities: [],
-    roles: [],
-    skills: [],
     weekly_hours: 0,
     can_be_done_remotely: false
   };
@@ -51,6 +46,18 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     vacancies: 0
   };
 
+  if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
+    $state.transitionTo('root.home');
+    toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
+  }
+
+  $scope.minDate = new Date();
+  $scope.ismeridian = true;
+  $scope.toggleMode = function() {
+    $scope.ismeridian = ! $scope.ismeridian;
+  };
+
+  
   $scope.removeRole = function (role, type) {
     if (type === 'job') {
       $scope.job.roles.splice($scope.job.roles.indexOf(role), 1);

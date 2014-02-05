@@ -77,18 +77,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         resolve: {}
       })
     .state('root.newproject', {
-        url: '/ato',
+        url: '/cadastro/ato',
         templateUrl: '/partials/projectNew.html',
-        controller: 'ProjectNewCtrl',
-        resolve: {}
-      })
-    .state('root.newproject.job', {
-        templateUrl: '/partials/projectNewJob.html',
-        resolve: {}
-      })
-    .state('root.newproject.work', {
-        templateUrl: '/partials/projectNewWork.html',
-        resolve: {}
+        controller: 'ProjectNewCtrl'
       })
     .state('legacynonprofit', {
         url: '/site/instituicoes/:nonprofitUid/profile',
