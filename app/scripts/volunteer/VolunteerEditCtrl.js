@@ -7,6 +7,13 @@ var app = angular.module('atadosApp');
 
 app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state) {
 
+  $scope.$watch('loggedUser', function (user) {
+    if (!user) {
+      toastr.error('Voluntário não logado para editar.');
+      $state.transitionTo('root.home');
+    }
+  });
+
   if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
     $scope.volunteer = $scope.loggedUser;
   } else {
