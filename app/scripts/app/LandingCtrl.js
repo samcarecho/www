@@ -2,7 +2,9 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('LandingCtrl', function ($scope) {
+app.controller('LandingCtrl', function ($scope, $rootScope) {
+
+  $rootScope.explorerView = false;
   $scope.site.title = 'Atados - Juntando Gente Boa';
   $scope.landing = true;
 

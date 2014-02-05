@@ -147,7 +147,7 @@ app.factory('Search', function (Restangular, Site) {
   var _loading = false;
 
   var toHttps = function (url) {
-    if (url) {
+    if (url && constants.api !== constants.devApi) {
       return url.replace('http','https');
     }
     return url;

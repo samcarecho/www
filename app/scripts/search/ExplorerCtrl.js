@@ -13,9 +13,22 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
 
-  $('#atados-explorer-outer').height(window.innerHeight);
-  $('.atados-explorer').height(window.innerHeight);
-  $('.map-outer.map').height(window.innerHeight);
+  function resizeExploreElements () {
+    var newSize = window.innerHeight - $('.navbar-header').height() - 5;
+    $('.atados-explorer').height(newSize - 40);
+    $('.map-outer .map').height(newSize);
+
+    console.log('newSize: ' + newSize);
+    console.log('navbar-colapse: ' + $('.navbar-header').height());
+    console.log('#atados-explorer-outer: ' + $('#atados-explorer-outer').height());
+    console.log('.atados-explorer: ' + $('.atados-explorer').height());
+    console.log('Inner height: ' + window.innerHeight);
+  }
+  resizeExploreElements();
+
+  $(window).resize(function() {
+    resizeExploreElements();
+  });
 
   $('.atados-explorer').scroll(function() {
     if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {

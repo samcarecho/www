@@ -41,6 +41,5 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
     $scope.$emit('userLoggedOut');
     Auth.logout();
     $scope.loggedUser = null;
-    $state.transitionTo('root.home');
   };
 });
