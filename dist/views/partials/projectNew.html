@@ -1,111 +1,316 @@
-<div class="page-header">
-  <h1>Novo Ato</h1>
-</div>
-
-<form novalidate="" role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Informações do Ato
+<div class="container">
+  <div id="project-new">
+    <div class="page-header">
+      <h1 class="form-heading">Novo Ato da ONG {{loggedUser.name}}</h1>
     </div>
-    <div class="panel-body">
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.projectname.$error.required || newProjectForm.projectname.$invalid]">
-        <label class="col-md-2 control-label" for="projectname">Nome</label>
-        <div class="col-md-5">
-          <input required="" type="text" class="form-control" name="projectname" ng-minlength="1" ng-model="project.name" placeholder="Nome do Ato">
+
+    <form novalidate="" role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
+      <div class="col-sm-12">
+        <fieldset>
+          <legend>Sobre o Ato</legend>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.projectname.$error.required || newProjectForm.projectname.$invalid]">
+            <label class="col-md-3 control-label" for="projectname">Nome</label>
+            <div class="col-md-8">
+              <input required="" type="text" class="form-control" name="projectname" ng-minlength="3" ng-maxlength="50" ng-model="project.name" placeholder="Nome do Ato">
+              <label class="help-block" ng-show="newProjectForm.projectname.$error.minlength">Não pode ter menos de 3 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.projectname.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
+            <label class="col-md-3 control-label">Pequena Descrição</label>
+            <div class="col-md-8">
+              <textarea class="form-control" rows="2" name="description" ng-model="project.description" ng-minlength="10" ng-maxlength="160" required=""></textarea>
+              <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.description.$error.maxlength">Não pode ter mais de 160 caracteres.</label>
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.details.$error.required || newProjectForm.details.$invalid]">
+            <label class="col-md-3 control-label">Descrição</label>
+            <div class="col-md-8">
+              <textarea class="form-control" rows="5" name="details" ng-model="project.details" ng-minlength="10" ng-maxlength="1024" placeholder="" required=""></textarea>
+              <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 1024 caracteres.</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Evento do Ato no Facebook</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon">facebook.com/events/</span>
+                <input type="text" name="facebookevent" ng-model="short_facebook_event" placeholder="url do evento" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Endereço</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="addressline" ng-model="project.address.addressline" placeholder="Rua">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-8" id="addressNumberField">
+              <input type="text" class="form-control" name="addressnumber" ng-model="project.address.addressnumber" placeholder="Número">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="addressline2" ng-model="project.address.addressline2" placeholder="Complemento">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-3">
+              <input type="text" class="form-control" name="neighborhood" ng-model="project.address.neighborhood" placeholder="Bairro">
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.zipcode.$invalid]">
+            <div class="col-sm-offset-3 col-sm-8">
+              <input type="text" class="form-control" name="zipcode" ng-model="project.address.zipcode" ng-minlength="8" ng-maxlength="9" placeholder="CEP" id="zipcodeField">
+              <label class="help-block" ng-show="newProjectForm.zipcode.$error.minlength">Não pode ter menos de 8 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.zipcode.$error.maxlength">Não pode ter mais de 9 caracteres.</label>
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.state]">
+            <div class="col-sm-8 col-sm-offset-3">
+              <label class="help-block" ng-hide="project.address.state">Estado obrigatório.</label>
+              <select class="form-control" ng-model="project.address.state" ng-options="s.name for s in states()">
+                <option value="" disabled="disabled" selected="selected">Estado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.city]">
+            <div class="col-sm-8 col-sm-offset-3">
+              <label class="help-block" ng-hide="project.address.city">Cidade obrigatório.</label>
+              <select class="form-control" ng-model="project.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
+                <option value="" disabled="disabled" selected="selected">Cidade</option>
+              </select>
+            </div>
+          </div>
+
+        </fieldset>
+
+        <fieldset>
+          <legend>Responsável pelo Ato</legend>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.responsible.$error.required || newProjectForm.responsible.$invalid]">
+            <label class="col-sm-3 control-label">Nome do Responsável</label>
+            <div class="col-sm-8">
+              <label class="help-block" ng-show="newProjectForm.responsible.$error.minlength">Não pode ter menos de 2 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.responsible.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.responsible.$error.required">Obrigatório colocar nome do reponsável pelo Ato.</label>
+              <input required="" class="form-control" type="text" name="responsible" ng-minlength="2" ng-maxlength="50" ng-model="project.responsible" placeholder="Nome do Responsável">
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.phone.$error.required || newProjectForm.phone.$invalid]">
+            <label class="col-md-3 control-label">Telefone</label>
+            <div class="col-md-8">
+              <label class="help-block" ng-show="newProjectForm.phone.$error.minlength">Não pode ter menos de 8 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.phone.$error.required">Precisamos de telefone caso voluntário ou Atados queiram entrar em contato.</label>
+              <input type="text" class="form-control" name="phone" ng-model="project.phone" ng-minlength="8" ng-maxlength="20" placeholder="Telefone" required="">
+            </div>
+          </div>
+
+          <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[newProjectForm.email.$error.required || newProjectForm.email.$invalid]">
+            <label class="col-md-3 control-label">Email</label>
+            <div class="col-md-8">                     
+              <label class="help-block" ng-show="newProjectForm.email.$error.required">Precisamos de email caso voluntário ou Atados queiram entrar em contato.</label>
+              <label class="help-block" ng-show="newProjectForm.email.$invalid && newProjectForm.email.$dirty">Email inválido.</label>
+              <input class="form-control" type="email" name="email" ng-model="project.email" placeholder="Email" required="">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Foto do Ato</legend>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">                     
+              <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadProjectImage(this.files)">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="col-sm-6">
+          <legend>Causas (selecione uma ou mais)</legend>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
+            <div class="col-sm-12">
+              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para sua ONG.</label>
+              <ul class="select-button-list">
+                <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
+                <div class="square center" ng-click="addCause(cause)">
+                  <div ng-class="cause.class" class="center"></div>
+                  <p>{{cause.name}}</p>
+                </div>
+                <i class="fa fa-check-circle"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="col-sm-6">
+          <legend>Habilidades (selecione uma ou mais)</legend>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChoosen]">
+            <div class="col-sm-12">
+              <label class="help-block" ng-hide="skillChoosen">Escolha pelo menos uma habilidade para sua ONG.</label>
+              <ul class="select-button-list">
+                <li class="col-sm-3 col-xs-4" ng-repeat="skill in skills()" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
+                <div class="square center" ng-click="addSkill(skill)">
+                  <div ng-class="skill.class" class="center"></div>
+                  <p>{{skill.name}}</p>
+                </div>
+                <i class="fa fa-check-circle"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="col-sm-12">
+          <legend>Cargos</legend>
+          <form novalidate="" name="newRoleForm">
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.rolename.$invalid]">
+              <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control" name="rolename" ng-minlength="3" ng-maxlength="50" ng-model="newRole.name" placeholder="Nome do Cargo">
+                <label class="help-block" ng-show="newRoleForm.rolename.$error.minlength">Não pode ter menos de 3 caracteres.</label>
+                <label class="help-block" ng-show="newRoleForm.rolename.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+              </div>
+            </div>
+
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.details.$invalid]">
+              <label class="col-md-3 control-label" for="rolename">Descrição do Cargo</label>
+              <div class="col-md-8">
+                <textarea class="form-control" rows="3" name="roledetails" placeholder="Descrição do cargo" ng-model="newRole.details"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.vacancies.$invalid]">
+              <label class="col-md-3 control-label" for="rolename">Quantas vagas?</label>
+              <div class="col-md-1">
+                <input type="number" class="form-control" name="vacancies" placeholder="Quantas vagas?" ng-model="newRole.vacancies">
+              </div>
+            </div>
+
+            <a class="btn btn-info pull-right" ng-click="addRole(newRole)">Adicionar Cargo</a> 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Nome</th>
+                  <th>Descrição</th>
+                  <th>Vagas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="role in project.roles">
+                  <td><button type="danger" class="destroy" ng-click="removeRole(role)"><i class="fa fa-trash-o"></i></button></td>
+                  <td>{{role.name}}</td>
+                  <td>{{role.details}}</td>
+                  <td>{{role.vacancies}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </fieldset>
+
+        <div id="type-project-buttons">
+          <div class="btn-group btn-group-justified" data-toggle="buttons">
+            <label class="btn btn-info active" ng-click="jobActive=true">
+              <input type="radio" name="job"> Pontual
+            </label>
+            <label class="btn btn-info" ng-click="jobActive=false">
+              <input type="radio" name="work"> Recorrente
+            </label>
+          </div>
+
+          <fieldset ng-show="jobActive">
+            <legend>Dia e hora do Ato</legend>
+            <div class="col-md-6">
+              <label class="col-md-2 control-label">Começa: </label>
+              <div>
+                <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="start_date" name="startdate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+                <div ng-model="start_date">
+                  <timepicker show-meridian="ismeridian"></timepicker>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="col-md-2 control-label">Termina: </label>
+              <div>
+                <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="end_date" name="enddate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+                <div ng-model="end_date">
+                  <timepicker show-meridian="ismeridian"></timepicker>
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset ng-hide="jobActive">
+            <div class="form-group">
+              <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
+              <div class="col-md-7">
+                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
+              <div class="col-md-1">
+                <input type="number" class="form-control" name="weeklyhours" placeholder="Quantas vagas?" ng-model="work.weekly_hours">
+              </div>
+            </div>
+
+            <div id="project-availabilities">
+              <legend>Horários</legend>
+              <div class="row">
+                <div class="col-sm-3 table-labels">
+                  <div class="table-label">Manhã</div><span class="triangle"></span>
+                  <div class="table-label">Tarde</div><span class="triangle"></span>
+                  <div class="table-label">Noite</div><span class="triangle"></span>
+                </div>
+                <div class="col-sm-5">
+                  <table cellspacing="0" cellpadding="0">
+                    <colgroup span="7"></colgroup>
+                    <tbody>
+                      <tr class="weekdays">
+                        <th scope="col" title="Domingo">Dom</th>
+                        <th scope="col" title="Segunda">Seg</th>
+                        <th scope="col" title="Terça">Ter</th>
+                        <th scope="col" title="Quarta">Qua</th>
+                        <th scope="col" title="Quinta">Qui</th>
+                        <th scope="col" title="Sexta">Sex</th>
+                        <th scope="col" title="Sabado">Sab</th>
+                      </tr>
+                      <tr ng-repeat="days in work.availabilities">
+                        <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
+                          <i ng-show="period.checked" class="fa fa-check" style="color:green"></i>
+                          <i ng-hide="period.checked" class="fa fa-check" style="color:white"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid">Criar Ato Voluntário</button>
         </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.slug.$error.required || newProjectForm.slug.$invalid]">
-        <div class="input-group col-md-offset-2 col-md-5">
-          <span class="input-group-addon">www.atados.com.br/ato/</span>
-          <input required="" type="text" class="form-control" name="slug" ng-model="project.slug" placeholder="nome-do-ato">
-        </div>
-        <label class="help-block" ng-show="newProjectForm.slug.hasSpace">Não pode ter espaço</label>
-        <label class="help-block" ng-show="newProjectForm.slug.alreadyUsed">Não pode ser usado pois já existe.</label>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.details.$error.required || newProjectForm.details.$invalid]">
-        <label class="col-md-2 control-label" for="textarea">Detalhe</label>
-        <div class="col-md-10">                     
-          <textarea class="form-control" rows="2" name="details" ng-model="project.details" ng-minlength="10" ng-maxlength="100" placeholder="Pequena descrição" required=""></textarea>
-          <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-          <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
-        <label class="col-md-2 control-label">Descrição</label>
-        <div class="col-md-10">                     
-          <textarea class="form-control" rows="5" name="description" ng-model="project.description" ng-minlength="10" placeholder="Descrição" required=""></textarea>
-          <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-        </div>
-      </div>
+
+      </div></form>
     </div>
   </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Responsável pelo Ato
-    </div>
-    <div class="panel-body">
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.responsible.$error.required || newProjectForm.responsible.$invalid]">
-        <label class="col-md-2 control-label">Nome</label>
-        <div class="col-md-10">                     
-          <input required="" class="form-control" type="text" name="responsible" ng-model="project.responsible" placeholder="Nome" required="">
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.phone.$error.required || newProjectForm.phone.$invalid]">
-        <label class="col-md-2 control-label">Telefone</label>
-        <div class="col-md-10">                     
-          <input type="text" class="form-control" name="phone" ng-model="project.phone" ng-maxlength="20" placeholder="Telefone" required="">
-          <label class="help-block" ng-show="newProjectForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
-        </div>
-      </div>
-      <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[newProjectForm.email.$invalid]">
-        <label class="col-md-2 control-label">Email</label>
-        <div class="col-md-10">                     
-          <input class="form-control" type="email" name="email" ng-model="project.email" placeholder="Email" required="">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Foto do Ato
-    </div>
-    <div class="panel-body">
-      <img alt="Foto do ato" ng-show="{{project.image}}" class="img-rounded" alt="{{project.slug}}" ng-src="{{image}}" width="270" height="270">
-      <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      Causas do Ato
-    </div>
-    <div class="panel-body">
-      <ul class="select-button-list">
-        <li ng-repeat="cause in causes" ng-class="{active:cause.checked}">
-        <label>{{cause.name}}
-          <input type="checkbox" name="causes[]" ng-checked="cause.checked" ng-model="cause.checked">
-        </label>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <div class="btn-group btn-group-justified" data-toggle="buttons">
-        <label class="btn btn-info active" ui-sref="root.newproject.job" ng-click="changeType('job')">
-          <input type="radio" name="job"> Pontual
-        </label>
-        <label class="btn btn-info" ui-sref="root.newproject.work" ng-click="changeType('work')">
-          <input type="radio" name="work"> Recorrente
-        </label>
-      </div>
-    </div>
-    <div class="panel-body">
-      <div ui-view=""></div>
-    </div>
-  </div>
-  <button type="submit" size="large" ng-disabled="newProjectForm.$invalid">Criar Ato</button>
-</form>

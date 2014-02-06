@@ -189,5 +189,3 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     $scope.volunteerForm.password.$invalid = $scope.volunteerForm.password.doesNotMatch;
   });
 });
-
-

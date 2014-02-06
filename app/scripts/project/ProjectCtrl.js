@@ -14,7 +14,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
-    if (!$scope.project.published) {
+    if (!$scope.project.published && $scope.project.nonprofit.id !== $scope.loggedUser.id) {
       $state.transitionTo('root.home');
       toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
     }

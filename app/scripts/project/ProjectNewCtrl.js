@@ -5,16 +5,19 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular) {
+app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restangular, Project) {
+
+  $scope.jobActive = true;
 
   $scope.project = {
     name: '',
-    nonprofit: $scope.loggedUser,
     slug: '',
+    nonprofit: null,
     address: {
       neighborhood: '',
       zipcode: '',
       addressline: '',
+      addressline2: '',
       addressnumber: ''
     },
     description: '',
@@ -22,8 +25,6 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     responsible: '',
     phone: '',
     email: '',
-    facebook_event: '',
-    legacy_id: null,
     causes: [],
     skills: [],
     roles: [],
@@ -40,16 +41,133 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     can_be_done_remotely: false
   };
 
+  for (var period = 0; period < 3; period++) {
+    var periods = [];
+    $scope.work.availabilities.push(periods);
+    for (var weekday = 0; weekday < 7; weekday++) {
+      periods.push({checked: false, weekday: weekday, period: period});
+    }
+  }
+
   $scope.newRole = {
     name: '',
     prerequisites: '',
     vacancies: 0
   };
 
+  window.project = $scope.project;
+  window.job = $scope.job;
+  window.work = $scope.work;
+  window.newRole = $scope.newRole;
+
   if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
+  } else {
+    $scope.project.nonprofit = $scope.loggedUser.id;
   }
+
+  $scope.$watch('project.name', function (value) {
+    if (value) {
+      Project.getSlug(value, function(success) {
+        $scope.project.slug = success.replace('"', '');
+      }, function (error) {
+        console.error(error);
+      });
+    }
+  });
+
+  $scope.$watch('short_facebook_event', function (value) {
+    $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
+  });
+
+  $scope.cityLoaded = false;
+
+  $scope.$watch('start_date', function (value) {
+    if (value) {
+      $scope.job.start_date = value.getTime();
+    }
+  });
+  $scope.$watch('end_date', function (value) {
+    if (value) {
+      $scope.job.end_date = value.getTime();
+      console.log($scope.job.end_date);
+    }
+  });
+
+  $scope.$watch('project.address.state', function (value) {
+    $scope.cityLoaded = false;
+    $scope.stateCities = [];
+    if (value && !value.citiesLoaded) {
+      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
+        response.forEach(function(c) {
+          $scope.stateCities.push(c);
+          if (!c.active) {
+            $scope.cities().push(c);
+          }
+        });
+        value.citiesLoaded = true;
+        $scope.cityLoaded = true;
+      });
+    } else if(value){
+      var cities = $scope.cities();
+      cities.forEach(function (c) {
+        if (c.state.id === $scope.nonprofit.address.state.id) {
+          $scope.stateCities.push(c);
+        }
+      });
+      $scope.cityLoaded = true;
+    }
+  });
+
+
+  $scope.uploadProjectImage = function(files) {
+    if (files) {
+      if (!$scope.files) {
+        $scope.files = new FormData();
+      }
+      $scope.files.append('image', files[0]);
+      $scope.imageUploaded = true;
+      $scope.$apply();
+      return;
+    }
+    $scope.imageUploaded = false;
+    $scope.$apply();
+  };
+
+  $scope.addCause = function(cause) {
+    cause.checked = !cause.checked;
+    if (cause.checked) {
+      $scope.project.causes.push(cause);
+    } else {
+      var index = $scope.project.causes.indexOf(cause);
+      if (index > -1) {
+        $scope.project.causes.splice(index, 1);
+      }
+    }
+    if ($scope.project.causes.length !== 0) {
+      $scope.causeChoosen = true;
+    } else {
+      $scope.causeChoosen = false;
+    }
+  };
+
+  $scope.addSkill = function(skill) {
+    skill.checked = !skill.checked;
+    if (skill.checked) {
+      $scope.project.skills.push(skill);
+    } else {
+      var index = $scope.project.skills.indexOf(skill);
+      if (index > -1) {
+        $scope.project.skills.splice(index, 1);
+      }
+    }
+    if ($scope.project.skills.length !== 0) {
+      $scope.skillChoosen = true;
+    } else {
+      $scope.skillChoosen = false;
+    }
+  };
 
   $scope.minDate = new Date();
   $scope.ismeridian = true;
@@ -58,100 +176,39 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   };
 
   
-  $scope.removeRole = function (role, type) {
-    if (type === 'job') {
-      $scope.job.roles.splice($scope.job.roles.indexOf(role), 1);
-    } else if (type === 'work') {
-      $scope.work.roles.splice($scope.work.roles.indexOf(role), 1);
-    }
+  $scope.removeRole = function (role) {
+    $scope.project.roles.splice($scope.project.roles.indexOf(role), 1);
   };
 
-  $scope.addRole = function (type) {
-    if (!type) {
-      return;
-    }
-
-    if (type === 'job') {
-      $scope.job.roles.push($scope.newRole);
+  $scope.addRole = function (role) {
+    if (role.vacancies && role.name && role.details) {
+      $scope.project.roles.push($scope.newRole);
       $scope.newRole = {};
-    } else if(type ==='work') {
-      $scope.work.roles.push($scope.newRole);
     } else {
-      toastr.error('Problema inesperado, me desculpe!');
+      toastr.error('Esqueceu alguma informação do cargo?');
     }
-  };
-
-  // Checking that slug does not have spaces and it is not already used.
-  $scope.$watch('project.slug', function (value) {
-    if (value) {
-      if (value.indexOf(' ') >= 0) {
-        $scope.newProjectForm.slug.$invalid = true;
-        $scope.newProjectForm.slug.hasSpace = true;
-      } else {
-        $scope.newProjectForm.slug.$invalid = false;
-        $scope.newProjectForm.slug.hasSpace = false;
-        Auth.isProjectSlugUsed(value, function () {
-          $scope.newProjectForm.slug.alreadyUsed = false;
-          $scope.newProjectForm.slug.$invalid = false;
-        }, function () {
-          $scope.newProjectForm.slug.alreadyUsed = true;
-          $scope.newProjectForm.slug.$invalid = true;
-        });
-      }
-    } else {
-      $scope.newProjectForm.slug.alreadyUsed = false;
-      $scope.newProjectForm.slug.hasSpace = false;
-      $scope.newProjectForm.slug.$invalid = false;
-    }
-  });
-
-  var createJob = function () {
-
-    if ($scope.project.skills) {
-      $scope.project.skills = $filter('filter')($scope.skills, {checked: true});
-      var index = 0;
-      $scope.project.skills.forEach( function (skill) {
-        $scope.project.skills[index++] = skill.url;
-      });
-    }
-
-    var roles = Restangular.all('roles');
-    roles.post($scope.job.roles).then(function (rolesReturned) {
-      $scope.job.roles = [];
-      rolesReturned.forEach( function (role) {
-        $scope.job.roles.push(role.id);
-      });
-      $scope.project.job = $scope.job;
-      var projects = Restangular.all('projects');
-      projects.post($scope.project).then( function () {
-        toastr.success('Ato criado!', $scope.project.name);
-      }, function () {
-        toastr.error('Problema em criar ato :(');
-      });
-    });
-  };
-
-  var createWork = function () {
-    $scope.project.work = $scope.work;
   };
 
   $scope.createProject = function () {
-
-    $scope.project.causes = $filter('filter')($scope.causes(), {checked: true});
-    var index = 0;
-    $scope.project.causes.forEach( function (cause) {
-      $scope.project.causes[index++] = cause.url;
-    });
-
-    $scope.project.nonprofit = $scope.loggedUser.url;
-
-    switch($scope.typeOfProject) {
-      case 'job':
-        createJob();
-        break;
-      case 'work':
-        createWork();
-        break;
+    if ($scope.jobActive) {
+      $scope.project.job = $scope.job;
+    } else {
+      $scope.project.work = $scope.work;
+      var ava = [];
+      $scope.work.availabilities.forEach(function (a) {
+        if (a.checked) {
+          ava.push(a);
+        }
+      });
+      $scope.work.availabilities = ava;
     }
+
+    Project.create($scope.project, function () {
+      toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
+      $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
+    }, function (error) {
+      console.error(error);
+      toastr.error('Não consigo criar novo Ato. Entre em contato com o Atados.');
+    });
   };
 });

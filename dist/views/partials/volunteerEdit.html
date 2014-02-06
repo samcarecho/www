@@ -1,11 +1,12 @@
 <div id="volunteer-edit" class="row">
   <form novalidate="" class="form-horizontal" id="volunteerEditForm" name="volunteerForm" ng-submit="saveVolunteer()">
 
-    <div id="img-edit" class="col-sm-2 col-sm-offset-1">
-      <img alt="{{volunteer.slug}}" class="img-responsive" ng-src="{{volunteer.image_url}}">
+    <div id="img-edit" class="col-sm-3 col-sm-offset-1">
+      <img alt="{{volunteer.slug}}" class="img-responsive" ng-src="{{volunteer.image_url}}" width="120" height="120">
       <label class="btn btn-info" for="image-input"><i class="fa fa-edit"></i> Editar foto</label>
       <input class="form-control" id="image-input" type="file" name="file" onchange="angular.element(this).scope().uploadProfileFile(this.files)">
       <button id="save-button" type="submit" class="btn btn-info">Salvar</button>
+      <label class="btn btn-info" ng-show="volunteer.facebook_uid" ng-click="getFacebookPhoto()"><i class="fa fa-facebook"></i> Foto do Facebook</label>
     </div>
 
     <div class="col-sm-3">
@@ -62,7 +63,7 @@
       </fieldset>
 
     </div> <!-- end of 2nd column -->
-    <div class="col-sm-offset-2 col-sm-9">
+    <div class="col-sm-offset-1 col-sm-9">
       <fieldset class="col-sm-6">
         <legend>Causas (selecione uma ou mais)</legend>
         <div class="form-group">

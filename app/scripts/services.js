@@ -189,7 +189,7 @@ app.factory('Search', function (Restangular, Site) {
   var sanitizeNonprofit = function (n) {
     var causes = [];
     n.causes.forEach(function (c) {
-      c = Site.causes()[c];
+      angular.copy(Site.causes()[c], c);
       causes.push(c);
       c.image = constants.storage + 'cause_' + c.id + '.png';
       c.class = 'cause_' + c.id;
@@ -381,9 +381,13 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
     if (user && user.causes) {
       var causes = [];
       user.causes.forEach(function(c) {
-        c = Site.causes()[c];
-        c.checked = true;
-        causes.push(c);
+        var cause = {};
+        cause.id = Site.causes()[c].id;
+        cause.name = Site.causes()[c].name;
+        cause.class = Site.causes()[c].class;
+        cause.image = Site.causes()[c].image;
+        cause.checked = true;
+        causes.push(cause);
       });
       user.causes = causes;
     }
@@ -392,9 +396,13 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
     if (user && user.skills) {
       var skills = [];
       user.skills.forEach(function(s) {
-        s = Site.skills()[s];
-        s.checked = true;
-        skills.push(s);
+        var skill = {};
+        skill.id = Site.skills()[s].id;
+        skill.name = Site.skills()[s].name;
+        skill.class = Site.skills()[s].class;
+        skill.image = Site.skills()[s].image;
+        skill.checked = true;
+        skills.push(skill);
       });
       user.skills = skills;
     }
@@ -445,6 +453,7 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
     adminProject: sanitizeProject,
   };
 });
+
 app.factory('Auth', function($http, Cookies, Cleanup) {
   
   function setAuthHeader(accessToken) {
@@ -555,6 +564,22 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
   };
 });
 
+app.factory('Project', function($http) {
+  return {
+    // For now this is only to save the phone number of atar
+    create: function (project, success, error) {
+      var projectCopy = {};
+      angular.copy(project, projectCopy);
+      $http.post(constants.api + 'create/project/', {project: projectCopy})
+        .success(success).error(error);
+    },
+    getSlug: function (name, success, error) {
+      $http.get(constants.api + 'create_project_slug/?name=' + name)
+        .success(success).error(error);
+    }
+  };
+});
+
 app.factory('Volunteer', function($http) {
   return {
     // For now this is only to save the phone number of atar
@@ -581,9 +606,9 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams) {
         }
         if (nonprofit.projects) {
           nonprofit.projects.forEach(function (p) {
-            window.nonprofit = nonprofit;
             p.causes.forEach( function (c) {
               c.image = constants.storage + 'cause_' + c.id + '.png';
+              c.class = 'cause_' + c.id;
             });
             p.skills.forEach(function (s) {
               s.image = constants.storage + 'skill_' + s.id + '.png';
