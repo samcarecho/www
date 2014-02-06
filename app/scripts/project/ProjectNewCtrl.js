@@ -71,6 +71,7 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     if (value) {
       Project.getSlug(value, function(success) {
         $scope.project.slug = success.replace('"', '');
+        $scope.project.slug = success.replace('"', '');
       }, function (error) {
         console.error(error);
       });

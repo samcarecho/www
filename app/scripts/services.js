@@ -189,10 +189,13 @@ app.factory('Search', function (Restangular, Site) {
   var sanitizeNonprofit = function (n) {
     var causes = [];
     n.causes.forEach(function (c) {
-      angular.copy(Site.causes()[c], c);
-      causes.push(c);
-      c.image = constants.storage + 'cause_' + c.id + '.png';
-      c.class = 'cause_' + c.id;
+      var cause = {};
+      cause.id = Site.causes()[c].id;
+      cause.name = Site.causes()[c].name;
+      cause.class = Site.causes()[c].class;
+      cause.image = Site.causes()[c].image;
+      cause.checked = true;
+      causes.push(cause);
     });
     n.causes = causes;
     n.address = n.user.address;
