@@ -6,7 +6,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
+app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonprofit) {
 
   $scope.landing = false;
 
@@ -53,11 +53,7 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
     }
   };
 
-  $scope.showAddVolunteerToNonprofitButton = function () {
-    return $scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER;
-  };
-
-  $scope.addVolunteerToNonprofit = function () {
+  function setVolunteerToNonprofit() {
     $http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
       .success(function (response) {
         if (response[0] === 'Added') {
@@ -75,6 +71,15 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
       }).error(function () {
         toastr.error('Não conseguimos te adicionar a lista de voluntários da ONG :(');
       });
+  }
+
+  $scope.addVolunteerToNonprofit = function () {
+    if (!$scope.loggedUser) {
+      $scope.openVolunteerModal();
+      toastr.info('Você tem que logar primeiro!');
+    } else {
+      setVolunteerToNonprofit();
+    }
   };
 
   $scope.alreadyVolunteer = false;
@@ -89,6 +94,10 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
         }
       });
   }
+  $rootScope.$on('userLoggedOut', function(/*event,*/) {
+    $scope.alreadyVolunteer = false;
+  });
+
 
   $scope.selectMarker = function (marker, object) {
     angular.element(document.querySelector('#card-' + object.slug))
