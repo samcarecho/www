@@ -6,8 +6,8 @@
 
 <div id="volunteer-contract-modal" class="modal-body">
 
-  <p> Parabéns! Esse é o primeiro passo em virar um voluntário do {{nonprofit.name}}.</p>
-  <p> Agora só falta revisar o termo do voluntário e aceitar os termos para um trabalho de sucesso com a ONG.</p>
+  <p> Boa! Esse é o primeiro passo para ser voluntário da <strong>{{nonprofit.name}}</strong>.</p>
+  <p> Ao participar deste ato voluntário, você concorda com o termo de adesão abaixo.</p>
   <div id="contract" >
     <p><strong>CONDIÇÕES GERAIS:</strong></p>
 
@@ -40,12 +40,12 @@
     </p>
   </div>
 
-  <p>Vamos entrar em contato com a ONG com as suas informações.</p>
+  <p>Confirme suas informações para entrarmos em contato com a ONG.</p>
 
 
   <div class="row" id="phone-field">
     <div class="form-group" ng-class="{error:contractForm.phone.$dirty && contractForm.phone.$invalid && phoneWarningMessage}">
-      <label class="col-lg-2 control-label">Telefone</label>
+      <label class="col-lg-3 control-label">Telefone</label>
       <div class="col-lg-5">                     
         <input class="form-control" type="text" name="phone" ng-model="contractForm.phone" ng-maxlength="20" placeholder="Telefone"/>
         <label class="help-block" ng-show="contractForm.phone.$error.maxlength">Tem que ter menos de 20 caracteres</label>
@@ -53,8 +53,16 @@
       </div>
     </div>
   </div>
+  <div class="row" id="name-field">
+    <div class="form-group" ng-class="{error:contractForm.name.$dirty && contractForm.name.$invalid && phoneWarningMessage}">
+      <label class="col-lg-3 control-label">Nome do voluntário</label>
+      <div class="col-lg-5">                     
+        <input class="form-control" type="text" name="name" ng-model="contractForm.name" placeholder="Nome"/>
+      </div>
+    </div>
+  </div>
 
-  <p>Para ajudar a ONG entender como você pode ajudar, escreva uma pequena mensagem para <strong>{{nonprofit.name}}</strong>!</p>
+  <p>Conte para a <strong>{{nonprofit.name}}</strong> um pouquinho do que te levou a ser voluntário deste ato =)</p>
   <textarea ng-model="contractForm.message"></textarea>
 </div>
 

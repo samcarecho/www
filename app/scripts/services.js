@@ -505,8 +505,6 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
     }
   }
 
-  var _currentUser;
-
   return {
     facebookAuth: function (facebookAuthData, success, error) {
       $http.post(constants.api + 'facebook/', facebookAuthData).success( function(response) {
@@ -522,7 +520,6 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
         return $http.get(constants.api + 'current_user/?id=' + new Date().getTime())
           .then(function (response) {
             Cleanup.currentUser(response.data);
-            _currentUser = response.data;
             return response.data;
           });
       }
@@ -555,10 +552,6 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
         $http.get(constants.api + 'check_project_slug/?slug=' + slug)
           .success(function (response) {success(response);}).error(error);
       }
-    },
-    
-    isLoggedIn: function() {
-      return _currentUser ? true : false;
     },
     volunteerSignup: function(volunteer, success, error) {
       $http.post(constants.api + 'create/volunteer/', volunteer).success( function() {
@@ -597,12 +590,8 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
     },
     logout: function() {
       $http.post(constants.api + 'logout/');
-      _currentUser = null;
       Cookies.delete(constants.accessTokenCookie);
       delete $http.defaults.headers.common.Authorization;
-    },
-    getUser: function () {
-      return _currentUser;
     }
   };
 });
@@ -617,12 +606,6 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', functi
     },
     get: function(slug) {
       return Restangular.one('project', slug).get().then(function(project) {
-        window.project = project;
-        if (!project.published && Auth.getUser() && project.nonprofit.id !== Auth.getUser().id) {
-          $state.transitionTo('root.home');
-          toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
-        }
-        
         project.causes.forEach( function (c) {
           c.image = constants.storage + 'cause_' + c.id + '.png';
         });
@@ -653,17 +636,8 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', functi
             }
           });
         });
-        if (Auth.getUser() && Auth.getUser().role === constants.VOLUNTEER) {
-          $http.get(constants.api + 'has_volunteer_applied/?project=' + project.id.toString())
-            .success(function (response) {
-              if (response[0] === 'YES') {
-                project.alreadyApplied = true;
-              } else {
-                project.alreadyApplied = false;
-              }
-            });
-        }
 
+        
         return project;
 
       }, function() {
@@ -687,6 +661,9 @@ app.factory('Volunteer', ['$http', '$state', 'Restangular', 'Cleanup', function(
       delete volunteerCopy.projects;
       delete volunteerCopy.nonprofits;
       delete volunteerCopy.address;
+      delete volunteerCopy.skills;
+      delete volunteerCopy.causes;
+      delete volunteerCopy.user.address.city;
       $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
         .success(success).error(error);
     },

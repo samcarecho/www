@@ -11,7 +11,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.landing = false;
   $scope.markers = [];
   $scope.project = project;
-  $scope.alreadyApplied = project.alreadyApplied;
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
   $scope.markers.push(project.address);
@@ -21,6 +20,22 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
       zoom: 15,
     },
   };
+
+  if (!project.published && $scope.loggedUser && project.nonprofit.id !== $scope.loggedUser.id) {
+    $state.transitionTo('root.home');
+    toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
+  }
+  if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
+    $http.get(constants.api + 'has_volunteer_applied/?project=' + project.id.toString())
+      .success(function (response) {
+        if (response[0] === 'YES') {
+          $scope.alreadyApplied = true;
+        } else {
+          $scope.alreadyApplied = false;
+        }
+      });
+  }
+
 
   $scope.$watch('center', function(value) {
     if (value && value.d === 46) {
@@ -54,6 +69,9 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
         },
         phone: function () {
           return $scope.loggedUser.user.phone;
+        },
+        name: function () {
+          return $scope.loggedUser.user.name;
         }
       },
       controller: controller
@@ -62,6 +80,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     modalInstance.result.then(function (response) {
       if (response) {
         var volunteerPhone = response.phone;
+        var volunteerName = response.name;
         var volunteerMessage = response.message;
 
         if (!$scope.alreadyApplied) {
@@ -78,7 +97,9 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
           if (volunteerPhone) {
             $scope.loggedUser.user.phone = volunteerPhone;
-            Volunteer.save($scope.loggedUser, function() {
+            $scope.loggedUser.user.name = volunteerName;
+            Volunteer.save($scope.loggedUser, function(response) {
+              console.log(response);
             }, function() {
             });
           }
