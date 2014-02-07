@@ -15,13 +15,16 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
   $scope.markers.push(project.address);
-  $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
+  $scope.options = {
+    map: {
+      center: new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude),
+      zoom: 15,
+    },
+  };
 
   $scope.$watch('center', function(value) {
-    console.log(value);
     if (value && value.d === 46) {
       $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
-      $scope.zoom = 15;
     }
   });
     
