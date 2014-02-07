@@ -13,13 +13,12 @@
         gm-map-id="'nonprofitAddressMap'"
         gm-center="center"
         gm-zoom="zoom"
-        gm-map-type-id="mapTypeId"
         style="width:100%;height:100%">
-        <gm-markers gm-id="nonprofit-address-marker"
-        gm-objects="markers"
-        gm-position="{ lat: object.latitude, lng: object.longitude }"
-        gm-events="markerEvents">
-        </gm-markers>
+          <gm-markers
+          gm-objects="markers"
+          gm-id="object.id"
+          gm-position="{ lat: object.latitude, lng: object.longitude }">
+          </gm-markers>
         </gm-map>
       </div>
       <div id="nonprofit-social">

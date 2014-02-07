@@ -8,11 +8,14 @@ var app = angular.module('atadosApp');
 
 app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
 
-  $scope.nonprofit = nonprofit;
   $scope.landing = false;
+
+  $scope.nonprofit = nonprofit;
+  $scope.nonprofit.address = nonprofit.user.address;
   $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
   $scope.activeProjects = true;
   $scope.markers = [];
+  $scope.markers.push(nonprofit.address);
 
   $scope.causes().forEach(function(c) {
     $scope.nonprofit.causes.forEach(function(nc) {
@@ -23,19 +26,29 @@ app.controller('NonprofitCtrl', function($scope, $http, nonprofit) {
     });
   });
 
-  if (nonprofit.user.address) {
-    $scope.nonprofit.address = $scope.nonprofit.user.address;
-    $scope.markers.push(nonprofit.address);
-    $scope.center = new google.maps.LatLng(nonprofit.address.latitude, $scope.nonprofit.address.longitude);
-    $scope.zoom = 15;
-  }
+  $scope.$watch('center', function(value) {
+    if (value && value.d === 46) {
+      $scope.center = new google.maps.LatLng(nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+      $scope.zoom = 15;
+    }
+  });
 
   $scope.getProjects  = function () {
     if (nonprofit.projects) {
       if ($scope.activeProjects) {
-        return $scope.nonprofit.projects.filter(function (p) { return !(p.closed || p.deleted); });
+        return $scope.nonprofit.projects.filter(function (p) {
+          if (!p.city_state) {
+            p.city_state = p.address.city_state;
+          }
+          return !(p.closed || p.deleted);
+        });
       } else {
-        return $scope.nonprofit.projects.filter(function (p) { return p.closed || p.deleted; });
+        return $scope.nonprofit.projects.filter(function (p) {
+          if (!p.city_state) {
+            p.city_state = p.address.city_state;
+          }
+          return p.closed || p.deleted;
+        });
       }
     }
   };

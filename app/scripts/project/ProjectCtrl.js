@@ -8,9 +8,14 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, Restangular, $modal, Volunteer) {
 
-  $scope.markers = [];
   $scope.landing = false;
-
+  $scope.markers = [];
+  $scope.$watch('center', function(value) {
+    if (value && value.d === 46) {
+      $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
+      $scope.zoom = 15;
+    }
+  });
 
   Restangular.one('project', $stateParams.slug).get().then(function(response) {
     $scope.project = response;
@@ -56,14 +61,13 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
     if ($scope.project.address) {
       $scope.markers.push($scope.project.address);
-      $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
-      $scope.zoom = 15;
     }
   }, function() {
     $state.transitionTo('root.home');
     toastr.error('Ato não encontrado.');
   });
 
+  
   $scope.alreadyApplied = false;
   function openApplyModal () {
     var template = '/partials/volunteerContractModal.html';
