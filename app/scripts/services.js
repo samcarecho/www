@@ -567,21 +567,76 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
   };
 });
 
-app.factory('Project', function($http) {
+app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', function($http, Restangular, Site, Auth, $state) {
   return {
-    // For now this is only to save the phone number of atar
     create: function (project, success, error) {
       var projectCopy = {};
       angular.copy(project, projectCopy);
       $http.post(constants.api + 'create/project/', {project: projectCopy})
         .success(success).error(error);
     },
+    get: function(slug) {
+      return Restangular.one('project', slug).get().then(function(project) {
+        window.project = project;
+        if (!project.published && Auth.getUser() && project.nonprofit.id !== Auth.getUser().id) {
+          $state.transitionTo('root.home');
+          toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
+        }
+        
+        project.causes.forEach( function (c) {
+          c.image = constants.storage + 'cause_' + c.id + '.png';
+        });
+        project.skills.forEach(function (s) {
+          s.image = constants.storage + 'skill_' + s.id + '.png';
+        });
+
+        if (project.work) {
+          var availabilities = [];
+          for (var period = 0; period < 3; period++) {
+            var periods = [];
+            availabilities.push(periods);
+            for (var weekday = 0; weekday < 7; weekday++) {
+              periods.push({checked: false});
+            }
+          }
+          project.work.availabilities.forEach(function(a) {
+            availabilities[a.period][a.weekday].checked = true;
+          });
+          project.work.availabilities = availabilities;
+        }
+
+        Site.causes().forEach(function(c) {
+          project.causes.forEach(function(nc) {
+            if (c.id === nc) {
+              var i = project.causes.indexOf(nc);
+              project.nonprofit.causes[i] = c;
+            }
+          });
+        });
+        if (Auth.getUser() && Auth.getUser().role === constants.VOLUNTEER) {
+          $http.get(constants.api + 'has_volunteer_applied/?project=' + project.id.toString())
+            .success(function (response) {
+              if (response[0] === 'YES') {
+                project.alreadyApplied = true;
+              } else {
+                project.alreadyApplied = false;
+              }
+            });
+        }
+
+        return project;
+
+      }, function() {
+        $state.transitionTo('root.home');
+        toastr.error('Ato não encontrado.');
+      });
+    },
     getSlug: function (name, success, error) {
       $http.get(constants.api + 'create_project_slug/?name=' + name)
         .success(success).error(error);
     }
   };
-});
+}]);
 
 app.factory('Volunteer', function($http) {
   return {

@@ -74,7 +74,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         url: '/ato/:slug',
         templateUrl: '/partials/projectPage.html',
         controller: 'ProjectCtrl',
-        resolve: {}
+        resolve: {
+          project: ['Project', '$stateParams', function (Project, $stateParams) {
+            return Project.get($stateParams.slug);
+          }]
+        }
       })
     .state('root.newproject', {
         url: '/cadastro/ato',

@@ -6,69 +6,25 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, Restangular, $modal, Volunteer) {
+app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, $modal, Volunteer, project) {
 
   $scope.landing = false;
   $scope.markers = [];
+  $scope.project = project;
+  $scope.alreadyApplied = project.alreadyApplied;
+  $scope.nonprofit = $scope.project.nonprofit;
+  $scope.site.title = 'Ato - ' + $scope.project.name;
+  $scope.markers.push(project.address);
+  $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
+
   $scope.$watch('center', function(value) {
+    console.log(value);
     if (value && value.d === 46) {
       $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
       $scope.zoom = 15;
     }
   });
-
-  Restangular.one('project', $stateParams.slug).get().then(function(response) {
-    $scope.project = response;
-    if (!$scope.project.published && $scope.project.nonprofit.id !== $scope.loggedUser.id) {
-      $state.transitionTo('root.home');
-      toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
-    }
-
-    $scope.nonprofit = $scope.project.nonprofit;
-    $scope.site.title = 'Ato - ' + $scope.project.name;
-    $scope.image = $scope.project.image_url;
-
-    $scope.project.causes.forEach( function (c) {
-      c.image = constants.storage + 'cause_' + c.id + '.png';
-    });
-    $scope.project.skills.forEach(function (s) {
-      s.image = constants.storage + 'skill_' + s.id + '.png';
-    });
-
-    if ($scope.project.work) {
-      var availabilities = [];
-      for (var period = 0; period < 3; period++) {
-        var periods = [];
-        availabilities.push(periods);
-        for (var weekday = 0; weekday < 7; weekday++) {
-          periods.push({checked: false});
-        }
-      }
-      $scope.project.work.availabilities.forEach(function(a) {
-        availabilities[a.period][a.weekday].checked = true;
-      });
-      $scope.project.work.availabilities = availabilities;
-    }
-
-    $scope.causes().forEach(function(c) {
-      $scope.project.causes.forEach(function(nc) {
-        if (c.id === nc) {
-          var i = $scope.project.causes.indexOf(nc);
-          $scope.nonprofit.causes[i] = c;
-        }
-      });
-    });
-
-    if ($scope.project.address) {
-      $scope.markers.push($scope.project.address);
-    }
-  }, function() {
-    $state.transitionTo('root.home');
-    toastr.error('Ato não encontrado.');
-  });
-
-  
-  $scope.alreadyApplied = false;
+    
   function openApplyModal () {
     var template = '/partials/volunteerContractModal.html';
     var controller = 'ProjectModalCtrl';
@@ -158,6 +114,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   });
 
   $scope.showApplyModal = false;
+
   $scope.applyVolunteerToProject = function () {
     if (!$scope.loggedUser) {
       $scope.openVolunteerModal();
@@ -167,17 +124,4 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
       openApplyModal();
     }
   };
-
-  $scope.$watch('project', function () {
-    if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER && $scope.project) {
-      $http.get(constants.api + 'has_volunteer_applied/?project=' + $scope.project.id.toString())
-        .success(function (response) {
-          if (response[0] === 'YES') {
-            $scope.alreadyApplied = true;
-          } else {
-            $scope.alreadyApplied = false;
-          }
-        });
-    }
-  });
 });
