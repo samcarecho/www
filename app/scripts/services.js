@@ -429,6 +429,46 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
         fixSkills(user);
       }
     },
+    volunteer: function (v) {
+      var causes = [];
+      v.causes.forEach(function(c) {
+        c = Site.causes()[c];
+        c.checked = true;
+        causes.push(c);
+      });
+      v.causes = causes;
+      var skills = [];
+      v.skills.forEach(function(s) {
+        s = Site.skills()[s];
+        skills.push(s);
+      });
+      v.skills = skills;
+      v.projects.forEach(function(p) {
+        p.causes.forEach(function (c) {
+        c.image = constants.storage + 'cause_' + c.id + '.png';
+        c.class = 'cause_' + c.id;
+      });
+      p.skills.forEach(function (s) {
+        s.image = constants.storage + 'skill_' + s.id + '.png';
+        s.class = 'skill_' + s.id;
+      });
+      p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+      p.nonprofit.slug = p.nonprofit.user.slug;
+
+      });
+      v.nonprofits.forEach(function(n) {
+        var causes = [];
+        n.causes.forEach(function (c) {
+          c = Site.causes()[c];
+          causes.push(c);
+          c.image = constants.storage + 'cause_' + c.id + '.png';
+          c.class = 'cause_' + c.id;
+        });
+        n.causes = causes;
+        n.address = n.user.address;
+      });
+
+    },
     nonprofitForAdmin: function (nonprofit) {
       if (nonprofit.facebook_page) {
         var parser = document.createElement('a');
@@ -638,7 +678,7 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', functi
   };
 }]);
 
-app.factory('Volunteer', function($http) {
+app.factory('Volunteer', ['$http', '$state', 'Restangular', 'Cleanup', function($http, $state, Restangular, Cleanup) {
   return {
     // For now this is only to save the phone number of atar
     save: function (volunteer, success, error) {
@@ -649,9 +689,18 @@ app.factory('Volunteer', function($http) {
       delete volunteerCopy.address;
       $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
         .success(success).error(error);
+    },
+    get: function(slug) {
+      return Restangular.one('volunteers_public', slug).get().then(function(volunteer) {
+        Cleanup.volunteer(volunteer);
+        return volunteer;
+      }, function() {
+        $state.transitionTo('root.home');
+        toastr.error('Voluntário não encontrado');
+      });
     }
   };
-});
+}]);
 
 app.factory('Nonprofit', function(Restangular, $state, $stateParams) {
   return {

@@ -1332,56 +1332,52 @@ $card-img-height: 170px;
   }
 }
 
+
 #volunteer-page {
-  .causes,
-  .skills {
-    list-style:none;
-    padding:0;
-    margin:0;
-}
+  #volunteer-header {
+    height: 373px;
+    background-color: #0E6281;
+    padding-top: 50px;
+    color: white;
+    
+    p {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    #volunteer-image {
+      width: 375px;
+      height: 260px;
+      overflow: hidden;
+      margin-bottom: 15px;
 
-.image {
-  position:relative;
-  margin-bottom:20px;
-
-  & > input {
-    display: none;
-  }
-  & > label {
-    position:absolute;
-    bottom:0;
-    z-index:100;
-    display:none;
-  }
-
-  &:hover > label {
-    display:inline;
-  }
-
-  }
-}
-
-@media (min-width: $screen-sm) and (max-width: 979px) {
-  #volunteer-page {
-    .image {
-      & > label {
-        width:122px;
+      img {
+        margin-top: -50px;
+        width: 100%;
+        background: white;
+        box-shadow: 0 2px 10px #888888;
       }
-      & > img {
-        width:146px;
+    }
+    #volunteer-name {
+      color: white;
+      font-weight: bold;
+      font-size: 40px;
+      margin: 0 0 20px 0;
+    }
+   #volunteer-icons {
+      .icon-image { 
+        box-shadow: 0 0 3px #808080;
+        height: 30px;
+        width: 30px;
+        padding: 4px 0px 0px 5px;
+        display: inline-block;
+        margin-right: 10px;
+        background-color: white;
       }
     }
   }
 }
 
-@media (max-width: 767px) {
-  #volunteer-page {
-    .image {
-      width:220px;
-      margin:0 auto;
-  }
-}
-}
+
 
 .roles {
   li {

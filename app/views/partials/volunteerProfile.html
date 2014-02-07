@@ -1,36 +1,37 @@
-<div id="volunteer-page" class="container">
-  <div class="page-header">
-    <h1 ng-if="volunteer.user.name">{{volunteer.user.name}}</h1>
-  </div>
-  <div class="row">
-    <div class="col-sm-3 image">
-      <img class="img-rounded img-responsive" alt="{{volunteer.slug}}" ng-src="{{image}}"/>
+<div id="volunteer-page">
+  <div id="volunteer-header" class="row">
+    <div class="col-sm-offset-1 col-sm-3" id="volunteer-image">
+      <img alt="{{volunteer.slug}}" class="img-responsive" ng-src="{{volunteer.image_url}}"/>
     </div>
-    <div class="col-sm-12">
-      <div ng-show="volunteer.causes" id="volunteer-causes" class="col-sm-6">
-        <h3>Causas</h3>
-        <div class="img-circle cause-image" ng-repeat="cause in volunteer.causes"> 
-          <img alt="{{cause.name}}" tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
+    <div class="col-sm-5">
+      <h1 id="volunteer-name">{{volunteer.name}}</h1>
+
+      <div class="row" id="volunteer-icons">
+        <div class="col-sm-6" ng-if="volunteer.causes">
+          <p>Causas</p>
+          <div class="img-circle icon-image" ng-repeat="cause in volunteer.causes"> 
+            <img alt="{{cause.name}}" tooltip="{{cause.name}}" width="20" height="20" ng-src="{{cause.image}}"/>
+          </div>
+        </div>
+        <div class="col-sm-6" ng-if="volunteer.skills">
+          <p>Habilidades</p>
+          <div class="img-circle icon-image" ng-repeat="skill in volunteer.skills"> 
+            <img alt="{{skill.name}}" tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
+          </div>
         </div>
       </div>
-      <div ng-show="volunteer.skills" id="volunteer-skills" class="col-sm-6">
-        <h3>Habilidades</h3>
-        <div class="img-circle skill-image" ng-repeat="skill in volunteer.skills"> 
-          <img alt="{{skill.name}}" tooltip="{{skill.name}}" width="20" height="20" ng-src="{{skill.image}}"/>
-        </div>
-      </div>
-      <div class="row">
-        <h3>ONGs que já ajudei</h3>
-        <div class="col-sm-12 nonprofits">
-          <nonprofit-card ng-repeat="nonprofit in volunteer.nonprofits"></nonprofit-card>
-        </div>
-      </div>
-      <div class="row">
-        <h3>Atos que já participei</h3>
-        <div class="col-sm-12 projects">
-          <project-card ng-repeat="project in volunteer.projects"></project-card>
-        </div>
-      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-11 col-sm-offset-1">
+      <h3>Atos voluntários</h3>
+      <project-card ng-repeat="project in volunteer.projects"></project-card>
+      <div class="center" ng-show="!volunteer.projects.length">Você ainda não participou de nenhum ato. Ainda há muito tempo!</div>
+    </div>
+    <div ng-show="volunteer.nonprofits.length" class="col-sm-11 col-sm-offset-1">
+      <h3>ONGs</h3>
+      <nonprofit-card ng-repeat="nonprofit in volunteer.nonprofits"></nonprofit-card>
     </div>
   </div>
 </div>
