@@ -284,17 +284,15 @@ app.factory('Search', function (Restangular, Site) {
   };
 });
 
-app.factory('Photos', ['$http', 'Facebook', function($http, Facebook) {
+app.factory('Photos', ['$http', '$FB', function($http, $FB) {
 
   return {
     getFacebookPhoto: function (success, error) {
-      Facebook.getLoginStatus(function (response) {
-        console.log(response);
+      $FB.getLoginStatus(function (response) {
         if (response.status === 'connected') {
           if (response.authResponse) {
             response.authResponse.getPhoto = true;
             $http.post(constants.api + 'facebook/', response.authResponse).success( function(response) {
-              console.log(response.user.image_url);
               success(response.user.image_url);
             }).error(error);
 
@@ -430,6 +428,7 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
       }
     },
     volunteer: function (v) {
+
       var causes = [];
       v.causes.forEach(function(c) {
         c = Site.causes()[c];
@@ -437,25 +436,27 @@ app.factory('Cleanup', function ($http, Site, Restangular) {
         causes.push(c);
       });
       v.causes = causes;
+
       var skills = [];
       v.skills.forEach(function(s) {
         s = Site.skills()[s];
         skills.push(s);
       });
       v.skills = skills;
+
       v.projects.forEach(function(p) {
         p.causes.forEach(function (c) {
-        c.image = constants.storage + 'cause_' + c.id + '.png';
-        c.class = 'cause_' + c.id;
+          c.image = constants.storage + 'cause_' + c.id + '.png';
+          c.class = 'cause_' + c.id;
+        });
+        p.skills.forEach(function (s) {
+          s.image = constants.storage + 'skill_' + s.id + '.png';
+          s.class = 'skill_' + s.id;
+        });
+        p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+        p.nonprofit.slug = p.nonprofit.user.slug;
       });
-      p.skills.forEach(function (s) {
-        s.image = constants.storage + 'skill_' + s.id + '.png';
-        s.class = 'skill_' + s.id;
-      });
-      p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
-      p.nonprofit.slug = p.nonprofit.user.slug;
 
-      });
       v.nonprofits.forEach(function(n) {
         var causes = [];
         n.causes.forEach(function (c) {

@@ -94,10 +94,10 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
         }
       });
   }
+
   $rootScope.$on('userLoggedOut', function(/*event,*/) {
     $scope.alreadyVolunteer = false;
   });
-
 
   $scope.selectMarker = function (marker, object) {
     angular.element(document.querySelector('#card-' + object.slug))

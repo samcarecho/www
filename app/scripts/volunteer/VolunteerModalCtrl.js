@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerModalCtrl', function($scope, $rootScope, Facebook, Auth) {
+app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
   $scope.loginActive = true;
 
   $scope.$watch('loginActive', function (value) {
@@ -13,12 +13,6 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, Facebook, Auth
     } else {
       $scope.facebookState = 'Criar conta ';
     }
-  });
-
-  $scope.$watch(function() {
-    return Facebook.isReady();
-  }, function() {
-    $scope.facebookReady = true;
   });
 
   function sendFacebookCredentials(authResponse) {
@@ -31,9 +25,9 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, Facebook, Auth
   }
 
   $scope.facebookAuth = function () {
-    Facebook.getLoginStatus(function (response) {
+    $FB.getLoginStatus(function (response) {
       if (response.status !== 'connected') {
-        Facebook.login(function(loginResponse) {
+        $FB.login(function(loginResponse) {
           if (loginResponse.status === 'connected') {
             sendFacebookCredentials(loginResponse.authResponse);
           } else if (response.status === 'not_authorized') {

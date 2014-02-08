@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth', 'Facebook',
+app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth',
   function($scope, $rootScope, Auth) {
 
   $scope.showForgotPassword = false;

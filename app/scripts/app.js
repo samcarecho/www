@@ -4,7 +4,7 @@
 /* global $: false */
 
 var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'ui.bootstrap', 'facebook', 'AngularGM']);
+    ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -136,10 +136,11 @@ app.config(function ($httpProvider) {
   $httpProvider.responseInterceptors.push(securityInterceptor);
 });
 
-app.config(function(FacebookProvider) {
-  FacebookProvider.init(constants.facebookClientId);
-  FacebookProvider.setLocale(constants.locale);
-  FacebookProvider.setCookie(false);
+app.config(function($FBProvider) {
+  $FBProvider.setLocale(constants.locale);
+  $FBProvider.setInitParams({
+    appId: constants.facebookClientId
+  });
 });
 
 app.config(function(RestangularProvider) {
