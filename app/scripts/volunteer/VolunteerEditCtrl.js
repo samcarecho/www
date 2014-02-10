@@ -110,6 +110,11 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
     volunteerCopy.user.address = volunteerCopy.address;
 
+
+    if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
+      volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + $scope.volunteer.birthDate.getMonth() + 1 + '-' + $scope.volunteer.birthDate.getDate();
+    }
+
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
       toastr.success('Perfil salvo!', $scope.volunteer.slug);
