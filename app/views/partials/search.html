@@ -13,7 +13,12 @@
   <small ng-hide="search.showProjects" class="pull-right"> {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
   <div class="row filters">
     <form class="form-inline" role="form">
-      <div class="col-sm-12">
+      <div class="row col-sm-12" ng-hide="landing" id="search-bar">
+        <div class="form-group col-sm-12">
+          <input id="searchInput" class="form-control" ng-model="search.query" type="text" placeholder="Pesquisar por palavra chave">
+        </div>
+      </div>
+      <div class="col-sm-12" id="second-row">
         <div class="form-group col-sm-4">
           <label class="sr-only" for="causesInput">Causa</label>
           <div class="selectSearch" >
@@ -33,11 +38,6 @@
           <select class="form-control" id="citiesInput" ng-model="search.city" ng-options="c.name for c in cities() | filter: { active: true }">
             <option value="" disabled selected>Cidade</option>
           </select>
-        </div>
-      </div>
-      <div class="row col-sm-12" id="secondRow" ng-hide="landing">
-        <div class="form-group col-sm-12">
-          <input id="searchInput" class="form-control" ng-model="search.query" type="text" placeholder="Pesquisar por palavra chave">
         </div>
       </div>
     </form>

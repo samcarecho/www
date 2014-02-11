@@ -900,7 +900,7 @@ a:focus {
     h4 {
       color: #999;
       font-weight:bold;
-      font-size: 40px;
+      font-size: 30px;
       text-shadow: 1px 0 1px rgba(0,0,0,0.2);
       #atos {
         color: $orange;
@@ -957,14 +957,14 @@ a:focus {
   #searchInput {
     height: 44px;
   }
-  #secondRow {
-    margin: 10px 0 0 0;
-    #searchProjects {
-      width: 150px;
-    }
+  #search-bar {
+    margin-left: 0px;
+    margin-bottom: 10px;
   }
+  
   #searchProjects {
     height: 44px;
+    width: 150px;
     background: linear-gradient($blue, $blue-dark);
   }
 }
