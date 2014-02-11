@@ -7,7 +7,7 @@ var constants = {
   'prodApi': 'https://api.atados.com.br/v1/',
   'prodAuthApi': 'https://beta.atados.com.br/auth/client',
   'prodStorage': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
-  'facebookClientId': '307143646092581',
+  'facebookClientId': '430973993601792',
   'locale': 'pt_BR',
   'accessTokenCookie': 'access_token',
   'csrfCookie': 'csrftoken',
@@ -40,8 +40,8 @@ var constants = {
   'NONPROFIT': 'NONPROFIT'
 };
 
-constants.api = constants.devApi;
-constants.authApi = constants.devAuthApi;
-constants.storage = constants.devStorage;
+constants.api = constants.prodApi;
+constants.authApi = constants.prodAuthApi;
+constants.storage = constants.prodStorage;
 constants.selected = constants.storage + 'heart.png';
 constants.notselected = constants.storage + 'blue.png';
