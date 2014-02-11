@@ -45,6 +45,20 @@
     </div>
     <div class="col-sm-4">
 
+      <div class="row">
+        <label class="col-lg-3 control-label">Data Nascimento</label>
+        <div class="col-md-8">
+          <p class="input-group">
+          <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="volunteer.birthDate" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Fechar">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+          </span>
+          </p>
+        </div>
+      </div>
+
+      <br>
+
       <fieldset id="address-fieldset">
         <div class="form-group">
           <div class="col-sm-8 col-sm-offset-3">
@@ -60,8 +74,13 @@
             </select>
           </div>
         </div>
-      </fieldset>
+        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerForm.neighborhood.$invalid]">
+          <div class="col-sm-8 col-sm-offset-3">
+            <input type="text" class="form-control" name="neighborhood" ng-model="volunteer.address.neighborhood" placeholder="Bairro">
+          </div>
+        </div>
 
+      </fieldset>
     </div> <!-- end of 2nd column -->
     <div class="col-sm-offset-1 col-sm-9">
       <fieldset class="col-sm-6">

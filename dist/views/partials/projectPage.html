@@ -1,7 +1,7 @@
 <div id="project-page">
   <div id="project-header" class="row">
     <div class="col-sm-offset-1 col-sm-3" id="project-image">
-      <img alt="{{project.slug}}" class="img-responsive" ng-src="{{image}}">
+      <img alt="{{project.slug}}" class="img-responsive" ng-src="{{project.image_url}}">
     </div>
     <div class="col-sm-5">
       <h1 id="project-name">{{project.name}}</h1>
@@ -72,10 +72,13 @@
       <p>{{project.nonprofit.description}}</p>
       <div id="project-map" ng-if="(!project.work || !project.work.can_be_done_remotely) && project.address.addressline">
         <h5>Localização</h5>
-        <gm-map class="projectMap" gm-map-id="'projectAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-type-id="mapTypeId" style="width:200px;height:200px">
-        <gm-markers gm-id="project-address-marker" gm-objects="markers" gm-position="{ lat: object.latitude, lng: object.longitude }" gm-events="markerEvents">
-        </gm-markers>
+
+        <gm-map gm-map-id="'projectAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-options="options.map" class="map" style="width:200px;height:200px">
+
+          <gm-markers gm-objects="markers" gm-id="object.id" gm-position="{ lat: object.latitude, lng: object.longitude }">
+          </gm-markers>
         </gm-map>
+
         <p ng-if="project.address"><i class="fa fa-map-marker"></i> {{project.address | as_location_string}}</p>
       </div>
       <p ng-if="project.work && project.work.can_be_done_remotely" id="project-remote"><i class="fa fa-rss"></i> Trabalho remoto</p>
