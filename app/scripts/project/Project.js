@@ -8,10 +8,10 @@ var app = angular.module('atadosApp');
 app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', function($http, Restangular, Site, Auth, $state) {
   return {
     create: function (project, success, error) {
-      var projectCopy = {};
-      angular.copy(project, projectCopy);
-      $http.post(constants.api + 'create/project/', {project: projectCopy})
-        .success(success).error(error);
+      $http.post(constants.api + 'create/project/', project, {
+        headers: {'Content-Type': undefined },
+        transformRequest: angular.identity
+      }).success(success).error(error);
     },
     get: function(slug) {
       return Restangular.one('project', slug).get().then(function(project) {

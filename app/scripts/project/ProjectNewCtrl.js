@@ -71,7 +71,6 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     if (value) {
       Project.getSlug(value, function(success) {
         $scope.project.slug = success.slug;
-        console.log($scope.project.slug);
       }, function (error) {
         console.error(error);
       });
@@ -87,12 +86,13 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   $scope.$watch('start_date', function (value) {
     if (value) {
       $scope.job.start_date = value.getTime();
+      console.log(value);
     }
   });
   $scope.$watch('end_date', function (value) {
     if (value) {
       $scope.job.end_date = value.getTime();
-      console.log($scope.job.end_date);
+      console.log(value);
     }
   });
 
@@ -204,8 +204,9 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
       $scope.work.availabilities = ava;
     }
 
-    console.log($scope.project);
-    Project.create($scope.project, function () {
+    $scope.files.append('project', angular.toJson($scope.project));
+
+    Project.create($scope.files, function () {
       toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
       $scope.loggedUser.projects.push($scope.project);
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});

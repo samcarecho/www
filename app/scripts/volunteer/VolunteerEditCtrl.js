@@ -112,8 +112,10 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
 
     if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
-      volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + $scope.volunteer.birthDate.getMonth() + 1 + '-' + $scope.volunteer.birthDate.getDate();
+      volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
     }
+    console.log($scope.volunteer.birthDate);
+    console.log(volunteerCopy.birthDate);
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
