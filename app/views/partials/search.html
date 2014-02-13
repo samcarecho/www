@@ -9,8 +9,8 @@
 <div ng-class="{true: 'col-sm-10 col-sm-offset-1', false: 'col-sm-12'}[landing]" id="searchSpace">
   <button class="btn btn-tab" ng-click="search.showProjects=true" ng-class="{active: search.showProjects}">Pesquisar Atos</button>
   <button class="btn btn-tab" ng-click="search.showProjects=false" ng-class="{active: !search.showProjects}">Pesquisar ONGs</button>
-  <small ng-show="search.showProjects" class="pull-right"> {{search.projects().length}} de {{search.projectCount()}} atos</small>
-  <small ng-hide="search.showProjects" class="pull-right"> {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
+  <small ng-show="search.showProjects && !landing" class="pull-right"> Monstrando {{search.projects().length}} de {{search.projectCount()}} atos</small>
+  <small ng-hide="search.showProjects || landing" class="pull-right"> Monstrando {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
   <div class="row filters">
     <form class="form-inline" role="form">
       <div class="row col-sm-12" ng-hide="landing" id="search-bar">
@@ -56,8 +56,8 @@
       </div>
     </div>
   </div>
-  <small ng-show="search.showProjects" class="pull-right"> {{search.projects().length}} de {{search.projectCount()}} atos</small>
-  <small ng-hide="search.showProjects" class="pull-right"> {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
+  <small ng-show="search.showProjects && !landing" class="pull-right"> Monstrando {{search.projects().length}} de {{search.projectCount()}} atos</small>
+  <small ng-hide="search.showProjects || landing" class="pull-right"> Monstrando {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
   <div id="more-button" class="row center">
     <a class="btn btn-lg btn-info col-sm-4 col-sm-offset-4" ng-click="getMore()" ui-sref="root.explore">Mostrar mais <span ng-show="search.showProjects">atos</span><span ng-hide="search.showProjects">ONGs</span></a>
   </div>

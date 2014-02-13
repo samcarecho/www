@@ -70,8 +70,8 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   $scope.$watch('project.name', function (value) {
     if (value) {
       Project.getSlug(value, function(success) {
-        $scope.project.slug = success.replace('"', '');
-        $scope.project.slug = success.replace('"', '');
+        $scope.project.slug = success.slug;
+        console.log($scope.project.slug);
       }, function (error) {
         console.error(error);
       });
@@ -113,7 +113,7 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     } else if(value){
       var cities = $scope.cities();
       cities.forEach(function (c) {
-        if (c.state.id === $scope.nonprofit.address.state.id) {
+        if (c.state.id === $scope.project.address.state.id) {
           $scope.stateCities.push(c);
         }
       });
@@ -204,8 +204,10 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
       $scope.work.availabilities = ava;
     }
 
+    console.log($scope.project);
     Project.create($scope.project, function () {
       toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
+      $scope.loggedUser.projects.push($scope.project);
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
     }, function (error) {
       console.error(error);
