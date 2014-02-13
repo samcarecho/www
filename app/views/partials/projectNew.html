@@ -200,10 +200,16 @@
                 <textarea class="form-control" rows="3" name="roledetails" placeholder="Descrição do cargo" ng-model="newRole.details"></textarea>
               </div>
             </div>
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.prerequisites.$invalid]">
+              <label class="col-md-3 control-label" for="prerequisites">Pré-requisito</label>
+              <div class="col-md-8">
+                <textarea class="form-control" rows="3" name="prerequisites" placeholder="Descrição do cargo" ng-model="newRole.prerequisites"></textarea>
+              </div>
+            </div>
 
             <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.vacancies.$invalid]">
               <label class="col-md-3 control-label" for="rolename">Quantas vagas?</label>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <input type="number" min="0" class="form-control" name="vacancies" ng-model="newRole.vacancies" >
               </div>
             </div>
@@ -215,6 +221,7 @@
                   <th></th>
                   <th>Nome</th>
                   <th>Descrição</th>
+                  <th>Pré-requisito</th>
                   <th>Vagas</th>
                 </tr>
               </thead>
@@ -223,6 +230,7 @@
                   <td><button type="danger" class="destroy" ng-click="removeRole(role)"><i class="fa fa-trash-o"></i></button></td>
                   <td>{{role.name}}</td>
                   <td>{{role.details}}</td>
+                  <td>{{role.prerequisites}}</td>
                   <td>{{role.vacancies}}</td>
                 </tr>
               </tbody>

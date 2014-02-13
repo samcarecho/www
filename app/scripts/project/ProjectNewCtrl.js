@@ -52,13 +52,9 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   $scope.newRole = {
     name: '',
     prerequisites: '',
+    details: '',
     vacancies: 0
   };
-
-  window.project = $scope.project;
-  window.job = $scope.job;
-  window.work = $scope.work;
-  window.newRole = $scope.newRole;
 
   if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
     $state.transitionTo('root.home');
@@ -86,13 +82,11 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
   $scope.$watch('start_date', function (value) {
     if (value) {
       $scope.job.start_date = value.getTime();
-      console.log(value);
     }
   });
   $scope.$watch('end_date', function (value) {
     if (value) {
       $scope.job.end_date = value.getTime();
-      console.log(value);
     }
   });
 
@@ -196,10 +190,12 @@ app.controller('ProjectNewCtrl', function($scope, $filter, $state, Auth, Restang
     } else {
       $scope.project.work = $scope.work;
       var ava = [];
-      $scope.work.availabilities.forEach(function (a) {
-        if (a.checked) {
-          ava.push(a);
-        }
+      $scope.work.availabilities.forEach(function (period) {
+        period.forEach(function (a) {
+          if (a.checked) {
+            ava.push(a);
+          }
+        });
       });
       $scope.work.availabilities = ava;
     }

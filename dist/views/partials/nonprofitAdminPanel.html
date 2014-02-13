@@ -48,7 +48,7 @@
               </div>
             </div>
             <button id="edit-nonprofit-button" class="btn btn-large btn-info" ng-click="editing=true">Editar Perfil</button>
-            <button id="new-project-button" class="btn btn-info btn-large" ng-click="createNewProject()">Criar Novo Ato</button>
+            <button id="new-project-button" class="btn btn-info btn-large" ui-sref="root.newproject">Criar Novo Ato</button>
           </div>
 
           <div class="col-sm-6">
@@ -206,7 +206,7 @@
             <div class="col-md-9" id="active-project">
               <div id="project-name">
                 <h3>
-                  <a ng-href="/ato/{{activeProject.slug}}">{{activeProject.name}}</a>
+                  <a ui-sref="root.project({slug: activeProject.slug})">{{activeProject.name}}</a>
                   <span tooltip="Ato não pode mais receber voluntários mas ainda está visivel na internet." ng-show="activeProject.closed && activeProject.published" class="pull-right label label-danger">Ato Finalizado</span>
                   <span tooltip="Aberto para o público da internet ver e se atar !" ng-show="!activeProject.closed && activeProject.published" class="pull-right label label-success">Ato Aberto</span>
                   <span tooltip="O pessoal do Atados está analisando o seu Ato e já entrará em contato!" ng-show="!activeProject.published" class="pull-right label label-warning">Ato em aprovação</span>
