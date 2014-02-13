@@ -184,27 +184,26 @@
 
         <fieldset class="col-sm-12">
           <legend>Cargos</legend>
-          <form novalidate name="newRoleForm">
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.rolename.$invalid]">
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.rolename.$invalid]">
               <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
               <div class="col-md-8">
-                <input type="text" class="form-control" name="rolename" ng-minlength="3" ng-maxlength="50" ng-model="newRole.name" placeholder="Nome do Cargo" />
-                <label class="help-block" ng-show="newRoleForm.rolename.$error.minlength">Não pode ter menos de 3 caracteres.</label>
-                <label class="help-block" ng-show="newRoleForm.rolename.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+                <input type="text" class="form-control" name="rolename" id="rolename" ng-minlength="3" ng-maxlength="50" ng-model="newRole.name" placeholder="Nome do Cargo" />
+                <label class="help-block" ng-show="newProjectForm.rolename.$error.minlength">Não pode ter menos de 3 caracteres.</label>
+                <label class="help-block" ng-show="newProjectForm.rolename.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
               </div>
             </div>
 
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.details.$invalid]">
-              <label class="col-md-3 control-label" for="rolename">Descrição do Cargo</label>
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.roledetails.$invalid]">
+              <label class="col-md-3 control-label" for="roledetails">Descrição do Cargo</label>
               <div class="col-md-8">
                 <textarea class="form-control" rows="3" name="roledetails" placeholder="Descrição do cargo" ng-model="newRole.details"></textarea>
               </div>
             </div>
 
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newRoleForm.vacancies.$invalid]">
+            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.vacancies.$invalid]">
               <label class="col-md-3 control-label" for="rolename">Quantas vagas?</label>
               <div class="col-md-1">
-                <input type="number" class="form-control" name="vacancies" placeholder="Quantas vagas?" ng-model="newRole.vacancies">
+                <input type="number" min="0" class="form-control" name="vacancies" ng-model="newRole.vacancies" >
               </div>
             </div>
 
@@ -227,7 +226,6 @@
                 </tr>
               </tbody>
             </table>
-          </form>
         </fieldset>
 
         <div id="type-project-buttons">
