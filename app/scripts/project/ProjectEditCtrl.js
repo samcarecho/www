@@ -5,41 +5,25 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) {
+app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams, Restangular, Project) {
 
-  $scope.jobActive = true;
-
-  $scope.project = {
-    name: '',
-    slug: '',
-    nonprofit: null,
-    address: {
-      neighborhood: '',
-      zipcode: '',
-      addressline: '',
-      addressline2: '',
-      addressnumber: ''
-    },
-    description: '',
-    details: '',
-    responsible: '',
-    phone: '',
-    email: '',
-    causes: [],
-    skills: [],
-    roles: [],
-  };
-
-  $scope.job = {
-    start_date: new Date(),
-    end_date: new Date()
-  };
-
-  $scope.work = {
-    availabilities: [],
-    weekly_hours: 0,
-    can_be_done_remotely: false
-  };
+  if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
+    $state.transitionTo('root.home');
+    toastr.error('Precisa estar logado como ONG do ato para editar');
+  } else {
+    var foundProject = false;
+    $scope.loggedUser.projects.forEach(function(p) {
+      if (p.slug === $stateParams.slug) {
+        foundProject = true;
+        $scope.project = p;
+        return;
+      }
+    });
+    if (!foundProject) {
+      $state.transitionTo('root.home');
+      toastr.error('A ONG logada não é dona deste ato e não tem acesso de edição.');
+    }
+  }
 
   for (var period = 0; period < 3; period++) {
     var periods = [];
@@ -47,20 +31,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
     for (var weekday = 0; weekday < 7; weekday++) {
       periods.push({checked: false, weekday: weekday, period: period});
     }
-  }
-
-  $scope.newRole = {
-    name: '',
-    prerequisites: '',
-    details: '',
-    vacancies: 0
-  };
-
-  if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
-    $state.transitionTo('root.home');
-    toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
-  } else {
-    $scope.project.nonprofit = $scope.loggedUser.id;
   }
 
   $scope.$watch('project.name', function (value) {

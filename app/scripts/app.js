@@ -90,6 +90,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: '/partials/projectNew.html',
         controller: 'ProjectNewCtrl'
       })
+    .state('root.editproject', {
+        url: '/editar/ato/:slug',
+        templateUrl: '/partials/projectEdit.html',
+        controller: 'ProjectEditCtrl'
+      })
     .state('legacynonprofit', {
         url: '/site/instituicoes/:nonprofitUid/profile',
         controller: 'LegacyCtrl'
