@@ -259,9 +259,12 @@ doubt-atados {
         background: linear-gradient(#FCFCFC, #E8E7E7);
         border-color: #bfbdbd;
         text-align: left;
-        padding-left: 20px;
+        padding-left: 10px;
         font-weight: bold;
         height: 40px;
+        .badge {
+          margin-right: 8px;
+        }
         &:hover {
           background: linear-gradient(#009BD4, #0081B2) !important;
           color: white;
