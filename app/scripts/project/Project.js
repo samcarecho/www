@@ -24,19 +24,13 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', 'Cleanup', '$sta
       delete projectCopy.nonprofit_image;
       delete projectCopy.image_url;
 
-      if (projectCopy.address) {
-        delete projectCopy.address.city_state;
-      }
-
       if (projectCopy.job) {
-        projectCopy.job.start_date = new Date(projectCopy.job.start_date).toISOString();
-        projectCopy.job.end_date = new Date(projectCopy.job.end_date).toISOString();
+        projectCopy.job.start_date = new Date(projectCopy.job.start_date).getTime();
+        projectCopy.job.end_date = new Date(projectCopy.job.end_date).getTime();
         delete projectCopy.work;
-      } else {
-        // projectCopy.work = projectCopy.work.id;
+      } else if(projectCopy.work){
         delete projectCopy.job;
       }
-      console.log(projectCopy);
 
       var causes = [];
       projectCopy.causes.forEach(function(c) {

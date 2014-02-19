@@ -61,11 +61,13 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     }
     availabilities.forEach(function(p) {
       p.forEach(function (a) {
-        $scope.project.work.availabilities.forEach(function(wa) {
-          if (wa.weekday === a.weekday && a.period === wa.period) {
-            a.checked = true;
-          }
-        });
+        if ($scope.project.work.availabilities) {
+          $scope.project.work.availabilities.forEach(function(wa) {
+            if (wa.weekday === a.weekday && a.period === wa.period) {
+              a.checked = true;
+            }
+          });
+        }
       });
     });
     $scope.project.work.availabilities = availabilities;
@@ -76,7 +78,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   }
 
   $scope.$watch('project.job', function (job) {
-    if (job % 1 !== 0) {
+    if (job && job % 1 !== 0) {
       $scope.start_date = new Date(job.start_date);
       $scope.end_date = new Date(job.end_date);
     }
@@ -106,12 +108,12 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   $scope.cityLoaded = false;
 
   $scope.$watch('start_date', function (value) {
-    if (value) {
+    if (value && $scope.project.job) {
       $scope.project.job.start_date = value.getTime();
     }
   });
   $scope.$watch('end_date', function (value) {
-    if (value) {
+    if (value && $scope.project.job) {
       $scope.project.job.end_date = value.getTime();
     }
   });
@@ -180,7 +182,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     $scope.ismeridian = ! $scope.ismeridian;
   };
 
-  
   $scope.removeRole = function (role) {
     $scope.project.roles.splice($scope.project.roles.indexOf(role), 1);
   };
@@ -195,6 +196,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   };
 
   $scope.saveProject = function () {
+    // TODO put these two loops in the Site service
     $scope.causes().forEach(function(c) {
       c.checked = false;
     });
@@ -202,19 +204,24 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       s.checked = false;
     });
 
-    /*if (!$scope.jobActive) {
+    if ($scope.jobActive) {
+      delete $scope.project.work;
+    } else {
       var ava = [];
-      $scope.work.availabilities.forEach(function (period) {
+      $scope.project.work.availabilities.forEach(function (period) {
         period.forEach(function (a) {
           if (a.checked) {
             ava.push(a);
           }
         });
       });
-      $scope.work.availabilities = ava;
-    }*/ //TODO
+      $scope.project.work.availabilities = ava;
 
-    Project.save($scope.project, function () {
+      delete $scope.project.job;
+    }
+
+    Project.save($scope.project, function (project) {
+      $scope.project = project;
       toastr.success('Ato salvo.');
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
     }, function () {

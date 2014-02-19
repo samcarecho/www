@@ -192,14 +192,6 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, Work, Job) {
           availabilities[a.period][a.weekday].checked = true;
         });
         project.work.availabilities = availabilities;
-
-        Work.get(project.work).then(function(work) {
-          project.work = work;
-        });
-      } else if (project.job) {
-        Job.get(project.job).then(function(job) {
-          project.job = job;
-        });
       }
     },
   };

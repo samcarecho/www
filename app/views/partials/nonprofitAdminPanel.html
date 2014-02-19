@@ -1,7 +1,7 @@
 <div id="nonprofit-admin">
   <form novalidate class="form-horizontal" id="nonprofit-edit-form" name="nonprofitForm">
     <div id="nonprofit-page">
-      <div id="cover">
+      <div ng-show="editing" id="cover">
         <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}"/>
         <div ng-show="editing">
           <label class="btn cover-edit" for="cover-input"><i class="fa fa-edit"></i>Editar foto</label>
@@ -12,7 +12,7 @@
       <div id="nonprofit-details" class="row">
 
         <div id="left-sidebar" class="col-xs-2">
-          <div id="logo">
+          <div id="logo" ng-show="editing">
             <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image_url}}"/>
 
             <button ng-click="doneEditingNonprofit(nonprofit)" ng-disabled="nonprofitForm.$invalid" class="btn btn-info" id="save-button" ng-show="editing">Salvar Perfil</button>
