@@ -4,7 +4,7 @@
       <h1 class="form-heading">Editando ato {{project.name}}</h1>
     </div>
 
-    <form novalidate role="form" class="form-horizontal" name="editProjectForm" ng-submit="createProject()">
+    <form novalidate role="form" class="form-horizontal" name="editProjectForm" ng-submit="saveProject()">
       <div class="col-sm-12">
         <fieldset>
           <legend>Sobre o Ato</legend>
@@ -84,21 +84,12 @@
             </div>
           </div>
 
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.state]">
-            <div class="col-sm-8 col-sm-offset-3">
-              <label class="help-block" ng-hide="project.address.state">Estado obrigatório.</label>
-              <select class="form-control" ng-model="project.address.state" ng-options="s.name for s in states()">
-                <option value="" disabled selected>Estado</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.city]">
-            <div class="col-sm-8 col-sm-offset-3">
-              <label class="help-block" ng-hide="project.address.city">Cidade obrigatório.</label>
-              <select class="form-control" ng-model="project.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
-                <option value="" disabled selected>Cidade</option>
-              </select>
-            </div>
+          <label class="col-sm-3 control-label">Cidade do Ato</label>
+          <div class="btn-group">
+            <button type="button" class="btn" ng-model="project.address.city" btn-radio="9422">São Paulo, SP</button>
+            <button type="button" class="btn" ng-model="project.address.city" btn-radio="5915">Curitiba, PR</button>
+            <button type="button" class="btn" ng-model="project.address.city" btn-radio="1724">Brasília, DF</button>
+            <button type="button" class="btn" ng-model="project.address.city" btn-radio="6861">Rio de Janeiro, RJ</button>
           </div>
 
         </fieldset>
@@ -139,8 +130,11 @@
         <fieldset>
           <legend>Foto do Ato</legend>
           <div class="form-group"  ng-class="{true: 'has-error', false: 'has-success'}[!imageUploaded]">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8">                     
+            <label class="col-md-3 col-md-offset-3 control-label">
+              <img alt="Foto do ato." width="250" ng-src="{{project.image_url}}">
+            </label>
+
+            <div class="col-md-5">                     
               <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar uma foto bem bonita que represente seu projeto. </label>
               <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadProjectImage(this.files)" />
             </div>
@@ -149,9 +143,9 @@
 
         <fieldset class="col-sm-6">
           <legend>Causas (selecione uma ou mais)</legend>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChosen]">
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para sua ONG.</label>
+              <label class="help-block" ng-hide="causeChosen">Escolha pelo menos uma causa para sua ONG.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
@@ -167,9 +161,9 @@
 
         <fieldset class="col-sm-6">
           <legend>Habilidades (selecione uma ou mais)</legend>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChoosen]" >
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChosen]" >
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="skillChoosen">Escolha pelo menos uma habilidade para sua ONG.</label>
+              <label class="help-block" ng-hide="skillChosen">Escolha pelo menos uma habilidade para sua ONG.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="skill in skills()" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
                 <div class="square center" ng-click="addSkill(skill)">
@@ -239,10 +233,10 @@
 
         <div id="type-project-buttons">
           <div class="btn-group btn-group-justified" data-toggle="buttons">
-            <label class="btn btn-info active" ng-click="jobActive=true">
+            <label class="btn" ng-click="jobActive=true">
               <input type="radio" name="job"> Pontual
             </label>
-            <label class="btn btn-info" ng-click="jobActive=false">
+            <label class="btn" ng-click="jobActive=false">
               <input type="radio" name="work"> Recorrente
             </label>
           </div>
@@ -258,7 +252,6 @@
                 datepicker-popup="dd-MMMM-yyyy"
                 ng-model="start_date"
                 name="startdate"
-                min="minDate"
                 datepicker-options="dateOptions"
                 date-disabled="disabled(date, mode)">
                 <div ng-model="start_date">
@@ -276,7 +269,6 @@
                 datepicker-popup="dd-MMMM-yyyy"
                 ng-model="end_date"
                 name="enddate"
-                min="minDate"
                 datepicker-options="dateOptions"
                 date-disabled="disabled(date, mode)">
                 <div ng-model="end_date">
@@ -291,13 +283,13 @@
             <div class="form-group">
               <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
               <div class="col-md-7">
-                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
+                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="project.work.can_be_done_remotely" ng-model="project.work.can_be_done_remotely">
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
               <div class="col-md-1">
-                <input type="number" class="form-control" name="weeklyhours" placeholder="Quantas vagas?" ng-model="work.weekly_hours">
+                <input type="number" class="form-control" min="0" name="weeklyhours" ng-model="project.work.weekly_hours">
               </div>
             </div>
 
@@ -322,7 +314,7 @@
                         <th scope="col" title="Sexta">Sex</th>
                         <th scope="col" title="Sabado">Sab</th>
                       </tr>
-                      <tr ng-repeat="days in work.availabilities">
+                      <tr ng-repeat="days in project.work.availabilities">
                         <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
                           <i ng-show="period.checked" class="fa fa-check" style="color:green;"></i>
                           <i ng-hide="period.checked" class="fa fa-check" style="color:white;"></i>
@@ -335,7 +327,7 @@
             </div>
           </fieldset>
 
-          <button type="submit" class="btn btn-info btn-large btn-block"  ng-disabled="editProjectForm.$invalid || !(imageUploaded && causeChoosen && skillChoosen)">Salvar</button>
+          <button type="submit" class="btn btn-info btn-large btn-block"  ng-disabled="editProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen)">Salvar</button>
         </div>
 
       </form>

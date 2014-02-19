@@ -74,7 +74,9 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
   });
 
   $scope.$watch('short_facebook_event', function (value) {
-    $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
+    if (value) {
+      $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
+    }
   });
 
   $scope.cityLoaded = false;

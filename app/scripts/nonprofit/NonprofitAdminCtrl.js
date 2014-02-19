@@ -132,7 +132,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.editProject = function (project) {
-    $state.transitionTo('root.project', {slug: project.slug});
+    $state.transitionTo('root.editproject', {slug: project.slug});
   };
 
   $scope.cloneProject = function (project) {

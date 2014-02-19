@@ -30,6 +30,12 @@ app.factory('Photos', ['$http', '$FB', function($http, $FB) {
           transformRequest: angular.identity
         }).success(success).error(error);
     },
+    setProjectPhoto: function (file, projectId, success, error) {
+      $http.post(constants.api + 'upload_project_image/?id=' + projectId, file, {
+          headers: {'Content-Type': undefined },
+          transformRequest: angular.identity
+        }).success(success).error(error);
+    },
     setNonprofitProfilePhoto: function (file, success, error) {
       $http.post(constants.api + 'upload_nonprofit_profile_image/', file, {
         headers: {'Content-Type': undefined },

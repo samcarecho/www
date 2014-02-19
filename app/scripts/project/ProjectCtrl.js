@@ -11,6 +11,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.landing = false;
   $scope.markers = [];
   $scope.project = project;
+  window.project = project;
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
   $scope.markers.push(project.address);
@@ -98,8 +99,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           if (volunteerPhone) {
             $scope.loggedUser.user.phone = volunteerPhone;
             $scope.loggedUser.user.name = volunteerName;
-            Volunteer.save($scope.loggedUser, function(response) {
-              console.log(response);
+            Volunteer.save($scope.loggedUser, function() {
             }, function() {
             });
           }

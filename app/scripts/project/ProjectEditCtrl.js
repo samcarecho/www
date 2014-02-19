@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams, Restangular, Project) {
+app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos) {
 
   if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
     $state.transitionTo('root.home');
@@ -16,7 +16,7 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
       if (p.slug === $stateParams.slug) {
         foundProject = true;
         $scope.project = p;
-        return;
+        window.project = p;
       }
     });
     if (!foundProject) {
@@ -25,16 +25,68 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
     }
   }
 
-  for (var period = 0; period < 3; period++) {
-    var periods = [];
-    $scope.work.availabilities.push(periods);
-    for (var weekday = 0; weekday < 7; weekday++) {
-      periods.push({checked: false, weekday: weekday, period: period});
-    }
+  if ($scope.project.job) {
+    $scope.jobActive = true;
+  } else {
+    $scope.jobActive = false;
   }
 
-  $scope.$watch('project.name', function (value) {
-    if (value) {
+  $scope.causes().forEach(function (cause) {
+    $scope.project.causes.forEach(function(projectCause) {
+      if (projectCause.id === cause.id) {
+        cause.checked = true;
+        $scope.causeChosen = true;
+      }
+    });
+  });
+
+  $scope.skills().forEach(function (skill) {
+    $scope.project.skills.forEach(function(projectSkill) {
+      if (projectSkill.id === skill.id) {
+        skill.checked = true;
+        $scope.skillChosen = true;
+      }
+    });
+  });
+
+
+  if ($scope.project.work) {
+    var availabilities = [];
+    for (var period = 0; period < 3; period++) {
+      var periods = [];
+      availabilities.push(periods);
+      for (var weekday = 0; weekday < 7; weekday++) {
+        periods.push({checked: false, weekday: weekday, period: period});
+      }
+    }
+    availabilities.forEach(function(p) {
+      p.forEach(function (a) {
+        $scope.project.work.availabilities.forEach(function(wa) {
+          if (wa.weekday === a.weekday && a.period === wa.period) {
+            a.checked = true;
+          }
+        });
+      });
+    });
+    $scope.project.work.availabilities = availabilities;
+  }
+
+  if ($scope.project.image_url) {
+    $scope.imageUploaded = true;
+  }
+
+  $scope.$watch('project.job', function (job) {
+    if (job % 1 !== 0) {
+      $scope.start_date = new Date(job.start_date);
+      $scope.end_date = new Date(job.end_date);
+    }
+  });
+
+  $scope.start_date = new Date();
+  $scope.end_date = new Date();
+
+  $scope.$watch('project.name', function (value, old) {
+    if (value !== old) {
       Project.getSlug(value, function(success) {
         $scope.project.slug = success.slug;
       }, function (error) {
@@ -44,60 +96,39 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
   });
 
   $scope.$watch('short_facebook_event', function (value) {
-    $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
+    if (value) {
+      $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
+    } else {
+      $scope.project.facebook_event = null;
+    }
   });
 
   $scope.cityLoaded = false;
 
   $scope.$watch('start_date', function (value) {
     if (value) {
-      $scope.job.start_date = value.getTime();
+      $scope.project.job.start_date = value.getTime();
     }
   });
   $scope.$watch('end_date', function (value) {
     if (value) {
-      $scope.job.end_date = value.getTime();
+      $scope.project.job.end_date = value.getTime();
     }
   });
-
-  $scope.$watch('project.address.state', function (value) {
-    $scope.cityLoaded = false;
-    $scope.stateCities = [];
-    if (value && !value.citiesLoaded) {
-      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
-        response.forEach(function(c) {
-          $scope.stateCities.push(c);
-          if (!c.active) {
-            $scope.cities().push(c);
-          }
-        });
-        value.citiesLoaded = true;
-        $scope.cityLoaded = true;
-      });
-    } else if(value){
-      var cities = $scope.cities();
-      cities.forEach(function (c) {
-        if (c.state.id === $scope.project.address.state.id) {
-          $scope.stateCities.push(c);
-        }
-      });
-      $scope.cityLoaded = true;
-    }
-  });
-
 
   $scope.uploadProjectImage = function(files) {
     if (files) {
-      if (!$scope.files) {
-        $scope.files = new FormData();
-      }
-      $scope.files.append('image', files[0]);
-      $scope.imageUploaded = true;
-      $scope.$apply();
-      return;
+      var fd = new FormData();
+      fd.append('file', files[0]);
+      Photos.setProjectPhoto(fd, $scope.project.id, function(response) {
+        $scope.project.image_url = response.file;
+        toastr.success('Foto do ato salva com sucesso.');
+        $scope.imageUploaded = true;
+      }, function() {
+        $scope.imageUploaded = false;
+        toastr.error('Error no servidor. Não consigo atualizar foto do ato :(');
+      });
     }
-    $scope.imageUploaded = false;
-    $scope.$apply();
   };
 
   $scope.addCause = function(cause) {
@@ -105,15 +136,20 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
     if (cause.checked) {
       $scope.project.causes.push(cause);
     } else {
-      var index = $scope.project.causes.indexOf(cause);
-      if (index > -1) {
-        $scope.project.causes.splice(index, 1);
-      }
+      $scope.project.causes.forEach(function(c) {
+        if (c.id === cause.id) {
+          var index = $scope.project.causes.indexOf(c);
+          if (index > -1) {
+            $scope.project.causes.splice(index, 1);
+            return;
+          }
+        }
+      });
     }
     if ($scope.project.causes.length !== 0) {
-      $scope.causeChoosen = true;
+      $scope.causeChosen = true;
     } else {
-      $scope.causeChoosen = false;
+      $scope.causeChosen = false;
     }
   };
 
@@ -122,19 +158,23 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
     if (skill.checked) {
       $scope.project.skills.push(skill);
     } else {
-      var index = $scope.project.skills.indexOf(skill);
-      if (index > -1) {
-        $scope.project.skills.splice(index, 1);
-      }
+      $scope.project.skills.forEach(function(s) {
+        if (s.id === skill.id) {
+          var index = $scope.project.skills.indexOf(s);
+          if (index > -1) {
+            $scope.project.skills.splice(index, 1);
+            return;
+          }
+        }
+      });
     }
     if ($scope.project.skills.length !== 0) {
-      $scope.skillChoosen = true;
+      $scope.skillChosen = true;
     } else {
-      $scope.skillChoosen = false;
+      $scope.skillChosen = false;
     }
   };
 
-  $scope.minDate = new Date();
   $scope.ismeridian = true;
   $scope.toggleMode = function() {
     $scope.ismeridian = ! $scope.ismeridian;
@@ -154,11 +194,15 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
     }
   };
 
-  $scope.createProject = function () {
-    if ($scope.jobActive) {
-      $scope.project.job = $scope.job;
-    } else {
-      $scope.project.work = $scope.work;
+  $scope.saveProject = function () {
+    $scope.causes().forEach(function(c) {
+      c.checked = false;
+    });
+    $scope.skills().forEach(function(s) {
+      s.checked = false;
+    });
+
+    /*if (!$scope.jobActive) {
       var ava = [];
       $scope.work.availabilities.forEach(function (period) {
         period.forEach(function (a) {
@@ -168,17 +212,13 @@ app.controller('ProjectEditCtrl', function($scope, $filter, $state, $stateParams
         });
       });
       $scope.work.availabilities = ava;
-    }
+    }*/ //TODO
 
-    $scope.files.append('project', angular.toJson($scope.project));
-
-    Project.create($scope.files, function () {
-      toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
-      $scope.loggedUser.projects.push($scope.project);
+    Project.save($scope.project, function () {
+      toastr.success('Ato salvo.');
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
-    }, function (error) {
-      console.error(error);
-      toastr.error('Não consigo criar novo Ato. Entre em contato com o Atados.');
+    }, function () {
+      toastr.error('Não consigo salvar Ato. Entre em contato com o Atados para resolver o problema.');
     });
   };
 });

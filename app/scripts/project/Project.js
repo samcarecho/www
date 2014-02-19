@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', function($http, Restangular, Site, Auth, $state) {
+app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', 'Cleanup', '$state', function($http, Restangular, Site, Auth, Cleanup, $state) {
   return {
     create: function (project, success, error) {
       $http.post(constants.api + 'create/project/', project, {
@@ -13,42 +13,51 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', '$state', functi
         transformRequest: angular.identity
       }).success(success).error(error);
     },
+    save: function (project, success, error) {
+      var projectCopy = {};
+      angular.copy(project, projectCopy);
+
+      delete projectCopy.nonprofit;
+      delete projectCopy.volunteers;
+      delete projectCopy.volunteers_numbers;
+      delete projectCopy.nonprofit_city_state;
+      delete projectCopy.nonprofit_image;
+      delete projectCopy.image_url;
+
+      if (projectCopy.address) {
+        delete projectCopy.address.city_state;
+      }
+
+      if (projectCopy.job) {
+        projectCopy.job.start_date = new Date(projectCopy.job.start_date).toISOString();
+        projectCopy.job.end_date = new Date(projectCopy.job.end_date).toISOString();
+        delete projectCopy.work;
+      } else {
+        // projectCopy.work = projectCopy.work.id;
+        delete projectCopy.job;
+      }
+      console.log(projectCopy);
+
+      var causes = [];
+      projectCopy.causes.forEach(function(c) {
+        causes.push(c.id);
+      });
+      projectCopy.causes = causes;
+
+      var skills = [];
+      projectCopy.skills.forEach(function(s) {
+        skills.push(s.id);
+      });
+      projectCopy.skills = skills;
+
+      console.log(projectCopy);
+      $http.put(constants.api + 'save/project/', {'project': projectCopy})
+        .success(success).error(error);
+    },
     get: function(slug) {
       return Restangular.one('project', slug).get().then(function(project) {
-        project.causes.forEach( function (c) {
-          c.image = constants.storage + 'cause_' + c.id + '.png';
-        });
-        project.skills.forEach(function (s) {
-          s.image = constants.storage + 'skill_' + s.id + '.png';
-        });
-
-        if (project.work) {
-          var availabilities = [];
-          for (var period = 0; period < 3; period++) {
-            var periods = [];
-            availabilities.push(periods);
-            for (var weekday = 0; weekday < 7; weekday++) {
-              periods.push({checked: false});
-            }
-          }
-          project.work.availabilities.forEach(function(a) {
-            availabilities[a.period][a.weekday].checked = true;
-          });
-          project.work.availabilities = availabilities;
-        }
-
-        Site.causes().forEach(function(c) {
-          project.causes.forEach(function(nc) {
-            if (c.id === nc) {
-              var i = project.causes.indexOf(nc);
-              project.nonprofit.causes[i] = c;
-            }
-          });
-        });
-
-        
+        Cleanup.project(project);
         return project;
-
       }, function() {
         $state.transitionTo('root.home');
         toastr.error('Ato não encontrado.');
