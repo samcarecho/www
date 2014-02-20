@@ -19,11 +19,12 @@
           </div>
 
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[editProjectForm.description.$error.required || editProjectForm.description.$invalid]">
-            <label class="col-md-3 control-label">Pequena Descrição</label>
+            <label class="col-md-3 control-label">Resumo (160 caracteres)</label>
             <div class="col-md-8">
               <textarea class="form-control" rows="2" name="description" ng-model='project.description' ng-minlength="10" ng-maxlength="160" required></textarea>
               <label class="help-block" ng-show="editProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="editProjectForm.description.$error.maxlength">Não pode ter mais de 160 caracteres.</label>
+              <label>Essa descrição não pode ultrapassar mais de 160 caracters. Vai ser usada para dar um resumo rápido do Ato quando os voluntários estiverem procurando.</label>
             </div>
           </div>
 
@@ -33,6 +34,7 @@
               <textarea class="form-control" rows="5" name="details" ng-model='project.details' ng-minlength="10" ng-maxlength="1024" placeholder="" required></textarea>
               <label class="help-block" ng-show="editProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="editProjectForm.details.$error.maxlength">Não pode ter mais de 1024 caracteres.</label>
+              <label>Aqui você pode aproveitar e escrever todos os detalhes para os voluntários.</label>
             </div>
           </div>
 
