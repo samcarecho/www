@@ -78,47 +78,61 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
       controller: controller
     });
 
-    modalInstance.result.then(function (response) {
-      if (response) {
-        var volunteerPhone = response.phone;
-        var volunteerName = response.name;
-        var volunteerMessage = response.message;
-
-        if (!$scope.alreadyApplied) {
-          if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
-            $http.post(constants.api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
-            .success(function () {
-              toastr.success('Email enviado com sucesso!');
-            }).error(function () {
-              toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
-            });
-          } else {
-            toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
-          }
-
-          if (volunteerPhone) {
-            $scope.loggedUser.user.phone = volunteerPhone;
-            $scope.loggedUser.user.name = volunteerName;
-            Volunteer.save($scope.loggedUser, function() {
-            }, function() {
-            });
-          }
-        }
-      }
-
+    modalInstance.result.then(function (modalDetails) {
+      
       $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id})
       .success(function (response) {
         if (response[0] === 'Applied') {
           $scope.project.volunteers.push($scope.loggedUser);
           $scope.alreadyApplied = true;
           toastr.success('Parabéns! Você é voluntário para ' + $scope.project.name);
+          if (modalDetails) {
+            var volunteerPhone = modalDetails.phone;
+            var volunteerName = modalDetails.name;
+            var volunteerMessage = modalDetails.message;
+
+            if (!$scope.alreadyApplied) {
+              if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
+                $http.post(constants.api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
+                .success(function () {
+                  toastr.success('Email enviado com sucesso!');
+                }).error(function () {
+                  toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+                });
+              } else {
+                toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+              }
+
+              if (volunteerPhone) {
+                $scope.loggedUser.user.phone = volunteerPhone;
+                $scope.loggedUser.user.name = volunteerName;
+                Volunteer.save($scope.loggedUser, function() {
+                }, function() {
+                });
+              }
+            }
+          }
         } else {
           $scope.project.volunteers.splice($scope.project.volunteers.indexOf($scope.loggedUser),1);
           $scope.alreadyApplied = false;
           toastr.success('Você não é mais voluntário para ' + $scope.project.name);
         }
-      }).error(function () {
-        toastr.error('Não conseguimos te atar. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+      }).error(function (error) {
+        if (error['403']) {
+          $modal.open({
+            template: "<div class='modal-body'>" +
+            "<p>Para ser voluntário, você precisar confirmar sua conta no Atados clicando no link que te mandamos por email quando você criou sua conta.</p>" +
+            "<button class='btn btn-info' ng-click='ok()'>Ok</button>" +
+            "</div>",
+            controller: function ($scope, $modalInstance) {
+              $scope.ok = function () {
+                $modalInstance.close();
+              };
+            }
+          });
+        } else {
+          toastr.error('Não conseguimos te atar. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
+        }
       });
     }, function () {
     });
