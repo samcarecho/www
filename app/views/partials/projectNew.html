@@ -6,6 +6,105 @@
 
     <form novalidate role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
       <div class="col-sm-12">
+        <div id="type-project-buttons">
+          <div class="btn-group btn-group-justified" data-toggle="buttons">
+            <label class="btn btn-info active" ng-click="jobActive=true">
+              <input type="radio" name="job"> Pontual
+            </label>
+            <label class="btn btn-info" ng-click="jobActive=false">
+              <input type="radio" name="work"> Recorrente
+            </label>
+          </div>
+
+          <fieldset ng-show="jobActive">
+            <legend>Dia e hora do Ato</legend>
+            <div class="col-md-6">
+              <label class="col-md-2 control-label">Começa: </label>
+              <div>
+                <input
+                class="form-control"
+                type="text"
+                datepicker-popup="dd-MMMM-yyyy"
+                ng-model="start_date"
+                name="startdate"
+                min="minDate"
+                datepicker-options="dateOptions"
+                date-disabled="disabled(date, mode)">
+                <div ng-model="start_date">
+                  <timepicker show-meridian="ismeridian"></timepicker>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="col-md-2 control-label">Termina: </label>
+              <div>
+                <input
+                type="text"
+                class="form-control"
+                datepicker-popup="dd-MMMM-yyyy"
+                ng-model="end_date"
+                name="enddate"
+                min="minDate"
+                datepicker-options="dateOptions"
+                date-disabled="disabled(date, mode)">
+                <div ng-model="end_date">
+                  <timepicker show-meridian="ismeridian"></timepicker>
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset ng-hide="jobActive">
+            <div class="form-group">
+              <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
+              <div class="col-md-7">
+                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
+              <div class="col-md-1">
+                <input type="number" class="form-control" min="0" name="weeklyhours" ng-model="work.weekly_hours">
+              </div>
+            </div>
+
+            <div id="project-availabilities">
+              <legend>Horários</legend>
+              <div class="row">
+                <div class="col-sm-3 table-labels">
+                  <div class="table-label">Manhã</div><span class="triangle"></span>
+                  <div class="table-label">Tarde</div><span class="triangle"></span>
+                  <div class="table-label">Noite</div><span class="triangle"></span>
+                </div>
+                <div class="col-sm-5">
+                  <table cellspacing="0" cellpadding="0">
+                    <colgroup span="7"></colgroup>
+                    <tbody>
+                      <tr class="weekdays">
+                        <th scope="col" title="Domingo">Dom</th>
+                        <th scope="col" title="Segunda">Seg</th>
+                        <th scope="col" title="Terça">Ter</th>
+                        <th scope="col" title="Quarta">Qua</th>
+                        <th scope="col" title="Quinta">Qui</th>
+                        <th scope="col" title="Sexta">Sex</th>
+                        <th scope="col" title="Sabado">Sab</th>
+                      </tr>
+                      <tr ng-repeat="days in work.availabilities">
+                        <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
+                          <i ng-show="period.checked" class="fa fa-check" style="color:green;"></i>
+                          <i ng-hide="period.checked" class="fa fa-check" style="color:white;"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+
         <fieldset>
           <legend>Sobre o Ato</legend>
 
@@ -143,7 +242,7 @@
           <legend>Causas (selecione uma ou mais)</legend>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para sua ONG.</label>
+              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para o ato.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
@@ -161,7 +260,7 @@
           <legend>Habilidades (selecione uma ou mais)</legend>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChoosen]" >
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="skillChoosen">Escolha pelo menos uma habilidade para sua ONG.</label>
+              <label class="help-block" ng-hide="skillChoosen">Escolha pelo menos uma habilidade para o ato.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="skill in skills()" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
                 <div class="square center" ng-click="addSkill(skill)">
@@ -177,6 +276,7 @@
 
         <fieldset class="col-sm-12">
           <legend>Cargos</legend>
+            <p>Quais são os papéis que os voluntários irão desempenhar? (ex: ajudante, professor, pintor, leitor)</p>
             <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.rolename.$invalid]">
               <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
               <div class="col-md-8">
@@ -228,104 +328,6 @@
               </tbody>
             </table>
         </fieldset>
-
-        <div id="type-project-buttons">
-          <div class="btn-group btn-group-justified" data-toggle="buttons">
-            <label class="btn btn-info active" ng-click="jobActive=true">
-              <input type="radio" name="job"> Pontual
-            </label>
-            <label class="btn btn-info" ng-click="jobActive=false">
-              <input type="radio" name="work"> Recorrente
-            </label>
-          </div>
-
-          <fieldset ng-show="jobActive">
-            <legend>Dia e hora do Ato</legend>
-            <div class="col-md-6">
-              <label class="col-md-2 control-label">Começa: </label>
-              <div>
-                <input
-                class="form-control"
-                type="text"
-                datepicker-popup="dd-MMMM-yyyy"
-                ng-model="start_date"
-                name="startdate"
-                min="minDate"
-                datepicker-options="dateOptions"
-                date-disabled="disabled(date, mode)">
-                <div ng-model="start_date">
-                  <timepicker show-meridian="ismeridian"></timepicker>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label class="col-md-2 control-label">Termina: </label>
-              <div>
-                <input
-                type="text"
-                class="form-control"
-                datepicker-popup="dd-MMMM-yyyy"
-                ng-model="end_date"
-                name="enddate"
-                min="minDate"
-                datepicker-options="dateOptions"
-                date-disabled="disabled(date, mode)">
-                <div ng-model="end_date">
-                  <timepicker show-meridian="ismeridian"></timepicker>
-                </div>
-              </div>
-            </div>
-
-          </fieldset>
-
-          <fieldset ng-hide="jobActive">
-            <div class="form-group">
-              <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
-              <div class="col-md-7">
-                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
-              <div class="col-md-1">
-                <input type="number" class="form-control" min="0" name="weeklyhours" ng-model="work.weekly_hours">
-              </div>
-            </div>
-
-            <div id="project-availabilities">
-              <legend>Horários</legend>
-              <div class="row">
-                <div class="col-sm-3 table-labels">
-                  <div class="table-label">Manhã</div><span class="triangle"></span>
-                  <div class="table-label">Tarde</div><span class="triangle"></span>
-                  <div class="table-label">Noite</div><span class="triangle"></span>
-                </div>
-                <div class="col-sm-5">
-                  <table cellspacing="0" cellpadding="0">
-                    <colgroup span="7"></colgroup>
-                    <tbody>
-                      <tr class="weekdays">
-                        <th scope="col" title="Domingo">Dom</th>
-                        <th scope="col" title="Segunda">Seg</th>
-                        <th scope="col" title="Terça">Ter</th>
-                        <th scope="col" title="Quarta">Qua</th>
-                        <th scope="col" title="Quinta">Qui</th>
-                        <th scope="col" title="Sexta">Sex</th>
-                        <th scope="col" title="Sabado">Sab</th>
-                      </tr>
-                      <tr ng-repeat="days in work.availabilities">
-                        <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
-                          <i ng-show="period.checked" class="fa fa-check" style="color:green;"></i>
-                          <i ng-hide="period.checked" class="fa fa-check" style="color:white;"></i>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </fieldset>
 
           <button type="submit" class="btn btn-info btn-large btn-block"  ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChoosen && skillChoosen)">Criar Ato Voluntário</button>
         </div>
