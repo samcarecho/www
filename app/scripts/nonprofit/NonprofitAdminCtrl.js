@@ -21,35 +21,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
     }
   };
 
-  $scope.cityLoaded = false;
-  $scope.$watch('nonprofit.address.state', function (value) {
-    $scope.cityLoaded = false;
-    $scope.stateCities = [];
-    if (value && !value.citiesLoaded) {
-      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
-        response.forEach(function(c) {
-          $scope.stateCities.push(c);
-          if (c.id === $scope.nonprofit.address.city.id) {
-            $scope.nonprofit.address.city = c;
-          }
-          if (!c.active) {
-            $scope.cities().push(c);
-          }
-        });
-        value.citiesLoaded = true;
-        $scope.cityLoaded = true;
-      });
-    } else if(value){
-      var cities = $scope.cities();
-      cities.forEach(function (c) {
-        if (c.state.id === $scope.nonprofit.address.state.id) {
-          $scope.stateCities.push(c);
-        }
-      });
-      $scope.cityLoaded = true;
-    }
-  });
-
   $scope.uploadProfileFile = function(files) {
     if (files) {
       var fd = new FormData();

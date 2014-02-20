@@ -56,6 +56,8 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
     vacancies: 0
   };
 
+  window.project = $scope.project;
+
   if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
@@ -91,32 +93,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
       $scope.job.end_date = value.getTime();
     }
   });
-
-  $scope.$watch('project.address.state', function (value) {
-    $scope.cityLoaded = false;
-    $scope.stateCities = [];
-    if (value && !value.citiesLoaded) {
-      Restangular.all('cities').getList({page_size: 3000, state: value.id}).then(function (response) {
-        response.forEach(function(c) {
-          $scope.stateCities.push(c);
-          if (!c.active) {
-            $scope.cities().push(c);
-          }
-        });
-        value.citiesLoaded = true;
-        $scope.cityLoaded = true;
-      });
-    } else if(value){
-      var cities = $scope.cities();
-      cities.forEach(function (c) {
-        if (c.state.id === $scope.project.address.state.id) {
-          $scope.stateCities.push(c);
-        }
-      });
-      $scope.cityLoaded = true;
-    }
-  });
-
 
   $scope.uploadProjectImage = function(files) {
     if (files) {
