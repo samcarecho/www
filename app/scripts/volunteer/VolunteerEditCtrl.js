@@ -33,6 +33,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       }
     }
   };
+
   $scope.addSkill = function(skill) {
     skill.checked = !skill.checked;
     if (skill.checked) {
@@ -110,12 +111,11 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
     volunteerCopy.user.address = volunteerCopy.address;
 
-
-    if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
-      volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
+    if ($scope.volunteer.birthDate) {
+      if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
+        volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
+      }
     }
-    console.log($scope.volunteer.birthDate);
-    console.log(volunteerCopy.birthDate);
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
@@ -166,15 +166,15 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
 
     if (value && value !== $scope.loggedUser.user.email) {
-      $scope.volunteerForm.email.alreadyUsed = false;
+      $scope.volunteerEditForm.email.alreadyUsed = false;
     }
     else if (value !== $scope.loggedUser.user.email) {
       Auth.isEmailUsed(value, function () {
-        $scope.volunteerForm.email.alreadyUsed = false;
-        $scope.volunteerForm.email.$invalid = false;
+        $scope.volunteerEditForm.email.alreadyUsed = false;
+        $scope.volunteerEditForm.email.$invalid = false;
       }, function () {
-        $scope.volunteerForm.email.alreadyUsed = true;
-        $scope.volunteerForm.email.$invalid = true;
+        $scope.volunteerEditForm.email.alreadyUsed = true;
+        $scope.volunteerEditForm.email.$invalid = true;
       });
     }
   });
@@ -192,7 +192,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
   };
 
   $scope.$watch('password + passwordConfirm', function() {
-    $scope.volunteerForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
-    $scope.volunteerForm.password.$invalid = $scope.volunteerForm.password.doesNotMatch;
+    $scope.volunteerEditForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.volunteerEditForm.password.$invalid = $scope.volunteerEditForm.password.doesNotMatch;
   });
 });

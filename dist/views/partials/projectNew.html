@@ -19,11 +19,12 @@
           </div>
 
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
-            <label class="col-md-3 control-label">Pequena Descrição</label>
+            <label class="col-md-3 control-label">Resumo (160 caracteres)</label>
             <div class="col-md-8">
               <textarea class="form-control" rows="2" name="description" ng-model="project.description" ng-minlength="10" ng-maxlength="160" required=""></textarea>
               <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="newProjectForm.description.$error.maxlength">Não pode ter mais de 160 caracteres.</label>
+              <label>Essa descrição não pode ultrapassar mais de 160 caracters. Vai ser usada para dar um resumo rápido do Ato quando os voluntários estiverem procurando.</label>
             </div>
           </div>
 
@@ -33,6 +34,7 @@
               <textarea class="form-control" rows="5" name="details" ng-model="project.details" ng-minlength="10" ng-maxlength="1024" placeholder="" required=""></textarea>
               <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 1024 caracteres.</label>
+              <label>Aqui você pode aproveitar e escrever todos os detalhes para os voluntários.</label>
             </div>
           </div>
 
@@ -84,23 +86,13 @@
             </div>
           </div>
 
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.state]">
-            <div class="col-sm-8 col-sm-offset-3">
-              <label class="help-block" ng-hide="project.address.state">Estado obrigatório.</label>
-              <select class="form-control" ng-model="project.address.state" ng-options="s.name for s in states()">
-                <option value="" disabled="disabled" selected="selected">Estado</option>
-              </select>
-            </div>
+          <label class="col-sm-3 control-label">Cidade</label>
+          <div class="btn-group">
+            <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="9422">São Paulo, SP</button>
+            <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="5915">Curitiba, PR</button>
+            <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="1724">Brasília, DF</button>
+            <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="6861">Rio de Janeiro, RJ</button>
           </div>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!project.address.city]">
-            <div class="col-sm-8 col-sm-offset-3">
-              <label class="help-block" ng-hide="project.address.city">Cidade obrigatório.</label>
-              <select class="form-control" ng-model="project.address.city" ng-options="c.name for c in stateCities" ng-disabled="!cityLoaded">
-                <option value="" disabled="disabled" selected="selected">Cidade</option>
-              </select>
-            </div>
-          </div>
-
         </fieldset>
 
         <fieldset>
