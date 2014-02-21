@@ -14,6 +14,7 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
     slug: '',
     nonprofit: null,
     address: {
+      city: {},
       neighborhood: '',
       zipcode: '',
       addressline: '',
@@ -63,6 +64,7 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
   } else {
     $scope.project.nonprofit = $scope.loggedUser.id;
+    $scope.project.address.city.id = $scope.loggedUser.address.city.id;
   }
 
   $scope.$watch('project.name', function (value) {
@@ -80,8 +82,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
       $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
     }
   });
-
-  $scope.cityLoaded = false;
 
   $scope.$watch('start_date', function (value) {
     if (value) {

@@ -172,6 +172,16 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, Work, Job) {
         sanitizeProject(p, nonprofit);
       });
     },
+    nonprofit: function(nonprofit) {
+      if (nonprofit.projects) {
+        nonprofit.projects.forEach(function (p) {
+          p.causes = fixCauses(p.causes);
+          p.skills = fixSkills(p.skills);
+          p.nonprofit.slug = p.nonprofit.user.slug;
+          p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
+        });
+      }
+    },
 
     adminProject: sanitizeProject,
 
