@@ -609,6 +609,14 @@ doubt-atados {
   }
 }
 
+#project-new {
+  #project-availabilities{
+    td:hover {
+      background-color: #008000;
+    }
+  }
+}
+
 #project-availabilities {
   .table-labels {
     width: 130px;
@@ -645,9 +653,7 @@ doubt-atados {
     color: #0E6282;
     text-align: center;
   }
-  td:hover {
-    background-color: #008000;
-  }
+  
   td {
     color: #0E6282;
     text-align: center;
