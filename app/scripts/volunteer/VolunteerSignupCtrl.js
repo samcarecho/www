@@ -16,12 +16,9 @@ app.controller('VolunteerSignupCtrl',
       } else {
         $scope.signupForm.slug.hasSpace = false;
         $scope.signupForm.slug.$invalid = false;
-        Auth.isSlugUsed(value, function () {
-          $scope.signupForm.slug.alreadyUsed = false;
-          $scope.signupForm.slug.$invalid = false;
-        }, function () {
-          $scope.signupForm.slug.alreadyUsed = true;
-          $scope.signupForm.slug.$invalid = true;
+        Auth.isSlugUsed(value, function (response) {
+          $scope.signupForm.slug.alreadyUsed = response.alreadyUsed;
+          $scope.signupForm.slug.$invalid = response.alreadyUsed;
         });
       }
     } else {
@@ -33,10 +30,9 @@ app.controller('VolunteerSignupCtrl',
 
   $scope.$watch('email', function (value) {
     if (value) {
-      Auth.isEmailUsed(value, function () {
-        $scope.signupForm.email.alreadyUsed = false;
-      }, function () {
-        $scope.signupForm.email.alreadyUsed = true;
+      Auth.isEmailUsed(value, function (response) {
+        $scope.signupForm.email.alreadyUsed = response.alreadyUsed;
+        $scope.signupForm.email.$invalid = response.alreadyUsed;
       });
     } else {
       $scope.signupForm.email.alreadyUsed = false;

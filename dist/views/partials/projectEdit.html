@@ -147,7 +147,7 @@
           <legend>Causas (selecione uma ou mais)</legend>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChosen]">
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="causeChosen">Escolha pelo menos uma causa para sua ONG.</label>
+              <label class="help-block" ng-hide="causeChosen">Escolha pelo menos uma causa para o Ato.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
                 <div class="square center" ng-click="addCause(cause)">
@@ -165,7 +165,7 @@
           <legend>Habilidades (selecione uma ou mais)</legend>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChosen]">
             <div class="col-sm-12">
-              <label class="help-block" ng-hide="skillChosen">Escolha pelo menos uma habilidade para sua ONG.</label>
+              <label class="help-block" ng-hide="skillChosen">Escolha pelo menos uma habilidade para o Ato.</label>
               <ul class="select-button-list">
                 <li class="col-sm-3 col-xs-4" ng-repeat="skill in skills()" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
                 <div class="square center" ng-click="addSkill(skill)">
@@ -181,6 +181,7 @@
 
         <fieldset class="col-sm-12">
           <legend>Cargos</legend>
+            <p>Quais são os papéis que os voluntários irão desempenhar? (ex: ajudante, professor, pintor, leitor)</p>
             <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[editProjectForm.rolename.$invalid]">
               <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
               <div class="col-md-8">

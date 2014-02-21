@@ -15,8 +15,8 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
   });
 
   if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
+    $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
-    window.volunteer = $scope.volunteer;
   } else {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
@@ -160,22 +160,15 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
   });
 
-  $scope.$watch('volunteer.user.email', function (value) {
-    if (!$scope.loggedUser) {
-      return;
-    }
-
-    if (value && value !== $scope.loggedUser.user.email) {
-      $scope.volunteerEditForm.email.alreadyUsed = false;
-    }
-    else if (value !== $scope.loggedUser.user.email) {
-      Auth.isEmailUsed(value, function () {
-        $scope.volunteerEditForm.email.alreadyUsed = false;
-        $scope.volunteerEditForm.email.$invalid = false;
-      }, function () {
-        $scope.volunteerEditForm.email.alreadyUsed = true;
-        $scope.volunteerEditForm.email.$invalid = true;
+  $scope.$watch('volunteer.user.email', function (value, old) {
+    if (value && value !== old && value !== $scope.savedEmail) {
+      Auth.isEmailUsed(value, function (response) {
+        $scope.volunteerEditForm.email.alreadyUsed = response.alreadyUsed;
+        $scope.volunteerEditForm.email.$invalid = response.alreadyUsed;
       });
+    } else {
+      $scope.volunteerEditForm.email.$invalid = false;
+      $scope.volunteerEditForm.email.alreadyUsed = false;
     }
   });
 

@@ -13,12 +13,9 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth',
 
   $scope.$watch('forgotEmail', function (value) {
     if (value) {
-      Auth.isEmailUsed(value, function () {
-        $scope.resetPasswordForm.forgotEmail.alreadyUsed = false;
-        $scope.resetPasswordForm.forgotEmail.$invalid = true;
-      }, function () {
-        $scope.resetPasswordForm.forgotEmail.alreadyUsed = true;
-        $scope.resetPasswordForm.forgotEmail.$invalid = false;
+      Auth.isEmailUsed(value, function (response) {
+        $scope.resetPasswordForm.forgotEmail.alreadyUsed = response.alreadyUsed;
+        $scope.resetPasswordForm.forgotEmail.$invalid = !response.alreadyUsed;
       });
     } else {
       $scope.resetPasswordForm.forgotEmail.$invalid = true;

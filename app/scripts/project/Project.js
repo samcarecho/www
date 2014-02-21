@@ -44,7 +44,6 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', 'Cleanup', '$sta
       });
       projectCopy.skills = skills;
 
-      console.log(projectCopy);
       $http.put(constants.api + 'save/project/', {'project': projectCopy})
         .success(success).error(error);
     },

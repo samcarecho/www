@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Cleanup', function ($http, $q, Site, Restangular, Work, Job) {
+app.factory('Cleanup', function ($http, $q, Site, Restangular) {
   var setStatusStyle = function(volunteer) {
     if (volunteer.status === 'Voluntário') {
       volunteer.statusStyle = {color: 'green'};

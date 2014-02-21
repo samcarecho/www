@@ -33,12 +33,9 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
 
   // Checking that email is valid and not already used.
   $scope.$watch('nonprofit.user.email', function (value) {
-    Auth.isEmailUsed(value, function () {
-      $scope.signupForm.email.alreadyUsed = false;
-      $scope.signupForm.email.$invalid = false;
-    }, function () {
-      $scope.signupForm.email.alreadyUsed = true;
-      $scope.signupForm.email.$invalid = true;
+    Auth.isEmailUsed(value, function (response) {
+      $scope.signupForm.email.alreadyUsed = response.alreadyUsed;
+      $scope.signupForm.email.$invalid = response.alreadyUsed;
     });
   });
 
@@ -51,12 +48,9 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
       } else {
         $scope.signupForm.slug.$invalid = false;
         $scope.signupForm.slug.hasSpace = false;
-        Auth.isSlugUsed(value, function () {
-          $scope.signupForm.slug.alreadyUsed = false;
-          $scope.signupForm.slug.$invalid = false;
-        }, function () {
-          $scope.signupForm.slug.alreadyUsed = true;
-          $scope.signupForm.slug.$invalid = true;
+        Auth.isSlugUsed(value, function (response) {
+          $scope.signupForm.slug.alreadyUsed = response.alreadyUsed;
+          $scope.signupForm.slug.$invalid = response.alreadyUsed;
         });
       }
     } else {
