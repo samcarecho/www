@@ -42,6 +42,23 @@
       </div>
     </form>
   </div>
+
+  <button class="btn btn-info" ng-click="showLegend= !showLegend" style="margin-bottom: 15px">Legenda</button>
+  <div id="legend" class="row" ng-show="showLegend" style="font-size: 10px;margin-bottom: 15px">
+    <div class="col-sm-6">
+      <h6><strong>Causas</strong></h6>
+      <div ng-repeat="cause in causes()">
+        <img width="16" height="16" ng-src="{{cause.image}}"> {{cause.name}} 
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h6><strong>Habilidades</strong></h6>
+      <div ng-repeat="skill in skills()">
+        <img width="16" height="16" ng-src="{{skill.image}}"> {{skill.name}} 
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-sm-12">
       <div ng-show="search.showProjects" class="clearfix">
