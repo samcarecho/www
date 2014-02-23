@@ -1,10 +1,9 @@
 {
   "name": "Atados",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "www.atados.com.br",
   "authors": [
-    "Marjori Pomarole <marjori@atados.com.br>",
-    "Rogério Yokomizor <rogerio@atados.com.br>"
+    "Marjori Pomarole <marjori@atados.com.br>"
   ],
   "description": "Connecting volunteers with NGOs",
   "license": "MIT",
