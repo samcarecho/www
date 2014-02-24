@@ -107,43 +107,18 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
 
     volunteer: function (v) {
 
-      var causes = [];
-      v.causes.forEach(function(c) {
-        c = Site.causes()[c];
-        c.checked = true;
-        causes.push(c);
-      });
-      v.causes = causes;
-
-      var skills = [];
-      v.skills.forEach(function(s) {
-        s = Site.skills()[s];
-        skills.push(s);
-      });
-      v.skills = skills;
+      v.causes = fixCauses(v.causes);
+      v.skills = fixSkills(v.skills);
 
       v.projects.forEach(function(p) {
-        p.causes.forEach(function (c) {
-          c.image = constants.storage + 'cause_' + c.id + '.png';
-          c.class = 'cause_' + c.id;
-        });
-        p.skills.forEach(function (s) {
-          s.image = constants.storage + 'skill_' + s.id + '.png';
-          s.class = 'skill_' + s.id;
-        });
+        p.causes = fixCauses(p.causes);
+        p.skills = fixSkills(p.skills);
         p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
         p.nonprofit.slug = p.nonprofit.user.slug;
       });
 
       v.nonprofits.forEach(function(n) {
-        var causes = [];
-        n.causes.forEach(function (c) {
-          c = Site.causes()[c];
-          causes.push(c);
-          c.image = constants.storage + 'cause_' + c.id + '.png';
-          c.class = 'cause_' + c.id;
-        });
-        n.causes = causes;
+        n.causes = fixCauses(n.causes);
         n.address = n.user.address;
       });
     },
