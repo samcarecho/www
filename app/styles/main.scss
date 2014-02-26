@@ -62,7 +62,7 @@ $footer-color:$white;
 
 $screen-xs: 480px;  // phone
 $screen-sm: 768px;  // tablet
-$screen-md: 992px;  // desktop 
+$screen-md: 1160px;  // desktop 
 $screen-lg: 1200px; // desktop lg
 
 $grid-float-breakpoint: $screen-md;
@@ -726,7 +726,7 @@ h1, h2, h3, h4, h5, h6,
     font-size: 14px;
   }
 }
-@media (min-width: $grid-float-breakpoint) and (max-width: 1190px) {
+@media (min-width: $grid-float-breakpoint) and (max-width: 1300px) {
   #siteSearch {
     width: 200px;
   }
