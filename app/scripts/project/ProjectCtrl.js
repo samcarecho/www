@@ -80,19 +80,20 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
     modalInstance.result.then(function (modalDetails) {
       
-      $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id})
+      var volunteerMessage = modalDetails.message;
+      var volunteerPhone = modalDetails.phone;
+      var volunteerName = modalDetails.name;
+
+      $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage})
       .success(function (response) {
         if (response[0] === 'Applied') {
           $scope.project.volunteers.push($scope.loggedUser);
           $scope.alreadyApplied = true;
           toastr.success('Parabéns! Você é voluntário para ' + $scope.project.name);
           if (modalDetails) {
-            var volunteerPhone = modalDetails.phone;
-            var volunteerName = modalDetails.name;
-            var volunteerMessage = modalDetails.message;
 
             if (!$scope.alreadyApplied) {
-              if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
+              /*if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
                 $http.post(constants.api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
                 .success(function () {
                   toastr.success('Email enviado com sucesso!');
@@ -101,7 +102,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
                 });
               } else {
                 toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
-              }
+              }*/
 
               if (volunteerPhone) {
                 $scope.loggedUser.user.phone = volunteerPhone;
