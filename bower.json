@@ -17,14 +17,13 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.2.10",
-    "angular-i18n": "~1.2.11",
-    "angular-sanitize": "~1.2.11",
-    "angular-resource": "~1.2.10",
-    "angular-translate-loader-static-files": "~0.1.5",
-    "angular-translate": "~1.1.1",
+    "angular": "1.2.14",
+    "angular-i18n": "~1.2.14",
+    "angular-sanitize": "~1.2.14",
+    "angular-resource": "~1.2.14",
     "angular-ui-router": "~0.2.8",
     "angular-ui": "~0.4.0",
+    "angular-bootstrap": "~0.10.0",
     "sass-bootstrap": "~3.0.2",
     "es5-shim": "~2.3.0",
     "json3": "~3.3.0",
@@ -32,7 +31,6 @@
     "underscore": "~1.5.2",
     "toastr": "~2.0.1",
     "AngularGM": "1.0.0",
-    "pace": "~0.4.17",
     "jquery": "~2.1.0",
     "jquery.cookie": "~1.4.0",
     "angular-easyfb": "~0.2.2"
@@ -42,6 +40,6 @@
     "angular-scenario": "~1.2.0"
   },
   "resolutions": {
-    "angular": "1.2.10"
+    "angular": "1.2.14"
   }
 }
