@@ -20,11 +20,12 @@
             <legend>Dia e hora do Ato</legend>
             <div class="col-md-12">
               <label class="col-md-2 control-label">Começa: </label>
-              <div>
+              <div class="col-md-4">
                 <input
                 class="form-control"
                 type="text"
                 datepicker-popup="dd-MMMM-yyyy"
+                show-weeks="false"
                 ng-model="start_date"
                 name="startdate"
                 min="minDate"
@@ -38,13 +39,14 @@
 
             <div class="col-md-12">
               <label class="col-md-2 control-label">Termina: </label>
-              <div>
+              <div class="col-md-4">
                 <input
                 type="text"
                 class="form-control"
                 datepicker-popup="dd-MMMM-yyyy"
                 ng-model="end_date"
                 name="enddate"
+                show-weeks="false"
                 min="minDate"
                 datepicker-options="dateOptions"
                 date-disabled="disabled(date, mode)">
