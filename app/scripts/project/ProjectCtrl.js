@@ -80,9 +80,15 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
     modalInstance.result.then(function (modalDetails) {
       
-      var volunteerMessage = modalDetails.message;
-      var volunteerPhone = modalDetails.phone;
-      var volunteerName = modalDetails.name;
+      var volunteerMessage = '';
+      var volunteerPhone = '';
+      var volunteerName = '';
+
+      if (modalDetails) {
+        volunteerMessage = modalDetails.message;
+        volunteerPhone = modalDetails.phone;
+        volunteerName = modalDetails.name;
+      }
 
       $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage})
       .success(function (response) {

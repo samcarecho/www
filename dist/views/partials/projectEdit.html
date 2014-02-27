@@ -250,7 +250,7 @@
               <label class="col-md-2 control-label">Começa: </label>
               <div>
                 <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="start_date" name="startdate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
-                <div ng-model="start_date">
+                <div ng-model="start_date" style="display:inline-block">
                   <timepicker show-meridian="ismeridian"></timepicker>
                 </div>
               </div>
@@ -260,7 +260,7 @@
               <label class="col-md-2 control-label">Termina: </label>
               <div>
                 <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="end_date" name="enddate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
-                <div ng-model="end_date">
+                <div ng-model="end_date" style="display:inline-block">
                   <timepicker show-meridian="ismeridian"></timepicker>
                 </div>
               </div>

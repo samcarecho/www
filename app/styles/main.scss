@@ -1,9 +1,19 @@
-@import url(https://fonts.googleapis.com/css?family=Noto+Sans:4000,700);
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans'), local('NotoSans'), url(https://themes.googleusercontent.com/static/fonts/notosans/v4/LeFlHvsZjXu2c3ZRgBq9nLO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Sans Bold'), local('NotoSans-Bold'), url(https://themes.googleusercontent.com/static/fonts/notosans/v4/PIbvSEyHEdL91QLOQRnZ16RDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
 
 // Where the logo is
-$atados-sprite:url("https://api.atados.com.br/static/images/atados-sprite.png");
-$causes-sprite:url("https://api.atados.com.br/static/images/causes-sprite.png");
-$atados-arrow:url("https://api.atados.com.br/static/images/arrow-down.png");
+$atados-sprite:url("/images/atados-sprite.png");
+$arrow-down:url("/images/arrow-down.png");
 
 // Atados Bootstrap Theme
 // -------------------------
@@ -747,8 +757,9 @@ h1, h2, h3, h4, h5, h6,
 
 .navbar-brand {
   background:$atados-sprite no-repeat;
-  width:136px;
-  height:45px;
+  background-position: -1.986114501953125px -99.982666015625px;
+  width: 136px;
+  height: 44px;
   margin: 5px 15px 5px 40px;
   text-indent:-999em;
 }
@@ -942,7 +953,7 @@ a:focus {
 
 .form-group {
   select {
-    background: #fafafa $atados-arrow no-repeat 95% 50%;
+    background: #fafafa $arrow-down no-repeat 95% 50%;
     color: $gray-light;
     -webkit-appearance: none;
   }
@@ -961,7 +972,7 @@ a:focus {
         text-indent: 0.01px;
         text-overflow: ' ';
         height: 44px;
-        background: #fafafa $atados-arrow no-repeat 95% 50%;
+        background: #fafafa $arrow-down no-repeat 95% 50%;
         color: $gray-light;
         -webkit-appearance: none;
       }
@@ -1080,7 +1091,10 @@ a:focus {
     }
     .arrow {
       margin-top: 40px;
-      background:$atados-sprite no-repeat -58px -45px;
+      background:$arrow-down no-repeat -58px -45px;
+      // background-position: -600.9896240234375px 0;
+      // width: 16px;
+      // height: 16px;
       float: left;
       width: 77px;
       height: 17px;
@@ -1442,7 +1456,7 @@ $card-img-height: 170px;
 }
 
 .skill_1, .skill_2, .skill_3, .skill_4, .skill_5, .skill_6, .skill_7, .skill_8, .skill_9, .skill_10, .skill_11, .skill_12, .cause_1, .cause_2, .cause_3, .cause_4, .cause_5, .cause_6, .cause_7, .cause_8, .cause_9, .cause_10, .cause_11, .cause_12{
-  background: $causes-sprite no-repeat;
+  background: $atados-sprite no-repeat;
 }
 
 .skill_1{
