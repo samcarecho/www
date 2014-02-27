@@ -64,7 +64,7 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
   } else {
     $scope.project.nonprofit = $scope.loggedUser.id;
-    $scope.project.address.city.id = $scope.loggedUser.address.city.id;
+    $scope.project.address.city.id = $scope.loggedUser.address.city;
   }
 
   $scope.$watch('project.name', function (value) {
