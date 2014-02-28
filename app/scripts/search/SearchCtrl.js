@@ -11,6 +11,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   $scope.map = constants.map;
   $scope.highlighted = $scope.landing;
 
+  var alreadySearchedProject = false;
+  var alreadySearchedNonprofit = false;
+
   if (Search.nonprofits().length === 0 && Search.projects().length === 0) {
     Search.filter(null, null, null, null, $scope.highlighted);
   }
@@ -34,6 +37,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       if ($scope.landing) {
         $state.transitionTo('root.explore');
       }
+
+      alreadySearchedProject = false;
+      alreadySearchedNonprofit = false;
+
       Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
     }
   };
@@ -49,7 +56,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   $scope.$watch('search.query', function (value, old) {
     search(value, old);
   });
-
+  
   $scope.getMore = function () {
     if ($scope.landing) {
       var vars = {
@@ -75,7 +82,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
           toastr.error('Erro ao buscar mais atos do servidor');
         });
       } else {
-        toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
+        if (!alreadySearchedProject) {
+          toastr.error('Não conseguimos achar mais atos. Tente mudar os filtros.');
+          alreadySearchedProject = true;
+        }
       }
     } else {
       if ($scope.search.nextUrlNonprofit()) {
@@ -97,7 +107,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
           toastr.error('Erro ao buscar mais ONGs do servidor');
         });
       } else {
-        toastr.error('Não conseguimos achar mais ONGs. Tente mudar os filtros.');
+        if (!alreadySearchedNonprofit) {
+          toastr.error('Não conseguimos achar mais ONGs. Tente mudar os filtros.');
+          alreadySearchedNonprofit = true;
+        }
       }
     }
   };
