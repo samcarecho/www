@@ -52,12 +52,14 @@ app.factory('Site', function(Restangular, $http) {
     });
   };
   var getCities = function () {
-    Restangular.all('cities').getList({page_size: constants.active_cities}).then( function(response) {
-      _cities = response;
-      _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true, state: 0});
-    }, function () {
-      console.error('Não consegui pegar as cidades do servidor.');
-    });
+    $http.get(constants.api + 'active_cities/')
+      .success(function (response) {
+        _cities = response;
+        _cities.splice(0, 0, {name: 'Todas Cidades', id: '', active: true, state: 0});
+      })
+      .error(function() {
+        console.error('Não consegui pegar as cidades do servidor.');
+      });
   };
   var getStates = function () {
     Restangular.all('states').getList({page_size: constants.static_page_size}).then( function(response) {

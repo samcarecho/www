@@ -59,6 +59,8 @@
     </div>
   </div>-->
 
+  <p ng-hide="landing"><small ng-show="search.query || search.city.id > 0 || (search.skill.id > 0 && search.showProjects) || search.cause.id > 0"> Mostrando resultados <span ng-show="search.query">com procura "{{ search.query }}"</span><span ng-show="search.cause.id > 0"><br> com causa "{{ search.cause.name }}"</span><span ng-show="search.skill.id > 0 && search.showProjects"><br> com habilidade "{{ search.skill.name }}"</span><span ng-show="search.city.id > 0"><br> na cidade de "{{ search.city.name }}"</span>.</small></p>
+
   <div class="row">
     <div class="col-sm-12">
       <div ng-show="search.showProjects" class="clearfix">
