@@ -704,7 +704,7 @@ h1, h2, h3, h4, h5, h6,
     }
   }
   #sobreLink {
-    margin-right: 30px;
+    margin-right: 15px;
   }
   #volunteerNavbarButton {
     margin-right: 15px;        
@@ -794,6 +794,7 @@ $modal-content-bg: #efefef;
   .modalTab {
     text-transform: uppercase;
     background-image: linear-gradient(#FFF, #E8E8E8);
+    border: 0;
     font-weight: bold;
     &:hover {
       color: $link-color;
@@ -1072,7 +1073,7 @@ a:focus {
     }
     .number {
       color: $green;
-      font-size: 60px;
+      font-size: 50px;
       font-weight: bold;
       text-shadow: 0 1px 0 rgba(0,0,0,0.8);
       

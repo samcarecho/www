@@ -31,16 +31,15 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     $state.transitionTo('root.explore');
   };
 
-  $scope.openVolunteerModal = function() {
+  $scope.openLogin = function() {
     $rootScope.modalInstance = $modal.open({
-      templateUrl: '/partials/volunteerModal.html'
+      templateUrl: '/partials/loginModal.html',
+      controller: function ($scope) {
+        $scope.volunteerActive = true;
+      }
     });
   };
-  $scope.openNonprofitModal = function () {
-    $rootScope.modalInstance = $modal.open({
-      templateUrl: '/partials/nonprofitModal.html'
-    });
-  };
+
   $scope.openTermsModal = function() {
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/termsModal.html'

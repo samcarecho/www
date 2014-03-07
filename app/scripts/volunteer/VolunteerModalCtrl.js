@@ -5,15 +5,20 @@
 var app = angular.module('atadosApp');
 
 app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
-  $scope.loginActive = true;
 
+  $scope.loginActive = true;
   $scope.$watch('loginActive', function (value) {
+    console.log(value);
     if (value) {
       $scope.facebookState = 'Entrar ';
     } else {
       $scope.facebookState = 'Criar conta ';
     }
   });
+
+  $scope.switchLoginActive = function () {
+    $scope.loginActive = !$scope.loginActive;
+  };
 
   function sendFacebookCredentials(authResponse) {
     Auth.facebookAuth(authResponse,
