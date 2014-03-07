@@ -40,6 +40,14 @@ app.directive('projectCard', function() {
     templateUrl: '/partials/projectCard.html'
   };
 });
+app.directive('depoimento', function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    templateUrl: '/partials/depoimento.html'
+  };
+});
+
 
 app.directive('atadosSearch', function() {
   return {

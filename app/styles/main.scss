@@ -1021,6 +1021,7 @@ a:focus {
   }
   
   .depoimento {
+    margin-bottom: 20px;
     img {
       float: left;
       margin-right: 12px;
@@ -1030,15 +1031,6 @@ a:focus {
     }
     .quote-author {
       width: 260px;
-    }
-    #quote1 {
-      padding: 11px 22px;
-    }
-    #quote2 {
-      padding: 33px 22px;
-    }
-    #quote3 {
-      padding: 35px 22px;
     }
     blockquote {
       height: 256px;
@@ -1189,6 +1181,7 @@ $card-img-height: 170px;
       overflow: hidden;
       white-space: nowrap;
       top: -130px;
+      left: 0;
     }
     .card-img {
       .card-description {
