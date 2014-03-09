@@ -123,7 +123,7 @@ fieldset {
   legend {
     font-weight: bold;
     border-bottom: 0;
-}
+  }
 }
 
 doubt-atados {
@@ -194,10 +194,20 @@ doubt-atados {
   margin-bottom: 0;
 }
 
-#nonprofitSignupForm {
+#nonprofit-signup {
+  background-color: #EFEFEF;
+  h1 {
+    color: #E3781E;
+  }
+}
+
+#nonprofit-signup-form {
   margin-bottom: 40px;
   fieldset {
     margin-bottom: 30px;
+    legend {
+      margin-top: 60px;
+    }
   }
 
   #addressNumberField {
