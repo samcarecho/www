@@ -199,7 +199,8 @@
               <img class="col-md-3" width="90" height="100" alt="Foto cover da ONG "src="https://s3-sa-east-1.amazonaws.com/atadosapp/project/default_project.jpg" />
               <div class="form-group col-md-6" ng-class="{true: 'has-error', false: 'has-success'}[!imageUploaded]">
                 <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar o logo da ONG. </label>
-                <input required id="image-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadImageFile(this.files)" />
+                <label class="btn btn-info" for="image-file-input"><i class="fa fa-edit"></i> Escolher foto...</label>
+                <input style="display: none;" required id="image-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadImageFile(this.files)" />
               </div>
             </div>
 
@@ -208,7 +209,7 @@
               <img class="col-md-3" width="90" height="100" alt="Foto cover da ONG "src="https://s3-sa-east-1.amazonaws.com/atadosapp/project/default_project.jpg" />
               <div class="form-group col-md-6" ng-class="{true: 'has-error', false: 'has-success'}[!coverUploaded]">
                 <label class="help-block" ng-hide="coverUploaded">Escolha uma foto cover bem bonita e de alta qualidade!</label>
-                <label class="btn cover-edit" for="cover-file-input"><i class="fa fa-edit"></i>Editar foto</label>
+                <label class="btn btn-info" for="cover-file-input"><i class="fa fa-edit"></i> Escolher foto...</label>
                 <input style="display: none;" required id="cover-file-input" type="file" name="file" onchange="angular.element(this).scope().uploadCoverFile(this.files)" />
               </div>
             </div>
@@ -217,7 +218,7 @@
             <p>Ao clicar em "Registrar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
           </div>
 
-          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChoosen)">Terminar cadastro</button>
+          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChoosen)">Finalizar cadastro</button>
 
           </fieldset>
         </div> <!-- 2nd column -->
