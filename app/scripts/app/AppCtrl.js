@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Auth, Search) {
+app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Search) {
   
   $scope.site = Site;
   $scope.search = Search;

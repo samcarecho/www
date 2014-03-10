@@ -21,8 +21,10 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
         success(response.user);
       }).error(error);
     },
-    getCurrentUser: function () {
-      var token = Cookies.get(constants.accessTokenCookie);
+    getCurrentUser: function (token) {
+      if (!token) {
+        token = Cookies.get(constants.accessTokenCookie);
+      }
       if (token) {
         setAuthHeader(token);
         return $http.get(constants.api + 'current_user/?id=' + new Date().getTime())
@@ -84,7 +86,7 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
               if (user.remember) {
                 Cookies.set(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
               } else {
-                Cookies.set(constants.accessTokenCookie, response.access_token);
+
               }
               success(response);
             }).error(error);

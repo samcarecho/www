@@ -8,7 +8,6 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
 
   $scope.loginActive = true;
   $scope.$watch('loginActive', function (value) {
-    console.log(value);
     if (value) {
       $scope.facebookState = 'Entrar ';
     } else {
