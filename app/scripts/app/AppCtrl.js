@@ -31,11 +31,17 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     $state.transitionTo('root.explore');
   };
 
-  $scope.openLogin = function() {
+  $scope.openLogin = function(type) {
+    
+
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/loginModal.html',
       controller: function ($scope) {
-        $scope.volunteerActive = true;
+        if (type === 'volunteer') {
+          $scope.volunteerActive = true;
+        } else {
+          $scope.volunteerActive = false;
+        }
       }
     });
   };
