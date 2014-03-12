@@ -1,13 +1,13 @@
-<div class="container">
-  <div id="project-new">
+<div id="project-new">
+  <div class="container">
     <div class="page-header">
-      <h1 class="form-heading">Novo Ato da ONG {{loggedUser.name}}</h1>
+      <h1>Novo Ato da ONG {{loggedUser.name}}</h1>
     </div>
 
     <form novalidate="" role="form" class="form-horizontal" name="newProjectForm" ng-submit="createProject()">
       <div class="col-sm-12">
         <div id="type-project-buttons">
-          <div class="btn-group btn-group-justified" data-toggle="buttons">
+          <div id="button-group" class="btn-group btn-group-justified" data-toggle="buttons">
             <label class="btn btn-info active" ng-click="jobActive=true">
               <input type="radio" name="job"> Pontual
             </label>
@@ -15,78 +15,79 @@
               <input type="radio" name="work"> Recorrente
             </label>
           </div>
+        </div>
 
-          <fieldset ng-show="jobActive">
-            <legend>Dia e hora do Ato</legend>
-            <div class="col-md-12">
-              <label class="col-md-2 control-label">Começa: </label>
-              <div class="col-md-4">
-                <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" show-weeks="false" ng-model="start_date" name="startdate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
-                <div ng-model="start_date">
-                  <timepicker show-meridian="ismeridian"></timepicker>
-                </div>
+        <div class="row">
+        <fieldset ng-show="jobActive">
+          <legend>Dia e hora do Ato</legend>
+            <label class="col-md-3 control-label">Começa: </label>
+            <div class="col-md-2">
+              <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" show-weeks="false" ng-model="start_date" name="startdate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+              <div ng-model="start_date">
+                <timepicker show-meridian="ismeridian"></timepicker>
               </div>
             </div>
 
-            <div class="col-md-12">
-              <label class="col-md-2 control-label">Termina: </label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="end_date" name="enddate" show-weeks="false" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
-                <div ng-model="end_date">
-                  <timepicker show-meridian="ismeridian"></timepicker>
-                </div>
+            <label class="col-md-2 control-label">Termina: </label>
+            <div class="col-md-2">
+              <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="end_date" name="enddate" show-weeks="false" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+              <div ng-model="end_date">
+                <timepicker show-meridian="ismeridian"></timepicker>
               </div>
             </div>
 
+        </fieldset>
+      </div>
+
+        <fieldset ng-hide="jobActive">
+          <div class="form-group">
+            <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
+            <div class="col-md-7">
+              <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
+            <div class="col-md-1">
+              <input type="number" class="form-control" min="0" name="weeklyhours" ng-model="work.weekly_hours">
+            </div>
+          </div>
+
+          <fieldset>
+          <div id="project-availabilities">
+            <legend>Horários</legend>
+            <div class="row">
+              <div class="col-sm-3 table-labels">
+                <div class="table-label">Manhã</div><span class="triangle"></span>
+                <div class="table-label">Tarde</div><span class="triangle"></span>
+                <div class="table-label">Noite</div><span class="triangle"></span>
+              </div>
+              <div class="col-sm-5">
+                <table cellspacing="0" cellpadding="0">
+                  <colgroup span="7"></colgroup>
+                  <tbody>
+                    <tr class="weekdays">
+                      <th scope="col" title="Domingo">Dom</th>
+                      <th scope="col" title="Segunda">Seg</th>
+                      <th scope="col" title="Terça">Ter</th>
+                      <th scope="col" title="Quarta">Qua</th>
+                      <th scope="col" title="Quinta">Qui</th>
+                      <th scope="col" title="Sexta">Sex</th>
+                      <th scope="col" title="Sabado">Sab</th>
+                    </tr>
+                    <tr ng-repeat="days in work.availabilities">
+                      <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
+                        <i ng-show="period.checked" class="fa fa-check" style="color:green"></i>
+                        <i ng-hide="period.checked" class="fa fa-check" style="color:white"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
           </fieldset>
-
-          <fieldset ng-hide="jobActive">
-            <div class="form-group">
-              <label class="col-md-5 control-label">Esse ato pode ser feito remotamente?</label>
-              <div class="col-md-7">
-                 <input class="btn" type="checkbox" name="canBeDoneRemotely" ng-checked="work.can_be_done_remotely" ng-model="work.can_be_done_remotely">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-5 control-label" for="rolename">Horas por semana?</label>
-              <div class="col-md-1">
-                <input type="number" class="form-control" min="0" name="weeklyhours" ng-model="work.weekly_hours">
-              </div>
-            </div>
-
-            <div id="project-availabilities">
-              <legend>Horários</legend>
-              <div class="row">
-                <div class="col-sm-3 table-labels">
-                  <div class="table-label">Manhã</div><span class="triangle"></span>
-                  <div class="table-label">Tarde</div><span class="triangle"></span>
-                  <div class="table-label">Noite</div><span class="triangle"></span>
-                </div>
-                <div class="col-sm-5">
-                  <table cellspacing="0" cellpadding="0">
-                    <colgroup span="7"></colgroup>
-                    <tbody>
-                      <tr class="weekdays">
-                        <th scope="col" title="Domingo">Dom</th>
-                        <th scope="col" title="Segunda">Seg</th>
-                        <th scope="col" title="Terça">Ter</th>
-                        <th scope="col" title="Quarta">Qua</th>
-                        <th scope="col" title="Quinta">Qui</th>
-                        <th scope="col" title="Sexta">Sex</th>
-                        <th scope="col" title="Sabado">Sab</th>
-                      </tr>
-                      <tr ng-repeat="days in work.availabilities">
-                        <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
-                          <i ng-show="period.checked" class="fa fa-check" style="color:green"></i>
-                          <i ng-hide="period.checked" class="fa fa-check" style="color:white"></i>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </fieldset>
+        </fieldset>
 
 
         <fieldset>
@@ -102,12 +103,12 @@
           </div>
 
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.description.$error.required || newProjectForm.description.$invalid]">
-            <label class="col-md-3 control-label">Resumo (160 caracteres)</label>
+            <label class="col-md-3 control-label">Resumo <br>(160 caracteres)</label>
             <div class="col-md-8">
               <textarea class="form-control" rows="2" name="description" ng-model="project.description" ng-minlength="10" ng-maxlength="160" required=""></textarea>
               <label class="help-block" ng-show="newProjectForm.description.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="newProjectForm.description.$error.maxlength">Não pode ter mais de 160 caracteres.</label>
-              <label>Essa descrição não pode ultrapassar mais de 160 caracters. Vai ser usada para dar um resumo rápido do Ato quando os voluntários estiverem procurando.</label>
+              <label class="info-label">Essa descrição não pode ultrapassar mais de 160 caracters. Vai ser usada para dar um resumo rápido do Ato quando os voluntários estiverem procurando.</label>
             </div>
           </div>
 
@@ -117,12 +118,12 @@
               <textarea class="form-control" rows="5" name="details" ng-model="project.details" ng-minlength="10" ng-maxlength="1024" placeholder="" required=""></textarea>
               <label class="help-block" ng-show="newProjectForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
               <label class="help-block" ng-show="newProjectForm.details.$error.maxlength">Não pode ter mais de 1024 caracteres.</label>
-              <label>Aqui você pode aproveitar e escrever todos os detalhes para os voluntários.</label>
+              <label class="info-label">Aqui você pode aproveitar e escrever todos os detalhes para os voluntários.</label>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-sm-3 control-label">Evento do Ato no Facebook</label>
+            <label class="col-sm-3 control-label">Evento do Ato <br>no Facebook</label>
             <div class="col-sm-8">
               <div class="input-group">
                 <span class="input-group-addon">facebook.com/events/</span>
@@ -217,12 +218,13 @@
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">                     
               <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar uma foto bem bonita que represente seu projeto. </label>
-              <input id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadProjectImage(this.files)">
+              <label class="btn btn-info" for="file-input"><i class="fa fa-edit"></i> Escolher foto...</label>
+              <input style="display: none" id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadProjectImage(this.files)">
             </div>
           </div>
         </fieldset>
 
-        <fieldset class="col-sm-6">
+        <fieldset class="col-sm-6" style="border-right: 2px solid #CFCFCF">
           <legend>Causas (selecione uma ou mais)</legend>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
             <div class="col-sm-12">
@@ -258,64 +260,64 @@
           </div>
         </fieldset>
 
-        <fieldset class="col-sm-12">
+        <fieldset class="col-sm-12" style="margin-bottom: 50px">
           <legend>Cargos</legend>
-            <p>Quais são os papéis que os voluntários irão desempenhar? (ex: ajudante, professor, pintor, leitor)</p>
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.rolename.$invalid]">
-              <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
-              <div class="col-md-8">
-                <input type="text" class="form-control" name="rolename" id="rolename" ng-minlength="3" ng-maxlength="50" ng-model="newRole.name" placeholder="Nome do Cargo">
-                <label class="help-block" ng-show="newProjectForm.rolename.$error.minlength">Não pode ter menos de 3 caracteres.</label>
-                <label class="help-block" ng-show="newProjectForm.rolename.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
-              </div>
+          <p style="margin-bottom: 20px">Quais são os papéis que os voluntários irão desempenhar? (ex: ajudante, professor, pintor, leitor)</p>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.rolename.$invalid]">
+            <label class="col-md-3 control-label" for="rolename">Nome do Cargo</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" name="rolename" id="rolename" ng-minlength="3" ng-maxlength="50" ng-model="newRole.name" placeholder="Nome do Cargo">
+              <label class="help-block" ng-show="newProjectForm.rolename.$error.minlength">Não pode ter menos de 3 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.rolename.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
             </div>
+          </div>
 
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.roledetails.$invalid]">
-              <label class="col-md-3 control-label" for="roledetails">Descrição do Cargo</label>
-              <div class="col-md-8">
-                <textarea class="form-control" rows="3" name="roledetails" placeholder="Descrição do cargo" ng-model="newRole.details"></textarea>
-              </div>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.roledetails.$invalid]">
+            <label class="col-md-3 control-label" for="roledetails">Descrição do Cargo</label>
+            <div class="col-md-8">
+              <textarea class="form-control" rows="3" name="roledetails" placeholder="Descrição do cargo" ng-model="newRole.details"></textarea>
             </div>
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.prerequisites.$invalid]">
-              <label class="col-md-3 control-label" for="prerequisites">Pré-requisito</label>
-              <div class="col-md-8">
-                <textarea class="form-control" rows="3" name="prerequisites" placeholder="Descrição do cargo" ng-model="newRole.prerequisites"></textarea>
-              </div>
+          </div>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.prerequisites.$invalid]">
+            <label class="col-md-3 control-label" for="prerequisites">Pré-requisito</label>
+            <div class="col-md-8">
+              <textarea class="form-control" rows="3" name="prerequisites" placeholder="Descrição do cargo" ng-model="newRole.prerequisites"></textarea>
             </div>
+          </div>
 
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.vacancies.$invalid]">
-              <label class="col-md-3 control-label" for="rolename">Quantas vagas?</label>
-              <div class="col-md-2">
-                <input type="number" min="0" class="form-control" name="vacancies" ng-model="newRole.vacancies">
-              </div>
+          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.vacancies.$invalid]">
+            <label class="col-md-3 control-label" for="rolename">Quantas vagas?</label>
+            <div class="col-md-2">
+              <input type="number" min="0" class="form-control" name="vacancies" ng-model="newRole.vacancies">
             </div>
+          </div>
 
-            <a class="btn btn-info pull-right" ng-click="addRole(newRole)">Adicionar Cargo</a> 
-            <table class="table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Nome</th>
-                  <th>Descrição</th>
-                  <th>Pré-requisito</th>
-                  <th>Vagas</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="role in project.roles">
-                  <td><button type="danger" class="destroy" ng-click="removeRole(role)"><i class="fa fa-trash-o"></i></button></td>
-                  <td>{{role.name}}</td>
-                  <td>{{role.details}}</td>
-                  <td>{{role.prerequisites}}</td>
-                  <td>{{role.vacancies}}</td>
-                </tr>
-              </tbody>
-            </table>
+          <a style="margin-bottom: 20px" class="btn btn-info pull-right" ng-click="addRole(newRole)">Adicionar Cargo</a> 
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Pré-requisito</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="role in project.roles">
+                <td><button type="danger" class="destroy" ng-click="removeRole(role)"><i class="fa fa-trash-o"></i></button></td>
+                <td>{{role.name}}</td>
+                <td>{{role.details}}</td>
+                <td>{{role.prerequisites}}</td>
+                <td>{{role.vacancies}}</td>
+              </tr>
+            </tbody>
+          </table>
         </fieldset>
 
-          <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChoosen && skillChoosen)">Criar Ato Voluntário</button>
-        </div>
+        <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChoosen && skillChoosen)">Criar Ato Voluntário</button>
+      </div>
 
-      </div></form>
-    </div>
+    </form>
   </div>
+</div>

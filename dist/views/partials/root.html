@@ -18,7 +18,7 @@
       </form>
 
       <ul class="nav navbar-nav">
-        <li><a id="see-map" ui-sref="root.explore" href="">Explore o nosso Mapa</a></li>
+        <li><a id="see-map" ui-sref="root.explore" href="">Explore nossos Atos</a></li>
       </ul>
 
       <form class="navbar-form navbar-right" ng-show="loggedUser" style="margin: 0">
@@ -47,9 +47,10 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a ui-sref="root.about">Conheça o Atados</a></li>
-        <li><a id="sobreLink" ng-click="openHowModal()" href="">Primeiros Passos</a></li>
-        <li ng-hide="loggedUser"><button id="volunteerNavbarButton" class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button></li>
-        <li ng-hide="loggedUser"><button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button></li>
+        <li style="display: none"><a id="sobreLink" ng-click="openHowModal()" href="">Primeiros Passos</a></li>
+        <!--<li ng-hide="loggedUser"><button id="volunteerNavbarButton" class="btn btn-info navbar-btn" ng-click="openVolunteerModal()">Voluntário</button></li>
+        <li ng-hide="loggedUser"><button class="btn btn-info navbar-btn" ng-click="openNonprofitModal()">ONG</button></li>-->
+        <li ng-hide="loggedUser"><button class="btn btn-info navbar-btn" ng-click="openLogin('volunteer')">Login</button></li>
       </ul>
 
     </div>
@@ -76,7 +77,7 @@
           <h4>Conheça</h4>
           <ul>
             <li><a ui-sref="root.about">Sobre</a></li>
-            <li><a ng-click="openHowModal()" href="">Como funciona</a></li>
+            <li style="display: none"><a ng-click="openHowModal()" href="">Como funciona</a></li>
             <li><a target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
             <li><a ng-click="openTermsModal()" href="">Termos de Uso e Políticas de Privacidade</a></li>
           </ul>
