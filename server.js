@@ -25,8 +25,5 @@ app.listen(config.port, function () {
   console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 });
 
-var seojs = require('express-seojs');
-app.use(seojs('WvW2celPla'));
-
 // Expose app
 exports = module.exports = app;
