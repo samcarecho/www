@@ -1468,6 +1468,36 @@ $card-img-height: 170px;
   }
 }
 
+#about-page {
+  background-color: #EFEFEF;
+  h3 {color:white;}
+  p {color:white;}
+  #title {
+  }
+  #quem-somos {
+    background-color: #0E6182;
+  }
+  #poder-voluntariado {
+    background-color: #11759B;
+  }
+  #abertos {
+    background-color: #1893C7;
+  }
+  #team {
+    background-color: #D9ECF1;
+    .person {
+      margin-right: 60px;
+      width: 220px;
+      height: 230px; 
+      background-color: #9FCDE0;
+      display: inline-block;
+      &:hover {
+        box-shadow: 0px 0px 13px #7DB6D4;
+      }
+    }
+  }
+}
+
 // Plugin CSS overrides
 // -------------------------
 
