@@ -32,17 +32,16 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.openLogin = function(type) {
-    
 
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/loginModal.html',
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         if (type === 'volunteer') {
           $scope.volunteerActive = true;
         } else {
           $scope.volunteerActive = false;
         }
-      }
+      }]
     });
   };
 
