@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', 'Cleanup', '$state', function($http, Restangular, Site, Auth, Cleanup, $state) {
+app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state) {
   return {
     create: function (project, success, error) {
       $http.post(constants.api + 'create/project/', project, {
@@ -61,4 +61,4 @@ app.factory('Project', ['$http', 'Restangular', 'Site', 'Auth', 'Cleanup', '$sta
         .success(success).error(error);
     }
   };
-}]);
+});

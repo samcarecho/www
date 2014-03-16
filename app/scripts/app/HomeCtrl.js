@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('HomeCtrl', ['$scope', '$sce', function($scope, $sce) {
+app.controller('HomeCtrl', function($scope, $sce) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
 
   $scope.depoimentos = [{
@@ -21,4 +21,4 @@ app.controller('HomeCtrl', ['$scope', '$sce', function($scope, $sce) {
     where: $sce.trustAsHtml('Funcionária da ONG <a ui-sref="root.nonprofit({slug: "parceiros"})" target="_blank"><strong> Monte Azul</strong></a>'),
     image: 'dayse.jpg'
   }];
-}]);
+});

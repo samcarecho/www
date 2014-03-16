@@ -3,8 +3,7 @@
 /* global constants: false */
 /* global $: false */
 
-var app = angular.module('atadosApp',
-    ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb']);
+var app = angular.module('atadosApp', ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 

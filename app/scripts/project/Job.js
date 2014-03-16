@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Job', ['$http', '$q', function($http, $q) {
+app.factory('Job', function($http, $q) {
   return {
     get: function(id) {
       var deferred = $q.defer();
@@ -14,4 +14,4 @@ app.factory('Job', ['$http', '$q', function($http, $q) {
       return deferred.promise;
     }
   };
-}]);
+});

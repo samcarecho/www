@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Volunteer', ['$http', '$state', 'Restangular', 'Cleanup', function($http, $state, Restangular, Cleanup) {
+app.factory('Volunteer', function($http, $state, Restangular, Cleanup) {
   return {
     // For now this is only to save the phone number of atar
     save: function (volunteer, success, error) {
@@ -30,4 +30,4 @@ app.factory('Volunteer', ['$http', '$state', 'Restangular', 'Cleanup', function(
       });
     }
   };
-}]);
+});

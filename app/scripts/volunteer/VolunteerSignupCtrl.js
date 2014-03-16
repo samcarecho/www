@@ -4,8 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerSignupCtrl',
-    ['$scope', '$rootScope', 'Auth', function($scope, $rootScope, Auth) {
+app.controller('VolunteerSignupCtrl', function($scope, $rootScope, Auth) {
 
   $scope.$watch('slug', function (value) {
     if (value) {
@@ -72,4 +71,4 @@ app.controller('VolunteerSignupCtrl',
         });
     }
   };
-}]);
+});

@@ -4,8 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth',
-  function($scope, $rootScope, Auth) {
+app.controller('LoginCtrl', function($scope, $rootScope, Auth) {
 
   $scope.showForgotPassword = false;
   $scope.remember = true;
@@ -55,4 +54,4 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', 'Auth',
       toastr.error('Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br');
     });
   };
-}]);
+});

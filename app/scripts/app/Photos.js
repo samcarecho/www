@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Photos', ['$http', '$FB', function($http, $FB) {
+app.factory('Photos', function($http, $FB) {
 
   return {
     getFacebookPhoto: function (success, error) {
@@ -49,4 +49,4 @@ app.factory('Photos', ['$http', '$FB', function($http, $FB) {
       }).success(success).error(error);
     },
   };
-}]);
+});
