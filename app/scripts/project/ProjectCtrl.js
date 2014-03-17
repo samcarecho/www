@@ -127,10 +127,10 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
       }).error(function (error) {
         if (error['403']) {
           $modal.open({
-            template: "<div class='modal-body'>" +
-            "<p>Para ser voluntário, você precisar confirmar sua conta no Atados clicando no link que te mandamos por email quando você criou sua conta.</p>" +
-            "<button class='btn btn-info' ng-click='ok()'>Ok</button>" +
-            "</div>",
+            template: '<div class="modal-body">' +
+            '<p>Para ser voluntário, você precisar confirmar sua conta no Atados clicando no link que te mandamos por email quando você criou sua conta.</p>' +
+            '<button class="btn btn-info" ng-click="ok()">Ok</button>' +
+            '</div>',
             controller: function ($scope, $modalInstance) {
               $scope.ok = function () {
                 $modalInstance.close();
