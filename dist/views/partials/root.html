@@ -12,12 +12,12 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-      <form class="navbar-form navbar-left" role="search" ng-submit="siteSearch()">
-        <input id="siteSearch" class="form-control" ng-model="search.query" type="text" placeholder="Procure por atos e ONGs que fazem o bem!">
+      <form class="navbar-form navbar-left" role="search" ng-submit="siteSearch()" ng-hide="explorerView">
+        <input id="siteSearch" class="form-control" ng-model="search.landingQuery" type="text" placeholder="Procure por atos e ONGs que fazem o bem!">
         <button id="searchIcon"><i class="fa fa-search"></i></button>
       </form>
 
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" ng-hide="explorerView">
         <li><a id="see-map" ui-sref="root.explore" href="">Explore nossos Atos</a></li>
       </ul>
 

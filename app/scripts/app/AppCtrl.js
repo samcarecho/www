@@ -28,6 +28,8 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.siteSearch = function () {
+    $scope.search.query = $scope.search.landingQuery;
+    $scope.search.landingQuery = '';
     $state.transitionTo('root.explore');
   };
 
