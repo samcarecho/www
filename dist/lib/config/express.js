@@ -28,8 +28,8 @@ module.exports = function(app) {
   });
 
   app.configure('production', function(){
-    app.use(express.favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
+    app.use(express.favicon(path.join(config.root, '/public', 'favicon.ico')));
+    app.use(express.static(path.join(config.root, '/public')));
     app.set('views', config.root + '/views');
     
     var seojs = require('express-seojs');
