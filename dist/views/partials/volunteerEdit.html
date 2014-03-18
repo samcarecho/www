@@ -11,7 +11,7 @@
     <div class="col-sm-3">
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerEditForm.name.$invalid]">
         <label class="col-lg-3 control-label" for="name">Nome</label>
-        <div class="col-lg-9">
+        <div class="col-lg-8">
           <input class="form-control" ng-minlength="3" ng-maxlength="100" type="text" name="name" ng-model="volunteer.user.name" placeholder="Nome">
             <label class="help-block" ng-show="volunteerEditForm.name.$error.minlength">Não pode ter menos de 3 caracteres.</label>
             <label class="help-block" ng-show="volunteerEditForm.name.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
@@ -19,34 +19,28 @@
       </div>
       <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[volunteerEditForm.email.$error.required || volunteerEditForm.email.$invalid]">
         <label class="col-lg-3 control-label">Email</label>
-        <div class="col-lg-9">                     
+        <div class="col-lg-8">                     
           <input class="form-control" type="email" name="email" ng-model="volunteer.user.email" required="">
           <label class="help-block" ng-show="volunteerEditForm.email.alreadyUsed">Email já é usado.</label>
           <label class="help-block" ng-show="volunteerEditForm.email.$invalid && volunteerEditForm.email.$dirty">Email inválido.</label>
           <label class="help-block" ng-show="volunteerEditForm.email.$error.required">Precisamos do seu email para você se logar.</label>
         </div>
       </div>
-      <div class="form-group" ng-class="{error:volunteerEditForm.phone.$dirty && volunteerEditForm.phone.$invalid}">
-        <label class="col-lg-3 control-label">Telefone</label>
-        <div class="col-lg-9">                     
-          <input class="form-control" type="text" name="phone" ng-model="volunteer.user.phone" ng-maxlength="20" placeholder="Telefone">
-          <label class="help-block" ng-show="volunteerEditForm.password.$error.maxlength">Tem que ter menos de 20 caracteres</label>
-        </div>
-      </div>
+      <phone-input object="volunteer.user" form="volunteerEditForm"></phone-input>
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerEditForm.password.$dirty && volunteerEditForm.password.$invalid]">
-        <div class="col-sm-9 col-sm-offset-3">
+        <div class="col-sm-8 col-sm-offset-3">
           <input class="form-control" type="password" name="password" ng-model="password" ng-minlength="6" placeholder="Senha">
         </div>
       </div>
       <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerEditForm.password.$dirty && volunteerEditForm.password.$invalid]">
-        <div class="col-sm-9 col-sm-offset-3">
+        <div class="col-sm-8 col-sm-offset-3">
           <input class="form-control" type="password" name="passwordConfirm" ng-model="passwordConfirm" ng-minlength="6" placeholder="Confirme senha">
           <label class="help-block" ng-show="volunteerEditForm.password.doesNotMatch">Senhas tem que ser igual!</label>
           <label class="help-block" ng-show="volunteerEditForm.password.$error.minlength">Senha tem que ter mais de 6 caracteres</label>
         </div>
       </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
 
       <div class="row">
         <label class="col-lg-3 control-label">Data Nascimento</label>
