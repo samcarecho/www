@@ -109,15 +109,7 @@
             </div>
           </div>
 
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[editProjectForm.phone.$error.required || editProjectForm.phone.$invalid]">
-            <label class="col-md-3 control-label">Telefone</label>
-            <div class="col-md-8">
-              <label class="help-block" ng-show="editProjectForm.phone.$error.minlength">Não pode ter menos de 8 caracteres.</label>
-              <label class="help-block" ng-show="editProjectForm.phone.$error.maxlength">Não pode ter mais de 20 caracteres.</label>
-              <label class="help-block" ng-show="editProjectForm.phone.$error.required">Precisamos de telefone caso voluntário ou Atados queiram entrar em contato.</label>
-              <input type='text' class="form-control" name="phone" ng-model='project.phone' ng-minlength="8" ng-maxlength="20" placeholder="Telefone" required />
-            </div>
-          </div>
+          <phone-input object="project" form="editProjectForm"></phone-input>
 
           <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[editProjectForm.email.$error.required || editProjectForm.email.$invalid]">
             <label class="col-md-3 control-label">Email</label>
