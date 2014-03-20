@@ -1494,16 +1494,20 @@ $card-img-height: 170px;
       font-weight: bold;
     }
     img {
+      border: 10px solid #01739E;
+      box-shadow: 2px 1px 7px #363030;
     }
   }
   #poder-voluntariado {
     padding: 70px 0;
+    box-shadow: 0 2px 10px #020202;
     background-color: #11759B;
     h3 {
       font-weight: bold;
     }
   }
   #abertos {
+    box-shadow: 0 2px 10px #020202;
     padding: 70px 0;
     background-color: #1893C7;
     h3 {
