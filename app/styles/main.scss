@@ -1537,7 +1537,7 @@ $card-img-height: 170px;
   background-color: $orange;
 }
 
-.skill_1, .skill_2, .skill_3, .skill_4, .skill_5, .skill_6, .skill_7, .skill_8, .skill_9, .skill_10, .skill_11, .skill_12, .cause_1, .cause_2, .cause_3, .cause_4, .cause_5, .cause_6, .cause_7, .cause_8, .cause_9, .cause_10, .cause_11, .cause_12{
+.skill_1, .skill_2, .skill_3, .skill_4, .skill_5, .skill_6, .skill_7, .skill_8, .skill_9, .skill_10, .skill_11, .skill_12, .cause_1, .cause_2, .cause_3, .cause_4, .cause_5, .cause_6, .cause_7, .cause_8, .cause_9, .cause_10, .cause_11, .cause_12, .cause_13{
   background: $atados-sprite no-repeat;
 }
 
@@ -1683,6 +1683,12 @@ $card-img-height: 170px;
   background-position: 0 0;
   width: 50px;
   height: 50px;
+}
+
+.cause_13{
+  background-position: -600.9930725097656px -0.993072509765625px;
+  width: 47px;
+  height: 47px;
 }
 
 @import 'sass-bootstrap/lib/bootstrap';
