@@ -1469,21 +1469,49 @@ $card-img-height: 170px;
 }
 
 #about-page {
+  .container {
+    width: 1328px;
+  }
   background-color: #EFEFEF;
   h3 {color:white;}
   p {color:white;}
   #title {
+    text-align: center;
+    margin: 80px 0 100px 0;
+    color: #DF7D1A;
+    strong {
+      color: #127EB8;
+    }
   }
   #quem-somos {
+    padding: 80px 0;
+    height: 480px;
     background-color: #0E6182;
+    p {
+      font-size: 17px;
+    }
+    h3 {
+      font-weight: bold;
+    }
+    img {
+    }
   }
   #poder-voluntariado {
+    padding: 70px 0;
     background-color: #11759B;
+    h3 {
+      font-weight: bold;
+    }
   }
   #abertos {
+    padding: 70px 0;
     background-color: #1893C7;
+    h3 {
+      font-weight: bold;
+    }
   }
   #team {
+    padding: 70px 0;
     background-color: #D9ECF1;
     .person {
       margin-right: 60px;
