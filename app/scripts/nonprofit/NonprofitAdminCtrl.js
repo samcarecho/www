@@ -8,17 +8,10 @@ var app = angular.module('atadosApp');
 app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParams, $timeout, Restangular, Photos, Cleanup) {
 
   $scope.editing = false;
+  $scope.nonprofitCauses = [];
 
   $scope.addCause = function(cause) {
     cause.checked = !cause.checked;
-    if (cause.checked) {
-      $scope.nonprofit.causes.push(cause);
-    } else {
-      var index = $scope.nonprofit.causes.indexOf(cause);
-      if (index > -1) {
-        $scope.nonprofit.causes.splice(index, 1);
-      }
-    }
   };
 
   $scope.uploadProfileFile = function(files) {
@@ -88,6 +81,19 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
     } else if (user.role === constants.NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
       Cleanup.nonprofitForAdmin($scope.nonprofit);
+
+      $scope.causes().forEach(function(c) {
+        var cause = {};
+        cause.id = c.id;
+        cause.name = c.name;
+        cause.class = c.class;
+        cause.image = c.image;
+        $scope.nonprofitCauses.push(cause);
+      });
+      $scope.nonprofit.causes.forEach(function(c) {
+        $scope.nonprofitCauses[c.id].checked = true;
+      });
+
       $scope.activeProject = $scope.nonprofit.projects[0];
     }
   });
@@ -141,6 +147,13 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.doneEditingNonprofit = function(nonprofit) {
+    var causes = [];
+    $scope.nonprofitCauses.forEach(function(nc) {
+      if (nc.checked) {
+        causes.push(nc.id);
+      }
+    });
+    $scope.nonprofit.causes = causes;
 
     if ($scope.editing) {
       var nonprofitCopy = {};
@@ -166,12 +179,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       }
 
       nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
-      var causes = [];
-      nonprofitCopy.causes.forEach(function(nc) {
-        causes.push(nc.id);
-      });
-      nonprofitCopy.causes = causes;
-
+      
       delete nonprofitCopy.address;
       delete nonprofitCopy.projects;
       delete nonprofitCopy.image_url;
