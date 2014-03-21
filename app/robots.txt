@@ -1,4 +1,4 @@
 # robotstxt.org
 
 User-agent: *
-Sitemap: http://cdn.getseojs.com/sitemaps/beta.atados.com.br/sitemap.xml.gz
+Sitemap: http://cdn.getseojs.com/sitemaps/www.atados.com.br/sitemap.xml.gz

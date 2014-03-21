@@ -5,7 +5,7 @@ var constants = {
   'devAuthApi': 'http://www.atadoslocal.com.br:9000/auth/client',
   'devStorage': 'http://www.atadoslocal.com.br:8000/static/images/',
   'prodApi': 'https://api.atados.com.br/v1/',
-  'prodAuthApi': 'https://beta.atados.com.br/auth/client',
+  'prodAuthApi': 'https://www.atados.com.br/auth/client',
   'prodStorage': 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
   'facebookClientId': '430973993601792',
   'locale': 'pt_BR',
