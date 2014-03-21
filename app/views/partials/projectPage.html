@@ -120,7 +120,7 @@
       </div>
 
 
-      <div ng-if="project.work" id="project-availabilities">
+      <!--<div ng-if="project.work" id="project-availabilities">
         <h3>Horários</h3>
         <p><strong>Horas por semana: </strong>{{project.work.weekly_hours}}</p>
         <div class="row">
@@ -152,7 +152,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
     <div class="col-sm-offset-5 col-sm-5" style="margin-top: 30px;">
       <button id="atar-button" class="col-sm-12" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Quero ser voluntário</button>
