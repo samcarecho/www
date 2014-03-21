@@ -128,12 +128,14 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       delete volunteerCopy.address.state;
     }
     volunteerCopy.user.address = volunteerCopy.address;
+    delete volunteerCopy.address;
 
     if ($scope.volunteer.birthDate) {
       if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
         volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
       }
     }
+    console.log(volunteerCopy);
 
     $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
