@@ -120,6 +120,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
       v.nonprofits.forEach(function(n) {
         n.causes = fixCauses(n.causes);
         n.address = n.user.address;
+        n.volunteers_numbers = n.volunteers.length;
       });
     },
 
