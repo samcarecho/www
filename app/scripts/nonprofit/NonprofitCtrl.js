@@ -37,14 +37,14 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
     if (nonprofit.projects) {
       if ($scope.activeProjects) {
         return $scope.nonprofit.projects.filter(function (p) {
-          if (!p.city_state) {
+          if (!p.city_state && p.address) {
             p.city_state = p.address.city_state;
           }
           return !(p.closed || p.deleted);
         });
       } else {
         return $scope.nonprofit.projects.filter(function (p) {
-          if (!p.city_state) {
+          if (!p.city_state && p.address) {
             p.city_state = p.address.city_state;
           }
           return p.closed || p.deleted;
