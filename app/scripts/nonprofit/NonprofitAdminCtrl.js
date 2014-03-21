@@ -80,6 +80,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
 
     } else if (user.role === constants.NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
+      window.nonprofit = $scope.nonprofit;
+      window.form = $scope.nonprofitForm;
       Cleanup.nonprofitForAdmin($scope.nonprofit);
 
       $scope.causes().forEach(function(c) {
