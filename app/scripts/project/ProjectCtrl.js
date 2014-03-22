@@ -11,16 +11,18 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.landing = false;
   $scope.markers = [];
   $scope.project = project;
-  window.project = project;
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
   $scope.markers.push(project.address);
-  $scope.options = {
-    map: {
-      center: new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude),
-      zoom: 15,
-    },
-  };
+
+  if ($scope.project.address) {
+    $scope.options = {
+      map: {
+        center: new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude),
+        zoom: 15,
+      },
+    };
+  }
 
   if (!project.published && $scope.loggedUser && project.nonprofit.id !== $scope.loggedUser.id) {
     $state.transitionTo('root.home');
@@ -39,7 +41,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
 
   $scope.$watch('center', function(value) {
-    if (value && value.d === 46) {
+    if ($scope.project.address && value && value.d === 46) {
       $scope.center = new google.maps.LatLng($scope.project.address.latitude, $scope.project.address.longitude);
     }
   });

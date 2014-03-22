@@ -26,12 +26,14 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
     });
   });
 
-  $scope.$watch('center', function(value) {
-    if (value && value.d === 46) {
-      $scope.center = new google.maps.LatLng(nonprofit.address.latitude, $scope.nonprofit.address.longitude);
-      $scope.zoom = 15;
-    }
-  });
+  if ($scope.nonprofit.address) {
+    $scope.$watch('center', function(value) {
+      if (value && value.d === 46) {
+        $scope.center = new google.maps.LatLng(nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+        $scope.zoom = 15;
+      }
+    });
+  }
 
   $scope.getProjects  = function () {
     if (nonprofit.projects) {
