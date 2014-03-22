@@ -162,7 +162,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
   $scope.applyVolunteerToProject = function () {
     if (!$scope.loggedUser) {
-      $scope.openVolunteerModal();
+      $scope.openLogin();
       $scope.showApplyModal = true;
       toastr.info('Você tem que logar primeiro!');
     } else {
