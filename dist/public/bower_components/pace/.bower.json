@@ -1,11 +1,11 @@
 {
   "name": "PACE",
-  "main": "pace.min.js",
-  "version": "0.4.17",
+  "main": "pace.js",
+  "version": "0.5.1",
   "homepage": "http://github.hubspot.com/pace/docs/welcome",
   "authors": [
-    "Zack Bloom <zbloom@hubspot.com>",
-    "Adam Schwartz <aschwartz@hubspot.com>"
+    "Zack Bloom <zackbloom@gmail.com>",
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
   "description": "Automatic page load progress bar",
   "keywords": [
@@ -23,16 +23,23 @@
   ],
   "license": "MIT",
   "ignore": [
+    ".*",
+    "Gruntfile.coffee",
+    "bower_components",
+    "docs",
     "node_modules",
-    "bower_components"
+    "package.json",
+    "templates",
+    "tests"
   ],
-  "_release": "0.4.17",
+  "_release": "0.5.1",
   "_resolution": {
     "type": "version",
-    "tag": "v0.4.17",
-    "commit": "5164659fcf82e9a98eae14209a07680c3d544557"
+    "tag": "v0.5.1",
+    "commit": "588c77175e644f51ef174c0a00ccc430d53c7c48"
   },
   "_source": "git://github.com/HubSpot/pace.git",
-  "_target": "~0.4.17",
-  "_originalSource": "pace"
+  "_target": "~0.5.1",
+  "_originalSource": "pace",
+  "_direct": true
 }

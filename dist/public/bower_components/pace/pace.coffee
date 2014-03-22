@@ -65,7 +65,10 @@ defaultOptions =
     trackMethods: ['GET']
 
     # Should we track web socket connections?
-    trackWebSockets: false
+    trackWebSockets: true
+
+    # A list of regular expressions or substrings of URLS we should ignore (for both tracking and restarting)
+    ignoreURLs: []
 
 now = ->
   performance?.now?() ? +new Date
@@ -197,7 +200,7 @@ class Bar
       @el = document.createElement 'div'
       @el.className = "pace pace-active"
 
-      document.body.className = document.body.className.replace 'pace-done', ''
+      document.body.className = document.body.className.replace /pace-done/g, ''
       document.body.className += ' pace-running'
 
       @el.innerHTML = '''
@@ -347,7 +350,10 @@ class RequestIntercept extends Events
 
     if _WebSocket? and options.ajax.trackWebSockets
       window.WebSocket = (url, protocols) =>
-        req = new _WebSocket(url, protocols)
+        if protocols?
+          req = new _WebSocket(url, protocols)
+        else
+          req = new _WebSocket(url)
 
         if shouldTrack('socket')
           @trigger 'request', {type: 'socket', url, protocols, request: req}
@@ -362,12 +368,26 @@ getIntercept = ->
     _intercept = new RequestIntercept
   _intercept
 
+shouldIgnoreURL = (url) ->
+  for pattern in options.ajax.ignoreURLs
+    if typeof pattern is 'string'
+      if url.indexOf(pattern) isnt -1
+        return true
+
+    else
+      if pattern.test(url)
+        return true
+
+  return false
+
 # If we want to start the progress bar
 # on every request, we need to hear the request
 # and then inject it into the new ajax monitor
 # start will have created.
 
-getIntercept().on 'request', ({type, request}) ->
+getIntercept().on 'request', ({type, request, url}) ->
+  return if shouldIgnoreURL(url)
+
   if not Pace.running and (options.restartOnRequestAfter isnt false or shouldTrack(type) is 'force')
     args = arguments
 
@@ -396,7 +416,9 @@ class AjaxMonitor
 
     getIntercept().on 'request', => @watch arguments...
 
-  watch: ({type, request}) ->
+  watch: ({type, request, url}) ->
+    return if shouldIgnoreURL(url)
+
     if type is 'socket'
       tracker = new SocketRequestTracker(request)
     else
@@ -638,6 +660,8 @@ Pace.go = ->
 
   bar.render()
 
+  start = now()
+
   cancelAnimation = false
   animation = runAnimation (frameTime, enqueueNextFrame) ->
     # Every source gives us a progress number from 0 - 100
@@ -672,7 +696,6 @@ Pace.go = ->
 
     bar.update uniScaler.tick(frameTime, avg)
 
-    start = now()
     if bar.done() or done or cancelAnimation
       bar.update 100
 
@@ -684,7 +707,7 @@ Pace.go = ->
         Pace.running = false
 
         Pace.trigger 'hide'
-      , Math.max(options.ghostTime, Math.min(options.minTime, now() - start))
+      , Math.max(options.ghostTime, Math.max(options.minTime - (now() - start), 0))
     else
       enqueueNextFrame()
 
