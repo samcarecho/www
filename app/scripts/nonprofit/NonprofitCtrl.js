@@ -77,7 +77,7 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
 
   $scope.addVolunteerToNonprofit = function () {
     if (!$scope.loggedUser) {
-      $scope.openVolunteerModal();
+      $scope.openLogin();
       toastr.info('Você tem que logar primeiro!');
     } else {
       setVolunteerToNonprofit();
