@@ -17,6 +17,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         loggedUser: ['Auth', function (Auth) {
           return Auth.getCurrentUser();
         }],
+        site: ['Site', function(Site) {
+          return Site.startup();
+        }]
       }
     })
     .state('root.home', {
