@@ -27,13 +27,19 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
   });
 
   if ($scope.nonprofit.address) {
-    $scope.$watch('center', function(value) {
-      if (value && value.d === 46) {
-        $scope.center = new google.maps.LatLng(nonprofit.address.latitude, $scope.nonprofit.address.longitude);
-        $scope.zoom = 15;
-      }
-    });
+    $scope.options = {
+      map: {
+        center: new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude),
+        zoom: 15,
+      },
+    };
   }
+  $scope.$watch('center', function(value) {
+    if ($scope.nonprofit.address && value && value.d === 46) {
+      $scope.center = new google.maps.LatLng($scope.nonprofit.address.latitude, $scope.nonprofit.address.longitude);
+    }
+  });
+
 
   $scope.getProjects  = function () {
     if (nonprofit.projects) {

@@ -15,7 +15,7 @@
 
       
       <div id="nonprofit-map" ng-hide="nonprofit.address.city && nonprofit.address.city === 0">
-        <gm-map gm-map-id="'nonprofitAddressMap'" gm-center="center" gm-zoom="zoom" style="width:100%;height:100%">
+        <gm-map gm-map-id="'nonprofitAddressMap'" gm-center="center" gm-zoom="zoom" gm-map-options="options.map" style="width:100%;height:100%">
           <gm-markers gm-objects="markers" gm-id="object.id" gm-position="{ lat: object.latitude, lng: object.longitude }">
           </gm-markers>
         </gm-map>
