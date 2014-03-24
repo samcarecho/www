@@ -25,12 +25,12 @@
 
   <div class="row">
     <div class="col-sm-11 col-sm-offset-1">
-      <h3>Atos voluntários</h3>
+      <h3>Atos voluntários que participa/participou</h3>
       <project-card ng-repeat="project in volunteer.projects"></project-card>
       <div class="center" ng-show="!volunteer.projects.length">Você ainda não participou de nenhum ato. Ainda há muito tempo!</div>
     </div>
     <div ng-show="volunteer.nonprofits.length" class="col-sm-11 col-sm-offset-1">
-      <h3>ONGs</h3>
+      <h3>ONGs em que é/foi voluntário</h3>
       <nonprofit-card ng-repeat="nonprofit in volunteer.nonprofits"></nonprofit-card>
     </div>
   </div>

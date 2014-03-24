@@ -333,6 +333,7 @@ doubt-atados {
 }
 
 #nonprofit-page {
+  background: #efefef;
   #cover {
     & > img {
       width:100%;
@@ -1479,6 +1480,7 @@ $card-img-height: 170px;
 #about-page {
   .container {
     width: 1328px;
+    padding-left: 125px;
   }
   background-color: #EFEFEF;
   h3 {color:white;}
@@ -1493,10 +1495,10 @@ $card-img-height: 170px;
   }
   #quem-somos {
     padding: 80px 0;
-    height: 480px;
     background-color: #0E6182;
     p {
-      font-size: 17px;
+      font-size: 20px;
+      line-height: 32px;
     }
     h3 {
       font-weight: bold;
