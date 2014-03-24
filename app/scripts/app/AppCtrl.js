@@ -40,8 +40,10 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
       controller: ['$scope', function ($scope) {
         if (type === 'volunteer') {
           $scope.volunteerActive = true;
-        } else {
+        } else if (type === 'nonprofit') {
           $scope.volunteerActive = false;
+        } else {
+          $scope.volunteerActive = true;
         }
       }]
     });
