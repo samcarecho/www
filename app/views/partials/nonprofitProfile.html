@@ -41,7 +41,8 @@
 
 
       <div id="nonprofit-volunteers"> 
-        <h4>{{nonprofit.volunteers.length}} Voluntários</h4>
+        <h4 ng-show="nonprofit.volunteers.length > 1">{{nonprofit.volunteers.length}} Voluntários</h4>
+        <h4 ng-show="nonprofit.volunteers.length == 1">{{nonprofit.volunteers.length}} Voluntário</h4>
         <p ng-show="nonprofit.volunteers.length === 0">Seja o primeiro voluntário da ONG!</p>
         <div ng-hide="nonprofit.volunteers.length === 0" id="cards"> 
           <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in nonprofit.volunteers"><img alt="volunteer.slug" width="32" height="32" ng-src="{{volunteer.image_url}}"/></a>

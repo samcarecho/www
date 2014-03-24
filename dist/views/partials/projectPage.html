@@ -57,7 +57,9 @@
       <button id="atar-button" disabled="disabled" ng-hide="alreadyApplied || !project.closed" class="btn"><i class="fa fa-times"></i> Ato Fechado</button>
 
       <div id="project-volunteers"> 
-        <h4>{{project.volunteers.length}} voluntários cadastrados</h4>
+        <h4 ng-show="project.volunteers.length > 1">{{project.volunteers.length}} voluntários cadastrados</h4>
+        <h4 ng-show="project.volunteers.length == 1">{{project.volunteers.length}} voluntário cadastrado</h4>
+
         <p ng-if="project.volunteers.length === 0">Seja o primeiro a se atar!</p>
         <div id="cards">
           <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in project.volunteers"><img alt="{{volunteer.slug}}" width="47" height="47" ng-src="{{volunteer.image_url}}"></a>
