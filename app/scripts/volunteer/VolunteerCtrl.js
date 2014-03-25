@@ -6,7 +6,6 @@ app.controller('VolunteerCtrl', function($scope, volunteer) {
 
   $scope.volunteer = volunteer;
   $scope.landing = false;
-  window.volunteer = volunteer;
   $scope.site.title = 'Voluntário - ' + volunteer.slug;
 
   $scope.selectMarker = function (marker, object) {

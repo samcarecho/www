@@ -51,7 +51,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, Auth) {
     Auth.resetPassword($scope.forgotEmail,  function () {
       toastr.info('Agora veja seu email para receber sua nova senha. Depois você pode mudar para uma senha da sua preferência.');
     }, function () {
-      toastr.error('Sua senha não pode ser mandada. Por favor mande um email para o administrador marjori@atados.com.br');
+      toastr.error('Sua senha não pode ser enviada. Por favor mande um email para contato@atados.com.br');
     });
   };
 });
