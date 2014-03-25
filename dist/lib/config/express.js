@@ -28,8 +28,10 @@ module.exports = function(app) {
   });
 
   app.configure('production', function(){
+    var oneDay = 86400000;
+    app.use(express.compress());
     app.use(express.favicon(path.join(config.root, '/public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, '/public')));
+    app.use(express.static(path.join(config.root, '/public', { maxAge: oneDay })));
     app.set('views', config.root + '/views');
     
     var seojs = require('express-seojs');
