@@ -45,7 +45,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
   };
 
   var fixCauses = function (inputCauses) {
-    if (inputCauses) {
+    if (inputCauses && Site.causes()) {
       var causes = [];
       inputCauses.forEach(function(c) {
         var cause = {};
@@ -61,7 +61,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
   };
 
   var fixSkills = function (inputSkills) {
-    if (inputSkills) {
+    if (inputSkills && Site.skills()) {
       var skills = [];
       inputSkills.forEach(function(s) {
         var skill = {};

@@ -32,6 +32,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     }
   });
 
+  /*var typingTimer;
+  var doneTyping = false;
+  var doneTypingInterval = 1000;*/
+
   var search = function(value, old) {
     
     if (value !== old) {
@@ -41,7 +45,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       alreadySearchedProject = false;
       alreadySearchedNonprofit = false;
 
+      // console.log('searching');
       Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
+      // doneTyping = false;
     }
   };
   $scope.$watch('search.cause', function (value, old) {
@@ -54,8 +60,28 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     search(value, old);
   });
   $scope.$watch('search.query', function (value, old) {
+    //console.log(value);
+    //if (doneTyping) {
     search(value, old);
+    //}
   });
+
+  //on keyup, start the countdown
+/*$('#searchInput').keyup(function(){
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(setDoneTyping, doneTypingInterval);
+  });
+
+  //on keydown, clear the countdown 
+  $('#searchInput').keydown(function(){
+    clearTimeout(typingTimer);
+  });
+
+  //user is "finished typing," do something
+  function setDoneTyping () {
+    console.log('done');
+    doneTyping = true;
+  }*/
   
   $scope.getMore = function () {
     if ($scope.landing) {

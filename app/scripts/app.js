@@ -14,11 +14,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       templateUrl: '/partials/root.html',
       controller: 'RootCtrl',
       resolve: {
-        loggedUser: ['Auth', function (Auth) {
-          return Auth.getCurrentUser();
-        }],
         site: ['Site', function(Site) {
           return Site.startup();
+        }],
+        loggedUser: ['Auth', function (Auth) {
+          return Auth.getCurrentUser();
         }]
       }
     })

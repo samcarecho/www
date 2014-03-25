@@ -5,7 +5,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state) {
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state, Site) {
 
   $scope.$watch('loggedUser', function (user) {
     if (!user) {
@@ -20,7 +20,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
 
-    $scope.causes().forEach(function(c) {
+    Site.causes().forEach(function(c) {
         var cause = {};
         cause.id = c.id;
         cause.name = c.name;
@@ -28,11 +28,15 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
         cause.image = c.image;
         $scope.volunteerCauses.push(cause);
       });
+
     $scope.volunteer.causes.forEach(function(c) {
-      $scope.volunteerCauses[c.id].checked = true;
+      console.log(c);
+      if ($scope.volunteerCauses[c.id]) {
+        $scope.volunteerCauses[c.id].checked = true;
+      }
     });
 
-    $scope.skills().forEach(function(s) {
+    Site.skills().forEach(function(s) {
         var skill = {};
         skill.id = s.id;
         skill.name = s.name;
@@ -41,9 +45,11 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
         $scope.volunteerSkills.push(skill);
       });
     $scope.volunteer.skills.forEach(function(s) {
-      $scope.volunteerSkills[s.id].checked = true;
+      console.log(s);
+      if ($scope.volunteerSkills[s.id]) {
+        $scope.volunteerSkills[s.id].checked = true;
+      }
     });
-
 
   } else {
     $state.transitionTo('root.home');
