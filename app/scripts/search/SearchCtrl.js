@@ -45,8 +45,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       alreadySearchedProject = false;
       alreadySearchedNonprofit = false;
 
-      // console.log('searching');
-      console.log('searching ' + Search.query + ' ' + Search.cause.id + ' ' + Search.skill.id + ' ' + Search.city.id);
+      // console.log('searching ' + Search.query + ' ' + Search.cause.id + ' ' + Search.skill.id + ' ' + Search.city.id);
       Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
       // doneTyping = false;
     }
