@@ -1,11 +1,10 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Legacy) {
+app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Legacy, VOLUNTEER, NONPROFIT) {
 
   if ($stateParams.nonprofitUid) {
     Legacy.nonprofit($stateParams.nonprofitUid, function (response) {
@@ -25,9 +24,9 @@ app.controller('LegacyCtrl', function ($scope, $stateParams, $state, $http, Lega
     });
   } else if ($stateParams.slug) {
     Legacy.users($stateParams.slug, function (response) {
-      if (response.type === constants.VOLUNTEER) {
+      if (response.type === VOLUNTEER) {
         $state.transitionTo('root.volunteer', {slug: $stateParams.slug});
-      } else if (response.type === constants.NONPROFIT) {
+      } else if (response.type === NONPROFIT) {
         $state.go('root.nonprofit', {slug: $stateParams.slug});
       }
     }, function () {

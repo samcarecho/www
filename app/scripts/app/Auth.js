@@ -1,11 +1,10 @@
 'use strict';
 
-/* global constants: false */
 /* global $: false */
 
 var app = angular.module('atadosApp');
 
-app.factory('Auth', function($http, Cookies, Cleanup) {
+app.factory('Auth', function($http, Cookies, Cleanup, api, accessTokenCookie, authApi, grantType) {
   
   function setAuthHeader(accessToken) {
     if (accessToken) {
@@ -15,19 +14,19 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
 
   return {
     facebookAuth: function (facebookAuthData, success, error) {
-      $http.post(constants.api + 'facebook/', facebookAuthData).success( function(response) {
+      $http.post(api + 'facebook/', facebookAuthData).success( function(response) {
         setAuthHeader(response.access_token);
-        Cookies.set(constants.accessTokenCookie, response.access_token);
+        Cookies.set(accessTokenCookie, response.access_token);
         success(response.user);
       }).error(error);
     },
     getCurrentUser: function (token) {
       if (!token) {
-        token = Cookies.get(constants.accessTokenCookie);
+        token = Cookies.get(accessTokenCookie);
       }
       if (token) {
         setAuthHeader(token);
-        return $http.get(constants.api + 'current_user/?id=' + new Date().getTime())
+        return $http.get(api + 'current_user/?id=' + new Date().getTime())
           .then(function (response) {
             Cleanup.currentUser(response.data);
             return response.data;
@@ -35,35 +34,35 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
       }
     },
     resetPassword: function (email, success, error) {
-      $http.post(constants.api + 'password_reset/', {email: email})
+      $http.post(api + 'password_reset/', {email: email})
         .success( function(){
           success();
         }).error(error);
     },
     // Both email and password field need to be set on data object
     changePassword: function (data, success, error) {
-      $http.put(constants.api + 'change_password/', data)
+      $http.put(api + 'change_password/', data)
         .success( function() {
           success();
         }).error(error);
     },
     isEmailUsed: function (email, success) {
       if (email) {
-        $http.get(constants.api + 'check_email/?email=' + email + '?id=' + new Date().getTime())
+        $http.get(api + 'check_email/?email=' + email + '?id=' + new Date().getTime())
           .success(success);
       }
     },
     isSlugUsed: function (slug, success) {
-      $http.get(constants.api + 'check_slug/?slug=' + slug)
+      $http.get(api + 'check_slug/?slug=' + slug)
         .success(success);
     },
     volunteerSignup: function(volunteer, success, error) {
-      $http.post(constants.api + 'create/volunteer/', volunteer).success( function() {
+      $http.post(api + 'create/volunteer/', volunteer).success( function() {
         success();
       }).error(error);
     },
     nonprofitSignup: function(data, success, error) {
-      $http.post(constants.api + 'create/nonprofit/', data, {
+      $http.post(api + 'create/nonprofit/', data, {
         headers: {'Content-Type': undefined },
         transformRequest: angular.identity
       }).success( function() {
@@ -71,20 +70,20 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
       }).error(error);
     },
     login: function(user, success, error) {
-      user.grant_type = constants.grantType;
-      $http.get(constants.authApi)
+      user.grant_type = grantType;
+      $http.get(authApi)
         .success(function (response) {
           user.client_id = response.id;
           user.client_secret = response.secret;
           $http({
             method: 'POST',
-            url: constants.api + 'oauth2/access_token/',
+            url: api + 'oauth2/access_token/',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param(user)
           }).success( function(response){
               setAuthHeader(response.access_token);
               if (user.remember) {
-                Cookies.set(constants.accessTokenCookie, response.access_token, { expires: 30, path: '/' });
+                Cookies.set(accessTokenCookie, response.access_token, { expires: 30, path: '/' });
               } else {
 
               }
@@ -93,8 +92,8 @@ app.factory('Auth', function($http, Cookies, Cleanup) {
         });
     },
     logout: function() {
-      $http.post(constants.api + 'logout/');
-      Cookies.delete(constants.accessTokenCookie);
+      $http.post(api + 'logout/');
+      Cookies.delete(accessTokenCookie);
       delete $http.defaults.headers.common.Authorization;
     }
   };

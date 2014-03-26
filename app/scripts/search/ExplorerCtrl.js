@@ -1,13 +1,12 @@
 'use strict';
 
 /* global google: false */
-/* global constants: false */
 /* global OverlappingMarkerSpiderfier: false */
 /* global $: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
+app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselected, selected, markers, defaultZoom, map) {
 
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
@@ -45,7 +44,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
   $scope.previousMarker = null;
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
-  $scope.markers = constants.markers;
+  $scope.markers = markers;
 
   $scope.$on('gmMarkersUpdated', function() {
     if ($scope.map && !$scope.oms) {
@@ -60,7 +59,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
     }
     if ($scope.oms) {
       for (var m in $scope.markers) {
-        $scope.markers[m].setIcon(constants.notselected);
+        $scope.markers[m].setIcon(notselected);
         $scope.oms.addMarker($scope.markers[m]);
       }
     }
@@ -68,8 +67,8 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
 
   $scope.mapOptions = {
     map : {
-      center : constants.saoPauloCenter,
-      zoom : constants.defaultZoom,
+      center : new google.maps.LatLng(-23.5505199, -46.6333094),
+      zoom : defaultZoom,
     },
     marker : {
       clickable : true,
@@ -104,7 +103,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
 
   $scope.selectMarker = function (marker, object) {
     if ($scope.previousMarker) {
-      $scope.previousMarker.setIcon(constants.notselected);
+      $scope.previousMarker.setIcon(notselected);
       angular.element(document.querySelector('#card-' + $scope.previousMarker.slug))
         .removeClass('hover');
       $scope.previousMarker.setZIndex(1);
@@ -117,14 +116,14 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter) {
     if (marker) {
       var cardId = 'card-' + marker.slug;
       $scope.iw.setContent(marker.title);
-      $scope.iw.open(constants.map, marker);
+      $scope.iw.open(map, marker);
 
-      marker.setIcon(constants.selected);
+      marker.setIcon(selected);
       angular.element(document.querySelector('#' + cardId))
         .addClass('hover');
       marker.setZIndex(100);
       $scope.previousMarker = marker;
-      constants.map.setCenter(marker.getPosition());
+      map.setCenter(marker.getPosition());
     }
   };
 

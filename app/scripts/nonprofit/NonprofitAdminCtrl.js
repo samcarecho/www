@@ -1,11 +1,10 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParams, $timeout, Restangular, Photos, Cleanup) {
+app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParams, $timeout, Restangular, Photos, Cleanup, api, VOLUNTEER, NONPROFIT) {
 
   $scope.editing = false;
   $scope.nonprofitCauses = [];
@@ -62,12 +61,12 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   }
 
   $scope.$watch('loggedUser', function (user) {
-    if (!user || (user && user.role === constants.VOLUNTEER && !user.user.is_staff)) {
+    if (!user || (user && user.role === VOLUNTEER && !user.user.is_staff)) {
       // $state.transitionTo('root.home');
       // toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
       return;
-    } else if (user.role === constants.VOLUNTEER && user.user.is_staff) {
-      $http.get(constants.api + 'nonprofit/'+ $stateParams.slug + '/')
+    } else if (user.role === VOLUNTEER && user.user.is_staff) {
+      $http.get(api + 'nonprofit/'+ $stateParams.slug + '/')
         .success(function(response) {
           $scope.nonprofit = response;
           Cleanup.currentUser($scope.nonprofit);
@@ -78,7 +77,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
           toastr.error('ONG não encontrada.');
         });
 
-    } else if (user.role === constants.NONPROFIT) {
+    } else if (user.role === NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
       window.nonprofit = $scope.nonprofit;
       window.form = $scope.nonprofitForm;
@@ -107,7 +106,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   $scope.changeVolunteerStatus = function (volunteer, newStatus) {
     volunteer.status = newStatus;
     setStatusStyle(volunteer);
-    $http.post(constants.api + 'change_volunteer_status/', {volunteer: volunteer.email, project: $scope.activeProject.slug, volunteerStatus: volunteer.status});
+    $http.post(api + 'change_volunteer_status/', {volunteer: volunteer.email, project: $scope.activeProject.slug, volunteerStatus: volunteer.status});
   };
 
   $scope.editProject = function (project) {
@@ -115,7 +114,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.cloneProject = function (project) {
-    $http.post(constants.api + 'project/' + project.slug + '/clone/').success(function (response) {
+    $http.post(api + 'project/' + project.slug + '/clone/').success(function (response) {
       Cleanup.adminProject(project, $scope.nonprofit);
       $scope.nonprofit.projects.push(response);
     });
@@ -138,7 +137,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.exportList = function (project) {
-    $http.get(constants.api + 'project/' + project.slug + '/export/').success(function (response) {
+    $http.get(api + 'project/' + project.slug + '/export/').success(function (response) {
       var dataUrl = 'data:text/csv;utf-9,' + encodeURI(response.volunteers);
       var link = document.createElement('a');
       angular.element(link)
@@ -190,7 +189,7 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       delete nonprofitCopy.user.address.city_state;
       delete nonprofitCopy.user.address.state;
       
-      $http.put(constants.api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
+      $http.put(api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {
           $scope.editing = false;
           toastr.success('Perfil da ONG salva!');

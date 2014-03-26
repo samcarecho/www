@@ -1,13 +1,12 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos) {
+app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT) {
 
-  if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
+  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG do ato para editar');
   } else {

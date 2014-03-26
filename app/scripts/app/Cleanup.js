@@ -1,10 +1,8 @@
 'use strict';
 
-/* global constants: false */
-
 var app = angular.module('atadosApp');
 
-app.factory('Cleanup', function ($http, $q, Site, Restangular) {
+app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
   var setStatusStyle = function(volunteer) {
     if (volunteer.status === 'Voluntário') {
       volunteer.statusStyle = {color: 'green'};
@@ -85,7 +83,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
       user.causes = fixCauses(user.causes);
       user.skills = fixSkills(user.skills);
       
-      if (user.role === constants.NONPROFIT) {
+      if (user.role === NONPROFIT) {
         if (user.projects) {
           user.projects.forEach(function(p) {
             p.causes = fixCauses(p.causes);
@@ -96,7 +94,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular) {
 
       user.address = user.user.address;
       if (user.address && user.address.city) {
-        $http.get(constants.api + 'cities/'+ user.address.city + '/').success(function (city) {
+        $http.get(api + 'cities/'+ user.address.city + '/').success(function (city) {
           user.address.city = city;
           if (user.address.city) {
             user.address.state = Site.states()[user.address.city.state.id - 1];

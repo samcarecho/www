@@ -1,14 +1,13 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state) {
+app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state, api) {
   return {
     create: function (project, success, error) {
-      $http.post(constants.api + 'create/project/', project, {
+      $http.post(api + 'create/project/', project, {
         headers: {'Content-Type': undefined },
         transformRequest: angular.identity
       }).success(success).error(error);
@@ -44,7 +43,7 @@ app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state)
       });
       projectCopy.skills = skills;
 
-      $http.put(constants.api + 'save/project/', {'project': projectCopy})
+      $http.put(api + 'save/project/', {'project': projectCopy})
         .success(success).error(error);
     },
     get: function(slug) {
@@ -57,7 +56,7 @@ app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state)
       });
     },
     getSlug: function (name, success, error) {
-      $http.get(constants.api + 'create_project_slug/?name=' + name)
+      $http.get(api + 'create_project_slug/?name=' + name)
         .success(success).error(error);
     }
   };

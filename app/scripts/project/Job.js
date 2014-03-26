@@ -1,14 +1,13 @@
 'use strict';
 
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.factory('Job', function($http, $q) {
+app.factory('Job', function($http, $q, api) {
   return {
     get: function(id) {
       var deferred = $q.defer();
-      $http.get(constants.api + 'jobs/'+ id + '/').success(function (job) {
+      $http.get(api + 'jobs/'+ id + '/').success(function (job) {
         deferred.resolve(job);
       });
       return deferred.promise;

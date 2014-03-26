@@ -1,17 +1,17 @@
 (function(angular, undefined) {
 	 angular.module("atadosConstants", [])
 
-.constant("ENV", "development")
+.constant("ENV", "production")
 
-.constant("api", "http://www.atadoslocal.com.br:8000/v1/")
+.constant("api", "https://api.atados.com.br/v1/")
 
-.constant("authApi", "http://www.atadoslocal.com.br:9000/auth/client")
+.constant("authApi", "https://www.atados.com.br/auth/client")
 
-.constant("storage", "http://www.atadoslocal.com.br:8000/static/images/")
+.constant("storage", "https://s3-sa-east-1.amazonaws.com/atadosapp/images/")
 
-.constant("selected", "http://www.atadoslocal.com.br:8000/static/images/heart.png")
+.constant("selected", "https://s3-sa-east-1.amazonaws.com/atadosapp/images/heart.png")
 
-.constant("notselected", "http://www.atadoslocal.com.br:8000/static/images/blue.png")
+.constant("notselected", "https://s3-sa-east-1.amazonaws.com/atadosapp/images/blue.png")
 
 .constant("facebookClientId", "430973993601792")
 

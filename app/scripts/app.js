@@ -1,9 +1,8 @@
 'use strict';
 
-/* global constants: false */
 /* global $: false */
 
-var app = angular.module('atadosApp', ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb']);
+var app = angular.module('atadosApp', ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb', 'atadosConstants']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -114,7 +113,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
 });
 
-app.config(function ($httpProvider) {
+app.config(function ($httpProvider, accessTokenCookie, csrfCookie, sessionIdCookie) {
 
   var securityInterceptor = ['$location', '$q', function($location, $q) {
 
@@ -125,9 +124,9 @@ app.config(function ($httpProvider) {
       if (response.status === 401) {
         return $q.reject(response);
       } else if (response.status === 403) {
-        $.removeCookie(constants.accessTokenCookie);
-        $.removeCookie(constants.csrfCookie);
-        $.removeCookie(constants.sessionIdCookie);
+        $.removeCookie(accessTokenCookie);
+        $.removeCookie(csrfCookie);
+        $.removeCookie(sessionIdCookie);
         return $q.reject(response);
       }
       else {
@@ -143,15 +142,15 @@ app.config(function ($httpProvider) {
   $httpProvider.responseInterceptors.push(securityInterceptor);
 });
 
-app.config(function($FBProvider) {
-  $FBProvider.setLocale(constants.locale);
+app.config(function($FBProvider, locale, facebookClientId) {
+  $FBProvider.setLocale(locale);
   $FBProvider.setInitParams({
-    appId: constants.facebookClientId
+    appId: facebookClientId
   });
 });
 
-app.config(function(RestangularProvider) {
-  RestangularProvider.setBaseUrl(constants.api);
+app.config(function(RestangularProvider, api) {
+  RestangularProvider.setBaseUrl(api);
   RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/?format=json');
   RestangularProvider.setRestangularFields({

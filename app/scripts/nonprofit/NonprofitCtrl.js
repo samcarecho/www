@@ -2,11 +2,10 @@
 
 /* global toastr: false */
 /* global google: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonprofit) {
+app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonprofit, api, VOLUNTEER) {
 
   $scope.landing = false;
 
@@ -62,7 +61,7 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
   };
 
   function setVolunteerToNonprofit() {
-    $http.post(constants.api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
+    $http.post(api + 'set_volunteer_to_nonprofit/', {nonprofit: $scope.nonprofit.id})
       .success(function (response) {
         if (response[0] === 'Added') {
           $scope.alreadyVolunteer = true;
@@ -92,8 +91,8 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
 
   $scope.alreadyVolunteer = false;
 
-  if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
-    $http.get(constants.api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString() + '&id=' + new Date().getTime())
+  if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
+    $http.get(api + 'is_volunteer_to_nonprofit/?nonprofit=' + $scope.nonprofit.id.toString() + '&id=' + new Date().getTime())
       .success(function (response) {
         if (response[0] === 'YES') {
           $scope.alreadyVolunteer = true;

@@ -1,10 +1,8 @@
 'use strict';
 
-/* global constants: false */
-
 var app = angular.module('atadosApp');
 
-app.factory('Search', function (Restangular, Site) {
+app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -22,7 +20,7 @@ app.factory('Search', function (Restangular, Site) {
   var _loading = false;
 
   var toHttps = function (url) {
-    if (url && constants.api !== constants.devApi) {
+    if (url && ENV === 'production') {
       return url.replace('http','https');
     }
     return url;
@@ -49,12 +47,12 @@ app.factory('Search', function (Restangular, Site) {
 
   var sanitizeProject = function (p) {
     p.causes.forEach(function (c) {
-      c.image = constants.storage + 'cause_' + c.id + '.png';
+      c.image = storage + 'cause_' + c.id + '.png';
       c.class = 'cause_' + c.id;
     });
 
     p.skills.forEach(function (s) {
-      s.image = constants.storage + 'skill_' + s.id + '.png';
+      s.image = storage + 'skill_' + s.id + '.png';
       s.class = 'skill_' + s.id;
     });
 
@@ -78,7 +76,7 @@ app.factory('Search', function (Restangular, Site) {
   };
 
   function searchProjects(query, cause, skill, city, highlighted, pageSize) {
-    pageSize = typeof pageSize !== 'undefined' ? pageSize : constants.page_size;
+    pageSize = typeof pageSize !== 'undefined' ? pageSize : page_size;
     var urlHeaders = {
       page_size: pageSize,
       query: query,

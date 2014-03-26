@@ -1,14 +1,14 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
+/* global google: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state) {
+app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state, storage, map, defaultZoom) {
 
   $scope.search =  Search;
-  $scope.map = constants.map;
+  $scope.map = map;
   $scope.highlighted = $scope.landing;
 
   var alreadySearchedProject = false;
@@ -19,13 +19,13 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   }
 
   $scope.$watch('search.city', function (city) {
-    $scope.zoom = constants.defaultZoom;
+    $scope.zoom = defaultZoom;
     if (city.name === 'Sao Paulo') {
-      $scope.center = constants.saoPauloCenter;
+      $scope.center = new google.maps.LatLng(-23.5505199, -46.6333094);
     } else if (city.name === 'Curitiba') {
-      $scope.center = constants.curitibaCenter;
+      $scope.center = new google.maps.LatLng(-25.4808762, -49.3044253);
     } else if (city.name === 'Brasilia') {
-      $scope.center = constants.brasiliaCenter;
+      $scope.center = new google.maps.LatLng(-15.79211, -47.897751);
     } else if (city.id === 0) {
       $scope.center = null;
       $scope.zoom  = 1;
@@ -98,7 +98,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
             project.causes.forEach(function (c) {
-              c.image = constants.storage + 'cause_' + c.id + '.png';
+              c.image = storage + 'cause_' + c.id + '.png';
               c.class = 'cause_' + c.id;
             });
             $scope.search.projects().push(project);
@@ -121,7 +121,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
             var causes = [];
             nonprofit.causes.forEach(function (c) {
               var cause = {};
-              cause.image = constants.storage + 'cause_' + c + '.png';
+              cause.image = storage + 'cause_' + c + '.png';
               cause.class = 'cause_' + c;
               causes.push(cause);
             });

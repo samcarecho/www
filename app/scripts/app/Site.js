@@ -1,10 +1,8 @@
 'use strict';
 
-/* global constants: false */
-
 var app = angular.module('atadosApp');
 
-app.factory('Site', function(Restangular, $http) {
+app.factory('Site', function(Restangular, $http, storage, api) {
   var _causes = [];
   var _skills = [];
   var _cities = [];
@@ -28,7 +26,7 @@ app.factory('Site', function(Restangular, $http) {
       facebook: 'marjoripomarole'
     }],
     startup: function () {
-      return $http.get(constants.api + 'startup/')
+      return $http.get(api + 'startup/')
         .then(function(response) {
           response = response.data;
           _numbers = response.numbers;
@@ -40,7 +38,7 @@ app.factory('Site', function(Restangular, $http) {
 
           _skills = response.skills;
           _skills.forEach(function (s) {
-            s.image = constants.storage + 'skill_' + s.id + '.png';
+            s.image = storage + 'skill_' + s.id + '.png';
             s.class = 'skill_' + s.id;
           });
           _skills.splice(0, 0, {name: 'Todas Habilidades', id: ''});
@@ -48,7 +46,7 @@ app.factory('Site', function(Restangular, $http) {
           _causes = response.causes;
           _causes.forEach(function (c) {
             c.checked = false;
-            c.image = constants.storage + 'cause_' + c.id + '.png';
+            c.image = storage + 'cause_' + c.id + '.png';
             c.class = 'cause_' + c.id;
           });
           _causes.splice(0, 0, {name: 'Todas Causas', id: '', class: 'cause_0'});

@@ -2,11 +2,10 @@
 
 /* global toastr: false */
 /* global google: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, $modal, Volunteer, project) {
+app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams, $http, Auth, $modal, Volunteer, project, api, VOLUNTEER) {
 
   $scope.landing = false;
   $scope.markers = [];
@@ -28,8 +27,8 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     $state.transitionTo('root.home');
     toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
   }
-  if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
-    $http.get(constants.api + 'has_volunteer_applied/?project=' + project.id.toString())
+  if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
+    $http.get(api + 'has_volunteer_applied/?project=' + project.id.toString())
       .success(function (response) {
         if (response[0] === 'YES') {
           $scope.alreadyApplied = true;
@@ -92,7 +91,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
         volunteerName = modalDetails.name;
       }
 
-      $http.post(constants.api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage})
+      $http.post(api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage})
       .success(function (response) {
         if (response[0] === 'Applied') {
           $scope.project.volunteers.push($scope.loggedUser);
@@ -102,7 +101,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
             if (!$scope.alreadyApplied) {
               /*if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
-                $http.post(constants.api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
+                $http.post(api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
                 .success(function () {
                   toastr.success('Email enviado com sucesso!');
                 }).error(function () {

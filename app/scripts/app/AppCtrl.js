@@ -1,15 +1,13 @@
 'use strict';
 
-/* global constants: false */
-
 var app = angular.module('atadosApp');
 
-app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Search) {
+app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Search, storage) {
   
   $scope.site = Site;
   $scope.search = Search;
   $rootScope.modalInstance = null;
-  $scope.storage = constants.storage;
+  $scope.storage = storage;
   $scope.causes = Site.causes;
   $scope.skills = Site.skills;
   $scope.cities = Site.cities;

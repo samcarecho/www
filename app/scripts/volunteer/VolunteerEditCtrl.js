@@ -1,11 +1,10 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state, Site) {
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state, Site, api, VOLUNTEER) {
 
   $scope.$watch('loggedUser', function (user) {
     if (!user) {
@@ -16,7 +15,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   $scope.volunteerCauses = [];
   $scope.volunteerSkills = [];
-  if ($scope.loggedUser && $scope.loggedUser.role === constants.VOLUNTEER) {
+  if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
 
@@ -143,7 +142,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
     console.log(volunteerCopy);
 
-    $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
+    $http.put(api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
       toastr.success('Perfil salvo!', $scope.volunteer.slug);
     }).error(function () {

@@ -1,25 +1,24 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser) {
+app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser, NONPROFIT, storage) {
   $scope.loggedUser = loggedUser;
 
   if ($rootScope.modalInstance) {
     $rootScope.modalInstance.close();
   }
 
-  if ($scope.loggedUser && $scope.loggedUser.role === constants.NONPROFIT) {
+  if ($scope.loggedUser && $scope.loggedUser.role === NONPROFIT) {
     $scope.loggedUser.address = $scope.loggedUser.user.address;
     $scope.loggedUser.causes.forEach(function (c) {
-      c.image = constants.storage + 'cause_' + c.id + '.png';
+      c.image = storage + 'cause_' + c.id + '.png';
     });
     $scope.loggedUser.projects.forEach(function (p) {
       p.causes.forEach(function (c) {
-        c.image = constants.storage + 'cause_' + c.id + '.png';
+        c.image = storage + 'cause_' + c.id + '.png';
       });
     });
   }

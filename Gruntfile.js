@@ -15,9 +15,103 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  grunt.loadNpmTasks('grunt-ng-constant');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    ngconstant: {
+      // Options for all targets
+      options: {
+        space: '  ',
+        name: 'atadosConstants',
+        wrap: true
+      },
+      // Environment targets
+      development: {
+        options: {
+          dest: '<%= yeoman.app %>/scripts/constants.js'
+        },
+        constants: {
+          ENV: 'development',
+          api: 'http://www.atadoslocal.com.br:8000/v1/',
+          authApi: 'http://www.atadoslocal.com.br:9000/auth/client',
+          storage: 'http://www.atadoslocal.com.br:8000/static/images/',
+          selected: 'http://www.atadoslocal.com.br:8000/static/images/heart.png',
+          notselected: 'http://www.atadoslocal.com.br:8000/static/images/blue.png',
+          facebookClientId: '430973993601792',
+          locale: 'pt_BR',
+          accessTokenCookie: 'access_token',
+          csrfCookie: 'csrftoken',
+          sessionIdCookie: 'sessionid',
+          grantType: 'password',
+          page_size: 30,
+          active_cities: 4,
+          static_page_size: 300,
+          weekdays: [
+            {1: 'Segunda'},
+            {2: 'Terça'},
+            {3: 'Quarta'},
+            {4: 'Quinta'},
+            {5: 'Sexta'},
+            {6: 'Sabado'},
+            {7: 'Domingo'}
+          ],
+          periods: [
+            {0: 'Manha'},
+            {1: 'Tarde'},
+            {2: 'Noite'}
+          ],
+          markers: [],
+          map: null,
+          defaultZoom: 11,
+          VOLUNTEER: 'VOLUNTEER',
+          NONPROFIT: 'NONPROFIT'
+        }
+      },
+      production: {
+        options: {
+          dest: '<%= yeoman.dist %>/scripts/constants.js'
+        },
+        constants: {
+          ENV: 'production',
+          api: 'https://api.atados.com.br/v1/',
+          authApi: 'https://www.atados.com.br/auth/client',
+          storage: 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/',
+          selected: 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/heart.png',
+          notselected: 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/blue.png',
+          facebookClientId: '430973993601792',
+          locale: 'pt_BR',
+          accessTokenCookie: 'access_token',
+          csrfCookie: 'csrftoken',
+          sessionIdCookie: 'sessionid',
+          grantType: 'password',
+          page_size: 30,
+          active_cities: 4,
+          static_page_size: 300,
+          weekdays: [
+            {1: 'Segunda'},
+            {2: 'Terça'},
+            {3: 'Quarta'},
+            {4: 'Quinta'},
+            {5: 'Sexta'},
+            {6: 'Sabado'},
+            {7: 'Domingo'}
+          ],
+          periods: [
+            {0: 'Manha'},
+            {1: 'Tarde'},
+            {2: 'Noite'}
+          ],
+          markers: [],
+          map: null,
+          defaultZoom: 11,
+          VOLUNTEER: 'VOLUNTEER',
+          NONPROFIT: 'NONPROFIT'
+
+        }
+      }
+    },
     // Project settings
     yeoman: {
       // configurable paths
@@ -392,6 +486,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant:development',
       'concurrent:server',
       'autoprefixer',
       'express:dev',
@@ -409,6 +504,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:production',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

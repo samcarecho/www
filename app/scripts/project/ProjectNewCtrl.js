@@ -1,11 +1,10 @@
 'use strict';
 
 /* global toastr: false */
-/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) {
+app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, NONPROFIT) {
 
   $scope.jobActive = true;
 
@@ -59,7 +58,7 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project) 
 
   window.project = $scope.project;
 
-  if (!$scope.loggedUser || $scope.loggedUser.role !== constants.NONPROFIT) {
+  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
   } else {

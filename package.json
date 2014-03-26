@@ -52,7 +52,8 @@
     "karma-phantomjs-launcher": "~0.1.2",
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
-    "express-seojs": "~0.0.5"
+    "express-seojs": "~0.0.5",
+    "grunt-ng-constant": "^0.5.0"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -1,11 +1,10 @@
 'use strict';
 
-/* global constants: false */
 /* global toastr: false */
 
 var app = angular.module('atadosApp');
 
-app.factory('Volunteer', function($http, $state, Restangular, Cleanup) {
+app.factory('Volunteer', function($http, $state, Restangular, Cleanup, api) {
   return {
     // For now this is only to save the phone number of atar
     save: function (volunteer, success, error) {
@@ -17,7 +16,7 @@ app.factory('Volunteer', function($http, $state, Restangular, Cleanup) {
       delete volunteerCopy.skills;
       delete volunteerCopy.causes;
       delete volunteerCopy.user.address.city;
-      $http.put(constants.api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
+      $http.put(api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
         .success(success).error(error);
     },
     get: function(slug) {
