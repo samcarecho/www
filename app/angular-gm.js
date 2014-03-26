@@ -20,9 +20,9 @@
  * Author: Dylan Price <the.dylan.price@gmail.com>
  */
 (function() {
-'use strict';
+  'use strict';
 
-  angular.module('AngularGM', []).
+  angular.module('AngularGM', ['atadosConstants']).
 
   /**
    * @ngdoc service
@@ -1332,10 +1332,10 @@
 
   controller('angulargmMapController',
     ['$scope', '$element', 'angulargmUtils', 'angulargmDefaults',
-    'angulargmContainer',
+    'angulargmContainer', 'map', 'markers',
 
     function ($scope, $element, angulargmUtils, angulargmDefaults,
-      angulargmContainer) {
+      angulargmContainer, map, markers) {
 
     /** aliases */
     var latLngEqual = angulargmUtils.latLngEqual;
@@ -1466,7 +1466,7 @@
         map.setOptions(config);
       }
 
-      constants.map = map;
+      map = map;
       return map;
     };
 
@@ -1574,7 +1574,7 @@
               throw 'markerOptions did not contain a position';
             }
             var marker = new angulargmDefaults.markerConstructor(opts);
-            constants.markers[marker.slug] = marker;
+            markers[marker.slug] = marker;
             return marker;
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {
