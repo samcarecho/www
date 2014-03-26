@@ -62,8 +62,8 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
 
   $scope.$watch('loggedUser', function (user) {
     if (!user || (user && user.role === VOLUNTEER && !user.user.is_staff)) {
-      // $state.transitionTo('root.home');
-      // toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+      $state.transitionTo('root.home');
+      toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
       return;
     } else if (user.role === VOLUNTEER && user.user.is_staff) {
       $http.get(api + 'nonprofit/'+ $stateParams.slug + '/')
@@ -79,8 +79,6 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
 
     } else if (user.role === NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
-      window.nonprofit = $scope.nonprofit;
-      window.form = $scope.nonprofitForm;
       Cleanup.nonprofitForAdmin($scope.nonprofit);
 
       $scope.causes().forEach(function(c) {
