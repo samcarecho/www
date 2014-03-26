@@ -77,6 +77,13 @@ $screen-lg: 1170px; // desktop lg
 
 $grid-float-breakpoint: 850px;
 
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+  background-color: $orange !important;
+}
+.navbar-inverse .navbar-toggle {
+  border-color: #FFF !important;
+}
+
 .row {
   margin-right: 0px;
   margin-left: 0px;
