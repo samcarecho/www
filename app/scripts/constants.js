@@ -67,9 +67,6 @@
   }
 ])
 
-.constant("markers", [])
-
-.constant("map", null)
 
 .constant("defaultZoom", 11)
 

@@ -22,7 +22,7 @@
 (function() {
   'use strict';
 
-  angular.module('AngularGM', ['atadosConstants']).
+  angular.module('AngularGM', []).
 
   /**
    * @ngdoc service
@@ -1332,10 +1332,10 @@
 
   controller('angulargmMapController',
     ['$scope', '$element', 'angulargmUtils', 'angulargmDefaults',
-    'angulargmContainer', 'map', 'markers',
+    'angulargmContainer',
 
     function ($scope, $element, angulargmUtils, angulargmDefaults,
-      angulargmContainer, map, markers) {
+      angulargmContainer) {
 
     /** aliases */
     var latLngEqual = angulargmUtils.latLngEqual;
@@ -1466,7 +1466,7 @@
         map.setOptions(config);
       }
 
-      map = map;
+      constants.map = map;
       return map;
     };
 
@@ -1574,7 +1574,7 @@
               throw 'markerOptions did not contain a position';
             }
             var marker = new angulargmDefaults.markerConstructor(opts);
-            markers[marker.slug] = marker;
+            constants.markers[marker.slug] = marker;
             return marker;
         } else if (type === 'polyline') {
             if (!(opts.path instanceof Array)) {

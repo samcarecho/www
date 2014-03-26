@@ -62,8 +62,6 @@ module.exports = function (grunt) {
             {1: 'Tarde'},
             {2: 'Noite'}
           ],
-          markers: [],
-          map: null,
           defaultZoom: 11,
           VOLUNTEER: 'VOLUNTEER',
           NONPROFIT: 'NONPROFIT'
@@ -103,12 +101,9 @@ module.exports = function (grunt) {
             {1: 'Tarde'},
             {2: 'Noite'}
           ],
-          markers: [],
-          map: null,
           defaultZoom: 11,
           VOLUNTEER: 'VOLUNTEER',
           NONPROFIT: 'NONPROFIT'
-
         }
       }
     },

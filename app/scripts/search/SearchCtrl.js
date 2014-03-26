@@ -2,13 +2,14 @@
 
 /* global toastr: false */
 /* global google: false */
+/* global constants: false */
 
 var app = angular.module('atadosApp');
 
-app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state, storage, map, defaultZoom) {
+app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state, storage, defaultZoom) {
 
   $scope.search =  Search;
-  $scope.map = map;
+  $scope.map = constants.map;
   $scope.highlighted = $scope.landing;
 
   var alreadySearchedProject = false;

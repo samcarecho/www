@@ -4,9 +4,14 @@
 /* global OverlappingMarkerSpiderfier: false */
 /* global $: false */
 
+var constants = {
+  map: null,
+  markers: []
+};
+
 var app = angular.module('atadosApp');
 
-app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselected, selected, markers, defaultZoom, map) {
+app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselected, selected, defaultZoom) {
 
   $scope.site.title = 'Atados - Explore';
   $scope.landing = false;
@@ -44,7 +49,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
   $scope.previousMarker = null;
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
-  $scope.markers = markers;
+  $scope.markers = constants.markers;
 
   $scope.$on('gmMarkersUpdated', function() {
     if ($scope.map && !$scope.oms) {
@@ -116,14 +121,14 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     if (marker) {
       var cardId = 'card-' + marker.slug;
       $scope.iw.setContent(marker.title);
-      $scope.iw.open(map, marker);
+      $scope.iw.open(constants.map, marker);
 
       marker.setIcon(selected);
       angular.element(document.querySelector('#' + cardId))
         .addClass('hover');
       marker.setZIndex(100);
       $scope.previousMarker = marker;
-      map.setCenter(marker.getPosition());
+      constants.map.setCenter(marker.getPosition());
     }
   };
 

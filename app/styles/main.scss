@@ -71,11 +71,11 @@ $footer-color-heading: $white;
 $footer-color:$white;
 
 $screen-xs: 480px;  // phone
-$screen-sm: 768px;  // tablet
-$screen-md: 1160px;  // desktop 
-$screen-lg: 1200px; // desktop lg
+$screen-sm: 750px;  // tablet
+$screen-md: 970px;  // desktop 
+$screen-lg: 1170px; // desktop lg
 
-$grid-float-breakpoint: $screen-md;
+$grid-float-breakpoint: 850px;
 
 .row {
   margin-right: 0px;
@@ -755,7 +755,7 @@ h1, h2, h3, h4, h5, h6,
     font-size: 14px;
   }
 }
-@media (min-width: $grid-float-breakpoint) and (max-width: 1300px) {
+@media (min-width: $grid-float-breakpoint) and (max-width: 1100px) {
   #siteSearch {
     width: 200px;
   }
