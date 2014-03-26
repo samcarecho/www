@@ -69,7 +69,7 @@ module.exports = function (grunt) {
       },
       production: {
         options: {
-          dest: '<%= yeoman.dist %>/scripts/constants.js'
+          dest: '<%= yeoman.dist %>/public/scripts/constants.js'
         },
         constants: {
           ENV: 'production',

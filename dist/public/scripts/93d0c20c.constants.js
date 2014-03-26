@@ -1,3 +1,4 @@
+(function(angular, undefined) {
 	 angular.module("atadosConstants", [])
 
 .constant("ENV", "production")
@@ -73,3 +74,4 @@
 .constant("NONPROFIT", "NONPROFIT")
 
 ; 
+})(angular);
