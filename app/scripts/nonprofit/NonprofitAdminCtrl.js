@@ -6,37 +6,12 @@ var app = angular.module('atadosApp');
 
 app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParams, $timeout, Restangular, Photos, Cleanup, api, VOLUNTEER, NONPROFIT) {
 
-  $scope.editing = false;
-  $scope.nonprofitCauses = [];
-
-  $scope.addCause = function(cause) {
-    cause.checked = !cause.checked;
-  };
-
-  $scope.uploadProfileFile = function(files) {
-    if (files) {
-      var fd = new FormData();
-      fd.append('file', files[0]);
-      Photos.setNonprofitProfilePhoto(fd, function(response) {
-        $scope.nonprofit.image_url = response.file;
-        toastr.success('Logo da ONG salva com sucesso.');
-      }, function() {
-        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
-      });
-    }
-  };
-  $scope.uploadCoverFile = function(files) {
-    if (files) {
-      var fd = new FormData();
-      fd.append('file', files[0]);
-      Photos.setNonprofitCoverPhoto(fd, function(response) {
-        $scope.nonprofit.cover_url = response.file;
-        toastr.success('Foto cover da ONG salva com sucesso.');
-      }, function() {
-        toastr.error('Error no servidor. Não consigo atualizar sua foto :(');
-      });
-    }
-  };
+  $scope.volunteerStatusOptions = [
+    'Voluntário',
+    'Candidato',
+    'Desistente',
+    'Ex-Voluntário'
+  ];
 
   function setStatusStyle(volunteer) {
     if (volunteer.status === 'Voluntário') {
@@ -76,23 +51,9 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
           $state.transitionto('root.home');
           toastr.error('ONG não encontrada.');
         });
-
     } else if (user.role === NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
       Cleanup.nonprofitForAdmin($scope.nonprofit);
-
-      $scope.causes().forEach(function(c) {
-        var cause = {};
-        cause.id = c.id;
-        cause.name = c.name;
-        cause.class = c.class;
-        cause.image = c.image;
-        $scope.nonprofitCauses.push(cause);
-      });
-      $scope.nonprofit.causes.forEach(function(c) {
-        $scope.nonprofitCauses[c.id].checked = true;
-      });
-
       $scope.activeProject = $scope.nonprofit.projects[0];
     }
   });
@@ -144,64 +105,4 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       link.click();
     });
   };
-
-  $scope.doneEditingNonprofit = function(nonprofit) {
-    var causes = [];
-    $scope.nonprofitCauses.forEach(function(nc) {
-      if (nc.checked) {
-        causes.push(nc.id);
-      }
-    });
-    $scope.nonprofit.causes = causes;
-
-    if ($scope.editing) {
-      var nonprofitCopy = {};
-      angular.copy(nonprofit, nonprofitCopy);
-
-      if (nonprofitCopy.website.substring(0,4) !== 'http') {
-        nonprofitCopy.website = 'http://'  + nonprofitCopy.website;
-      }
-      if (nonprofitCopy.facebook_page_short) {
-        nonprofitCopy.facebook_page = 'http://www.facebook.com/' + nonprofitCopy.facebook_page_short;
-      } else {
-        nonprofitCopy.facebook_page = null;
-      }
-      if (nonprofitCopy.google_page_short) {
-        nonprofitCopy.google_page = 'http://plus.google.com/' + nonprofitCopy.google_page_short;
-      } else {
-        nonprofitCopy.google_page = null;
-      }
-      if (nonprofitCopy.twitter_handle_short) {
-        nonprofitCopy.twitter_handle = 'http://twitter.com/' + nonprofitCopy.twitter_handle_short;
-      } else {
-        nonprofitCopy.twitter_handle = null;
-      }
-
-      nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
-      
-      delete nonprofitCopy.address;
-      delete nonprofitCopy.projects;
-      delete nonprofitCopy.image_url;
-      delete nonprofitCopy.cover_url;
-      delete nonprofitCopy.volunteers;
-      delete nonprofitCopy.user.address.city_state;
-      delete nonprofitCopy.user.address.state;
-      
-      $http.put(api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
-        .success(function() {
-          $scope.editing = false;
-          toastr.success('Perfil da ONG salva!');
-        }).error(function() {
-          $scope.editing = false;
-          toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
-        });
-    }
-  };
-
-  $scope.volunteerStatusOptions = [
-    'Voluntário',
-    'Candidato',
-    'Desistente',
-    'Ex-Voluntário'
-  ];
 });

@@ -228,10 +228,7 @@ doubt-atados {
   }
 }
 
-#nonprofit-admin {
-  #save-button {
-    margin: 20px 40px;
-  }
+#nonprofit-edit {
   .cover-edit {
     top: -100px;
     position: relative;
@@ -246,8 +243,18 @@ doubt-atados {
     color: #686767;
     background-color: #FFF;
   }
+  #save-button {
+    margin: 20px 40px;
+  }
+}
+
+#nonprofit-admin {
+  background: #efefef;
+  padding-bottom: 30px;
+  h1 {
+    font-weight: bold;
+  }
   #edit-nonprofit-button {
-    margin-right: 20px;
     text-transform: uppercase;
     background-image: linear-gradient(#FFF, #E8E8E8) !important;
     border-color: #EEE !important;
@@ -258,7 +265,6 @@ doubt-atados {
     margin: 20px 50px 0;
   }
   #new-project-button {
-    margin-right: 20px;
     text-transform: uppercase;
     font-weight: bold;
     background-image: linear-gradient(#009BD4, #0081B2);
@@ -268,13 +274,10 @@ doubt-atados {
     margin: 20px 50px;
   }
   #project-management {
-    margin: 40px 0 40px 0;
-    padding: 0;
     #project-list {
-      padding: 0;
       button {
         border-radius: 0px;
-        font-size: 11px;
+        font-size: 14px;
         color: #666;
         background: linear-gradient(#FCFCFC, #E8E7E7);
         border-color: #bfbdbd;
@@ -295,13 +298,15 @@ doubt-atados {
         color: white !important;
       }
     }
-
     #active-project {
       #project-name {
         border: solid 1px #bfbdbd;
         padding: 10px;
         background: linear-gradient(#FCFCFC, #E8E7E7);
         h3 {
+          a {
+            font-weight: bold;
+          }
           margin: 0 10px;
         }
       }

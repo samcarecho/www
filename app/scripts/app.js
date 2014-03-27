@@ -51,7 +51,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       }
     })
     .state('root.volunteeredit', {
-      url: '/editar',
+      url: '/editar/voluntario',
       templateUrl: '/partials/volunteerEdit.html',
       controller: 'VolunteerEditCtrl'
     })
@@ -69,6 +69,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       url: '/controle/:slug',
       templateUrl: '/partials/nonprofitAdminPanel.html',
       controller: 'NonprofitAdminCtrl'
+    })
+    .state('root.nonprofitedit', {
+      url: '/editar/ong',
+      templateUrl: '/partials/nonprofitEdit.html',
+      controller: 'NonprofitEditCtrl'
     })
     .state('root.nonprofitsignup', {
         url: '/cadastro/ong',

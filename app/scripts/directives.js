@@ -92,6 +92,24 @@ app.directive('phoneInput', function () {
   };
 });
 
+app.directive('causesEdit', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      allCauses: [],
+      chosenCauses: []
+    },
+    templateUrl: 'partials/causeInput.html',
+    link: function(elem) {
+      /* need to tie the action of adding a cause to the chosenCauses array */
+      /* need to properly remove the cause from the chosen causes arary  */
+      elem.addCause = function(cause) {
+        cause.checked = !cause.checked;
+      };
+    },
+  };
+});
+
 app.directive('email', function () {
   return {
     restrict: 'E',

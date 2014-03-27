@@ -67,7 +67,6 @@
   }
 ])
 
-
 .constant("defaultZoom", 11)
 
 .constant("VOLUNTEER", "VOLUNTEER")

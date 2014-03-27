@@ -122,6 +122,27 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
       });
     },
 
+    nonprofitForEdit: function (nonprofit) {
+      var parser;
+      if (nonprofit.facebook_page) {
+        parser = document.createElement('a');
+        parser.href = nonprofit.facebook_page;
+        nonprofit.facebook_page_short = parser.pathname;
+        nonprofit.facebook_page_short = nonprofit.facebook_page_short.replace(/\//, '');
+      }
+      if (nonprofit.google_page) {
+        parser = document.createElement('a');
+        parser.href = nonprofit.google_page;
+        nonprofit.google_page_short = parser.pathname;
+        nonprofit.google_page_short = nonprofit.google_page_short.replace(/\//, '');
+      }
+      if (nonprofit.twitter_handle) {
+        parser = document.createElement('a');
+        parser.href = nonprofit.google_page;
+        nonprofit.twitter_handle_short = parser.pathname;
+        nonprofit.twitter_handle_short = nonprofit.twitter_handle_short.replace(/\//, '');
+      }
+    },
     nonprofitForAdmin: function (nonprofit) {
       if (nonprofit.facebook_page) {
         var parser = document.createElement('a');
