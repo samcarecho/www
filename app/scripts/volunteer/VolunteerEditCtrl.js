@@ -13,27 +13,10 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
   });
 
-  $scope.volunteerCauses = [];
   $scope.volunteerSkills = [];
   if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
-
-    Site.causes().forEach(function(c) {
-        var cause = {};
-        cause.id = c.id;
-        cause.name = c.name;
-        cause.class = c.class;
-        cause.image = c.image;
-        $scope.volunteerCauses.push(cause);
-      });
-
-    $scope.volunteer.causes.forEach(function(c) {
-      console.log(c);
-      if ($scope.volunteerCauses[c.id]) {
-        $scope.volunteerCauses[c.id].checked = true;
-      }
-    });
 
     Site.skills().forEach(function(s) {
         var skill = {};
@@ -44,7 +27,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
         $scope.volunteerSkills.push(skill);
       });
     $scope.volunteer.skills.forEach(function(s) {
-      console.log(s);
       if ($scope.volunteerSkills[s.id]) {
         $scope.volunteerSkills[s.id].checked = true;
       }
@@ -54,10 +36,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
   }
-
-  $scope.addCause = function(cause) {
-    cause.checked = !cause.checked;
-  };
 
   $scope.addSkill = function(skill) {
     skill.checked = !skill.checked;
@@ -106,14 +84,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
   };
 
   $scope.saveVolunteer = function () {
-    var causes = [];
-    $scope.volunteerCauses.forEach(function(nc) {
-      if (nc.checked) {
-        causes.push(nc.id);
-      }
-    });
-    $scope.volunteer.causes = causes;
-
+    
     var skills = [];
     $scope.volunteerSkills.forEach(function(nc) {
       if (nc.checked) {
@@ -125,6 +96,13 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
     var volunteerCopy = {};
     angular.copy($scope.volunteer, volunteerCopy);
+
+    var causes = [];
+    volunteerCopy.causes.forEach(function(c) {
+      causes.push(c.id);
+    });
+    volunteerCopy.causes = causes;
+
     delete volunteerCopy.projects;
     delete volunteerCopy.nonprofits;
 
@@ -140,7 +118,7 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
         volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
       }
     }
-    console.log(volunteerCopy);
+    window.volunteerCopy = volunteerCopy;
 
     $http.put(api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
       .success(function() {
@@ -156,20 +134,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       });
     }
   };
-
-  $scope.$watch('causes + volunteer.causes', function () {
-    if ($scope.causes() && $scope.volunteer) {
-      $scope.volunteer.causes.forEach(function (volunteerCause) {
-        for (var index = 0; index < $scope.causes().length; ++index) {
-          var cause = $scope.causes()[index];
-          if (cause.url === volunteerCause) {
-            cause.checked = true;
-            break;
-          }
-        }
-      });
-    }
-  });
 
   $scope.$watch('skills + volunteer.skills', function () {
     if ($scope.skills && $scope.volunteer && $scope.volunteer.skills) {
