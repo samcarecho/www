@@ -30,6 +30,8 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     roles: [],
   };
 
+  window.project = $scope.project;
+
   $scope.job = {
     start_date: new Date(),
     end_date: new Date()
@@ -107,40 +109,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     $scope.$apply();
   };
 
-  $scope.addCause = function(cause) {
-    cause.checked = !cause.checked;
-    if (cause.checked) {
-      $scope.project.causes.push(cause);
-    } else {
-      var index = $scope.project.causes.indexOf(cause);
-      if (index > -1) {
-        $scope.project.causes.splice(index, 1);
-      }
-    }
-    if ($scope.project.causes.length !== 0) {
-      $scope.causeChoosen = true;
-    } else {
-      $scope.causeChoosen = false;
-    }
-  };
-
-  $scope.addSkill = function(skill) {
-    skill.checked = !skill.checked;
-    if (skill.checked) {
-      $scope.project.skills.push(skill);
-    } else {
-      var index = $scope.project.skills.indexOf(skill);
-      if (index > -1) {
-        $scope.project.skills.splice(index, 1);
-      }
-    }
-    if ($scope.project.skills.length !== 0) {
-      $scope.skillChoosen = true;
-    } else {
-      $scope.skillChoosen = false;
-    }
-  };
-
   $scope.minDate = new Date();
   $scope.ismeridian = true;
   $scope.toggleMode = function() {
@@ -176,6 +144,20 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
       });
       $scope.work.availabilities = ava;
     }
+    
+    var causes = [];
+    $scope.project.causes.forEach(function(c) {
+      causes.push(c.id);
+    });
+    $scope.project.causes = causes;
+
+    var skills = [];
+    $scope.project.skills.forEach(function(s) {
+      skills.push(s.id);
+    });
+    $scope.project.skills = skills;
+
+
 
     $scope.files.append('project', angular.toJson($scope.project));
 
