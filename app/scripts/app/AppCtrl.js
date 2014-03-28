@@ -26,7 +26,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.siteSearch = function () {
-    console.log($scope.search.query);
     $state.transitionTo('root.explore');
     $scope.search.query = $scope.search.landingQuery;
     $scope.search.landingQuery = '';

@@ -80,39 +80,15 @@
       </fieldset>
     </div> <!-- end of 2nd column -->
     <div class="col-sm-offset-1 col-sm-9">
+      
       <fieldset class="col-sm-6">
-        <legend>Causas (selecione uma ou mais)</legend>
-        <div class="form-group">
-          <div class="col-sm-12">
-            <ul class="select-button-list">
-              <li class="col-sm-3 col-xs-4" ng-repeat="cause in volunteerCauses" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
-              <div class="square center" ng-click="addCause(cause)">
-                <div ng-class="cause.class" class="center"></div>
-                <p>{{cause.name}}</p>
-              </div>
-              <i class="fa fa-check-circle"></i>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <causes all="causes()" selected="volunteer.causes"></causes>
       </fieldset>
 
       <fieldset class="col-sm-6">
-        <legend>Habilidades (selecione uma ou mais)</legend>
-        <div class="form-group">
-          <div class="col-sm-12">
-            <ul class="select-button-list">
-              <li class="col-sm-3 col-xs-4" ng-repeat="skill in volunteerSkills" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
-              <div class="square center" ng-click="addSkill(skill)">
-                <div ng-class="skill.class" class="center"></div>
-                <p>{{skill.name}}</p>
-              </div>
-              <i class="fa fa-check-circle"></i>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <skills all="skills()" selected="volunteer.skills"></skills>
       </fieldset>
+
       <button id="save-button" type="submit" class="btn btn-info" ng-disabled="volunteerEditForm.$invalid">Salvar</button>
     </div>
 

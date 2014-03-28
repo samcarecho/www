@@ -18,8 +18,8 @@
         </div>
 
         <div class="row">
-        <fieldset ng-show="jobActive">
-          <legend>Dia e hora do Ato</legend>
+          <fieldset ng-show="jobActive">
+            <legend>Dia e hora do Ato</legend>
             <label class="col-md-3 control-label">Começa: </label>
             <div class="col-md-2">
               <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" show-weeks="false" ng-model="start_date" name="startdate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
@@ -36,8 +36,8 @@
               </div>
             </div>
 
-        </fieldset>
-      </div>
+          </fieldset>
+        </div>
 
         <fieldset ng-hide="jobActive">
           <div class="form-group">
@@ -54,38 +54,38 @@
           </div>
 
           <fieldset>
-          <div id="project-availabilities">
-            <legend>Horários</legend>
-            <div class="row">
-              <div class="col-sm-3 table-labels">
-                <div class="table-label">Manhã</div><span class="triangle"></span>
-                <div class="table-label">Tarde</div><span class="triangle"></span>
-                <div class="table-label">Noite</div><span class="triangle"></span>
-              </div>
-              <div class="col-sm-5">
-                <table cellspacing="0" cellpadding="0">
-                  <colgroup span="7"></colgroup>
-                  <tbody>
-                    <tr class="weekdays">
-                      <th scope="col" title="Domingo">Dom</th>
-                      <th scope="col" title="Segunda">Seg</th>
-                      <th scope="col" title="Terça">Ter</th>
-                      <th scope="col" title="Quarta">Qua</th>
-                      <th scope="col" title="Quinta">Qui</th>
-                      <th scope="col" title="Sexta">Sex</th>
-                      <th scope="col" title="Sabado">Sab</th>
-                    </tr>
-                    <tr ng-repeat="days in work.availabilities">
-                      <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
-                        <i ng-show="period.checked" class="fa fa-check" style="color:green"></i>
-                        <i ng-hide="period.checked" class="fa fa-check" style="color:white"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div id="project-availabilities">
+              <legend>Horários</legend>
+              <div class="row">
+                <div class="col-sm-3 table-labels">
+                  <div class="table-label">Manhã</div><span class="triangle"></span>
+                  <div class="table-label">Tarde</div><span class="triangle"></span>
+                  <div class="table-label">Noite</div><span class="triangle"></span>
+                </div>
+                <div class="col-sm-5">
+                  <table cellspacing="0" cellpadding="0">
+                    <colgroup span="7"></colgroup>
+                    <tbody>
+                      <tr class="weekdays">
+                        <th scope="col" title="Domingo">Dom</th>
+                        <th scope="col" title="Segunda">Seg</th>
+                        <th scope="col" title="Terça">Ter</th>
+                        <th scope="col" title="Quarta">Qua</th>
+                        <th scope="col" title="Quinta">Qui</th>
+                        <th scope="col" title="Sexta">Sex</th>
+                        <th scope="col" title="Sabado">Sab</th>
+                      </tr>
+                      <tr ng-repeat="days in work.availabilities">
+                        <td ng-repeat="period in days" ng-click="period.checked = !period.checked">
+                          <i ng-show="period.checked" class="fa fa-check" style="color:green"></i>
+                          <i ng-hide="period.checked" class="fa fa-check" style="color:white"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
           </fieldset>
         </fieldset>
 
@@ -217,39 +217,11 @@
         </fieldset>
 
         <fieldset class="col-sm-6" style="border-right: 2px solid #CFCFCF">
-          <legend>Causas (selecione uma ou mais)</legend>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
-            <div class="col-sm-12">
-              <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para o ato.</label>
-              <ul class="select-button-list">
-                <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
-                <div class="square center" ng-click="addCause(cause)">
-                  <div ng-class="cause.class" class="center"></div>
-                  <p>{{cause.name}}</p>
-                </div>
-                <i class="fa fa-check-circle"></i>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <causes all="causes()" selected="project.causes"></causes>
         </fieldset>
 
         <fieldset class="col-sm-6">
-          <legend>Habilidades (selecione uma ou mais)</legend>
-          <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!skillChoosen]">
-            <div class="col-sm-12">
-              <label class="help-block" ng-hide="skillChoosen">Escolha pelo menos uma habilidade para o ato.</label>
-              <ul class="select-button-list">
-                <li class="col-sm-3 col-xs-4" ng-repeat="skill in skills()" ng-class="{checked:skill.checked}" ng-show="skill.id != 0">
-                <div class="square center" ng-click="addSkill(skill)">
-                  <div ng-class="skill.class" class="center"></div>
-                  <p>{{skill.name}}</p>
-                </div>
-                <i class="fa fa-check-circle"></i>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <skills all="skills()" selected="project.skills"></skills>
         </fieldset>
 
         <fieldset class="col-sm-12" style="margin-bottom: 50px">
@@ -307,7 +279,7 @@
           </table>
         </fieldset>
 
-        <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChoosen && skillChoosen)">Criar Ato Voluntário</button>
+        <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen)">Criar Ato Voluntário</button>
       </div>
 
     </form>
