@@ -100,17 +100,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           if (modalDetails) {
 
             if (!$scope.alreadyApplied) {
-              /*if (volunteerMessage && $scope.loggedUser.user.email && $scope.nonprofit.user.email) {
-                $http.post(api + 'send_volunteer_email_to_nonprofit/', {message: volunteerMessage, volunteer: $scope.loggedUser.user.email, nonprofit: $scope.nonprofit.user.email})
-                .success(function () {
-                  toastr.success('Email enviado com sucesso!');
-                }).error(function () {
-                  toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
-                });
-              } else {
-                toastr.error('Não consegui enviar email para a ONG. Por favor mande um email para resolvermos o problema: contato@atados.com.br');
-              }*/
-
               if (volunteerPhone) {
                 $scope.loggedUser.user.phone = volunteerPhone;
                 $scope.loggedUser.user.name = volunteerName;
@@ -126,6 +115,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           toastr.success('Você não é mais voluntário para ' + $scope.project.name);
         }
       }).error(function (error) {
+        console.log(error);
         if (error['403']) {
           $modal.open({
             template: '<div class="modal-body">' +

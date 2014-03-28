@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $http, Restangular, $state, Site, api, VOLUNTEER) {
+app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, Volunteer, $http, Restangular, $state, Site, api, VOLUNTEER) {
 
   $scope.$watch('loggedUser', function (user) {
     if (!user) {
@@ -66,45 +66,12 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   $scope.saveVolunteer = function () {
     
-    var volunteerCopy = {};
-    angular.copy($scope.volunteer, volunteerCopy);
-
-    var causes = [];
-    volunteerCopy.causes.forEach(function(c) {
-      causes.push(c.id);
-    });
-    volunteerCopy.causes = causes;
-
-    var skills = [];
-    volunteerCopy.skills.forEach(function(s) {
-      skills.push(s.id);
-    });
-    volunteerCopy.skills = skills;
-
-
-    delete volunteerCopy.projects;
-    delete volunteerCopy.nonprofits;
-
-    if (volunteerCopy.address && volunteerCopy.address.city) {
-      volunteerCopy.address.city = volunteerCopy.address.city.id;
-      delete volunteerCopy.address.state;
-    }
-    volunteerCopy.user.address = volunteerCopy.address;
-    delete volunteerCopy.address;
-
-    if ($scope.volunteer.birthDate) {
-      if (typeof $scope.volunteer.birthDate.getFullYear !== 'undefined') {
-        volunteerCopy.birthDate = $scope.volunteer.birthDate.getFullYear() + '-' + ($scope.volunteer.birthDate.getMonth() + 1) + '-' + $scope.volunteer.birthDate.getDate();
-      }
-    }
-    window.volunteerCopy = volunteerCopy;
-
-    $http.put(api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
-      .success(function() {
+    Volunteer.save($scope.volunteer, function() {
       toastr.success('Perfil salvo!', $scope.volunteer.slug);
-    }).error(function () {
+    }, function () {
       toastr.error('Problema em salvar seu perfil :(');
     });
+
     if ($scope.password && $scope.password === $scope.passwordConfirm) {
       Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
         toastr.success('Senha nova salva', $scope.volunteer.slug);

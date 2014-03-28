@@ -30,10 +30,8 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
 
   $scope.facebookAuth = function () {
     $FB.getLoginStatus(function (response) {
-      console.log(response);
       if (response.status !== 'connected') {
         $FB.login(function(loginResponse) {
-          console.log(loginResponse);
           if (loginResponse.status === 'connected') {
             sendFacebookCredentials(loginResponse.authResponse);
           } else if (response.status === 'not_authorized') {

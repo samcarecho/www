@@ -101,6 +101,9 @@ app.directive('causes', function () {
     },
     templateUrl: '/partials/causeInput.html',
     link: function(scope) {
+      if (!scope.selected) {
+        scope.selected = [];
+      }
       scope.inSelected = function(cause) {
         if (scope.selected.length === 0) {
           scope.causeChosen = scope.$parent.causeChosen = false;
@@ -131,6 +134,9 @@ app.directive('skills', function () {
     },
     templateUrl: '/partials/skillInput.html',
     link: function(scope) {
+      if (!scope.selected) {
+        scope.selected = [];
+      }
       scope.inSelected = function(skill) {
         if (scope.selected.length === 0) {
           scope.skillChosen = scope.$parent.skillChosen = false;

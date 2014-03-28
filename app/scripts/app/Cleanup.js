@@ -95,6 +95,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
 
       v.causes = fixCauses(v.causes);
       v.skills = fixSkills(v.skills);
+      console.log(v.skills);
 
       v.projects.forEach(function(p) {
         p.causes = fixCauses(p.causes);
