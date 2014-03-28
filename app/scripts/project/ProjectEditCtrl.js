@@ -6,6 +6,9 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT) {
 
+  $scope.causeChosen = false;
+  $scope.skillChosen = false;
+
   if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG do ato para editar');
@@ -29,25 +32,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   } else {
     $scope.jobActive = false;
   }
-
-  $scope.causes().forEach(function (cause) {
-    $scope.project.causes.forEach(function(projectCause) {
-      if (projectCause.id === cause.id) {
-        cause.checked = true;
-        $scope.causeChosen = true;
-      }
-    });
-  });
-
-  $scope.skills().forEach(function (skill) {
-    $scope.project.skills.forEach(function(projectSkill) {
-      if (projectSkill.id === skill.id) {
-        skill.checked = true;
-        $scope.skillChosen = true;
-      }
-    });
-  });
-
 
   if ($scope.project.work) {
     var availabilities = [];
@@ -132,50 +116,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     }
   };
 
-  $scope.addCause = function(cause) {
-    cause.checked = !cause.checked;
-    if (cause.checked) {
-      $scope.project.causes.push(cause);
-    } else {
-      $scope.project.causes.forEach(function(c) {
-        if (c.id === cause.id) {
-          var index = $scope.project.causes.indexOf(c);
-          if (index > -1) {
-            $scope.project.causes.splice(index, 1);
-            return;
-          }
-        }
-      });
-    }
-    if ($scope.project.causes.length !== 0) {
-      $scope.causeChosen = true;
-    } else {
-      $scope.causeChosen = false;
-    }
-  };
-
-  $scope.addSkill = function(skill) {
-    skill.checked = !skill.checked;
-    if (skill.checked) {
-      $scope.project.skills.push(skill);
-    } else {
-      $scope.project.skills.forEach(function(s) {
-        if (s.id === skill.id) {
-          var index = $scope.project.skills.indexOf(s);
-          if (index > -1) {
-            $scope.project.skills.splice(index, 1);
-            return;
-          }
-        }
-      });
-    }
-    if ($scope.project.skills.length !== 0) {
-      $scope.skillChosen = true;
-    } else {
-      $scope.skillChosen = false;
-    }
-  };
-
   $scope.ismeridian = true;
   $scope.toggleMode = function() {
     $scope.ismeridian = ! $scope.ismeridian;
@@ -195,14 +135,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   };
 
   $scope.saveProject = function () {
-    // TODO put these two loops in the Site service
-    $scope.causes().forEach(function(c) {
-      c.checked = false;
-    });
-    $scope.skills().forEach(function(s) {
-      s.checked = false;
-    });
-
     if ($scope.jobActive) {
       delete $scope.project.work;
     } else {

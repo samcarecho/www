@@ -102,6 +102,11 @@ app.directive('causes', function () {
     templateUrl: '/partials/causeInput.html',
     link: function(scope) {
       scope.inSelected = function(cause) {
+        if (scope.selected.length === 0) {
+          scope.causeChosen = scope.$parent.causeChosen = false;
+        } else {
+          scope.causeChosen = scope.$parent.causeChosen = true;
+        }
         return scope.selected.indexOf(cause) !== -1;
       };
 
@@ -127,6 +132,11 @@ app.directive('skills', function () {
     templateUrl: '/partials/skillInput.html',
     link: function(scope) {
       scope.inSelected = function(skill) {
+        if (scope.selected.length === 0) {
+          scope.skillChosen = scope.$parent.skillChosen = false;
+        } else {
+          scope.skillChosen = scope.$parent.skillChosen = true;
+        }
         return scope.selected.indexOf(skill) !== -1;
       };
 
