@@ -45,8 +45,6 @@ app.factory('Volunteer', function($http, $state, Restangular, Cleanup, api) {
 
       delete volunteerCopy.projects;
       delete volunteerCopy.nonprofits;
-      delete volunteerCopy.address;
-      delete volunteerCopy.user.address.city;
 
       $http.put(api + 'volunteers/' + volunteerCopy.slug + '/.json', volunteerCopy)
         .success(success).error(error);

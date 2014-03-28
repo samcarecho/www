@@ -44,15 +44,10 @@
 
 
   <div class="row" id="phone-field">
-    <div class="form-group" ng-class="{error:contractForm.phone.$dirty && contractForm.phone.$invalid && phoneWarningMessage}">
-      <label class="col-lg-3 control-label">Telefone</label>
-      <div class="col-lg-5">                     
-        <input class="form-control" type="text" name="phone" ng-model="contractForm.phone" ng-maxlength="20" placeholder="Telefone">
-        <label class="help-block" ng-show="contractForm.phone.$error.maxlength">Tem que ter menos de 20 caracteres</label>
-        <label class="help-block">{{phoneWarningMessage}}</label>
-      </div>
-    </div>
+    <phone-input object="contractForm" form="contractForm"></phone-input>
   </div>
+
+
   <div class="row" id="name-field">
     <div class="form-group" ng-class="{error:contractForm.name.$dirty && contractForm.name.$invalid && phoneWarningMessage}">
       <label class="col-lg-3 control-label">Nome do voluntário</label>

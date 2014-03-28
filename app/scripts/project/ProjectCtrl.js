@@ -87,28 +87,16 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
       if (modalDetails) {
         volunteerMessage = modalDetails.message;
-        volunteerPhone = modalDetails.phone;
-        volunteerName = modalDetails.name;
+        $scope.loggedUser.user.phone = volunteerPhone = modalDetails.phone;
+        $scope.loggedUser.user.name = volunteerName = modalDetails.name;
       }
 
-      $http.post(api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage})
+      $http.post(api + 'apply_volunteer_to_project/', {project: $scope.project.id, message: volunteerMessage, phone: volunteerPhone, name: volunteerName})
       .success(function (response) {
         if (response[0] === 'Applied') {
           $scope.project.volunteers.push($scope.loggedUser);
           $scope.alreadyApplied = true;
           toastr.success('Parabéns! Você é voluntário para ' + $scope.project.name);
-          if (modalDetails) {
-
-            if (!$scope.alreadyApplied) {
-              if (volunteerPhone) {
-                $scope.loggedUser.user.phone = volunteerPhone;
-                $scope.loggedUser.user.name = volunteerName;
-                Volunteer.save($scope.loggedUser, function() {
-                }, function() {
-                });
-              }
-            }
-          }
         } else {
           $scope.project.volunteers.splice($scope.project.volunteers.indexOf($scope.loggedUser),1);
           $scope.alreadyApplied = false;
