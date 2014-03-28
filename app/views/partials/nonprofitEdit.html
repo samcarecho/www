@@ -52,7 +52,8 @@
 
               <phone-input object="nonprofit.user" form="nonprofitForm"></phone-input>
 
-              <div  class="form-group">
+
+              <div class="form-group">
                 <label class="col-sm-3 control-label">Facebook</label>
                 <div class="col-sm-8 input-group">
                   <span class="input-group-addon">facebook.com/</span>
@@ -76,7 +77,7 @@
             </div>
 
             <div class="col-sm-6">
-              <fieldset  id="address-fieldset">
+              <fieldset id="address-fieldset">
                 <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofitForm.addressline.$error.required || nonprofitForm.addressline.$invalid]">
                   <label class="col-sm-3 control-label">Endereço</label>
                   <div class="col-sm-7">
@@ -138,7 +139,8 @@
             </div>
           </fieldset>
 
-          <causes-edit chosenCauses="nonprofit.causes" allCauses="Site.causes()"></causes-edit>
+          <causes selected="nonprofit.causes" all="causes()"></causes>
+
         </div>
       </div>
     </form>

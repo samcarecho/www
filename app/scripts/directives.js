@@ -92,23 +92,31 @@ app.directive('phoneInput', function () {
   };
 });
 
-app.directive('causesEdit', function () {
+app.directive('causes', function () {
   return {
     restrict: 'E',
     scope: {
-      allCauses: [],
-      chosenCauses: []
+      selected: '=',
+      all: '='
     },
-    templateUrl: 'partials/causeInput.html',
-    link: function(elem) {
-      /* need to tie the action of adding a cause to the chosenCauses array */
-      /* need to properly remove the cause from the chosen causes arary  */
-      elem.addCause = function(cause) {
-        cause.checked = !cause.checked;
+    templateUrl: '/partials/causeInput.html',
+    link: function(scope) {
+      scope.inSelected = function(cause) {
+        return scope.selected.indexOf(cause) !== -1;
       };
-    },
+
+      scope.addCause = function(cause) {
+        var index = scope.selected.indexOf(cause);
+        if (index !== -1) {
+          scope.selected.splice(index, 1);
+        } else {
+          scope.selected.push(cause);
+        }
+      };
+    }
   };
 });
+
 
 app.directive('email', function () {
   return {

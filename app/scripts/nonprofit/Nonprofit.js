@@ -24,6 +24,12 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
       var nonprofitCopy = {};
       angular.copy(nonprofit, nonprofitCopy);
 
+      var causes = [];
+      nonprofitCopy.causes.forEach(function(c) {
+        causes.push(c.id);
+      });
+      nonprofitCopy.causes = causes;
+
       if (nonprofitCopy.website.substring(0,4) !== 'http') {
         nonprofitCopy.website = 'http://'  + nonprofitCopy.website;
       }

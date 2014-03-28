@@ -52,6 +52,7 @@
 
               <phone-input object="nonprofit.user" form="nonprofitForm"></phone-input>
 
+
               <div class="form-group">
                 <label class="col-sm-3 control-label">Facebook</label>
                 <div class="col-sm-8 input-group">
@@ -138,7 +139,8 @@
             </div>
           </fieldset>
 
-          <causes-edit chosencauses="nonprofit.causes" allcauses="Site.causes()"></causes-edit>
+          <causes selected="nonprofit.causes" all="causes()"></causes>
+
         </div>
       </div>
     </div></form>
