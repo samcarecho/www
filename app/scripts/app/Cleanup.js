@@ -56,13 +56,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
     if (inputSkills && Site.skills()) {
       var skills = [];
       inputSkills.forEach(function(s) {
-        var skill = {};
-        skill.id = Site.skills()[s].id;
-        skill.name = Site.skills()[s].name;
-        skill.class = Site.skills()[s].class;
-        skill.image = Site.skills()[s].image;
-        skill.checked = true;
-        skills.push(skill);
+        skills.push(Site.skills()[s]);
       });
       return skills;
     }

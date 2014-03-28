@@ -117,6 +117,31 @@ app.directive('causes', function () {
   };
 });
 
+app.directive('skills', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      selected: '=',
+      all: '='
+    },
+    templateUrl: '/partials/skillInput.html',
+    link: function(scope) {
+      scope.inSelected = function(skill) {
+        return scope.selected.indexOf(skill) !== -1;
+      };
+
+      scope.addSkill = function(skill) {
+        var index = scope.selected.indexOf(skill);
+        if (index !== -1) {
+          scope.selected.splice(index, 1);
+        } else {
+          scope.selected.push(skill);
+        }
+      };
+    }
+  };
+});
+
 
 app.directive('email', function () {
   return {

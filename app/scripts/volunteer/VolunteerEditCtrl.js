@@ -13,33 +13,14 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
     }
   });
 
-  $scope.volunteerSkills = [];
   if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
-
-    Site.skills().forEach(function(s) {
-        var skill = {};
-        skill.id = s.id;
-        skill.name = s.name;
-        skill.class = s.class;
-        skill.image = s.image;
-        $scope.volunteerSkills.push(skill);
-      });
-    $scope.volunteer.skills.forEach(function(s) {
-      if ($scope.volunteerSkills[s.id]) {
-        $scope.volunteerSkills[s.id].checked = true;
-      }
-    });
-
+    window.volunteer = $scope.volunteer;
   } else {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
   }
-
-  $scope.addSkill = function(skill) {
-    skill.checked = !skill.checked;
-  };
 
   $scope.cityLoaded = false;
   $scope.$watch('volunteer.address.state', function (value) {
@@ -85,15 +66,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
 
   $scope.saveVolunteer = function () {
     
-    var skills = [];
-    $scope.volunteerSkills.forEach(function(nc) {
-      if (nc.checked) {
-        skills.push(nc.id);
-      }
-    });
-    $scope.volunteer.skills = skills;
-
-
     var volunteerCopy = {};
     angular.copy($scope.volunteer, volunteerCopy);
 
@@ -102,6 +74,13 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       causes.push(c.id);
     });
     volunteerCopy.causes = causes;
+
+    var skills = [];
+    volunteerCopy.skills.forEach(function(s) {
+      skills.push(s.id);
+    });
+    volunteerCopy.skills = skills;
+
 
     delete volunteerCopy.projects;
     delete volunteerCopy.nonprofits;
@@ -134,20 +113,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, $htt
       });
     }
   };
-
-  $scope.$watch('skills + volunteer.skills', function () {
-    if ($scope.skills && $scope.volunteer && $scope.volunteer.skills) {
-      $scope.volunteer.skills.forEach(function (volunteerSkill) {
-        for (var index = 0; index < $scope.skills.length; ++index) {
-          var skill = $scope.skills[index];
-          if (skill.url === volunteerSkill) {
-            skill.checked = true;
-            break;
-          }
-        }
-      });
-    }
-  });
 
   $scope.$watch('volunteer.user.email', function (value, old) {
     if (value && value !== old && value !== $scope.savedEmail) {
