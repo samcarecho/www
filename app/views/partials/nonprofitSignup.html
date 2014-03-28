@@ -98,21 +98,7 @@
               <input type="checkbox" ng-model="nonprofit.hidden_address"> Por motivos de segurança, por favor não publique o endereço da ONG para o público.
             </label>
 
-            <legend>Causas (selecione uma ou mais)</legend>
-            <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[!causeChoosen]">
-              <div class="col-sm-12">
-                <label class="help-block" ng-hide="causeChoosen">Escolha pelo menos uma causa para sua ONG.</label>
-                <ul class="select-button-list">
-                  <li class="col-sm-3 col-xs-4" ng-repeat="cause in causes()" ng-class="{checked:cause.checked}" ng-show="cause.id != 0">
-                  <div class="square center" ng-click="addCause(cause)">
-                    <div ng-class="cause.class" class="center"></div>
-                    <p>{{cause.name}}</p>
-                  </div>
-                  <i class="fa fa-check-circle"></i>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <causes all="causes()" selected="nonprofit.causes"></causes>
           </fieldset>
 
         </div> <!-- 1st column -->
@@ -213,7 +199,7 @@
             <p>Ao clicar em "Finalizar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
           </div>
 
-          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChoosen)">Finalizar cadastro</button>
+          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChosen)">Finalizar cadastro</button>
 
           </fieldset>
         </div> <!-- 2nd column -->

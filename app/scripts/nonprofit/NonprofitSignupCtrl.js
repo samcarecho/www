@@ -92,23 +92,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
     $scope.signupForm.password.$invalid = $scope.signupForm.password.doesNotMatch;
   });
 
-  $scope.addCause = function(cause) {
-    cause.checked = !cause.checked;
-    if (cause.checked) {
-      $scope.nonprofit.causes.push(cause);
-    } else {
-      var index = $scope.nonprofit.causes.indexOf(cause);
-      if (index > -1) {
-        $scope.nonprofit.causes.splice(index, 1);
-      }
-    }
-    if ($scope.nonprofit.causes.length !== 0) {
-      $scope.causeChoosen = true;
-    } else {
-      $scope.causeChoosen = false;
-    }
-  };
-
   $scope.uploadImageFile = function(files) {
     if (files) {
       if (!$scope.files) {
