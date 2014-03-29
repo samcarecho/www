@@ -51,7 +51,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
 
     if ($scope.alreadyApplied) {
       template = '/partials/volunteerUnapplyModal.html';
-      controller = function ($scope, $modalInstance) {
+      controller = ['$scope', '$modalInstance', function ($scope, $modalInstance) {
         $scope.ok = function () {
           $modalInstance.close();
         };
@@ -60,7 +60,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           $modalInstance.dismiss('cancel');
           $scope.showApplyModal = false;
         };
-      };
+      }];
     }
 
     var modalInstance = $modal.open({
