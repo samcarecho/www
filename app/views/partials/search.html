@@ -64,12 +64,12 @@
   <div class="row">
     <div class="col-sm-12">
       <div ng-show="search.showProjects" class="clearfix">
-        <project-card ng-if="landing" ng-repeat="project in search.projects() | limitTo:8"></project-card>
+        <project-card ng-if="landing" ng-repeat="project in search.highlightedProjects()"></project-card>
         <project-card ng-if="!landing" ng-repeat="project in search.projects()"></project-card>
         <div class="alert center" ng-show="!search.loading() && !search.projects().length">Não encontramos projetos para essa busca.</div>
       </div>
       <div ng-hide="search.showProjects" class="clearfix">
-        <nonprofit-card ng-if="landing" ng-repeat="nonprofit in search.nonprofits() | limitTo:8"></nonprofit-card>
+        <nonprofit-card ng-if="landing" ng-repeat="nonprofit in search.highlightedNonprofits()"></nonprofit-card>
         <nonprofit-card ng-if="!landing" ng-repeat="nonprofit in search.nonprofits()"></nonprofit-card>
         <div class="alert center" ng-show="!search.loading() && !search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
       </div>

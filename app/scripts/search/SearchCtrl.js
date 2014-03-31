@@ -10,14 +10,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
 
   $scope.search =  Search;
   $scope.map = constants.map;
-  $scope.highlighted = $scope.landing;
 
   var alreadySearchedProject = false;
   var alreadySearchedNonprofit = false;
-
-  if (Search.nonprofits().length === 0 && Search.projects().length === 0) {
-    Search.filter(null, null, null, null, $scope.highlighted);
-  }
 
   $scope.$watch('search.city', function (city) {
     $scope.zoom = defaultZoom;

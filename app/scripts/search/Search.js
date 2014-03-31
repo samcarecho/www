@@ -8,6 +8,9 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
   var _skill = {};
   var _city = {};
   
+  var _highlightedProjects = [];
+  var _highlightedNonprofits = [];
+
   var _projects = [];
   var _nonprofits = [];
 
@@ -25,24 +28,27 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     }
     return url;
   };
-  var fixProject = function (response) {
-    response.forEach(sanitizeProject);
-    if (response._resultmeta) {
-      _nextUrlProject = toHttps(response._resultmeta.next);
-      _projectCount = response._resultmeta.count;
+
+  var fixProject = function (projects) {
+    projects.forEach(sanitizeProject);
+    if (projects._resultmeta) {
+      _nextUrlProject = toHttps(projects._resultmeta.next);
+      _projectCount = projects._resultmeta.count;
     } else {
       _nextUrlProject = '';
     }
+    return projects;
   };
 
-  var fixNonprofit = function (response) {
-    response.forEach(sanitizeNonprofit);
-    if (response._resultmeta) {
-      _nextUrlNonprofit = toHttps(response._resultmeta.next);
-      _nonprofitCount = response._resultmeta.count;
+  var fixNonprofit = function (nonprofits) {
+    nonprofits.forEach(sanitizeNonprofit);
+    if (nonprofits._resultmeta) {
+      _nextUrlNonprofit = toHttps(nonprofits._resultmeta.next);
+      _nonprofitCount = nonprofits._resultmeta.count;
     } else {
       _nextUrlNonprofit = '';
     }
+    return nonprofits;
   };
 
   var sanitizeProject = function (p) {
@@ -55,8 +61,6 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
       s.image = storage + 'skill_' + s.id + '.png';
       s.class = 'skill_' + s.id;
     });
-
-    _projects.push(p);
   };
 
   var sanitizeNonprofit = function (n) {
@@ -72,10 +76,9 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     });
     n.causes = causes;
     n.address = n.user.address;
-    _nonprofits.push(n);
   };
 
-  function searchProjects(query, cause, skill, city, highlighted, pageSize) {
+  function searchProjects(query, cause, skill, city, pageSize) {
     pageSize = typeof pageSize !== 'undefined' ? pageSize : page_size;
     var urlHeaders = {
       page_size: pageSize,
@@ -83,12 +86,11 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
       cause: cause,
       skill: skill,
       city: city,
-      highlighted: highlighted
     };
     _loading = true;
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
       _projects = [];
-      fixProject(response);
+      _projects = fixProject(response);
       _loading = false;
     }, function () {
       console.error('Não consegui pegar os atos do servidor.');
@@ -96,18 +98,17 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     });
   }
 
-  var searchNonprofits = function (query, cause, city, highlighted) {
+  var searchNonprofits = function (query, cause, city) {
     var urlHeaders = {
       page_size: 20,
       query: query,
       cause: cause,
       city: city,
-      highlighted: highlighted
     };
     _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
       _nonprofits = [];
-      fixNonprofit(response);
+      _nonprofits = fixNonprofit(response);
       _loading = false;
     }, function () {
       console.error('Não consegui pegar ONGs do servidor.');
@@ -115,12 +116,32 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     });
   };
 
+  function getHighlighted() {
+    var urlHeaders = {
+      highlighted: true
+    };
+    Restangular.all('projects').getList(urlHeaders).then( function(response) {
+      _highlightedProjects = fixProject(response);
+    }, function () {
+      console.error('Não consegui pegar os atos em destaque do servidor.');
+    });
+    Restangular.all('nonprofits').getList(urlHeaders).then( function(response) {
+      _highlightedNonprofits = fixNonprofit(response);
+    }, function () {
+      console.error('Não consegui pegar as ONGs em destaque do servidor.');
+    });
+  }
+
+  getHighlighted();
+  searchProjects(null, null, null, null);
+  searchNonprofits(null, null, null, null);
+
   return {
-    filter: function (query, cause, skill, city, highlighted) {
+    filter: function (query, cause, skill, city) {
       _projects = [];
       _nonprofits = [];
-      searchProjects(query, cause, skill, city, highlighted);
-      searchNonprofits(query, cause, city, highlighted);
+      searchProjects(query, cause, skill, city);
+      searchNonprofits(query, cause, city);
     },
     query: _query,
     cause: _cause,
@@ -153,6 +174,12 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     },
     nonprofits: function () {
       return _nonprofits;
+    },
+    highlightedProjects: function () {
+      return _highlightedProjects;
+    },
+    highlightedNonprofits: function () {
+      return _highlightedNonprofits;
     },
   };
 });
