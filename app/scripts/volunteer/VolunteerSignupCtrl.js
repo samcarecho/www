@@ -12,8 +12,13 @@ app.controller('VolunteerSignupCtrl', function($scope, $rootScope, Auth) {
         $scope.signupForm.slug.$invalid = true;
         $scope.signupForm.slug.hasSpace = true;
         $scope.signupForm.slug.alreadyUsed = false;
+      } else if (value.indexOf('.') >= 0) {
+        $scope.signupForm.slug.$invalid = true;
+        $scope.signupForm.slug.hasDot = true;
+        $scope.signupForm.slug.alreadyUsed = false;
       } else {
         $scope.signupForm.slug.hasSpace = false;
+        $scope.signupForm.slug.hasDot = false;
         $scope.signupForm.slug.$invalid = false;
         Auth.isSlugUsed(value, function (response) {
           $scope.signupForm.slug.alreadyUsed = response.alreadyUsed;
@@ -23,6 +28,7 @@ app.controller('VolunteerSignupCtrl', function($scope, $rootScope, Auth) {
     } else {
       $scope.signupForm.slug.alreadyUsed = false;
       $scope.signupForm.slug.hasSpace = false;
+      $scope.signupForm.slug.hasDot = false;
       $scope.signupForm.slug.$invalid = false;
     }
   });
