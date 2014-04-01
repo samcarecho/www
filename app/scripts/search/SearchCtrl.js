@@ -3,6 +3,7 @@
 /* global toastr: false */
 /* global google: false */
 /* global constants: false */
+/* global $: false */
 
 var app = angular.module('atadosApp');
 
@@ -28,9 +29,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     }
   });
 
-  /*var typingTimer;
+  var typingTimer;
   var doneTyping = false;
-  var doneTypingInterval = 1000;*/
+  var doneTypingInterval = 1000;
 
   var search = function(value, old) {
     
@@ -41,9 +42,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       alreadySearchedProject = false;
       alreadySearchedNonprofit = false;
 
-      // console.log('searching ' + Search.query + ' ' + Search.cause.id + ' ' + Search.skill.id + ' ' + Search.city.id);
+      console.log('searching ' + Search.query + ' ' + Search.cause.id + ' ' + Search.skill.id + ' ' + Search.city.id);
       Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
-      // doneTyping = false;
+      doneTyping = false;
     }
   };
   $scope.$watch('search.cause', function (value, old) {
@@ -55,15 +56,9 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   $scope.$watch('search.city', function (value, old) {
     search(value, old);
   });
-  $scope.$watch('search.query', function (value, old) {
-    //console.log(value);
-    //if (doneTyping) {
-    search(value, old);
-    //}
-  });
 
   //on keyup, start the countdown
-/*$('#searchInput').keyup(function(){
+  $('#searchInput').keyup(function(){
     clearTimeout(typingTimer);
     typingTimer = setTimeout(setDoneTyping, doneTypingInterval);
   });
@@ -77,7 +72,8 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   function setDoneTyping () {
     console.log('done');
     doneTyping = true;
-  }*/
+    search($scope.search.query, '');
+  }
   
   $scope.getMore = function () {
     if ($scope.landing) {
