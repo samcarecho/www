@@ -117,22 +117,8 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
   };
 
   function getHighlighted() {
-    var urlHeaders = {
-      highlighted: true
-    };
-    Restangular.all('projects').getList(urlHeaders).then( function(response) {
-      _highlightedProjects = fixProject(response);
-    }, function () {
-      console.error('Não consegui pegar os atos em destaque do servidor.');
-    });
-    Restangular.all('nonprofits').getList(urlHeaders).then( function(response) {
-      _highlightedNonprofits = fixNonprofit(response);
-    }, function () {
-      console.error('Não consegui pegar as ONGs em destaque do servidor.');
-    });
-  }
+      }
 
-  getHighlighted();
   searchProjects(null, null, null, null);
   searchNonprofits(null, null, null, null);
 
@@ -174,6 +160,22 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     },
     nonprofits: function () {
       return _nonprofits;
+    },
+    getHighlightedProjects: function () {
+      return Restangular.all('projects').getList({highlighted: true}).then( function(response) {
+        _highlightedProjects = fixProject(response);
+        return;
+      }, function () {
+        console.error('Não consegui pegar os atos em destaque do servidor.');
+      });
+    },
+    getHighlightedNonprofits: function () {
+      return Restangular.all('nonprofits').getList({highlighted: true}).then( function(response) {
+        _highlightedNonprofits = fixNonprofit(response);
+        return;
+      }, function () {
+        console.error('Não consegui pegar as ONGs em destaque do servidor.');
+      });
     },
     highlightedProjects: function () {
       return _highlightedProjects;
