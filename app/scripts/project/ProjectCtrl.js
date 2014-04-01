@@ -103,7 +103,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           toastr.success('Você não é mais voluntário para ' + $scope.project.name);
         }
       }).error(function (error) {
-        console.log(error);
+        console.error(error);
         if (error['403']) {
           $modal.open({
             template: '<div class="modal-body">' +

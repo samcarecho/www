@@ -42,7 +42,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       alreadySearchedProject = false;
       alreadySearchedNonprofit = false;
 
-      console.log('searching ' + Search.query + ' ' + Search.cause.id + ' ' + Search.skill.id + ' ' + Search.city.id);
       Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
       doneTyping = false;
     }
@@ -70,7 +69,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
 
   //user is "finished typing," do something
   function setDoneTyping () {
-    console.log('done');
     doneTyping = true;
     search($scope.search.query, '');
   }
