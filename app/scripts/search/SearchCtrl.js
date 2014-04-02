@@ -42,7 +42,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       alreadySearchedProject = false;
       alreadySearchedNonprofit = false;
 
-      Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id, $scope.highlighted);
+      Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
       doneTyping = false;
     }
   };

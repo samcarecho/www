@@ -29,6 +29,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     $state.transitionTo('root.explore');
     $scope.search.query = $scope.search.landingQuery;
     $scope.search.landingQuery = '';
+    Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
   };
 
   $scope.openLogin = function(type) {
