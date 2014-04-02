@@ -80,9 +80,9 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.closeOrOpenProject = function (project) {
-    project.closed = ! project.closed;
-    setProjectStatusStyle(project);
     Restangular.one('project', project.slug).get().then(function (response) {
+      project.closed = ! project.closed;
+      setProjectStatusStyle(project);
       response.closed = project.closed;
       delete response.nonprofit.image;
       delete response.nonprofit.cover;
@@ -90,7 +90,9 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
       delete response.job;
       delete response.causes;
       delete response.skills;
+      delete response.roles;
       delete response.volunteers;
+      delete response.address;
       response.put();
     });
   };
