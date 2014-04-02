@@ -64,17 +64,19 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
   };
 
   var sanitizeNonprofit = function (n) {
-    var causes = [];
-    n.causes.forEach(function (c) {
-      var cause = {};
-      cause.id = Site.causes()[c].id;
-      cause.name = Site.causes()[c].name;
-      cause.class = Site.causes()[c].class;
-      cause.image = Site.causes()[c].image;
-      cause.checked = true;
-      causes.push(cause);
-    });
-    n.causes = causes;
+    if (Site.causes().length !== 0) {
+      var causes = [];
+      n.causes.forEach(function (c) {
+        var cause = {};
+        cause.id = Site.causes()[c].id;
+        cause.name = Site.causes()[c].name;
+        cause.class = Site.causes()[c].class;
+        cause.image = Site.causes()[c].image;
+        cause.checked = true;
+        causes.push(cause);
+      });
+      n.causes = causes;
+    }
     n.address = n.user.address;
   };
 
@@ -115,9 +117,6 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
       _loading = false;
     });
   };
-
-  function getHighlighted() {
-      }
 
   searchProjects(null, null, null, null);
   searchNonprofits(null, null, null, null);
