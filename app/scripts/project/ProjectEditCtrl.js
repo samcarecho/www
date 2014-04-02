@@ -26,46 +26,46 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
 
   if ($scope.project.job) {
     $scope.jobActive = true;
+    $scope.start_date = new Date($scope.project.job.start_date);
+    $scope.end_date = new Date($scope.project.job.end_date);
+    $scope.project.work = {
+      availabilities: [],
+      weekly_hours: 0,
+      can_be_done_remotely: false
+    };
   } else {
     $scope.jobActive = false;
+    $scope.project.job = {
+      start_date: new Date(),
+      end_date: new Date()
+    };
   }
 
-  if ($scope.project.work) {
-    var availabilities = [];
-    for (var period = 0; period < 3; period++) {
-      var periods = [];
-      availabilities.push(periods);
-      for (var weekday = 0; weekday < 7; weekday++) {
-        periods.push({checked: false, weekday: weekday, period: period});
-      }
+  var availabilities = [];
+  for (var period = 0; period < 3; period++) {
+    var periods = [];
+    availabilities.push(periods);
+    for (var weekday = 0; weekday < 7; weekday++) {
+      periods.push({checked: false, weekday: weekday, period: period});
     }
-    availabilities.forEach(function(p) {
-      p.forEach(function (a) {
-        if ($scope.project.work.availabilities) {
-          $scope.project.work.availabilities.forEach(function(wa) {
-            if (wa.weekday === a.weekday && a.period === wa.period) {
-              a.checked = true;
-            }
-          });
-        }
-      });
-    });
-    $scope.project.work.availabilities = availabilities;
   }
+
+  availabilities.forEach(function(p) {
+    p.forEach(function (a) {
+      if ($scope.project.work.availabilities) {
+        $scope.project.work.availabilities.forEach(function(wa) {
+          if (wa.weekday === a.weekday && a.period === wa.period) {
+            a.checked = true;
+          }
+        });
+      }
+    });
+  });
+  $scope.project.work.availabilities = availabilities;
 
   if ($scope.project.image_url) {
     $scope.imageUploaded = true;
   }
-
-  $scope.$watch('project.job', function (job) {
-    if (job && job % 1 !== 0) {
-      $scope.start_date = new Date(job.start_date);
-      $scope.end_date = new Date(job.end_date);
-    }
-  });
-
-  $scope.start_date = new Date();
-  $scope.end_date = new Date();
 
   $scope.$watch('short_facebook_event', function (value) {
     if (value) {
@@ -78,12 +78,12 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   $scope.cityLoaded = false;
 
   $scope.$watch('start_date', function (value) {
-    if (value && $scope.project.job) {
+    if (value) {
       $scope.project.job.start_date = value.getTime();
     }
   });
   $scope.$watch('end_date', function (value) {
-    if (value && $scope.project.job) {
+    if (value) {
       $scope.project.job.end_date = value.getTime();
     }
   });
@@ -125,9 +125,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     if ($scope.jobActive) {
       delete $scope.project.work;
     } else {
-      $scope.project.work = {};
-      angular.copy($scope.work, $scope.project.work);
-
       var ava = [];
       $scope.project.work.availabilities.forEach(function (period) {
         period.forEach(function (a) {
@@ -141,7 +138,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       delete $scope.project.job;
     }
 
-    Project.save($scope.project, new FormData(), function (project) {
+    Project.save($scope.project, function (project) {
       $scope.project = project;
       toastr.success('Ato salvo.');
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});

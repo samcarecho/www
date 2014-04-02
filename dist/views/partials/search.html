@@ -66,7 +66,7 @@
       <div ng-show="search.showProjects" class="clearfix">
         <project-card ng-if="landing" ng-repeat="project in search.highlightedProjects()"></project-card>
         <project-card ng-if="!landing" ng-repeat="project in search.projects()"></project-card>
-        <div class="alert center" ng-show="!search.loading() && !search.projects().length">Não encontramos projetos para essa busca.</div>
+        <div class="alert center" ng-show="!search.loading() && !search.projects().length && !landing">Não encontramos projetos para essa busca.</div>
       </div>
       <div ng-hide="search.showProjects" class="clearfix">
         <nonprofit-card ng-if="landing" ng-repeat="nonprofit in search.highlightedNonprofits()"></nonprofit-card>
