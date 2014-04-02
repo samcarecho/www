@@ -6,11 +6,8 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, NONPROFIT) {
 
-  $scope.jobActive = true;
-
   $scope.project = {
     name: '',
-    slug: '',
     nonprofit: null,
     address: {
       city: {},
@@ -30,6 +27,14 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     roles: [],
   };
 
+  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
+    $state.transitionTo('root.home');
+    toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
+  } else {
+    $scope.project.nonprofit = $scope.loggedUser.id;
+    $scope.project.address.city.id = $scope.loggedUser.address.city;
+  }
+
   window.project = $scope.project;
 
   $scope.job = {
@@ -43,14 +48,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     can_be_done_remotely: false
   };
 
-  for (var period = 0; period < 3; period++) {
-    var periods = [];
-    $scope.work.availabilities.push(periods);
-    for (var weekday = 0; weekday < 7; weekday++) {
-      periods.push({checked: false, weekday: weekday, period: period});
-    }
-  }
-
   $scope.newRole = {
     name: '',
     prerequisites: '',
@@ -58,25 +55,14 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     vacancies: 0
   };
 
-  window.project = $scope.project;
-
-  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
-    $state.transitionTo('root.home');
-    toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
-  } else {
-    $scope.project.nonprofit = $scope.loggedUser.id;
-    $scope.project.address.city.id = $scope.loggedUser.address.city;
-  }
-
-  $scope.$watch('project.name', function (value) {
-    if (value) {
-      Project.getSlug(value, function(success) {
-        $scope.project.slug = success.slug;
-      }, function (error) {
-        console.error(error);
-      });
+  $scope.jobActive = true;
+  for (var period = 0; period < 3; period++) {
+    var periods = [];
+    $scope.work.availabilities.push(periods);
+    for (var weekday = 0; weekday < 7; weekday++) {
+      periods.push({checked: false, weekday: weekday, period: period});
     }
-  });
+  }
 
   $scope.$watch('short_facebook_event', function (value) {
     if (value) {
@@ -105,6 +91,7 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
       $scope.$apply();
       return;
     }
+    console.error('Could not upload image.');
     $scope.imageUploaded = false;
     $scope.$apply();
   };
@@ -130,38 +117,34 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
   };
 
   $scope.createProject = function () {
+    if ($scope.project.causes.length === 0) {
+      toastr.error('Precisa escolher pelo menos uma causa para criar ato.');
+      return;
+    } else if ($scope.project.skills.length === 0) {
+      toastr.error('Precisa escolher pelo menos uma habilidade para criar ato.');
+      return;
+    }
+
     if ($scope.jobActive) {
-      $scope.project.job = $scope.job;
+      $scope.project.job = {};
+      angular.copy($scope.job, $scope.project.job);
+
     } else {
-      $scope.project.work = $scope.work;
+      $scope.project.work = {};
+      angular.copy($scope.work, $scope.project.work);
+
       var ava = [];
-      $scope.work.availabilities.forEach(function (period) {
+      $scope.project.work.availabilities.forEach(function (period) {
         period.forEach(function (a) {
           if (a.checked) {
             ava.push(a);
           }
         });
       });
-      $scope.work.availabilities = ava;
+      $scope.project.work.availabilities = ava;
     }
     
-    var causes = [];
-    $scope.project.causes.forEach(function(c) {
-      causes.push(c.id);
-    });
-    $scope.project.causes = causes;
-
-    var skills = [];
-    $scope.project.skills.forEach(function(s) {
-      skills.push(s.id);
-    });
-    $scope.project.skills = skills;
-
-
-
-    $scope.files.append('project', angular.toJson($scope.project));
-
-    Project.create($scope.files, function () {
+    Project.create($scope.project, $scope.files, function () {
       toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
       $scope.loggedUser.projects.push($scope.project);
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});

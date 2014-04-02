@@ -6,9 +6,6 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT) {
 
-  $scope.causeChosen = false;
-  $scope.skillChosen = false;
-
   if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG do ato para editar');
@@ -70,16 +67,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   $scope.start_date = new Date();
   $scope.end_date = new Date();
 
-  $scope.$watch('project.name', function (value, old) {
-    if (value !== old) {
-      Project.getSlug(value, function(success) {
-        $scope.project.slug = success.slug;
-      }, function (error) {
-        console.error(error);
-      });
-    }
-  });
-
   $scope.$watch('short_facebook_event', function (value) {
     if (value) {
       $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
@@ -138,6 +125,9 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     if ($scope.jobActive) {
       delete $scope.project.work;
     } else {
+      $scope.project.work = {};
+      angular.copy($scope.work, $scope.project.work);
+
       var ava = [];
       $scope.project.work.availabilities.forEach(function (period) {
         period.forEach(function (a) {
@@ -151,7 +141,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       delete $scope.project.job;
     }
 
-    Project.save($scope.project, function (project) {
+    Project.save($scope.project, new FormData(), function (project) {
       $scope.project = project;
       toastr.success('Ato salvo.');
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});

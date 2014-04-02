@@ -8,10 +8,10 @@
       <div class="col-sm-12">
         <div id="type-project-buttons">
           <div id="button-group" class="btn-group btn-group-justified" data-toggle="buttons">
-            <label class="btn btn-info active" ng-click="jobActive=true">
+            <label class="btn btn-info" ng-class="{active: jobActive}" ng-click="jobActive=true">
               <input type="radio" name="job"> Pontual
             </label>
-            <label class="btn btn-info" ng-click="jobActive=false">
+            <label class="btn btn-info" ng-class="{active: !jobActive}" ng-click="jobActive=false">
               <input type="radio" name="work"> Recorrente
             </label>
           </div>
@@ -227,7 +227,7 @@
           <div class="form-group"  ng-class="{true: 'has-error', false: 'has-success'}[!imageUploaded]">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">                     
-              <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar uma foto bem bonita que represente seu projeto. </label>
+              <label class="help-block" ng-hide="imageUploaded">Não se esqueça de nos dar uma foto bem bonita que represente seu projeto. Ela tem que ter tamanho 350x260 pixels.</label>
               <label class="btn btn-info" for="file-input"><i class="fa fa-edit"></i> Escolher foto...</label>
               <input style="display: none;" id="file-input" type="file" name="file" onchange="angular.element(this).scope().uploadProjectImage(this.files)" />
             </div>
@@ -296,10 +296,8 @@
             </tbody>
           </table>
         </fieldset>
-
-        <button type="submit" class="btn btn-info btn-large btn-block"  ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen)">Criar Ato Voluntário</button>
+        <button type="submit" class="btn btn-info btn-large btn-block" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen)">Criar Ato Voluntário</button>
       </div>
-
     </form>
   </div>
 </div>

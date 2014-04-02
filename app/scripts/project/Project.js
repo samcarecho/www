@@ -6,8 +6,24 @@ var app = angular.module('atadosApp');
 
 app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state, api) {
   return {
-    create: function (project, success, error) {
-      $http.post(api + 'create/project/', project, {
+    create: function (project, files, success, error) {
+      var projectCopy = {};
+      angular.copy(project, projectCopy);
+      var causes = [];
+      projectCopy.causes.forEach(function(c) {
+        causes.push(c.id);
+      });
+      projectCopy.causes = causes;
+
+      var skills = [];
+      projectCopy.skills.forEach(function(s) {
+        skills.push(s.id);
+      });
+      projectCopy.skills = skills;
+
+      files.append('project', angular.toJson(projectCopy));
+
+      $http.post(api + 'create/project/', files, {
         headers: {'Content-Type': undefined },
         transformRequest: angular.identity
       }).success(success).error(error);
@@ -55,9 +71,5 @@ app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state,
         toastr.error('Ato não encontrado.');
       });
     },
-    getSlug: function (name, success, error) {
-      $http.get(api + 'create_project_slug/?name=' + name)
-        .success(success).error(error);
-    }
   };
 });
