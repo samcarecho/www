@@ -92,6 +92,20 @@ app.directive('phoneInput', function () {
   };
 });
 
+app.directive('zipcodeInput', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      object: '=object',
+      form: '=form',
+    },
+    templateUrl: '/partials/zipcodeInput.html',
+    link: function() {
+      $('#zipcodeInput').mask('99999-999');
+    },
+  };
+});
+
 app.directive('causes', function () {
   return {
     restrict: 'E',
