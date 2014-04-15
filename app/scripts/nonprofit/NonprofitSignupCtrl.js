@@ -133,11 +133,10 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
           username: $scope.nonprofit.user.email,
           password: $scope.nonprofit.user.password,
           remember: true
-        }, function () {
-          Auth.getCurrentUser().then(
+        }, function (response) {
+          Auth.getCurrentUser(response.access_token).then(
             function (user) {
-              $scope.loggedUser = user;
-              toastr.success('Bem vinda ONG ao atados! Sua ONG ainda precisa ser aprovada. Espere pelo nosso email.');
+              $rootScope.$emit('userLoggedIn', user, 'Bem vinda ONG ao atados! Sua ONG ainda precisa ser aprovada. Espere pelo nosso email.');
               $state.transitionTo('root.home');
             }, function (error) {
               console.error(error);

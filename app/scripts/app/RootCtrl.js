@@ -23,13 +23,17 @@ app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUse
     });
   }
 
-  $rootScope.$on('userLoggedIn', function(event, user) {
+  $rootScope.$on('userLoggedIn', function(event, user, message) {
     if (user) {
+      $scope.loggedUser = user;
+      if (message) {
+        toastr.success(message, $scope.loggedUser.slug);
+      } else {
+        toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
+      }
       if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
       }
-      $scope.loggedUser = user;
-      toastr.success('Oi! Bom te ver por aqui :)', $scope.loggedUser.slug);
     }
   });
 
