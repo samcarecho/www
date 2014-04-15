@@ -15,6 +15,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       if (p.slug === $stateParams.slug) {
         foundProject = true;
         $scope.project = p;
+        prepareProject();
         window.project = p;
       }
     });
@@ -24,47 +25,49 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     }
   }
 
-  if ($scope.project.job) {
-    $scope.jobActive = true;
-    $scope.start_date = new Date($scope.project.job.start_date);
-    $scope.end_date = new Date($scope.project.job.end_date);
-    $scope.project.work = {
-      availabilities: [],
-      weekly_hours: 0,
-      can_be_done_remotely: false
-    };
-  } else {
-    $scope.jobActive = false;
-    $scope.project.job = {
-      start_date: new Date(),
-      end_date: new Date()
-    };
-  }
-
-  var availabilities = [];
-  for (var period = 0; period < 3; period++) {
-    var periods = [];
-    availabilities.push(periods);
-    for (var weekday = 0; weekday < 7; weekday++) {
-      periods.push({checked: false, weekday: weekday, period: period});
+  function prepareProject() {
+    if ($scope.project.job) {
+      $scope.jobActive = true;
+      $scope.start_date = new Date($scope.project.job.start_date);
+      $scope.end_date = new Date($scope.project.job.end_date);
+      $scope.project.work = {
+        availabilities: [],
+        weekly_hours: 0,
+        can_be_done_remotely: false
+      };
+    } else {
+      $scope.jobActive = false;
+      $scope.project.job = {
+        start_date: new Date(),
+        end_date: new Date()
+      };
     }
-  }
 
-  availabilities.forEach(function(p) {
-    p.forEach(function (a) {
-      if ($scope.project.work.availabilities) {
-        $scope.project.work.availabilities.forEach(function(wa) {
-          if (wa.weekday === a.weekday && a.period === wa.period) {
-            a.checked = true;
-          }
-        });
+    var availabilities = [];
+    for (var period = 0; period < 3; period++) {
+      var periods = [];
+      availabilities.push(periods);
+      for (var weekday = 0; weekday < 7; weekday++) {
+        periods.push({checked: false, weekday: weekday, period: period});
       }
-    });
-  });
-  $scope.project.work.availabilities = availabilities;
+    }
 
-  if ($scope.project.image_url) {
-    $scope.imageUploaded = true;
+    availabilities.forEach(function(p) {
+      p.forEach(function (a) {
+        if ($scope.project.work.availabilities) {
+          $scope.project.work.availabilities.forEach(function(wa) {
+            if (wa.weekday === a.weekday && a.period === wa.period) {
+              a.checked = true;
+            }
+          });
+        }
+      });
+    });
+    $scope.project.work.availabilities = availabilities;
+
+    if ($scope.project.image_url) {
+      $scope.imageUploaded = true;
+    }
   }
 
   $scope.$watch('short_facebook_event', function (value) {

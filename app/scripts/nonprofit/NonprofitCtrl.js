@@ -47,7 +47,7 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
           if (!p.city_state && p.address) {
             p.city_state = p.address.city_state;
           }
-          return !(p.closed || p.deleted);
+          return !(p.closed || p.deleted) && p.published;
         });
       } else {
         return $scope.nonprofit.projects.filter(function (p) {
