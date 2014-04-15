@@ -1155,36 +1155,31 @@ a:focus {
 }
 
 #volunteer-edit {
-  margin: 50px 0;
+  background-color: #ECECEC;
+  h1 {
+    color: #0094D3;
+  }
+  .photo-edit {
+    margin: 30px 0 0 0;
+    color: #686767;
+    background-color: #FFF;
+  }
   #img-edit {
     input {
       display: none;
     }
   }
   #save-button {
+    width: 220px;
+    height: 50px;
+    float: right;
+    font-size: 16px;
     margin: 30px 0;
   }
   #volunteerEditForm {
     margin-bottom: 40px;
     fieldset {
       margin-bottom: 30px;
-    }
-
-    #addressNumberField {
-
-      @media screen and (max-width: $screen-lg) {
-        margin-left: 374px;
-      }
-
-      margin-top: -49px;
-      margin-left: 390px;
-    }
-    #zipcodeField {
-      @media screen and (max-width: $screen-lg) {
-        margin-left: 287px;
-      }
-      margin-top: -49px;
-      margin-left: 315px;
     }
   }
 }
