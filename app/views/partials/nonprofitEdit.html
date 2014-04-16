@@ -15,7 +15,7 @@
           <div id="logo" >
             <img alt="{{nonprofit.slug}}" class="img-responsive" ng-src="{{nonprofit.image_url}}"/>
 
-            <button ng-click="save(nonprofit)" ng-disabled="nonprofitForm.$invalid" class="btn btn-info" id="save-button" >Salvar Perfil</button>
+            <button ng-click="save(nonprofit)" ng-disabled="nonprofitForm.$invalid" class="btn btn-info btn-save">Salvar</button>
 
             <div >
               <label class="btn photo-edit" for="image-input"><i class="fa fa-edit"></i>Editar foto</label>
@@ -139,8 +139,13 @@
             </div>
           </fieldset>
 
-          <div class="col-md-6">
-            <causes selected="nonprofit.causes" all="causes()"></causes>
+          <div class="row">
+            <div class="col-sm-6">
+              <causes selected="nonprofit.causes" all="causes()"></causes>
+            </div>
+            <div class="col-sm-1 col-sm-offset-3">
+              <button ng-click="save(nonprofit)" ng-disabled="nonprofitForm.$invalid" class="btn btn-info btn-save">Salvar</button>
+            </div>
           </div>
 
         </div>
