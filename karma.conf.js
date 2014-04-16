@@ -15,24 +15,20 @@ module.exports = function(config) {
     files: [
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/jquery/jquery.js',
-      'app/bower_components/underscore/underscore.js',
-      'app/bower_components/restangular/dist/restangular.js',
       'app/bower_components/angular-i18n/angular-locale_pt-br.js',
       'app/bower_components/angular-i18n/angular-locale_en-us.js',
       'app/bower_components/angular-ui-router/release/angular-ui-router.js',
-      'app/bower_components/angular-facebook/lib/angular-facebook.js',
-      'app/bower_components/toastr/toastr.js',
-      'app/bower_components/jquery.cookie/jquery.cookie.js',
+      'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+      'app/bower_components/angular-easyfb/angular-easyfb.js',
+      'app/bower_components/underscore/underscore.js',
+      'app/bower_components/restangular/dist/restangular.js',
       'app/bower_components/AngularGM/angular-gm.js',
-      'http://maps.googleapis.com/maps/api/js?sensor=false&language=en&v=3.13',
-      'app/bower_components/angular-google-maps/dist/angular-google-maps.js',
-      'app/ui-bootstrap-0.6.0.js',
-      'app/ui-bootstrap-tpls-0.6.0.js',
+      'app/bower_components/toastr/toastr.js',
+      'app/angular-seo.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/client/mock/**/*.js',
+      'test/client/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
