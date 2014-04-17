@@ -21,6 +21,7 @@ module.exports = function(config) {
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
       'app/bower_components/angular-easyfb/angular-easyfb.js',
       'app/bower_components/underscore/underscore.js',
+      'app/bower_components/jquery/dist/jquery.js',
       'app/bower_components/restangular/dist/restangular.js',
       'app/bower_components/AngularGM/angular-gm.js',
       'app/bower_components/toastr/toastr.js',
