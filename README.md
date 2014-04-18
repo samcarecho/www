@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/atados/www.png?label=ready&title=Ready)](https://waffle.io/atados/www)
 www [![Build Status](https://travis-ci.org/atados/www.png)](https://travis-ci.org/atados/www) [![Dependency Status](https://gemnasium.com/atados/www.png)](https://gemnasium.com/atados/www) [![Coverage Status](https://coveralls.io/repos/atados/www/badge.png)](https://coveralls.io/r/atados/www) ![Codeship](https://www.codeship.io/projects/ee40fd70-a87c-0131-8655-063dfab0229a/status)
 ==============
 
