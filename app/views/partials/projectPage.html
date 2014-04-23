@@ -1,7 +1,7 @@
 <div id="project-page">
   <div id="project-header" class="row">
     <div class="col-sm-offset-1 col-sm-3" id="project-image">
-      <img alt="{{project.slug}}" class="img-responsive" ng-src="{{project.image_url}}"/>
+      <img alt="{{project.slug}}" width="350" height="260" ng-src="{{project.image_url}}"/>
     </div>
     <div class="col-sm-5">
       <h1 id="project-name">{{project.name}}</h1>
@@ -21,7 +21,7 @@
       </div>
       <div id="project-nonprofit">
         <a ui-sref="root.nonprofit({slug: nonprofit.user.slug})" id="nonprofit-img">
-          <img alt="{{nonprofit.slug}}" ng-src="{{project.nonprofit_image}}"/>
+          <img alt="{{nonprofit.slug}}" width="55" height="55" ng-src="{{project.nonprofit_image}}"/>
         </a>
         <span>
           <a ui-sref="root.nonprofit({slug: nonprofit.user.slug})">
@@ -62,7 +62,9 @@
 
         <p ng-if="project.volunteers.length === 0">Seja o primeiro a se atar!</p>
         <div id="cards">
-          <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in project.volunteers"><img alt="{{volunteer.slug}}" width="47" height="47" ng-src="{{volunteer.image_url}}"/></a>
+          <a ui-sref="root.volunteer({slug: volunteer.slug})" target="_blank" ng-repeat="volunteer in project.volunteers">
+            <img alt="{{volunteer.slug}}" width="47" height="47" ng-src="{{volunteer.image_url}}"/>
+          </a>
         </div>
       </div>
     </div>
