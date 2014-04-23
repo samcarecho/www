@@ -64,6 +64,11 @@ app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state,
     },
     get: function(slug) {
       return Restangular.one('project', slug).get().then(function(project) {
+        if (!project.published) {
+          $state.transitionTo('root.home');
+          toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
+          return null;
+        }
         Cleanup.project(project);
         return project;
       }, function() {

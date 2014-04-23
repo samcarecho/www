@@ -24,10 +24,7 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     };
   }
 
-  if (!project.published && $scope.loggedUser && project.nonprofit.id !== $scope.loggedUser.id) {
-    $state.transitionTo('root.home');
-    toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
-  }
+  
   if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $http.get(api + 'has_volunteer_applied/?project=' + project.id.toString())
       .success(function (response) {
@@ -38,7 +35,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
         }
       });
   }
-
 
   $scope.$watch('center', function(value) {
     if ($scope.project.address && value && value.d === 46) {
