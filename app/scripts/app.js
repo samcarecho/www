@@ -164,7 +164,6 @@ app.config(function($FBProvider, locale, facebookClientId) {
 
 app.config(function(RestangularProvider, api) {
   RestangularProvider.setBaseUrl(api);
-  RestangularProvider.setDefaultHttpFields({cache: true});
   RestangularProvider.setRequestSuffix('/?format=json');
   RestangularProvider.setRestangularFields({
     id: 'slug'
