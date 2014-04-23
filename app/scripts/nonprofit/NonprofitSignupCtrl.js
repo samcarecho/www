@@ -31,14 +31,6 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
     causes:[]
   };
 
-  // Checking that email is valid and not already used.
-  $scope.$watch('nonprofit.user.email', function (value) {
-    Auth.isEmailUsed(value, function (response) {
-      $scope.signupForm.email.alreadyUsed = response.alreadyUsed;
-      $scope.signupForm.email.$invalid = response.alreadyUsed;
-    });
-  });
-
   $scope.$watch('nonprofit.user.slug', function (value) {
     // Checking that slug not already used.
     if (value) {
