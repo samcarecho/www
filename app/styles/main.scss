@@ -480,9 +480,9 @@ doubt-atados {
     height: 44px;
   }
   #project-header {
-    height: 373px;
     background-color: #0E6281;
     padding-top: 50px;
+    padding-bottom: 50px;
     color: white;
     
     p {
@@ -558,6 +558,7 @@ doubt-atados {
         display: inline-block;
         margin-right: 10px;
         background-color: white;
+        margin-top: 5px;
       }
     }
     #project-volunteers {
