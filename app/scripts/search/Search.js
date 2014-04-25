@@ -77,11 +77,11 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV) {
     n.image_url = addDevelopmentUrl(n.image_url);
     n.cover_url = addDevelopmentUrl(n.cover_url);
 
-    var causes = [];
     n.causes.forEach(function (c) {
-      causes.push(Site.causes()[c]);
+      c.image = storage + 'skill_' + c.id + '.png';
+      c.class = 'skill_' + c.id;
+
     });
-    n.causes = causes;
   };
 
   function searchProjects(query, cause, skill, city) {
