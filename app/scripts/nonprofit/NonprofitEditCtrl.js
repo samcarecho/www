@@ -18,8 +18,17 @@ app.controller('NonprofitEditCtrl', function($scope, $http, $state, $stateParams
     }
   });
 
+  $scope.$watch('password + passwordConfirm', function() {
+    $scope.nonprofitForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
+    $scope.nonprofitForm.password.$invalid = $scope.nonprofitForm.password.doesNotMatch;
+  });
+
   $scope.save = function(nonprofit) {
     Nonprofit.save(nonprofit);
+
+    if ($scope.password && $scope.password === $scope.passwordConfirm) {
+      Nonprofit.savePassword(nonprofit.user.email, $scope.nonprofitForm.password, nonprofit.user.slug);
+    }
   };
 
   $scope.uploadProfileFile = function(files) {

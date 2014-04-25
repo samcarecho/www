@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $http, api) {
+app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $http, api, Auth) {
   return {
     get: function (slug) {
       return Restangular.one('nonprofit', slug).get().then(function(nonprofit) {
@@ -18,6 +18,13 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
       }, function() {
         $state.transitionTo('root.home');
         toastr.error('ONG não existe.', $stateParams.slug);
+      });
+    },
+    savePassword: function (email, password, slug) {
+      Auth.changePassword({email: email, password: password}, function () {
+        toastr.success('Senha nova salva', slug);
+      }, function () {
+        toastr.error('Não conseguimos atualizar sua senha :(');
       });
     },
     save: function (nonprofit) {
