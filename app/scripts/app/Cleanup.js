@@ -46,7 +46,11 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
     if (inputCauses && Site.causes()) {
       var causes = [];
       inputCauses.forEach(function(c) {
-        causes.push(Site.causes()[c]);
+        if (c.id) {
+          causes.push(Site.causes()[c.id]);
+        } else {
+          causes.push(Site.causes()[c]);
+        }
       });
       return causes;
     }
@@ -56,11 +60,23 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
     if (inputSkills && Site.skills()) {
       var skills = [];
       inputSkills.forEach(function(s) {
-        skills.push(Site.skills()[s]);
+        if (s.id) {
+          skills.push(Site.skills()[s.id]);
+        } else {
+          skills.push(Site.skills()[s]);
+        }
       });
       return skills;
     }
   };
+
+  var addDevelopmentUrl = function(image) {
+    if (image.indexOf('http') === -1) {
+      return 'http://www.atadoslocal.com.br:8000' + image;
+    }
+    return image;
+  };
+
 
   return {
     currentUser: function (user) {
@@ -99,14 +115,10 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
       v.projects.forEach(function(p) {
         p.causes = fixCauses(p.causes);
         p.skills = fixSkills(p.skills);
-        p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
-        p.nonprofit.slug = p.nonprofit.user.slug;
       });
 
       v.nonprofits.forEach(function(n) {
         n.causes = fixCauses(n.causes);
-        n.address = n.user.address;
-        n.volunteers_numbers = n.volunteers.length;
       });
     },
 
@@ -154,6 +166,7 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
       });
     },
     nonprofit: function(nonprofit) {
+      
       if (nonprofit.projects) {
         nonprofit.projects.forEach(function (p) {
           p.causes = fixCauses(p.causes);
@@ -162,6 +175,18 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
           p.nonprofit.image_url = 'https://atadosapp.s3.amazonaws.com/' + p.nonprofit.image;
         });
       }
+    },
+    nonprofitForSearch: function (n) {
+      n.image_url = addDevelopmentUrl(n.image_url);
+      n.cover_url = addDevelopmentUrl(n.cover_url);
+      n.causes = fixCauses(n.causes);
+    },
+    projectForSearch: function (p) {
+      p.image_url = addDevelopmentUrl(p.image_url);
+      p.nonprofit_image = addDevelopmentUrl(p.nonprofit_image);
+
+      p.causes = fixCauses(p.causes);
+      p.skills = fixSkills(p.skills);
     },
 
     adminProject: sanitizeProject,

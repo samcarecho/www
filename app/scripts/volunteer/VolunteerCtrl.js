@@ -5,6 +5,7 @@ var app = angular.module('atadosApp');
 app.controller('VolunteerCtrl', function($scope, volunteer) {
 
   $scope.volunteer = volunteer;
+  console.log(volunteer);
   $scope.landing = false;
   $scope.site.title = 'Voluntário - ' + volunteer.slug;
 

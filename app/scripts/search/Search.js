@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Search', function (Restangular, Site, api, storage, ENV) {
+app.factory('Search', function (Restangular, ENV, Cleanup) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -30,7 +30,7 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV) {
   };
 
   var fixProject = function (projects) {
-    projects.forEach(sanitizeProject);
+    projects.forEach(Cleanup.projectForSearch);
     if (projects._resultmeta) {
       _nextUrlProject = toHttps(projects._resultmeta.next);
       _projectCount = projects._resultmeta.count;
@@ -41,7 +41,7 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV) {
   };
 
   var fixNonprofit = function (nonprofits) {
-    nonprofits.forEach(sanitizeNonprofit);
+    nonprofits.forEach(Cleanup.nonprofitForSearch);
     if (nonprofits._resultmeta) {
       _nextUrlNonprofit = toHttps(nonprofits._resultmeta.next);
       _nonprofitCount = nonprofits._resultmeta.count;
@@ -49,39 +49,6 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV) {
       _nextUrlNonprofit = '';
     }
     return nonprofits;
-  };
-
-  var addDevelopmentUrl = function(image) {
-    if (image.indexOf('http') === -1) {
-      return 'http://www.atadoslocal.com.br:8000' + image;
-    }
-    return image;
-  };
-
-  var sanitizeProject = function (p) {
-    p.image_url = addDevelopmentUrl(p.image_url);
-    p.nonprofit_image = addDevelopmentUrl(p.nonprofit_image);
-
-    p.causes.forEach(function (c) {
-      c.image = storage + 'cause_' + c.id + '.png';
-      c.class = 'cause_' + c.id;
-    });
-
-    p.skills.forEach(function (s) {
-      s.image = storage + 'skill_' + s.id + '.png';
-      s.class = 'skill_' + s.id;
-    });
-  };
-
-  var sanitizeNonprofit = function (n) {
-    n.image_url = addDevelopmentUrl(n.image_url);
-    n.cover_url = addDevelopmentUrl(n.cover_url);
-
-    n.causes.forEach(function (c) {
-      c.image = storage + 'skill_' + c.id + '.png';
-      c.class = 'skill_' + c.id;
-
-    });
   };
 
   function searchProjects(query, cause, skill, city) {
