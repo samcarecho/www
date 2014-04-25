@@ -42,6 +42,7 @@ app.directive('projectCard', function() {
     templateUrl: '/partials/projectCard.html'
   };
 });
+
 app.directive('depoimento', function() {
   return {
     restrict: 'E',
@@ -49,7 +50,6 @@ app.directive('depoimento', function() {
     templateUrl: '/partials/depoimento.html'
   };
 });
-
 
 app.directive('atadosSearch', function() {
   return {

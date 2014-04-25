@@ -51,7 +51,17 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     return nonprofits;
   };
 
+  var addDevelopmentUrl = function(image) {
+    if (image.indexOf('http') === -1) {
+      return 'http://www.atadoslocal.com.br:8000' + image;
+    }
+    return image;
+  };
+
   var sanitizeProject = function (p) {
+    p.image_url = addDevelopmentUrl(p.image_url);
+    p.nonprofit_image = addDevelopmentUrl(p.nonprofit_image);
+
     p.causes.forEach(function (c) {
       c.image = storage + 'cause_' + c.id + '.png';
       c.class = 'cause_' + c.id;
@@ -64,26 +74,19 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
   };
 
   var sanitizeNonprofit = function (n) {
-    if (Site.causes().length !== 0) {
-      var causes = [];
-      n.causes.forEach(function (c) {
-        var cause = {};
-        cause.id = Site.causes()[c].id;
-        cause.name = Site.causes()[c].name;
-        cause.class = Site.causes()[c].class;
-        cause.image = Site.causes()[c].image;
-        cause.checked = true;
-        causes.push(cause);
-      });
-      n.causes = causes;
-    }
-    n.address = n.user.address;
+    n.image_url = addDevelopmentUrl(n.image_url);
+    n.cover_url = addDevelopmentUrl(n.cover_url);
+
+    var causes = [];
+    n.causes.forEach(function (c) {
+      causes.push(Site.causes()[c]);
+    });
+    n.causes = causes;
   };
 
-  function searchProjects(query, cause, skill, city, pageSize) {
-    pageSize = typeof pageSize !== 'undefined' ? pageSize : page_size;
+  function searchProjects(query, cause, skill, city) {
     var urlHeaders = {
-      page_size: pageSize,
+      page_size: 20,
       query: query,
       cause: cause,
       skill: skill,
@@ -118,8 +121,8 @@ app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size)
     });
   };
 
-  searchProjects(null, null, null, null);
-  searchNonprofits(null, null, null, null);
+  searchProjects(null, null, null, null, null);
+  searchNonprofits(null, null, null);
 
   return {
     filter: function (query, cause, skill, city) {

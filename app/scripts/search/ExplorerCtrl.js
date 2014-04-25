@@ -40,12 +40,12 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     }
   });
 
-
   if ($scope.search.showProjects) {
     $scope.objects = $scope.search.projects();
   } else {
     $scope.objects = $scope.search.nonprofits();
   }
+
   $scope.previousMarker = null;
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
@@ -118,6 +118,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     if (object && !marker) {
       marker = $scope.markers[object.slug];
     }
+
     if (marker) {
       var cardId = 'card-' + marker.slug;
       $scope.iw.setContent(marker.title);
