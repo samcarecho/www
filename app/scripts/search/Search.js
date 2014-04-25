@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Search', function (Restangular, Site, api, storage, ENV, page_size) {
+app.factory('Search', function (Restangular, Site, api, storage, ENV) {
   var _query = '';
   var _cause = {};
   var _skill = {};
