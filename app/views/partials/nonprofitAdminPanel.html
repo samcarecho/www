@@ -31,8 +31,8 @@
         <div class="" id="project-action-buttons">
           <a class="" ng-click="editProject(activeProject)" id="edit-project"><i class="fa fa-edit"></i> Editar Ato</a>  
           <a class="" ng-click="cloneProject(activeProject)" id="clone-project"><i class="fa fa-copy"></i> Duplicar Ato</a>  
-          <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
-          <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed"><i class="fa fa-times-circle-o"></i> Abrir Inscrições</a>
+          <a class="" ng-click="closeOrOpenProject(activeProject)" id="close-project" ng-hide="activeProject.closed || !activeProject.published"><i class="fa fa-times-circle-o"></i> Fechar Inscrições</a>
+          <a class="" ng-click="closeOrOpenProject(activeProject)" id="open-project" ng-show="activeProject.closed && activeProject.published"><i class="fa fa-times-circle-o"></i> Abrir Inscrições</a>
           <a class="" href="{{activeProject.emailAllString}}" target="_blank" id="send-email-all"><i class="fa fa-envelope-o"></i> Enviar Email para todos</a>  
           <a class="" ng-click="exportList(activeProject)" id="export-list"><i class="fa fa-table"></i> Exportar lista como planilha</a>  
         </div>

@@ -80,21 +80,17 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   };
 
   $scope.closeOrOpenProject = function (project) {
-    Restangular.one('project', project.slug).get().then(function (response) {
-      project.closed = ! project.closed;
-      setProjectStatusStyle(project);
-      response.closed = project.closed;
-      delete response.nonprofit.image;
-      delete response.nonprofit.cover;
-      delete response.work;
-      delete response.job;
-      delete response.causes;
-      delete response.skills;
-      delete response.roles;
-      delete response.volunteers;
-      delete response.address;
-      response.put();
-    });
+    if (project.closed) {
+      $http.put(api + 'open/project/', {'project': project.id}).then(function() {
+        project.closed = false;
+        setProjectStatusStyle(project);
+      });
+    } else {
+      $http.put(api + 'close/project/', {'project': project.id}).then(function() {
+        project.closed = true;
+        setProjectStatusStyle(project);
+      });
+    }
   };
 
   $scope.exportList = function (project) {
