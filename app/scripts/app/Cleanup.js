@@ -77,7 +77,6 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
     return image;
   };
 
-
   return {
     currentUser: function (user) {
       if (!user) {

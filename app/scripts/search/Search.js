@@ -88,7 +88,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     });
   };
 
-  searchProjects(null, null, null, null, null);
+  searchProjects(null, null, null, null);
   searchNonprofits(null, null, null);
 
   return {
