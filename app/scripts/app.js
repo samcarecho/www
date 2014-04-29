@@ -99,6 +99,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
           }]
         }
       })
+    .state('root.confirmemail', {
+        url: '/confirmar/email/',
+        controller: 'TokenCtrl'
+      })
     .state('root.newproject', {
         url: '/cadastro/ato',
         templateUrl: '/partials/projectNew.html',
