@@ -9,9 +9,6 @@ before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install'
 
-after_success:
-  - coveralls
-
 notifications:
   email:
     - marjori@atados.com.br
