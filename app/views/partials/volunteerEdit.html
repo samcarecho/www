@@ -24,15 +24,6 @@
                 <label class="help-block" ng-show="volunteerEditForm.name.$error.maxlength">Não pode ter mais de 100 caracteres.</label>
             </div>
           </div>
-          <div class="form-group" ng-class="{true: 'has-error',false: 'has-success'}[volunteerEditForm.email.$error.required || volunteerEditForm.email.$invalid]">
-            <label class="col-lg-3 control-label">Email</label>
-            <div class="col-lg-8">
-              <input class="form-control" type="email" name="email" ng-model="volunteer.user.email" required/>
-              <label class="help-block" ng-show="volunteerEditForm.email.alreadyUsed">Email já é usado.</label>
-              <label class="help-block" ng-show="volunteerEditForm.email.$invalid && volunteerEditForm.email.$dirty">Email inválido.</label>
-              <label class="help-block" ng-show="volunteerEditForm.email.$error.required">Precisamos do seu email para você se logar.</label>
-            </div>
-          </div>
           <phone-input object="volunteer.user" form="volunteerEditForm"></phone-input>
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[volunteerEditForm.password.$dirty && volunteerEditForm.password.$invalid]">
             <div class="col-sm-8 col-sm-offset-3">
