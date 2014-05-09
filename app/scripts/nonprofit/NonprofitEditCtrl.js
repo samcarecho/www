@@ -27,7 +27,7 @@ app.controller('NonprofitEditCtrl', function($scope, $http, $state, $stateParams
     Nonprofit.save(nonprofit);
 
     if ($scope.password && $scope.password === $scope.passwordConfirm) {
-      Nonprofit.savePassword(nonprofit.user.email, $scope.nonprofitForm.password, nonprofit.user.slug);
+      Nonprofit.savePassword(nonprofit.user.email, $scope.password, nonprofit.user.slug);
     }
   };
 

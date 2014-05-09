@@ -21,7 +21,7 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
       });
     },
     savePassword: function (email, password, slug) {
-      Auth.changePassword({email: email, password: password}, function () {
+      Auth.changePassword({'email': email, 'password': password}, function () {
         toastr.success('Senha nova salva', slug);
       }, function () {
         toastr.error('Não conseguimos atualizar sua senha :(');
