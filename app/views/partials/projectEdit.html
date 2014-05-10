@@ -14,6 +14,7 @@
             <input required type="text" class="form-control" name="projectname" ng-minlength="3" ng-maxlength="50" ng-model="project.name" placeholder="Nome do Ato" />
             <label class="help-block" ng-show="editProjectForm.projectname.$error.minlength">Não pode ter menos de 3 caracteres.</label>
             <label class="help-block" ng-show="editProjectForm.projectname.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+            <label>Cuidado, o link da página do ato vai mudar se você mudar o nome do ato.</label>
           </div>
         </div>
 
@@ -262,6 +263,7 @@
 
           <div id="project-availabilities">
             <legend>Horários</legend>
+            <label>Escolha aqui os períodos da semana que a ONG vai precisar ajuda no ato recorrente.</label>
             <div class="row">
               <div class="col-sm-3 table-labels">
                 <div class="table-label">Manhã</div><span class="triangle"></span>
@@ -291,6 +293,7 @@
                 </table>
               </div>
             </div>
+
           </div>
         </fieldset>
 
