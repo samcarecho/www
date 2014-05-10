@@ -43,6 +43,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       };
     }
 
+    // Preparing the availability grid
     var availabilities = [];
     for (var period = 0; period < 3; period++) {
       var periods = [];
