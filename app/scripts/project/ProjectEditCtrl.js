@@ -53,9 +53,13 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       }
     }
 
+    if ($scope.project.work && !$scope.project.work.availabilities) {
+      $scope.project.work.availabilities = [];
+    }
+
     availabilities.forEach(function(p) {
       p.forEach(function (a) {
-        if ($scope.project.work.availabilities) {
+        if ($scope.project.work) {
           $scope.project.work.availabilities.forEach(function(wa) {
             if (wa.weekday === a.weekday && a.period === wa.period) {
               a.checked = true;
