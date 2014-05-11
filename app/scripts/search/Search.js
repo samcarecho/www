@@ -88,9 +88,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     });
   };
 
-  searchProjects(null, null, null, null);
-  searchNonprofits(null, null, null);
-
   return {
     filter: function (query, cause, skill, city) {
       _projects = [];
