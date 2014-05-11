@@ -145,4 +145,6 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       {slug: object.slug}
     );
   };
+
+  $scope.htmlReady();
 });

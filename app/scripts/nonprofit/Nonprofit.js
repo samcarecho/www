@@ -74,4 +74,6 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
         });
     }
   };
+
+  $scope.htmlReady();
 });

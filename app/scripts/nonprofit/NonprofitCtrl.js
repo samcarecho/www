@@ -115,4 +115,6 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
     angular.element(document.querySelector('#card-' + object.slug))
       .removeClass('hover');
   };
+
+  $scope.htmlReady();
 });

@@ -17,4 +17,6 @@ app.controller('VolunteerCtrl', function($scope, volunteer) {
     angular.element(document.querySelector('#card-' + object.slug))
       .removeClass('hover');
   };
+
+  $scope.htmlReady();
 });
