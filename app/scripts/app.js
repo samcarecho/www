@@ -46,12 +46,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('root.explore', {
       url: '/explore',
       templateUrl: '/partials/explore.html',
-      controller: 'ExplorerCtrl',
-      resolve: {
-        objects: ['Search', function(Search) {
-          return Search.filter(null, null, null, null);
-        }],
-      }
+      controller: 'ExplorerCtrl'
     })
     .state('root.volunteer', {
       url: '/voluntario/:slug',

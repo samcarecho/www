@@ -4,8 +4,11 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser, NONPROFIT, storage) {
+app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser, NONPROFIT, storage, Search) {
+
   $scope.loggedUser = loggedUser;
+
+  Search.filter(null, null, null, null);
 
   if ($rootScope.modalInstance) {
     $rootScope.modalInstance.close();
