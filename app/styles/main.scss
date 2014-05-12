@@ -1366,7 +1366,10 @@ $card-img-height: 170px;
         margin-top: 7px;
       }
       .card-icons {
-        margin: 11px 0 5px 9px;
+        margin-left: 10px;
+        padding: 1px 1px;
+        height: 23px;
+        overflow: scroll;
         .icon-image { 
           box-shadow: 0 0 2px #808080;
           height: 21px;
@@ -1374,6 +1377,7 @@ $card-img-height: 170px;
           padding: 1px 0 0 3px;
           display: inline-block;
           margin-right: 5px;
+          margin-bottom: 3px;
         }
       }
     }
