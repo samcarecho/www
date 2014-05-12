@@ -16,7 +16,6 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   grunt.loadNpmTasks('grunt-ng-constant');
-  grunt.loadNpmTasks('grunt-build-control');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
