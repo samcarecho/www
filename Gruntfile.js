@@ -20,20 +20,6 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-    buildcontrol: {
-      options: {
-        dir: 'dist',
-        commit: true,
-        push: true,
-        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-      },
-      dist: {
-        options: {
-          remote: 'git@github.com:atados/www.git',
-          branch: 'dist'
-        }
-      },
-    },
     ngconstant: {
       // Options for all targets
       options: {

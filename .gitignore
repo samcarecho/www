@@ -1,8 +1,8 @@
-node_modules
 .tmp
 .sass-cache
-app/bower_components
 .*.swp
 .*.swo
 .idea
 dist
+node_modules
+app/bower_components
