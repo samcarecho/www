@@ -16,10 +16,18 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   grunt.loadNpmTasks('grunt-ng-constant');
+  grunt.loadNpmTasks('grunt-build-control');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      }
+    },
     ngconstant: {
       // Options for all targets
       options: {
