@@ -26,7 +26,13 @@ module.exports = function (grunt) {
         commit: true,
         push: true,
         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-      }
+      },
+      dist: {
+        options: {
+          remote: 'git@github.com:atados/www.git',
+          branch: 'dist'
+        }
+      },
     },
     ngconstant: {
       // Options for all targets
