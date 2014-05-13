@@ -8,16 +8,6 @@
       <fieldset>
         <legend>Sobre o Ato</legend>
 
-        <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[editProjectForm.projectname.$error.required || editProjectForm.projectname.$invalid]">
-          <label class="col-md-3 control-label" for="projectname">Nome</label>
-          <div class="col-md-8">
-            <input required type="text" class="form-control" name="projectname" ng-minlength="3" ng-maxlength="50" ng-model="project.name" placeholder="Nome do Ato" />
-            <label class="help-block" ng-show="editProjectForm.projectname.$error.minlength">Não pode ter menos de 3 caracteres.</label>
-            <label class="help-block" ng-show="editProjectForm.projectname.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
-            <label>Cuidado, o link da página do ato vai mudar se você mudar o nome do ato.</label>
-          </div>
-        </div>
-
         <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[editProjectForm.description.$error.required || editProjectForm.description.$invalid]">
           <label class="col-md-3 control-label">Resumo (160 caracteres)</label>
           <div class="col-md-8">
