@@ -68,7 +68,9 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
         }
       });
     });
-    $scope.project.work.availabilities = availabilities;
+    if ($scope.project.work) {
+      $scope.project.work.availabilities = availabilities;
+    }
 
     if ($scope.project.image_url) {
       $scope.imageUploaded = true;
