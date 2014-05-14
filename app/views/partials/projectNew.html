@@ -194,6 +194,7 @@
             <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="5915">Curitiba, PR</button>
             <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="1724">Brasília, DF</button>
             <button type="button" class="btn" ng-model="project.address.city.id" btn-radio="6861">Rio de Janeiro, RJ</button>
+            <label class="help-block" ng-hide="project.address.city.id">Por favor escolha pelo menos uma cidade.</label>
           </div>
         </fieldset>
 
@@ -296,7 +297,7 @@
             </tbody>
           </table>
         </fieldset>
-        <button type="submit" class="btn btn-info btn-save" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen)">Criar Ato</button>
+        <button type="submit" class="btn btn-info btn-save" ng-disabled="newProjectForm.$invalid || !(imageUploaded && causeChosen && skillChosen && project.address.city.id)">Criar Ato</button>
       </div>
     </form>
   </div>
