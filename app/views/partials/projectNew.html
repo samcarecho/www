@@ -29,9 +29,13 @@
               show-weeks="false"
               ng-model="start_date"
               name="startdate"
-              min="minDate"
+              min-date="minDate"
+              close-text="Sair"
+              is-open="openedStart"
+              ng-click="openStartDate($event)"
               datepicker-options="dateOptions"
-              date-disabled="disabled(date, mode)">
+              date-disabled="disabled(date, mode)"
+              />
               <div ng-model="start_date">
                 <timepicker show-meridian="ismeridian"></timepicker>
               </div>
@@ -46,7 +50,10 @@
               ng-model="end_date"
               name="enddate"
               show-weeks="false"
-              min="minDate"
+              min-date="minDate"
+              close-text="Sair"
+              is-open="openedEnd"
+              ng-click="openEndDate($event)"
               datepicker-options="dateOptions"
               date-disabled="disabled(date, mode)">
               <div ng-model="end_date">

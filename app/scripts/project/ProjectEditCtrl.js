@@ -97,6 +97,16 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
       $scope.project.job.end_date = value.getTime();
     }
   });
+  $scope.openStartDate = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.openedStart = true;
+  };
+  $scope.openEndDate = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.openedEnd = true;
+  };
 
   $scope.uploadProjectImage = function(files) {
     if (files) {

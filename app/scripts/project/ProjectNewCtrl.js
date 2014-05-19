@@ -55,6 +55,18 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     vacancies: 0
   };
 
+  $scope.openStartDate = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.openedStart = true;
+  };
+  $scope.openEndDate = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.openedEnd = true;
+  };
+
+
   $scope.jobActive = true;
   for (var period = 0; period < 3; period++) {
     var periods = [];
