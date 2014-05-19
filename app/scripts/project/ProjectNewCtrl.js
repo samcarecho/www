@@ -144,8 +144,9 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
       $scope.project.work.availabilities = ava;
     }
     
-    Project.create($scope.project, $scope.files, function () {
+    Project.create($scope.project, $scope.files, function (response) {
       toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
+      $scope.project.slug = response.slug;
       $scope.loggedUser.projects.push($scope.project);
       $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
     }, function (error) {
