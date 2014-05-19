@@ -4,11 +4,11 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Photos', function($http, $FB, api) {
+app.factory('Photos', function($http, ezfb, api) {
 
   return {
     getFacebookPhoto: function (success, error) {
-      $FB.getLoginStatus(function (response) {
+      ezfb.getLoginStatus(function (response) {
         if (response.status === 'connected') {
           if (response.authResponse) {
             response.authResponse.getPhoto = true;

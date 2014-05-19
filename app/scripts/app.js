@@ -159,9 +159,9 @@ app.config(function ($httpProvider, accessTokenCookie, csrfCookie, sessionIdCook
   $httpProvider.responseInterceptors.push(securityInterceptor);
 });
 
-app.config(function($FBProvider, locale, facebookClientId) {
-  $FBProvider.setLocale(locale);
-  $FBProvider.setInitParams({
+app.config(function(ezfbProvider, locale, facebookClientId) {
+  ezfbProvider.setLocale(locale);
+  ezfbProvider.setInitParams({
     appId: facebookClientId
   });
 });

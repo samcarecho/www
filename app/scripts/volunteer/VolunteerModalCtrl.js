@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
+app.controller('VolunteerModalCtrl', function($scope, $rootScope, ezfb, Auth) {
 
   $scope.loginActive = true;
   $scope.$watch('loginActive', function (value) {
@@ -29,9 +29,9 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, $FB, Auth) {
   }
 
   $scope.facebookAuth = function () {
-    $FB.getLoginStatus(function (response) {
+    ezfb.getLoginStatus(function (response) {
       if (response.status !== 'connected') {
-        $FB.login(function(loginResponse) {
+        ezfb.login(function(loginResponse) {
           if (loginResponse.status === 'connected') {
             sendFacebookCredentials(loginResponse.authResponse);
           } else if (response.status === 'not_authorized') {
