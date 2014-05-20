@@ -145,5 +145,4 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     }
   };
 
-  $scope.htmlReady();
 });

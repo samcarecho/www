@@ -18,5 +18,4 @@ app.controller('VolunteerCtrl', function($scope, volunteer) {
       .removeClass('hover');
   };
 
-  $scope.htmlReady();
 });

@@ -146,5 +146,4 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     );
   };
 
-  $scope.htmlReady();
 });

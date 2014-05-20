@@ -21,4 +21,6 @@ app.controller('HomeCtrl', function($scope, $sce) {
     where: $sce.trustAsHtml('Funcionária da ONG <a ui-sref="root.nonprofit({slug: "parceiros"})" target="_blank"><strong> Monte Azul</strong></a>'),
     image: 'dayse.jpg'
   }];
+
+  $scope.htmlReady();
 });

@@ -17,6 +17,4 @@ app.controller('LandingCtrl', function ($scope, $rootScope) {
     angular.element(document.querySelector('#card-' + object.slug))
       .removeClass('hover');
   };
-
-  $scope.htmlReady();
 });
