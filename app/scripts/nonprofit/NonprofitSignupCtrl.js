@@ -1,6 +1,7 @@
 'use strict';
 
 /* global toastr: false */
+/* global dataLayer: false */
 
 var app = angular.module('atadosApp');
 
@@ -128,6 +129,7 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
         }, function (response) {
           Auth.getCurrentUser(response.access_token).then(
             function (user) {
+              dataLayer.push({'event': 'cadastroOng'});
               $rootScope.$emit('userLoggedIn', user, 'Bem vinda ONG ao atados! Sua ONG ainda precisa ser aprovada. Espere pelo nosso email.');
               $state.transitionTo('root.home');
             }, function (error) {
