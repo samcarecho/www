@@ -62,6 +62,9 @@
   <small ng-show="search.showProjects && !landing" class="pull-right"> Mostrando {{search.projects().length}} de {{search.projectCount()}} atos</small>
   <small ng-hide="search.showProjects || landing" class="pull-right"> Mostrando {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
   <div id="more-button" class="row center">
-    <a class="btn btn-lg btn-info col-sm-4 col-sm-offset-4" ng-click="getMore()" ui-sref="root.explore">Mostrar mais <span ng-show="search.showProjects">atos</span><span ng-hide="search.showProjects">ONGs</span></a>
+    <a class="btn btn-lg btn-info col-sm-4 col-sm-offset-4" ng-click="getMore()" ui-sref="root.explore" ng-disabled="searchMoreDisabled">
+      <span ng-show="search.showProjects">{{ searchMoreProjectButtonText }}</span>
+      <span ng-hide="search.showProjects">{{ searchMoreNonprofitButtonText }}</span>
+    </a>
   </div>
 </div>

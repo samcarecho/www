@@ -72,6 +72,10 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     doneTyping = true;
     search($scope.search.query, '');
   }
+
+  $scope.searchMoreProjectButtonText = 'Mostrar mais Atos';
+  $scope.searchMoreNonprofitButtonText = 'Mostrar mais ONGs';
+  $scope.searchMoreDisabled = false;
   
   $scope.getMore = function () {
     if ($scope.landing) {
@@ -84,11 +88,15 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       $scope.$emit('landingToExplorer', vars);
     }
     if ($scope.search.showProjects) {
+      $scope.searchMoreProjectButtonText = 'Buscando mais atos...';
+      $scope.searchMoreDisabled = true;
       if ($scope.search.nextUrlProject()) {
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
             Cleanup.projectForSearch(project);
             $scope.search.projects().push(project);
+            $scope.searchMoreProjectButtonText = 'Mostrar mais';
+            $scope.searchMoreDisabled = false;
           });
           $scope.search.setNextUrlProject(response.next);
         }).error(function () {
@@ -102,10 +110,14 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       }
     } else {
       if ($scope.search.nextUrlNonprofit()) {
+        $scope.searchMoreNonprofitButtonText = 'Buscando mais ONGs...';
+        $scope.searchMoreDisabled = true;
         $http.get($scope.search.nextUrlNonprofit()).success( function (response) {
           response.results.forEach(function (nonprofit) {
             Cleanup.nonprofitForSearch(nonprofit);
             $scope.search.nonprofits().push(nonprofit);
+            $scope.searchMoreNonprofitButtonText = 'Mostrar mais';
+            $scope.searchMoreDisabled = false;
           });
           $scope.search.setNextUrlNonprofit(response.next);
         }).error(function () {
