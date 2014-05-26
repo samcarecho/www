@@ -17,11 +17,11 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
 
   $scope.$watch('search.city', function (city) {
     $scope.zoom = defaultZoom;
-    if (city.name === 'Sao Paulo') {
+    if (city.id === 9422) { // São Paulo
       $scope.center = new google.maps.LatLng(-23.5505199, -46.6333094);
-    } else if (city.name === 'Curitiba') {
+    } else if (city.id === 5915) { // Curitiba
       $scope.center = new google.maps.LatLng(-25.4808762, -49.3044253);
-    } else if (city.name === 'Brasilia') {
+    } else if (city.id === 1724) { // Brasília
       $scope.center = new google.maps.LatLng(-15.79211, -47.897751);
     } else if (city.id === 0) {
       $scope.center = null;
@@ -91,6 +91,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       $scope.searchMoreProjectButtonText = 'Buscando mais atos...';
       $scope.searchMoreDisabled = true;
       if ($scope.search.nextUrlProject()) {
+        console.log($scope.search.nextUrlProject());
         $http.get($scope.search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
             Cleanup.projectForSearch(project);

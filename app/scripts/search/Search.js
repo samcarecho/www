@@ -61,7 +61,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     };
     _loading = true;
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
-      console.log('getting new projects');
       _projects = [];
       _projects = fixProject(response);
       _loading = false;
@@ -80,7 +79,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     };
     _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
-      console.log('getting new nonprofits');
       _nonprofits = [];
       _nonprofits = fixNonprofit(response);
       _loading = false;
