@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Site', function(Restangular, $http, storage, api) {
+app.factory('Site', function($http, storage, api) {
   var _causes = [];
   var _skills = [];
   var _cities = [];

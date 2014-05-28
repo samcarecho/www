@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Search', function (Restangular, ENV, Cleanup) {
+app.factory('Search', function (ENV, $http, Cleanup) {
   var _query = '';
   var _cause = {};
   var _skill = {};
@@ -60,7 +60,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
       city: city,
     };
     _loading = true;
-    Restangular.all('projects').getList(urlHeaders).then( function(response) {
+    $http.get(api + '/projects').getList(urlHeaders).then( function(response) {
       _projects = [];
       _projects = fixProject(response);
       _loading = false;

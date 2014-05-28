@@ -2,7 +2,7 @@
 
 /* global $: false */
 
-var app = angular.module('atadosApp', ['restangular', 'ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb', 'atadosConstants', 'seo']);
+var app = angular.module('atadosApp', ['ui.router', 'ui.bootstrap', 'AngularGM', 'ezfb', 'atadosConstants', 'seo']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -166,7 +166,7 @@ app.config(function(ezfbProvider, locale, facebookClientId) {
   });
 });
 
-app.config(function(RestangularProvider, api) {
+/*app.config(function(RestangularProvider, api) {
   RestangularProvider.setBaseUrl(api);
   RestangularProvider.setRequestSuffix('/?format=json');
   RestangularProvider.setRestangularFields({
@@ -187,4 +187,4 @@ app.config(function(RestangularProvider, api) {
     }
     return response;
   });
-});
+});*/
