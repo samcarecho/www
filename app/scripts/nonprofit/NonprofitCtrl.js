@@ -116,4 +116,6 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
       .removeClass('hover');
   };
 
+  $scope.htmlReady();
+  console.log('got here');
 });
