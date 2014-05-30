@@ -22,6 +22,5 @@ app.controller('HomeCtrl', function($scope, $sce) {
     image: 'dayse.jpg'
   }];
 
-  console.log('what');
   $scope.htmlReady();
 });
