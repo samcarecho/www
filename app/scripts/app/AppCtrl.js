@@ -32,6 +32,33 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     Search.filter(Search.query, Search.cause.id, Search.skill.id, Search.city.id);
   };
 
+  function conversionQueroSerVoluntario() {
+    console.log('converseion quero ser voluntario');
+    /* <![CDATA[ */
+goog_snippet_vars = function() {
+var w = window;
+w.google_conversion_id = 971695909;
+w.google_conversion_label = "rFkyCMPopgoQpc6rzwM";
+w.google_remarketing_only = false;
+}
+// DO NOT CHANGE THE CODE BELOW.
+goog_report_conversion = function(url) {
+goog_snippet_vars();
+window.google_conversion_format = "3";
+window.google_is_call = true;
+var opt = new Object();
+opt.onload_callback = function() {
+if (typeof(url) != 'undefined') {
+window.location = url;
+}
+}
+var conv_handler = window['google_trackConversion'];
+if (typeof(conv_handler) == 'function') {
+conv_handler(opt);
+}
+}
+/* ]]> */  }
+
   $scope.openLogin = function(type) {
 
     $rootScope.modalInstance = $modal.open({
@@ -39,6 +66,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
       controller: ['$scope', function ($scope) {
         if (type === 'volunteer') {
           $scope.volunteerActive = true;
+          conversionQueroSerVoluntario();
         } else if (type === 'nonprofit') {
           $scope.volunteerActive = false;
         } else {
