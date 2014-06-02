@@ -1,5 +1,7 @@
 'use strict';
 
+/* global dataLayer: false */
+
 var app = angular.module('atadosApp');
 
 app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location, $anchorScroll, Site, Search, storage) {
@@ -33,6 +35,12 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.openLogin = function(type) {
+
+    dataLayer.push({
+      'event': 'queroSerVoluntarioButtonClick',
+      'eventCategory': 'buttonClicked',
+      'eventAction' : 'success'
+    });
 
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/loginModal.html',
