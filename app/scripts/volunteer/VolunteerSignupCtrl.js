@@ -1,6 +1,7 @@
 'use strict';
 
 /* global toastr: false */
+/* global dataLayer: false */
 
 var app = angular.module('atadosApp');
 
@@ -49,6 +50,12 @@ app.controller('VolunteerSignupCtrl', function($scope, $rootScope, Auth) {
   });
 
   $scope.signup = function () {
+    dataLayer.push({
+      'event': 'criarConta',
+      'eventCategory': 'buttonClicked',
+      'eventAction' : 'success'
+    });
+
     if ($scope.signupForm.$valid) {
       Auth.volunteerSignup({
           slug: $scope.slug,
