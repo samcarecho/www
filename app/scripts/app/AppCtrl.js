@@ -36,18 +36,25 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
 
   $scope.openLogin = function(type) {
 
-    dataLayer.push({
-      'event': 'queroSerVoluntarioButtonClick',
-      'eventCategory': 'buttonClicked',
-      'eventAction' : 'success'
-    });
-
+    
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/loginModal.html',
       controller: ['$scope', function ($scope) {
         if (type === 'volunteer') {
+          dataLayer.push({
+            'event': 'queroSerVoluntarioButtonClick',
+            'eventCategory': 'buttonClicked',
+            'eventAction' : 'success'
+          });
+
           $scope.volunteerActive = true;
         } else if (type === 'nonprofit') {
+          dataLayer.push({
+            'event': 'souUmaOngButtonClick',
+            'eventCategory': 'buttonClicked',
+            'eventAction' : 'success'
+          });
+
           $scope.volunteerActive = false;
         } else {
           $scope.volunteerActive = true;
