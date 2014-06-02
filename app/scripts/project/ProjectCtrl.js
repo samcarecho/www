@@ -2,6 +2,7 @@
 
 /* global toastr: false */
 /* global google: false */
+/* global dataLayer: false */
 
 var app = angular.module('atadosApp');
 
@@ -93,6 +94,12 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           $scope.project.volunteers.push($scope.loggedUser);
           $scope.alreadyApplied = true;
           toastr.success('Parabéns! Você é voluntário para ' + $scope.project.name);
+          dataLayer.push({
+            'event': 'okQueroSerVoluntarioButtonClick',
+            'eventCategory': 'buttonClicked',
+            'eventAction' : 'success'
+          });
+
         } else {
           $scope.project.volunteers.splice($scope.project.volunteers.indexOf($scope.loggedUser),1);
           $scope.alreadyApplied = false;
