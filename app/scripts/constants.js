@@ -7,7 +7,7 @@
 
 .constant("authApi", "http://www.atadoslocal.com.br:9000/auth/client")
 
-.constant("storage", "http://www.atadoslocal.com.br:8000/static/images/")
+.constant("storage", "https://s3-sa-east-1.amazonaws.com/atadosapp/images/")
 
 .constant("selected", "http://www.atadoslocal.com.br:8000/static/images/heart.png")
 
