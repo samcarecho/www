@@ -1,8 +1,6 @@
 'use strict';
 
 /* global toastr: false */
-/* global google: false */
-/* global constants: false */
 /* global $: false */
 
 var app = angular.module('atadosApp');
@@ -10,24 +8,9 @@ var app = angular.module('atadosApp');
 app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state, storage, defaultZoom, Cleanup) {
 
   $scope.search =  Search;
-  $scope.map = constants.map;
 
   var alreadySearchedProject = false;
   var alreadySearchedNonprofit = false;
-
-  $scope.$watch('search.city', function (city) {
-    $scope.zoom = defaultZoom;
-    if (city.id === 9422) { // São Paulo
-      $scope.center = new google.maps.LatLng(-23.5505199, -46.6333094);
-    } else if (city.id === 5915) { // Curitiba
-      $scope.center = new google.maps.LatLng(-25.4808762, -49.3044253);
-    } else if (city.id === 1724) { // Brasília
-      $scope.center = new google.maps.LatLng(-15.79211, -47.897751);
-    } else if (city.id === 0) {
-      $scope.center = null;
-      $scope.zoom  = 1;
-    }
-  });
 
   var typingTimer;
   var doneTyping = false;

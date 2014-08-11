@@ -1,9 +1,8 @@
 <div id="atados-explorer-outer"> 
+  <p ng-show="hasAddress">Não tem endereço</p>
   <div class="map-outer col-sm-4">
     <gm-map
       gm-map-id="'explorerMap'"
-      gm-center="center"
-      gm-zoom="zoom"
       gm-map-options="mapOptions.map"
       class="map">
 

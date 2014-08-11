@@ -15,38 +15,43 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
 
   $scope.site.title = 'Atados - Explore';
   $rootScope.explorerView = true;
+  $scope.landing = false;
 
   $scope.$on('$destroy', function () {
     $rootScope.explorerView = false;
   });
 
+  resizeExploreElements();
   // TODO(marjoripomarole): Move this to directive Wed Feb  5 11:23:50 2014 
   function resizeExploreElements () {
     var newSize = window.innerHeight - $('.navbar-header').height() - 5;
     $('.atados-explorer').height(newSize - 40);
     $('.map-outer .map').height(newSize);
   }
-
-  resizeExploreElements();
-
-  $(window).resize(function() {
-    resizeExploreElements();
-  });
-
+  $(window).resize(resizeExploreElements);
   $('.atados-explorer').scroll(function() {
     if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
       $scope.getMore();
     }
   });
 
+  $scope.mapOptions = {
+    map : {
+      center : new google.maps.LatLng(-23.5505199, -46.6333094), // São Paulo
+      zoom : defaultZoom
+    },
+    marker : {
+      clickable : true,
+      draggable : false
+    }
+  };
   $scope.previousMarker = null;
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
-  $scope.markers = constants.markers;
 
   $scope.$on('gmMarkersUpdated', function() {
-    if ($scope.map && !$scope.oms) {
-      $scope.oms = new OverlappingMarkerSpiderfier($scope.map);
+    if (constants.map && !$scope.oms) {
+      $scope.oms = new OverlappingMarkerSpiderfier(constants.map);
       $scope.oms.addListener('spiderfy', function() {
         $scope.iw.close();
       });
@@ -56,23 +61,13 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       $scope.oms.addListener('click', $scope.selectMarker);
     }
     if ($scope.oms) {
-      for (var m in $scope.markers) {
-        $scope.markers[m].setIcon(notselected);
-        $scope.oms.addMarker($scope.markers[m]);
+      for (var m in constants.markers) {
+        constants.markers[m].setIcon(notselected);
+        constants.markers[m].setZIndex(1);
+        $scope.oms.addMarker(constants.markers[m]);
       }
     }
   });
-
-  $scope.mapOptions = {
-    map : {
-      center : new google.maps.LatLng(-23.5505199, -46.6333094),
-      zoom : defaultZoom,
-    },
-    marker : {
-      clickable : true,
-      draggable : false
-    }
-  };
 
   $scope.$watch('search.projects()', function () {
     if ($scope.search.showProjects) {
@@ -94,11 +89,6 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     }
   });
 
-  $scope.removeMarker = function (marker, object) {
-    angular.element(document.querySelector('#card-' + object.slug))
-      .removeClass('hover');
-  };
-
   // Called whenever a marker is selected or a card is moused over.
   $scope.selectMarker = function (marker, object) {
     if ($scope.previousMarker) {
@@ -107,37 +97,41 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
         .removeClass('hover');
       $scope.previousMarker.setZIndex(1);
       $scope.previousMarker = null;
+      $('.map-outer').fadeTo('fast', 1);
+      $scope.hasAddress = false;
     }
     
     if (object && !marker) {
-      marker = $scope.markers[object.slug];
+      marker = constants.markers[object.slug];
     }
 
     if (marker) {
       var cardId = 'card-' + marker.slug;
-      $scope.iw.setContent(marker.title);
-      $scope.iw.open(constants.map, marker);
+      //$scope.iw.setContent(marker.title);
+      //$scope.iw.open(constants.map, marker); // Also centers to the marker
 
       marker.setIcon(selected);
       angular.element(document.querySelector('#' + cardId))
         .addClass('hover');
       marker.setZIndex(100);
       $scope.previousMarker = marker;
-      constants.map.setCenter(marker.getPosition());
+      if (object.address.longitude == 0 || object.address.latitude == 0) {
+        $('.map-outer').fadeTo('fast', 0.1);
+        $scope.hasAddress = true;
+      }
     }
   };
 
   $scope.getMarkerOpts = function (object) {
     var titleStr = '';
     if (object.user) {
-      titleStr = '<div id="info-window"><h4><a href="/ong/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p></div>';
+      titleStr = '<div id="info-window"><h4><a href="/ong/' + object.slug + '">' + object.name + '</a></h4><p>' +
+        $filter('as_location_string')(object.address) + '</p></div>';
     } else {
-      titleStr = '<div id="info-window"><h4><a href="/ato/' + object.slug + '">' + object.name  + '</a></h4><p>' + $filter('as_location_string')(object.address) + '</p></div>';
+      titleStr = '<div id="info-window"><h4><a href="/ato/' + object.slug + '">' + object.name + '</a></h4><p>' +
+        $filter('as_location_string')(object.address) + '</p></div>';
     }
-    return angular.extend(
-      {title: titleStr},
-      {slug: object.slug}
-    );
+    return {title: titleStr, slug: object.slug};
   };
 
 });

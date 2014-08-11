@@ -20,7 +20,7 @@
  * Author: Dylan Price <the.dylan.price@gmail.com>
  */
 (function() {
-  'use strict';
+'use strict';
 
   angular.module('AngularGM', []).
 

@@ -4,7 +4,7 @@ var app = angular.module('atadosApp');
 
 app.filter('as_location_string', function() {
   return function(address) {
-    if (!address) {
+    if (!address.addressline) {
       return 'Não tem endereço.';
     }
 

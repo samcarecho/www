@@ -29,7 +29,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     return url;
   };
 
-  var fixProject = function (projects) {
+  var fixProjects = function (projects) {
     projects.forEach(Cleanup.projectForSearch);
     if (projects._resultmeta) {
       _nextUrlProject = toHttps(projects._resultmeta.next);
@@ -40,7 +40,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     return projects;
   };
 
-  var fixNonprofit = function (nonprofits) {
+  var fixNonprofits = function (nonprofits) {
     nonprofits.forEach(Cleanup.nonprofitForSearch);
     if (nonprofits._resultmeta) {
       _nextUrlNonprofit = toHttps(nonprofits._resultmeta.next);
@@ -52,17 +52,22 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
   };
 
   function searchProjects(query, cause, skill, city) {
+    if (!city) {
+      city = 9422; // São Paulo
+    }
+
     var urlHeaders = {
-      page_size: 20,
+      page_size: 1000,
       query: query,
       cause: cause,
       skill: skill,
       city: city,
     };
+
     _loading = true;
-    Restangular.all('projects').getList(urlHeaders).then( function(response) {
-      _projects = [];
-      _projects = fixProject(response);
+    Restangular.all('markers/projects').getList(urlHeaders).then( function(response) {
+      _projects = response;
+      //_projects = fixProjects(response);
       _loading = false;
     }, function () {
       console.error('Não consegui pegar os atos do servidor.');
@@ -71,16 +76,21 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
   }
 
   var searchNonprofits = function (query, cause, city) {
+    if (!city) {
+      city = 9422; // São Paulo
+    }
+
     var urlHeaders = {
       page_size: 20,
       query: query,
       cause: cause,
       city: city,
     };
+
     _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
       _nonprofits = [];
-      _nonprofits = fixNonprofit(response);
+      _nonprofits = fixNonprofits(response);
       _loading = false;
     }, function () {
       console.error('Não consegui pegar ONGs do servidor.');
@@ -128,16 +138,16 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
       return _nonprofits;
     },
     getHighlightedProjects: function () {
-      return Restangular.all('projects').getList({highlighted: true}).then( function(response) {
-        _highlightedProjects = fixProject(response);
+      return Restangular.all('projects').getList({highlighted: true}).then( function(projects) {
+        _highlightedProjects = fixProjects(projects);
         return;
       }, function () {
         console.error('Não consegui pegar os atos em destaque do servidor.');
       });
     },
     getHighlightedNonprofits: function () {
-      return Restangular.all('nonprofits').getList({highlighted: true}).then( function(response) {
-        _highlightedNonprofits = fixNonprofit(response);
+      return Restangular.all('nonprofits').getList({highlighted: true}).then( function(nonprofits) {
+        _highlightedNonprofits = fixNonprofits(nonprofits);
         return;
       }, function () {
         console.error('Não consegui pegar as ONGs em destaque do servidor.');

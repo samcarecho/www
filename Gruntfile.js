@@ -62,7 +62,7 @@ module.exports = function (grunt) {
             {1: 'Tarde'},
             {2: 'Noite'}
           ],
-          defaultZoom: 11,
+          defaultZoom: 10,
           VOLUNTEER: 'VOLUNTEER',
           NONPROFIT: 'NONPROFIT'
         }

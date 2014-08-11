@@ -2,13 +2,13 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('LandingCtrl', function ($scope, $rootScope) {
+app.controller('LandingCtrl', function ($scope) {
 
   $scope.site.title = 'Atados - Juntando Gente Boa';
-  $rootScope.landing = true;
+  $scope.landing = true;
 
   $scope.$on('$destroy', function () {
-    $rootScope.landing = false;
+    $scope.landing = false;
   });
 
   $scope.selectMarker = function (marker, object) {
