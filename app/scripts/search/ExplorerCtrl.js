@@ -14,7 +14,6 @@ var app = angular.module('atadosApp');
 app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselected, selected, defaultZoom) {
 
   $scope.site.title = 'Atados - Explore';
-  $scope.landing = false;
   $rootScope.explorerView = true;
 
   $scope.$on('$destroy', function () {
