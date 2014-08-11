@@ -33,7 +33,7 @@
     "AngularGM": "1.0.0",
     "jquery": "~2.1.1",
     "jquery.cookie": "~1.4.1",
-    "angular-easyfb": "~1.0.1",
+    "angular-easyfb": "~1.1.0",
     "font-awesome": "~4.1.0",
     "pace": "~0.5.5"
   },
