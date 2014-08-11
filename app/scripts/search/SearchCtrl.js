@@ -46,6 +46,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
       doneTyping = false;
     }
   };
+
   $scope.$watch('search.cause', function (value, old) {
     search(value, old);
   });
@@ -56,18 +57,18 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     search(value, old);
   });
 
-  //on keyup, start the countdown
+  // on keyup, start the countdown
   $('#searchInput').keyup(function(){
     clearTimeout(typingTimer);
     typingTimer = setTimeout(setDoneTyping, doneTypingInterval);
   });
 
-  //on keydown, clear the countdown 
+  // on keydown, clear the countdown 
   $('#searchInput').keydown(function(){
     clearTimeout(typingTimer);
   });
 
-  //user is "finished typing," do something
+  // user is "finished typing," do something
   function setDoneTyping () {
     doneTyping = true;
     search($scope.search.query, '');

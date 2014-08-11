@@ -100,6 +100,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       .removeClass('hover');
   };
 
+  // Called whenever a marker is selected or a card is moused over.
   $scope.selectMarker = function (marker, object) {
     if ($scope.previousMarker) {
       $scope.previousMarker.setIcon(notselected);
