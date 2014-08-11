@@ -21,13 +21,13 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     $rootScope.explorerView = false;
   });
 
-  resizeExploreElements();
   // TODO(marjoripomarole): Move this to directive Wed Feb  5 11:23:50 2014 
   function resizeExploreElements () {
     var newSize = window.innerHeight - $('.navbar-header').height() - 5;
     $('.atados-explorer').height(newSize - 40);
     $('.map-outer .map').height(newSize);
   }
+  resizeExploreElements();
   $(window).resize(resizeExploreElements);
   $('.atados-explorer').scroll(function() {
     if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
@@ -115,7 +115,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
         .addClass('hover');
       marker.setZIndex(100);
       $scope.previousMarker = marker;
-      if (object.address.longitude == 0 || object.address.latitude == 0) {
+      if (object.address.longitude === 0 || object.address.latitude === 0) {
         $('.map-outer').fadeTo('fast', 0.1);
         $scope.hasAddress = true;
       }
