@@ -1,5 +1,4 @@
 <div id="atados-explorer-outer"> 
-  <p ng-show="hasAddress">Não tem endereço</p>
   <div class="map-outer col-sm-4">
     <gm-map
       gm-map-id="'explorerMap'"
@@ -15,6 +14,8 @@
       </gm-markers>
 
     </gm-map>
+    <h4 id="map-message" ng-show="hasAddress">Ato não tem endereço.</h4>
+    <h4 id="map-message" ng-show="distanceAddress">Ato a distância.</h4>
   </div>
   <div class="atados-explorer sidebar col-sm-8">
     <atados-search></atados-search>

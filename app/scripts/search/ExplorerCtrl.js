@@ -97,8 +97,9 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
         .removeClass('hover');
       $scope.previousMarker.setZIndex(1);
       $scope.previousMarker = null;
-      $('.map-outer').fadeTo('fast', 1);
       $scope.hasAddress = false;
+      $scope.distanceAddress = false;
+      $('.map').css('opacity', 1);
     }
     
     if (object && !marker) {
@@ -116,8 +117,11 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       marker.setZIndex(100);
       $scope.previousMarker = marker;
       if (object.address.longitude === 0 || object.address.latitude === 0) {
-        $('.map-outer').fadeTo('fast', 0.1);
         $scope.hasAddress = true;
+        $('.map').css('opacity', 0.1);
+      } else if (object.address.city === 0) {
+        $scope.distanceAddress = true;
+        $('.map').css('opacity', 0.1);
       }
     }
   };
