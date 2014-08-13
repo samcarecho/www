@@ -51,6 +51,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     return nonprofits;
   };
 
+  // city is the the city id
   function searchProjects(query, cause, skill, city) {
     if (!city) {
       city = 9422; // São Paulo
@@ -75,6 +76,7 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     });
   }
 
+  // city is the the city id
   var searchNonprofits = function (query, cause, city) {
     if (!city) {
       city = 9422; // São Paulo

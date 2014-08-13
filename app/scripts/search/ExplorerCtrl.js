@@ -29,12 +29,16 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
   }
   resizeExploreElements();
   $(window).resize(resizeExploreElements);
+
+  // Get more cards when scrolling to the bottom of the page
   $('.atados-explorer').scroll(function() {
     if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
       $scope.getMore();
     }
   });
 
+  $scope.objects = $scope.search.projects();
+  $scope.search.showProjects = true;
   $scope.mapOptions = {
     map : {
       center : new google.maps.LatLng(-23.5505199, -46.6333094), // São Paulo
@@ -49,6 +53,16 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
 
+  function addMarkersToOms() {
+      for (var m in constants.markers) {
+        constants.markers[m].setIcon(notselected);
+        constants.markers[m].setZIndex(1);
+        if ($scope.oms) {
+          $scope.oms.addMarker(constants.markers[m]);
+        }
+      }
+  }
+
   $scope.$on('gmMarkersUpdated', function() {
     if (constants.map && !$scope.oms) {
       $scope.oms = new OverlappingMarkerSpiderfier(constants.map);
@@ -60,13 +74,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       });
       $scope.oms.addListener('click', $scope.selectMarker);
     }
-    if ($scope.oms) {
-      for (var m in constants.markers) {
-        constants.markers[m].setIcon(notselected);
-        constants.markers[m].setZIndex(1);
-        $scope.oms.addMarker(constants.markers[m]);
-      }
-    }
+    addMarkersToOms();
   });
 
   $scope.$watch('search.projects()', function () {
@@ -110,13 +118,12 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
       var cardId = 'card-' + marker.slug;
       //$scope.iw.setContent(marker.title);
       //$scope.iw.open(constants.map, marker); // Also centers to the marker
-
       marker.setIcon(selected);
+      marker.setZIndex(100);
       angular.element(document.querySelector('#' + cardId))
         .addClass('hover');
-      marker.setZIndex(100);
       $scope.previousMarker = marker;
-      if (object.address.longitude === 0 || object.address.latitude === 0) {
+      if (object.address && (object.address.longitude === 0 || object.address.latitude === 0)) {
         $scope.hasAddress = true;
         $('.map').css('opacity', 0.1);
       } else if (object.address.city === 0) {
