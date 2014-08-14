@@ -16,7 +16,11 @@
       </gm-markers>
 
     </gm-map>
-    <h4 id="map-message" ng-show="hasAddress">Ato não tem endereço.</h4>
+    <h4 id="map-message" ng-show="hasAddress">
+      <span ng-show="search.showProjects">Ato</span>
+      <span ng-hide="search.showProjects">ONG</span> 
+      não tem endereço.
+    </h4>
     <h4 id="map-message" ng-show="distanceAddress">Ato à distância.</h4>
   </div>
   <div class="atados-explorer sidebar col-sm-8">
