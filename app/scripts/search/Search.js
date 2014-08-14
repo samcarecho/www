@@ -94,17 +94,29 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
       _loading = false;
     });
   };
+  
+  function hasValidAddress(object) {
+    // For project objects
+    if (object.address && object.address.latitude !== 0 && object.address.longitude !== 0) {
+      return true;
+    // For Nonprofit objects
+    } else if (object.user && object.user.address && object.user.address.latitude !== 0 && object.user.address.longitude !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   var getMapProjects = function() {
     Restangular.all('map/projects').getList({page_size: 1000}).then( function (projects) {
-      _mapProjects = projects;
+      _mapProjects = projects.filter(hasValidAddress);
     }, function () {
       console.error('Não consegui pegar Atos no Mapa do servidor.');
     });
   };
   var getMapNonprofits = function() {
     Restangular.all('map/nonprofits').getList({page_size: 1000}).then( function (nonprofits) {
-      _mapNonprofits = nonprofits;
+      _mapNonprofits = nonprofits.filter(hasValidAddress);
     }, function () {
       console.error('Não consegui pegar ONGs no Mapa do servidor.');
     });

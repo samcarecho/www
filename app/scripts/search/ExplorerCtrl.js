@@ -64,6 +64,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
     }
   };
   $scope.previousMarker = null;
+  $scope.previousSlug = null;
   $scope.iw = new google.maps.InfoWindow();
   $scope.oms = null;
 
@@ -113,31 +114,35 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
 
   // Called whenever a marker is selected or a card is moused over.
   $scope.selectMarker = function (marker, object) {
+    $scope.iw.close();
+    $scope.hasAddress = false;
+    $scope.distanceAddress = false;
+    $('.map').css('opacity', 1);
+    angular.element(document.querySelector('#card-' + $scope.previousSlug))
+        .removeClass('hover');
+
     if ($scope.previousMarker) {
       $scope.previousMarker.setIcon(notselected);
-      angular.element(document.querySelector('#card-' + $scope.previousMarker.slug))
-        .removeClass('hover');
       $scope.previousMarker.setZIndex(1);
       $scope.previousMarker = null;
-      $scope.hasAddress = false;
-      $scope.distanceAddress = false;
-      $('.map').css('opacity', 1);
     }
     
     if (object && !marker) {
       marker = constants.markers[object.slug];
     }
 
+    $scope.previousSlug = object.slug;
+    var cardId = 'card-' + object.slug;
+    angular.element(document.querySelector('#' + cardId))
+        .addClass('hover');
+
     if (marker) {
-      var cardId = 'card-' + marker.slug;
-      // TODO: Show icon card without center the map. Have to look up Google Maps recommendation again
-      //$scope.iw.setContent(marker.title);
-      //$scope.iw.open(constants.map, marker); // Also centers to the marker
+      $scope.iw.setContent(marker.title);
+      $scope.iw.open(constants.map, marker); // Also centers map to the marker.
       marker.setIcon(selected);
       marker.setZIndex(100);
-      angular.element(document.querySelector('#' + cardId))
-        .addClass('hover');
       $scope.previousMarker = marker;
+    } else { // No marker
       if (object.address && (object.address.longitude === 0 || object.address.latitude === 0)) {
         $scope.hasAddress = true;
         $('.map').css('opacity', 0.1);
