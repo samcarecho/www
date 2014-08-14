@@ -143,11 +143,11 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
       marker.setZIndex(100);
       $scope.previousMarker = marker;
     } else { // No marker
-      if (object.address && (object.address.longitude === 0 || object.address.latitude === 0)) {
-        $scope.hasAddress = true;
-        $('.map').css('opacity', 0.1);
-      } else if (object.address.city === 0) {
+      if (object.address.city.id === distancia.id) { // Trabalho a distancia
         $scope.distanceAddress = true;
+        $('.map').css('opacity', 0.1);
+      } else if (object.address && (object.address.longitude === 0 || object.address.latitude === 0)) { // No address
+        $scope.hasAddress = true;
         $('.map').css('opacity', 0.1);
       }
     }
