@@ -1,7 +1,5 @@
 'use strict';
 
-/* global $: false */
-
 var app = angular.module('atadosApp');
 
 app.factory('Site', function(Restangular, $http, storage, api) {
