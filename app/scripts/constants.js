@@ -73,5 +73,29 @@
 
 .constant("NONPROFIT", "NONPROFIT")
 
+.constant("saoPaulo", {
+  "id": 9422,
+  "lat": -23.5505199,
+  "lng": -46.6333094
+})
+
+.constant("curitiba", {
+  "id": 5915,
+  "lat": -25.4808762,
+  "lng": -49.3044253
+})
+
+.constant("brasilia", {
+  "id": 1724,
+  "lat": -15.79211,
+  "lng": -47.897751
+})
+
+.constant("distancia", {
+  "id": 0,
+  "lat": 0,
+  "lng": 0
+})
+
 ; 
 })(angular);

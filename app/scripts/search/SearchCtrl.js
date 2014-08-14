@@ -5,7 +5,8 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, Search, $state, storage, defaultZoom, Cleanup) {
+app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
+      Search, $state, storage, defaultZoom, Cleanup, saoPaulo, curitiba, brasilia, distancia) {
 
   $scope.search =  Search;
 
@@ -40,6 +41,20 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
     search(value, old);
   });
 
+  $scope.$watch('search.city', function (city) {
+    $scope.zoom = defaultZoom;
+    if (city.id === saoPaulo.id) {
+      $scope.center = new google.maps.LatLng(saoPaulo.lat, saoPaulo.lng);
+    } else if (city.id === curitiba.id) {
+      $scope.center = new google.maps.LatLng(curitiba.lat, curitiba.lng);
+    } else if (city.id === brasilia.id) {
+      $scope.center = new google.maps.LatLng(brasilia.lat, brasilia.lng);
+    } else if (city.id === distancia.id) {
+      $scope.center = null;
+      $scope.zoom  = 1;
+    }
+  });
+
   // on keyup, start the countdown
   $('#searchInput').keyup(function(){
     clearTimeout(typingTimer);
@@ -61,6 +76,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll, 
   $scope.searchMoreNonprofitButtonText = 'Mostrar mais ONGs';
   $scope.searchMoreDisabled = false;
   
+  // TODO: Clean up and refactor this.
   $scope.getMore = function () {
     if ($scope.landing) {
       var vars = {

@@ -64,7 +64,27 @@ module.exports = function (grunt) {
           ],
           defaultZoom: 10,
           VOLUNTEER: 'VOLUNTEER',
-          NONPROFIT: 'NONPROFIT'
+          NONPROFIT: 'NONPROFIT',
+          saoPaulo: {
+            id: 9422,
+            lat: -23.5505199,
+            lng: -46.6333094
+          },
+          curitiba: {
+            id: 5915,
+            lat: -25.4808762,
+            lng: -49.3044253
+          },
+          brasilia: {
+            id: 1724,
+            lat: -15.79211,
+            lng: -47.897751
+          },
+          distancia: {
+            id: 0,
+            lat: 0,
+            lng: 0
+          }
         }
       },
       production: {
@@ -101,9 +121,29 @@ module.exports = function (grunt) {
             {1: 'Tarde'},
             {2: 'Noite'}
           ],
-          defaultZoom: 11,
+          defaultZoom: 10,
           VOLUNTEER: 'VOLUNTEER',
-          NONPROFIT: 'NONPROFIT'
+          NONPROFIT: 'NONPROFIT',
+          saoPaulo: {
+            id: 9422,
+            lat: -23.5505199,
+            lng: -46.6333094
+          },
+          curitiba: {
+            id: 5915,
+            lat: -25.4808762,
+            lng: -49.3044253
+          },
+          brasilia: {
+            id: 1724,
+            lat: -15.79211,
+            lng: -47.897751
+          },
+          distancia: {
+            id: 0,
+            lat: 0,
+            lng: 0
+          }
         }
       }
     },

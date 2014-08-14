@@ -56,10 +56,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
 
   // city is the the city id
   function searchProjects(query, cause, skill, city) {
-    if (!city) {
-      city = 9422; // São Paulo
-    }
-
     var urlHeaders = {
       page_size: 20,
       query: query,

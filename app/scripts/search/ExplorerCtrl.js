@@ -11,7 +11,8 @@ var constants = {
 
 var app = angular.module('atadosApp');
 
-app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselected, selected, defaultZoom) {
+app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter,
+      notselected, selected, defaultZoom, saoPaulo) {
 
   $scope.site.title = 'Atados - Explore';
   $rootScope.explorerView = true;
@@ -21,7 +22,6 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     $rootScope.explorerView = false;
   });
 
-  // TODO(marjoripomarole): Move this to directive Wed Feb  5 11:23:50 2014 
   function resizeExploreElements () {
     var newSize = window.innerHeight - $('.navbar-header').height() - 5;
     $('.atados-explorer').height(newSize - 40);
@@ -30,7 +30,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
   resizeExploreElements();
   $(window).resize(resizeExploreElements);
 
-  // Get more cards when scrolling to the bottom of the page
+  // Getting more cards when scrolling to the bottom of the page
   $('.atados-explorer').scroll(function() {
     if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
       $scope.getMore();
@@ -41,7 +41,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
   $scope.search.showProjects = true;
   $scope.mapOptions = {
     map : {
-      center : new google.maps.LatLng(-23.5505199, -46.6333094), // São Paulo
+      center : new google.maps.LatLng(saoPaulo.lat, saoPaulo.lng),
       zoom : defaultZoom
     },
     marker : {
@@ -116,6 +116,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
 
     if (marker) {
       var cardId = 'card-' + marker.slug;
+      // TODO: Show icon card without center the map. Have to look up Google Maps recommendation again
       //$scope.iw.setContent(marker.title);
       //$scope.iw.open(constants.map, marker); // Also centers to the marker
       marker.setIcon(selected);
