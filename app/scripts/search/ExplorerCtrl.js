@@ -11,8 +11,8 @@ var constants = {
 
 var app = angular.module('atadosApp');
 
-app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter,
-      notselected, selected, defaultZoom, saoPaulo) {
+app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
+      notselected, selected, defaultZoom, saoPaulo, curitiba, brasilia, distancia) {
 
   $scope.site.title = 'Atados - Explore';
   $rootScope.explorerView = true;
@@ -37,8 +37,22 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter,
     }
   });
 
-  $scope.objects = $scope.search.mapProjects();
-  $scope.search.showProjects = true;
+  $scope.$watch('search.city', function (city) {
+    $scope.mapOptions.map.zoom = defaultZoom;
+    if (city.id === saoPaulo.id) {
+      $scope.mapOptions.map.center = new google.maps.LatLng(saoPaulo.lat, saoPaulo.lng);
+    } else if (city.id === curitiba.id) {
+      $scope.mapOptions.map.center = new google.maps.LatLng(curitiba.lat, curitiba.lng);
+    } else if (city.id === brasilia.id) {
+      $scope.mapOptions.map.center = new google.maps.LatLng(brasilia.lat, brasilia.lng);
+    } else if (city.id === distancia.id) {
+      $scope.mapOptions.map.center = null;
+      $scope.mapOptions.map.zoom = 1;
+    }
+  });
+
+  $scope.objects = Search.mapProjects();
+  Search.showProjects = true;
   $scope.mapOptions = {
     map : {
       center : new google.maps.LatLng(saoPaulo.lat, saoPaulo.lng),
@@ -78,22 +92,22 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter,
   });
 
   $scope.$watch('search.projects()', function () {
-    if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.mapProjects();
+    if (Search.showProjects) {
+      $scope.objects = Search.mapProjects();
     }
   });
 
   $scope.$watch('search.nonprofits()', function () {
-    if (!$scope.search.showProjects) {
-      $scope.objects = $scope.search.mapNonprofits();
+    if (!Search.showProjects) {
+      $scope.objects = Search.mapNonprofits();
     }
   });
   
   $scope.$watch('search.showProjects', function () {
-    if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.mapProjects();
+    if (Search.showProjects) {
+      $scope.objects = Search.mapProjects();
     } else {
-      $scope.objects = $scope.search.mapNonprofits();
+      $scope.objects = Search.mapNonprofits();
     }
   });
 

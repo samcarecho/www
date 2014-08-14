@@ -6,7 +6,7 @@
 var app = angular.module('atadosApp');
 
 app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
-      Search, $state, storage, defaultZoom, Cleanup, saoPaulo, curitiba, brasilia, distancia) {
+      Search, $state, storage, defaultZoom, Cleanup) {
 
   $scope.search =  Search;
 
@@ -41,21 +41,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
     search(value, old);
   });
 
-  $scope.$watch('search.city', function (city) {
-    $scope.zoom = defaultZoom;
-    if (city.id === saoPaulo.id) {
-      $scope.center = new google.maps.LatLng(saoPaulo.lat, saoPaulo.lng);
-    } else if (city.id === curitiba.id) {
-      $scope.center = new google.maps.LatLng(curitiba.lat, curitiba.lng);
-    } else if (city.id === brasilia.id) {
-      $scope.center = new google.maps.LatLng(brasilia.lat, brasilia.lng);
-    } else if (city.id === distancia.id) {
-      $scope.center = null;
-      $scope.zoom  = 1;
-    }
-  });
-
-  // on keyup, start the countdown
+    // on keyup, start the countdown
   $('#searchInput').keyup(function(){
     clearTimeout(typingTimer);
     typingTimer = setTimeout(setDoneTyping, doneTypingInterval);
@@ -69,7 +55,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   // user is "finished typing," do something
   function setDoneTyping () {
     doneTyping = true;
-    search($scope.search.query, '');
+    search(Search.query, '');
   }
 
   $scope.searchMoreProjectButtonText = 'Mostrar mais Atos';
@@ -80,26 +66,25 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   $scope.getMore = function () {
     if ($scope.landing) {
       var vars = {
-        showProjects: $scope.search.showProjects,
-        city: $scope.search.city,
-        cause: $scope.search.cause,
-        skill: $scope.search.skill
+        showProjects: Search.showProjects,
+        city: Search.city,
+        cause: Search.cause,
+        skill: Search.skill
       };
       $scope.$emit('landingToExplorer', vars);
     }
-    if ($scope.search.showProjects) {
+    if (Search.showProjects) {
       $scope.searchMoreProjectButtonText = 'Buscando mais atos...';
       $scope.searchMoreDisabled = true;
-      if ($scope.search.nextUrlProject()) {
-        console.log($scope.search.nextUrlProject());
-        $http.get($scope.search.nextUrlProject()).success( function (response) {
+      if (Search.nextUrlProject()) {
+        $http.get(Search.nextUrlProject()).success( function (response) {
           response.results.forEach(function (project) {
             Cleanup.projectForSearch(project);
-            $scope.search.projects().push(project);
+            Search.projects().push(project);
             $scope.searchMoreProjectButtonText = 'Mostrar mais';
             $scope.searchMoreDisabled = false;
           });
-          $scope.search.setNextUrlProject(response.next);
+          Search.setNextUrlProject(response.next);
         }).error(function () {
           toastr.error('Erro ao buscar mais atos do servidor');
         });
@@ -110,17 +95,17 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
         }
       }
     } else {
-      if ($scope.search.nextUrlNonprofit()) {
+      if (Search.nextUrlNonprofit()) {
         $scope.searchMoreNonprofitButtonText = 'Buscando mais ONGs...';
         $scope.searchMoreDisabled = true;
-        $http.get($scope.search.nextUrlNonprofit()).success( function (response) {
+        $http.get(Search.nextUrlNonprofit()).success( function (response) {
           response.results.forEach(function (nonprofit) {
             Cleanup.nonprofitForSearch(nonprofit);
-            $scope.search.nonprofits().push(nonprofit);
+            Search.nonprofits().push(nonprofit);
             $scope.searchMoreNonprofitButtonText = 'Mostrar mais';
             $scope.searchMoreDisabled = false;
           });
-          $scope.search.setNextUrlNonprofit(response.next);
+          Search.setNextUrlNonprofit(response.next);
         }).error(function () {
           toastr.error('Erro ao buscar mais ONGs do servidor');
         });
