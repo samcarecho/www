@@ -37,7 +37,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
     }
   });
 
-  $scope.objects = $scope.search.projects();
+  $scope.objects = $scope.search.mapProjects();
   $scope.search.showProjects = true;
   $scope.mapOptions = {
     map : {
@@ -79,21 +79,21 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, notselecte
 
   $scope.$watch('search.projects()', function () {
     if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.projects();
+      $scope.objects = $scope.search.mapProjects();
     }
   });
 
   $scope.$watch('search.nonprofits()', function () {
     if (!$scope.search.showProjects) {
-      $scope.objects = $scope.search.nonprofits();
+      $scope.objects = $scope.search.mapNonprofits();
     }
   });
   
   $scope.$watch('search.showProjects', function () {
     if ($scope.search.showProjects) {
-      $scope.objects = $scope.search.projects();
+      $scope.objects = $scope.search.mapProjects();
     } else {
-      $scope.objects = $scope.search.nonprofits();
+      $scope.objects = $scope.search.mapNonprofits();
     }
   });
 
