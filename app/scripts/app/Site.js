@@ -1,5 +1,7 @@
 'use strict';
 
+/* global $: false */
+
 var app = angular.module('atadosApp');
 
 app.factory('Site', function(Restangular, $http, storage, api) {
@@ -18,13 +20,6 @@ app.factory('Site', function(Restangular, $http, storage, api) {
     title: 'Atados - Juntando Gente Boa',
     contactEmail: 'contato@atados.com.br',
     copyright: 'Atados, ' + (new Date()).getFullYear(),
-    team: [{
-      name: 'Marjori Pomarole',
-      email: 'marjori@atados.com.br',
-      photo: 'URL here',
-      description: 'Hi I am the programmer',
-      facebook: 'marjoripomarole'
-    }],
     startup: function () {
       return $http.get(api + 'startup/')
         .then(function(response) {

@@ -35,8 +35,8 @@
         </div>
         <div class="form-group col-sm-4">
           <label class="sr-only" for="citiesInput">Cidade</label>
-          <select class="form-control" id="citiesInput" ng-model="search.city" ng-options="c.name for c in cities() | filter: { active: true }">
-            <option value="" disabled selected>Cidade</option>
+          <select name="citiesSelect" class="form-control" id="citiesInput" ng-model="search.city" ng-options="c.name for c in cities() | filter: { active: true }">
+            <option value="" selected="1" disabled>Cidade</option>
           </select>
         </div>
       </div>

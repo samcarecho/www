@@ -6,9 +6,7 @@
 var app = angular.module('atadosApp');
 
 app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
-      Search, $state, storage, defaultZoom, Cleanup) {
-
-  $scope.search =  Search;
+      Search, $state, storage, defaultZoom, Cleanup, saoPaulo) {
 
   var alreadySearchedProject = false;
   var alreadySearchedNonprofit = false;
@@ -31,6 +29,7 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
     }
   };
 
+
   $scope.$watch('search.cause', function (value, old) {
     search(value, old);
   });
@@ -41,17 +40,13 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
     search(value, old);
   });
 
-    // on keyup, start the countdown
   $('#searchInput').keyup(function(){
     clearTimeout(typingTimer);
     typingTimer = setTimeout(setDoneTyping, doneTypingInterval);
   });
-
-  // on keydown, clear the countdown 
   $('#searchInput').keydown(function(){
     clearTimeout(typingTimer);
   });
-
   // user is "finished typing," do something
   function setDoneTyping () {
     doneTyping = true;

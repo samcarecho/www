@@ -16,6 +16,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   $scope.states = Site.states;
   $scope.numbers = Site.numbers;
 
+  // Called from Footer links
   $scope.citySearch = function (city) {
     $scope.cities().forEach(function (c) {
       if (c.name === city) {
@@ -27,6 +28,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
     });
   };
 
+  // Called from search bar on navbar
   $scope.siteSearch = function () {
     $state.transitionTo('root.explore');
     $scope.search.query = $scope.search.landingQuery;
@@ -35,7 +37,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $modal, $state, $location
   };
 
   $scope.openLogin = function(type) {
-
     
     $rootScope.modalInstance = $modal.open({
       templateUrl: '/partials/loginModal.html',

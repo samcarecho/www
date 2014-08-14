@@ -4,11 +4,16 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser, NONPROFIT, storage, Search) {
+app.controller('RootCtrl', function ($scope, $rootScope, $state, Auth, loggedUser, NONPROFIT, storage, Search, saoPaulo, Site) {
 
   $scope.loggedUser = loggedUser;
 
-  Search.filter(null, null, null, null);
+  Search.filter(null, null, null, saoPaulo.id);
+  for (var c in Site.cities()) {
+    if (Site.cities()[c].id === saoPaulo.id) {
+      Search.city = Site.cities()[c];
+    }
+  }
 
   if ($rootScope.modalInstance) {
     $rootScope.modalInstance.close();

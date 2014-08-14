@@ -75,23 +75,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     });
   }
 
-  var getMapProjects = function() {
-    Restangular.all('map/projects').getList({page_size: 1000}).then( function (projects) {
-      _mapProjects = projects;
-    }, function () {
-      console.error('Não consegui pegar Atos no Mapa do servidor.');
-    });
-  };
-  var getMapNonprofits = function() {
-    Restangular.all('map/nonprofits').getList({page_size: 1000}).then( function (nonprofits) {
-      _mapNonprofits = nonprofits;
-    }, function () {
-      console.error('Não consegui pegar ONGs no Mapa do servidor.');
-    });
-  };
-  getMapProjects();
-  getMapNonprofits();
-
   // city is the the city id
   var searchNonprofits = function (query, cause, city) {
     var urlHeaders = {
@@ -111,6 +94,24 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
       _loading = false;
     });
   };
+
+  var getMapProjects = function() {
+    Restangular.all('map/projects').getList({page_size: 1000}).then( function (projects) {
+      _mapProjects = projects;
+    }, function () {
+      console.error('Não consegui pegar Atos no Mapa do servidor.');
+    });
+  };
+  var getMapNonprofits = function() {
+    Restangular.all('map/nonprofits').getList({page_size: 1000}).then( function (nonprofits) {
+      _mapNonprofits = nonprofits;
+    }, function () {
+      console.error('Não consegui pegar ONGs no Mapa do servidor.');
+    });
+  };
+
+  getMapProjects();
+  getMapNonprofits();
 
   return {
     filter: function (query, cause, skill, city) {
