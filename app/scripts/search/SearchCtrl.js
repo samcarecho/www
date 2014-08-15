@@ -14,8 +14,11 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   var typingTimer;
   var doneTyping = false;
   var doneTypingInterval = 1000;
+  var oldQuery = '';
 
   var search = function(value, old) {
+    console.log(value);
+    console.log(old);
     
     if (value !== old) {
       if ($scope.landing) {
@@ -50,7 +53,8 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   // user is "finished typing," do something
   function setDoneTyping () {
     doneTyping = true;
-    search(Search.query, '');
+    search(Search.query, oldQuery);
+    oldQuery = Search.query;
   }
 
   $scope.searchMoreProjectButtonText = 'Mostrar mais Atos';
