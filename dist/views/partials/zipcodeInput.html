@@ -1,0 +1,5 @@
+<div ng-class="{true: 'has-error', false: 'has-success'}[form.zipcode.$error.required || form.zipcode.$invalid]">
+  <div class="col-sm-4">
+    <input required type="text" id="zipcodeInput" class="form-control" name="zipcode" ng-model="object.zipcode" placeholder="CEP">
+  </div>
+</div>
