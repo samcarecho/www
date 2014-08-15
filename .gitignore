@@ -3,6 +3,7 @@
 .*.swp
 .*.swo
 .idea
+dist
 node_modules
 app/bower_components
 .DS_Store
