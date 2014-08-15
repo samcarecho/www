@@ -1,8 +1,12 @@
 <!doctype html>
-<html class="no-js" ng-app="atadosApp" ng-controller="AppCtrl">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-controller="AppCtrl"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-controller="AppCtrl"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" ng-controller="AppCtrl"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="atadosApp" ng-controller="AppCtrl"> <!--<![endif]-->
   <head>
     <meta name="fragment" content="!">
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title ng-bind="site.title">Atados - Juntando Gente boa</title>
     <meta name="description" content="Atados é uma rede social para voluntários e ONGs.">
     <meta name="viewport" content="width=device-width">
@@ -20,9 +24,32 @@
 
   </head>
   <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-M3WZQJ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M3WZQJ');</script>
+    <!-- End Google Tag Manager -->
+
+
+    <!--[if lt IE 7]>
+      <div class="alert">
+        <p class="browsehappy">Você está usando um navegador <strong>antiquado</strong>. Por favor <a href="https://www.google.com/intl/pt/chrome/browser/">atualize seu navegador</a> para melhorar sua experiencia na web.</p>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      </div>
+    <![endif]-->
+
     <div ui-view=""></div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=pt_BR"></script>
+    <!--[if lt IE 9]>
+      <script src="/bower_components/es5-shim/es5-shim.js"></script>
+      <script src="/bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=pt_BR"></script>
 
     <!-- build:js(app) /scripts/vendor.js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -46,6 +73,7 @@
     <script src="/jquery.maskedinput.min.js"></script>
     <script src="/markerclusterer_compiled.js"></script>
     <!-- endbuild -->
+
 
     <script src="/scripts/constants.js"></script>
 
@@ -89,6 +117,45 @@
     <script src="/scripts/volunteer/VolunteerModalCtrl.js"></script>
     <script src="/scripts/volunteer/VolunteerSignupCtrl.js"></script>
     <!-- endbuild -->
+
+    <!-- begin olark code -->
+    <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
+    f[z]=function(){
+    (a.s=a.s||[]).push(arguments)};var a=f[z]._={
+    },q=c.methods.length;while(q--){(function(n){f[z][n]=function(){
+    f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={
+    0:+new Date};a.P=function(u){
+    a.p[u]=new Date-a.p[0]};function s(){
+    a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){
+    hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){
+    return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){
+    b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{
+    b.contentWindow[g].open()}catch(w){
+    c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{
+    var t=b.contentWindow[g];t.write(p());t.close()}catch(x){
+    b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({
+    loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
+    /* custom configuration goes here (www.olark.com/documentation) */
+    olark.identify('9516-312-10-9610');/*]]>*/</script><noscript><a href="https://www.olark.com/site/9516-312-10-9610/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
+
+  <!-- Código do Google para tag de remarketing -->
+  <!--------------------------------------------------
+  As tags de remarketing não podem ser associadas a informações pessoais de identificação nem inseridas em páginas relacionadas a categorias de confidencialidade. Veja mais informações e instruções sobre como configurar a tag em: http://google.com/ads/remarketingsetup
+  --------------------------------------------------->
+  <script type="text/javascript">
+  /* <![CDATA[ */
+  var google_conversion_id = 971695909;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+  <div style="display:inline;">
+  <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/971695909/?value=0&amp;guid=ON&amp;script=0"/>
+  </div>
+  </noscript>
 
   </body>
 </html>
