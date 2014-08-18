@@ -24,7 +24,6 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
     };
   }
 
-  
   if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $http.get(api + 'has_volunteer_applied/?project=' + project.id.toString())
       .success(function (response) {
@@ -34,6 +33,14 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
           $scope.alreadyApplied = false;
         }
       });
+  }
+
+  if ($scope.project.job) {
+    var start = new Date($scope.project.job.start_date);
+    var end = new Date($scope.project.job.end_date);
+    $scope.projectJobInOneDay = start.getDay() === end.getDay() &&
+                                start.getMonth() === end.getMonth() &&
+                                start.getYear() === end.getYear();
   }
 
   $scope.$watch('center', function(value) {

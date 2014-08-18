@@ -125,7 +125,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   $scope.saveProject = function () {
     if ($scope.jobActive) {
       $scope.project.job.start_date = $scope.project.job.start_date.getTime();
-      $scope.job.end_date = $scope.job.end_date.getTime();
+      $scope.project.job.end_date = $scope.project.job.end_date.getTime();
       delete $scope.project.work;
     } else {
       var ava = [];

@@ -9,12 +9,11 @@
         <p ng-if="project.work"><i class="fa fa-refresh"></i> Ato Recorrente</p>
         <p ng-if="project.job">
           <i class="fa fa-clock-o"></i> Ato Pontual 
-          
         </p>
-        <small ng-if="project.job && (project.job.start_date === project.job.end_date)">
-           {{project.job.end_date | date:"(EEEE) dd 'de' MMMM 'de' yyyy"}}
+        <small ng-if="project.job && projectJobInOneDay && !projectJobInSameTime">
+          {{project.job.start_date | date:"(EEEE) dd 'de' MMMM 'de' yyyy"}} das {{project.job.start_date | date:"h:mm a"}} até {{project.job.end_date | date:"h:mm a"}}
         </small>
-        <small ng-if="project.job && (project.job.start_date !== project.job.end_date)">
+        <small ng-if="project.job && !projectJobInOneDay">
            {{project.job.start_date | date:"dd 'de' MMMM 'de' yyyy"}} até {{project.job.end_date | date:"dd 'de' MMMM 'de' yyyy"}}
         </small>
 
