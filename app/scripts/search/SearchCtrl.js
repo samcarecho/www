@@ -17,8 +17,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   var oldQuery = '';
 
   var search = function(value, old) {
-    console.log(value);
-    console.log(old);
     
     if (value !== old) {
       if ($scope.landing) {
