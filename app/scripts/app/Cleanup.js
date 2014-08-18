@@ -2,7 +2,7 @@
 
 var app = angular.module('atadosApp');
 
-app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
+app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT, saoPaulo) {
   var setStatusStyle = function(volunteer) {
     if (volunteer.status === 'Voluntário') {
       volunteer.statusStyle = {color: 'green'};
@@ -138,6 +138,17 @@ app.factory('Cleanup', function ($http, $q, Site, Restangular, api, NONPROFIT) {
         parser3.href = nonprofit.google_page;
         nonprofit.twitter_handle_short = parser3.pathname;
         nonprofit.twitter_handle_short = nonprofit.twitter_handle_short.replace(/\//, '');
+      }
+      if (!nonprofit.address) {
+        nonprofit.address = {
+          city: {
+            id: saoPaulo.id
+          }
+        };
+      } else if (!nonprofit.address.city) {
+        nonprofit.address.city = {
+          id: saoPaulo.id
+        };
       }
     },
     nonprofitForAdmin: function (nonprofit) {

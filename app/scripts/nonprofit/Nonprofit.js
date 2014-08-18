@@ -56,6 +56,9 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
         nonprofitCopy.twitter_handle = null;
       }
 
+      if (!nonprofitCopy.user.address) {
+        nonprofitCopy.user.address = {};
+      }
       nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
       
       delete nonprofitCopy.address;
