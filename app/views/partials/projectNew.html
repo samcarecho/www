@@ -23,41 +23,40 @@
             <label class="col-md-3 control-label">Começa: </label>
             <div class="col-md-2">
               <input
-              class="form-control"
-              type="text"
-              datepicker-popup="dd-MMMM-yyyy"
-              show-weeks="false"
-              ng-model="start_date"
               name="startdate"
-              min-date="minDate"
+              type="text"
+              class="form-control"
+              datepicker-popup="dd-MMMM-yyyy"
+              ng-model="job.start_date"
+              show-weeks="false"
+              min-date="today"
               close-text="Sair"
               is-open="openedStart"
-              ng-click="openStartDate($event)"
-              datepicker-options="dateOptions"
+              ng-click="openedStart = true"
               date-disabled="disabled(date, mode)"
               />
-              <div ng-model="start_date">
-                <timepicker show-meridian="ismeridian"></timepicker>
+              <div ng-model="job.start_date">
+                <timepicker show-meridian="true"></timepicker>
               </div>
             </div>
 
             <label class="col-md-2 control-label">Termina: </label>
             <div class="col-md-2">
               <input
+              name="enddate"
               type="text"
               class="form-control"
               datepicker-popup="dd-MMMM-yyyy"
-              ng-model="end_date"
-              name="enddate"
+              ng-model="job.end_date"
               show-weeks="false"
-              min-date="minDate"
+              min-date="today"
               close-text="Sair"
               is-open="openedEnd"
-              ng-click="openEndDate($event)"
-              datepicker-options="dateOptions"
-              date-disabled="disabled(date, mode)">
-              <div ng-model="end_date">
-                <timepicker show-meridian="ismeridian"></timepicker>
+              ng-click="openedEnd = true"
+              date-disabled="disabled(date, mode)"
+              />
+              <div ng-model="job.end_date">
+                <timepicker show-meridian="true"></timepicker>
               </div>
             </div>
 

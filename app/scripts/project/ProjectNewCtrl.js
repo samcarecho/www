@@ -35,12 +35,11 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     $scope.project.address.city.id = $scope.loggedUser.address.city;
   }
 
-  window.project = $scope.project;
-
   $scope.job = {
     start_date: new Date(),
     end_date: new Date()
   };
+  $scope.today = new Date();
 
   $scope.work = {
     availabilities: [],
@@ -55,18 +54,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     vacancies: 0
   };
 
-  $scope.openStartDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedStart = true;
-  };
-  $scope.openEndDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedEnd = true;
-  };
-
-
   $scope.jobActive = true;
   for (var period = 0; period < 3; period++) {
     var periods = [];
@@ -79,17 +66,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
   $scope.$watch('short_facebook_event', function (value) {
     if (value) {
       $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
-    }
-  });
-
-  $scope.$watch('start_date', function (value) {
-    if (value) {
-      $scope.job.start_date = value.getTime();
-    }
-  });
-  $scope.$watch('end_date', function (value) {
-    if (value) {
-      $scope.job.end_date = value.getTime();
     }
   });
 
@@ -108,13 +84,6 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     $scope.$apply();
   };
 
-  $scope.minDate = new Date();
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
-  };
-
-  
   $scope.removeRole = function (role) {
     $scope.project.roles.splice($scope.project.roles.indexOf(role), 1);
   };
@@ -139,6 +108,8 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
 
     if ($scope.jobActive) {
       $scope.project.job = {};
+      $scope.job.start_date = $scope.job.start_date.getTime();
+      $scope.job.end_date = $scope.job.end_date.getTime();
       angular.copy($scope.job, $scope.project.job);
 
     } else {
