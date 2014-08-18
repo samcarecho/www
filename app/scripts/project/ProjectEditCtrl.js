@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT) {
+app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT, saoPaulo) {
 
   if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
@@ -16,7 +16,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
         foundProject = true;
         $scope.project = p;
         prepareProject();
-        window.project = p;
       }
     });
     if (!foundProject) {
@@ -28,8 +27,8 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   function prepareProject() {
     if ($scope.project.job) {
       $scope.jobActive = true;
-      $scope.start_date = new Date($scope.project.job.start_date);
-      $scope.end_date = new Date($scope.project.job.end_date);
+      $scope.project.job.start_date = new Date($scope.project.job.start_date);
+      $scope.project.job.end_date = new Date($scope.project.job.end_date);
       $scope.project.work = {
         availabilities: [],
         weekly_hours: 0,
@@ -75,6 +74,14 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     if ($scope.project.image_url) {
       $scope.imageUploaded = true;
     }
+
+    if (!$scope.project.address) {
+      $scope.project.address = {
+        city: saoPaulo.id
+      };
+    } else if (!$scope.project.address.city) {
+      $scope.project.address.city = saoPaulo.id;
+    }
   }
 
   $scope.$watch('short_facebook_event', function (value) {
@@ -86,27 +93,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   });
 
   $scope.cityLoaded = false;
-
-  $scope.$watch('start_date', function (value) {
-    if (value) {
-      $scope.project.job.start_date = value.getTime();
-    }
-  });
-  $scope.$watch('end_date', function (value) {
-    if (value) {
-      $scope.project.job.end_date = value.getTime();
-    }
-  });
-  $scope.openStartDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedStart = true;
-  };
-  $scope.openEndDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.openedEnd = true;
-  };
 
   $scope.uploadProjectImage = function(files) {
     if (files) {
@@ -121,11 +107,6 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
         toastr.error('Error no servidor. Não consigo atualizar foto do ato :(');
       });
     }
-  };
-
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
   };
 
   $scope.removeRole = function (role) {
@@ -143,6 +124,8 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
 
   $scope.saveProject = function () {
     if ($scope.jobActive) {
+      $scope.project.job.start_date = $scope.project.job.start_date.getTime();
+      $scope.job.end_date = $scope.job.end_date.getTime();
       delete $scope.project.work;
     } else {
       var ava = [];

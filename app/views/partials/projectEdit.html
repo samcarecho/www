@@ -204,41 +204,39 @@
 
         <fieldset ng-show="jobActive">
           <legend>Dia e hora do Ato</legend>
-          <label class="col-md-3 control-label">Começa: </label>
-          <div class="col-md-2">
+          <label class="col-md-2 control-label">Começa: </label>
+          <div class="col-md-3">
             <input
-            class="form-control"
-            type="text"
-            datepicker-popup="dd-MMMM-yyyy"
-            ng-model="start_date"
             name="startdate"
+            type="text"
+            class="form-control"
+            datepicker-popup="dd-MMMM-yyyy"
+            ng-model="project.job.start_date"
             show-weeks="false"
             close-text="Sair"
             is-open="openedStart"
-            ng-click="openStartDate($event)"
-            datepicker-options="dateOptions"
-            date-disabled="disabled(date, mode)">
-            <div ng-model="start_date">
-              <timepicker show-meridian="ismeridian"></timepicker>
+            ng-click="openedStart = true"
+            />
+            <div ng-model="project.job.start_date">
+              <timepicker show-meridian="true"></timepicker>
             </div>
           </div>
 
           <label class="col-md-2 control-label">Termina: </label>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <input
+            name="enddate"
             type="text"
             class="form-control"
             datepicker-popup="dd-MMMM-yyyy"
-            ng-model="end_date"
-            name="enddate"
+            ng-model="project.job.end_date"
             show-weeks="false"
             close-text="Sair"
             is-open="openedEnd"
-            ng-click="openEndDate($event)"
-            datepicker-options="dateOptions"
-            date-disabled="disabled(date, mode)">
-            <div ng-model="end_date">
-              <timepicker show-meridian="ismeridian"></timepicker>
+            ng-click="openedEnd = true"
+            />
+            <div ng-model="project.job.end_date">
+              <timepicker show-meridian="true"></timepicker>
             </div>
           </div>
 
