@@ -33,7 +33,6 @@ app.factory('Site', function(Restangular, $http, storage, api) {
           });
           _skills.splice(0, 0, {name: 'Todas Habilidades', id: ''});
 
-          console.log(response.causes);
           _causes = response.causes;
           _causes.forEach(function (c) {
             c.checked = false;
@@ -46,7 +45,6 @@ app.factory('Site', function(Restangular, $http, storage, api) {
         });
     },
     causes: function () {
-      console.log(_causes);
       return _causes;
     },
     skills: function () {
