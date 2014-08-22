@@ -64,7 +64,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
     if (Search.nextUrlProject()) {
       $scope.searchMoreProjectButtonText = 'Buscando mais atos...';
       $scope.searchMoreDisabled = true;
-      console.log(Search.nextUrlProject());
       $scope.searching = true;
       $http.get(Search.nextUrlProject()).success( function (response) {
         response.results.forEach(function (project) {
