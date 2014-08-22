@@ -1,10 +1,8 @@
 'use strict';
 
-/* global toastr: false */
-
 var app = angular.module('atadosApp');
 
-app.controller('VolunteerModalCtrl', function($scope, $rootScope, ezfb, Auth) {
+app.controller('VolunteerModalCtrl', function($scope) {
 
   $scope.loginActive = true;
   $scope.$watch('loginActive', function (value) {
@@ -19,33 +17,4 @@ app.controller('VolunteerModalCtrl', function($scope, $rootScope, ezfb, Auth) {
     $scope.loginActive = !$scope.loginActive;
   };
 
-  function sendFacebookCredentials(authResponse) {
-    Auth.facebookAuth(authResponse,
-      function (user) {
-        $rootScope.$emit('userLoggedIn', user);
-      }, function () {
-        toastr.error('Houve um error no servidor tentando logar com sua conta no Facebook.');
-      });
-  }
-
-  $scope.facebookAuth = function () {
-    ezfb.getLoginStatus(function (response) {
-      if (response.status !== 'connected') {
-        ezfb.login(function(loginResponse) {
-          if (loginResponse.status === 'connected') {
-            sendFacebookCredentials(loginResponse.authResponse);
-          } else if (response.status === 'not_authorized') {
-            // Here now user needs to authorize the app to be used with Facebook
-          }
-        }, {scope: 'email'});
-        // });
-      } else {
-        if (response.authResponse) {
-          sendFacebookCredentials(response.authResponse);
-        } else {
-          toastr.error('Could not get facebook credentials');
-        }
-      }
-    });
-  };
 });
