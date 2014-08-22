@@ -65,24 +65,30 @@ app.controller('LoginCtrl', function($scope, $rootScope, Auth, ezfb) {
   }
 
   $rootScope.facebookAuth = function () {
-    ezfb.getLoginStatus(function (response) {
-      if (response.status !== 'connected') {
-        ezfb.login(function(loginResponse) {
-          if (loginResponse.status === 'connected') {
-            sendFacebookCredentials(loginResponse.authResponse);
-          } else if (response.status === 'not_authorized') {
-            // Here now user needs to authorize the app to be used with Facebook
-          }
-        }, {scope: 'email'});
-        // });
-      } else {
-        if (response.authResponse) {
-          sendFacebookCredentials(response.authResponse);
-        } else {
-          toastr.error('Não conseguimos acessar dados do Facebook.');
+    if (!$scope.loginStatus) {
+      toastr.error('Facebook bloqueado nesta conexão.');
+      return;
+    }
+
+    if ($scope.loginStatus.status !== 'connected') {
+      ezfb.login(function(loginResponse) {
+        if (loginResponse.status === 'connected') {
+          sendFacebookCredentials(loginResponse.authResponse);
+        } else if ($scope.loginStatus.status === 'not_authorized') {
+          // Here now user needs to authorize the app to be used with Facebook
         }
+      }, {scope: 'email'});
+    } else {
+      if ($scope.loginStatus.authResponse) {
+        sendFacebookCredentials($scope.loginStatus.authResponse);
+      } else {
+        toastr.error('Não conseguimos acessar dados do Facebook.');
       }
-    });
+    }
   };
+
+  ezfb.getLoginStatus(function (res) {
+    $scope.loginStatus = res;
+  });
 
 });
