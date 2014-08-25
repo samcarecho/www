@@ -12,6 +12,8 @@ app.factory('Auth', function($http, Cookies, Cleanup, api, accessTokenCookie, au
     }
   }
 
+  var _loggedUser = null;
+
   return {
     facebookAuth: function (facebookAuthData, success, error) {
       $http.post(api + 'facebook/', facebookAuthData).success( function(response) {
@@ -29,9 +31,13 @@ app.factory('Auth', function($http, Cookies, Cleanup, api, accessTokenCookie, au
         return $http.get(api + 'current_user/?id=' + new Date().getTime())
           .then(function (response) {
             Cleanup.currentUser(response.data);
+            _loggedUser = response.data;
             return response.data;
           });
       }
+    },
+    getLoggedUser: function() {
+      return _loggedUser;
     },
     resetPassword: function (email, success, error) {
       $http.post(api + 'password_reset/', {email: email})

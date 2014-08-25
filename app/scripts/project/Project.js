@@ -64,7 +64,8 @@ app.factory('Project', function($http, Restangular, Site, Auth, Cleanup, $state,
     },
     get: function(slug) {
       return Restangular.one('project', slug).get().then(function(project) {
-        if (!project.published) {
+        var projectBelongsToLoggedUser = Auth.getLoggedUser() && project.nonprofit.id === Auth.getLoggedUser().id;
+        if (!project.published && !projectBelongsToLoggedUser) {
           $state.transitionTo('root.home');
           toastr.error('Ato ainda não foi aprovado. Se isso é um erro entre em contato por favor.');
           return null;
