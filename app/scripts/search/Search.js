@@ -84,8 +84,6 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
       city: city,
     };
 
-    console.log(city);
-
     _loading = true;
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
       _cardListNonprofits = [];
