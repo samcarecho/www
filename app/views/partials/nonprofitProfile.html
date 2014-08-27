@@ -18,8 +18,7 @@
           data-send="false"></div>
       </div>
 
-      
-      <div id="nonprofit-map" ng-hide="nonprofit.address.city && nonprofit.address.city === 0">
+      <div id="nonprofit-map" ng-if="nonprofit.address && nonprofit.address.latitude !== 0 && nonprofit.address.longitude !== 0">
         <gm-map
         gm-map-id="'nonprofitAddressMap'"
         gm-center="center"
@@ -33,6 +32,7 @@
           </gm-markers>
         </gm-map>
       </div>
+
       <div id="nonprofit-social">
         <a ng-if="nonprofit.facebook_page" href="{{nonprofit.facebook_page}}" target="_blank"><i class="fa fa-facebook"></i></a>
         <a ng-if="nonprofit.google_page" href="{{nonprofit.google_page}}" target="_blank"><i class="fa fa-twitter"></i></a>

@@ -75,10 +75,11 @@
     <div id="left-sidebar" class="col-sm-offset-1 col-sm-3">
       <h5>Sobre a organização</h5>
       <p>{{project.nonprofit.description}}</p>
-      <div id="project-map" ng-if="(!project.work || !project.work.can_be_done_remotely) && project.address.addressline">
+      <div id="project-map" ng-if="(!project.work || !project.work.can_be_done_remotely)">
         <h5>Localização</h5>
 
         <gm-map
+          ng-if="project.address.latitude !== 0 && project.address.longitude !== 0"
           gm-map-id="'projectAddressMap'"
           gm-center="center"
           gm-zoom="zoom"
