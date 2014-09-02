@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 @font-face {
   font-family: 'Noto Sans';
   font-style: normal;
@@ -1584,6 +1585,33 @@ $card-img-height: 170px;
   }
 }
 
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#ligando {
+  background-color: #35323a;
+  .pagina {
+    h1, h2, h3, h4, p {
+      font-family: 'Montserrat', sans-serif;
+    }
+    height: 820px;
+    //width: 639px;
+    background-color: #e2d9c5;
+    margin-top: 60px;
+    .ligando-logo {
+      margin-left: 19%;
+      margin-top: 70px;
+      margin-bottom: 60px;
+    }
+    .inscrevase {
+      margin-bottom: 25px;
+    }
+  }
+
+}
 // Plugin CSS overrides
 // -------------------------
 
