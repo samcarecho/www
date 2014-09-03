@@ -155,7 +155,7 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
 
   $scope.getMarkerOpts = function (object) {
     var titleStr = '';
-    if (!$scope.showProjects) {
+    if (!Search.showProjects) {
       titleStr = '<div id="info-window"><h4><a href="/ong/' + object.slug + '">' + object.name + '</a></h4><p>' +
         $filter('as_location_string')(object.address) + '</p></div>';
     } else {
