@@ -126,7 +126,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: 'LegacyCtrl'
       })
      .state('root.ligandoospontos', {
-        url: '/ligandoospontos',
+        url: '/ligandopontos',
         templateUrl: '/partials/ligandoospontos.html'
       });
 
