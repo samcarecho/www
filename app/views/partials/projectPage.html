@@ -53,7 +53,7 @@
 
     </div>
     <div class="col-sm-2">
-      <button id="atar-button" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Quero ser voluntário</button>
+      <button id="atar-button" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Quero me candidatar</button>
       <button id="atar-button" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-show="alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-chain-broken"></i> Não quero mais</button>
       <button id="atar-button" disabled ng-hide="alreadyApplied || !project.closed" class="btn"><i class="fa fa-times"></i> Ato Fechado</button>
 
@@ -161,7 +161,7 @@
       </div>
     </div>
     <div class="col-sm-offset-5 col-sm-5" style="margin-top: 30px;">
-      <button id="atar-button" class="col-sm-12" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Quero ser voluntário</button>
+      <button id="atar-button" class="col-sm-12" ng-disabled="loggedUser && loggedUser.role==='NONPROFIT'" ng-hide="project.closed || alreadyApplied" class="btn" ng-class="{active: alreadyApplied}" ng-click="applyVolunteerToProject()"><i class="fa fa-heart"></i> Quero me candidatar</button>
     </div>
   </div>
 </div>
