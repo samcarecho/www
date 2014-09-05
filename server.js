@@ -14,6 +14,8 @@ var config = require('./lib/config/config');
 
 var app = express();
 
+app.use(require('prerender-node').set('prerenderToken', 'tpUK4dJysGcelCMe0CWq'));
+
 // Express settings
 require('./lib/config/express')(app);
 
