@@ -14,7 +14,8 @@ var config = require('./lib/config/config');
 
 var app = express();
 
-app.use(require('prerender-node').set('prerenderToken', 'tpUK4dJysGcelCMe0CWq'));
+var seojs = require('express-seojs');
+app.use(seojs('WvW2celPla'));
 
 // Express settings
 require('./lib/config/express')(app);
