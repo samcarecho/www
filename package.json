@@ -16,6 +16,7 @@
     "method-override": "~2.1.2",
     "morgan": "~1.2.0",
     "prerender": "^3.7.0",
+    "prerender-node": "^1.0.6",
     "static-favicon": "~1.0.2"
   },
   "devDependencies": {
