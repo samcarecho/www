@@ -3,3 +3,4 @@
 User-agent: *
 
 Disallow: /confirmar/email/
+Disallow: /site/
