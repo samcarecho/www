@@ -12,8 +12,10 @@ app.factory('Site', function(Restangular, $http, storage, api) {
     nonprofits: 0,
     volunteers: 0
   };
+  var _description = 'Atados é uma rede social para voluntários e ONGs.';
 
   return {
+    description: _description,
     name : 'Atados - Juntando Gente Boa',
     title: 'Atados - Juntando Gente Boa',
     contactEmail: 'contato@atados.com.br',

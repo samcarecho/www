@@ -13,7 +13,9 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.project = project;
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
+  $scope.site.description = $scope.project.description;
   $scope.markers.push(project.address);
+
 
   if ($scope.project.address) {
     $scope.options = {
