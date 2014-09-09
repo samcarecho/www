@@ -18,6 +18,11 @@ app.factory('Site', function(Restangular, $http, storage, api) {
     description: _description,
     name : 'Atados - Juntando Gente Boa',
     title: 'Atados - Juntando Gente Boa',
+    og: {
+      type: 'website',
+      url: 'https://www.atados.com.br',
+      image: 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/landing_cover.jpg',
+    },
     contactEmail: 'contato@atados.com.br',
     copyright: 'Atados, ' + (new Date()).getFullYear(),
     startup: function () {
