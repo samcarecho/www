@@ -13,6 +13,8 @@ app.controller('NonprofitCtrl', function($scope, $rootScope, $state, $http, nonp
   $scope.nonprofit.address = nonprofit.user.address;
   $scope.site.title = 'ONG - ' + $scope.nonprofit.name;
   $scope.site.description = $scope.nonprofit.description;
+  $scope.site.og.url = 'https://www.atados.com.br/ong/' + nonprofit.user.slug;
+  $scope.site.og.image = nonprofit.image_url;
   $scope.activeProjects = true;
   $scope.markers = [];
   $scope.markers.push(nonprofit.address);

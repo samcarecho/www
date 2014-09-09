@@ -8,6 +8,9 @@ app.controller('VolunteerCtrl', function($scope, volunteer) {
   $scope.landing = false;
   $scope.site.title = 'Voluntário - ' + volunteer.slug;
   $scope.site.description = volunteer.name;
+  $scope.site.og.url = 'https://www.atados.com.br/voluntario/' + volunteer.slug;
+  $scope.site.og.image = volunteer.image_url;
+
 
   $scope.selectMarker = function (marker, object) {
     angular.element(document.querySelector('#card-' + object.slug))

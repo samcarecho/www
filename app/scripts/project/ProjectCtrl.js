@@ -14,6 +14,8 @@ app.controller('ProjectCtrl', function($scope, $rootScope, $state, $stateParams,
   $scope.nonprofit = $scope.project.nonprofit;
   $scope.site.title = 'Ato - ' + $scope.project.name;
   $scope.site.description = $scope.project.description;
+  $scope.site.og.url = 'https://www.atados.com.br/ato/' + project.slug;
+  $scope.site.og.image = project.image_url;
   $scope.markers.push(project.address);
 
 

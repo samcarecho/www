@@ -4,6 +4,9 @@ var app = angular.module('atadosApp');
 
 app.controller('HomeCtrl', function($scope, $sce) {
   $scope.site.title = 'Atados - Juntando Gente Boa';
+  $scope.site.og.url = 'https://www.atados.com.br';
+  $scope.site.og.image = 'https://s3-sa-east-1.amazonaws.com/atadosapp/images/landing_cover.jpg';
+  $scope.site.description = 'Atados é uma rede social para voluntários e ONGs.';
 
   $scope.depoimentos = [{
     quote: 'Atar-se a alguém é de fato um ato de coragem  e essa é uma qualidade que não falta nos corações de quem é do Atados. Grande exemplo para aqueles que nasceram incomodados. Se voce é um tipo desses, experimente atar-se e nunca mais será o mesmo. Seja uma cartinha toda semana, um dia no asilo ou uma festa com gente de várias nações, viva a experiência!',
