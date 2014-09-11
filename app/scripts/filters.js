@@ -4,12 +4,12 @@ var app = angular.module('atadosApp');
 
 app.filter('as_location_string', function() {
   return function(address) {
-    if (!address.addressline) {
-      return 'Não tem endereço.';
-    }
 
     if (address.city === 0) {
       return address.city_state;
+    }
+    if (!address.addressline) {
+      return 'Não tem endereço.';
     }
 
     var out = address.addressline + ', ';
