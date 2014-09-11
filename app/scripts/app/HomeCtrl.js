@@ -14,12 +14,12 @@ app.controller('HomeCtrl', function($scope, $sce) {
     where: $sce.trustAsHtml('Funcionária da <a href="http://www.boehringer-ingelheim.com.br/" target="_blank"><strong> Boehringer</strong></a>'),
     image: 'talyta.jpg'
   }, {
-    quote: 'O Atados é um grupo de pessoas que quer mudar pessoas indignadas, que se juntaram para propiciar a outros novas possibilidades de ver e viver. Pessoas que acreditam que toda nova experiência e transformadora, e que querem tornar acessíveis diferentes formas de conhecer e de encontrar com o outro.',
-    name: 'Marcela Aruda',
+    quote: 'O Atados é um grupo de pessoas que quer mudar, pessoas indignadas, que se juntaram para propiciar a outros novas possibilidades de ver e viver. Pessoas que acreditam que toda nova experiência é transformadora, e que querem tornar acessíveis diferentes formas de conhecer e de encontrar o outro.',
+    name: 'Marcella Aruda',
     where: $sce.trustAsHtml('Voluntária da <a ui-sref="root.nonprofit({slug: "mudacoletivo"})" target="_blank"><strong> Muda Coletivo</strong></a>'),
     image: 'marcela.jpg'
   }, {
-    quote: 'Quando decidimos nos cadastrar no site sabíamos que lidaríamos com o mundo virtual, ou seja nada de contato pessoal. A grande surpresa é que essa relação passou do virtual para o real é como se vocês tivessem pulado da tela para trabalhar aqui do nosso lado e hoje somos amigos.',
+    quote: 'Quando decidimos nos cadastrar no site, sabíamos que lidaríamos com o mundo virtual, ou seja, nada de contato pessoal. A grande surpresa é que essa relação passou do virtual para o real. É como se vocês tivessem pulado da tela para trabalhar aqui do nosso lado e hoje somos amigos!',
     name: 'Dayse',
     where: $sce.trustAsHtml('Funcionária da ONG <a ui-sref="root.nonprofit({slug: "parceiros"})" target="_blank"><strong> Monte Azul</strong></a>'),
     image: 'dayse.jpg'
