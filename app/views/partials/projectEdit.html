@@ -94,9 +94,9 @@
           <label class="col-sm-3 control-label">Nome do Responsável</label>
           <div class="col-sm-8">
             <label class="help-block" ng-show="editProjectForm.responsible.$error.minlength">Não pode ter menos de 2 caracteres.</label>
-            <label class="help-block" ng-show="editProjectForm.responsible.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+            <label class="help-block" ng-show="editProjectForm.responsible.$error.maxlength">Não pode ter mais de 27 caracteres.</label>
             <label class="help-block" ng-show="editProjectForm.responsible.$error.required">Obrigatório colocar nome do reponsável pelo Ato.</label>
-            <input required class="form-control" type="text" name="responsible" ng-minlength="2" ng-maxlength="50" ng-model='project.responsible' placeholder="Nome do Responsável">
+            <input required class="form-control" type="text" name="responsible" ng-minlength="2" ng-maxlength="27" ng-model='project.responsible' placeholder="Nome do Responsável">
           </div>
         </div>
 

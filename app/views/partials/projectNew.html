@@ -120,9 +120,9 @@
           <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[newProjectForm.projectname.$error.required || newProjectForm.projectname.$invalid]">
             <label class="col-md-3 control-label" for="projectname">Nome</label>
             <div class="col-md-8">
-              <input required type="text" class="form-control" name="projectname" ng-minlength="3" ng-maxlength="50" ng-model="project.name" placeholder="Nome do Ato" />
+              <input required type="text" class="form-control" name="projectname" ng-minlength="3" ng-maxlength="27" ng-model="project.name" placeholder="Nome do Ato" />
               <label class="help-block" ng-show="newProjectForm.projectname.$error.minlength">Não pode ter menos de 3 caracteres.</label>
-              <label class="help-block" ng-show="newProjectForm.projectname.$error.maxlength">Não pode ter mais de 50 caracteres.</label>
+              <label class="help-block" ng-show="newProjectForm.projectname.$error.maxlength">Não pode ter mais de 27 caracteres.</label>
               <label class="info-label">Atenção: após a escolha do nome do ato, você não poderá mais alterá-lo. Fazemos isso por motivos técnicos do site. Caso tenha que alterá-lo, entre em contato conosco.</label>
             </div>
           </div>
