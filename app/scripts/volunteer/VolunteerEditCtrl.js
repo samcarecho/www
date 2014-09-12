@@ -16,7 +16,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, Volu
   if ($scope.loggedUser && $scope.loggedUser.role === VOLUNTEER) {
     $scope.savedEmail = $scope.loggedUser.user.email;
     $scope.volunteer = $scope.loggedUser;
-    window.volunteer = $scope.volunteer;
   } else {
     $state.transitionTo('root.home');
     toastr.error('Voluntário não logado para editar.');
