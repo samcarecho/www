@@ -64,35 +64,6 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, Volu
     }
   };
 
-  $scope.saveVolunteer = function () {
-    
-    Volunteer.save($scope.volunteer, function() {
-      toastr.success('Perfil salvo!', $scope.volunteer.slug);
-    }, function () {
-      toastr.error('Problema em salvar seu perfil :(');
-    });
-
-    if ($scope.password && $scope.password === $scope.passwordConfirm) {
-      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
-        toastr.success('Senha nova salva', $scope.volunteer.slug);
-      }, function () {
-        toastr.error('Não conseguimos atualizar sua senha :(');
-      });
-    }
-  };
-
-  $scope.$watch('volunteer.user.email', function (value, old) {
-    if (value && value !== old && value !== $scope.savedEmail) {
-      Auth.isEmailUsed(value, function (response) {
-        $scope.volunteerEditForm.email.alreadyUsed = response.alreadyUsed;
-        $scope.volunteerEditForm.email.$invalid = response.alreadyUsed;
-      });
-    } else {
-      $scope.volunteerEditForm.email.$invalid = false;
-      $scope.volunteerEditForm.email.alreadyUsed = false;
-    }
-  });
-
   $scope.getFacebookPhoto = function () {
     if ($scope.volunteer.facebook_uid) {
       Photos.getFacebookPhoto(function (response) {
@@ -109,4 +80,21 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, Volu
     $scope.volunteerEditForm.password.doesNotMatch = $scope.password !== $scope.passwordConfirm;
     $scope.volunteerEditForm.password.$invalid = $scope.volunteerEditForm.password.doesNotMatch;
   });
+
+  $scope.saveVolunteer = function () {
+
+    Volunteer.save($scope.volunteer, function() {
+      toastr.success('Perfil salvo!', $scope.volunteer.slug);
+    }, function () {
+      toastr.error('Problema em salvar seu perfil :(');
+    });
+
+    if ($scope.password && $scope.password === $scope.passwordConfirm) {
+      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
+        toastr.success('Senha nova salva', $scope.volunteer.slug);
+      }, function () {
+        toastr.error('Não conseguimos atualizar sua senha :(');
+      });
+    }
+  };
 });
