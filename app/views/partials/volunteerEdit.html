@@ -44,10 +44,17 @@
             <label class="col-lg-3 control-label">Data Nascimento</label>
             <div class="col-md-8">
               <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" show-weeks="false" ng-model="volunteer.birthDate" is-open="opened" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Fechar" />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
-                </span>
+                <input
+                name="birthDate"
+                type="text"
+                class="form-control"
+                datepicker-popup="dd-MMMM-yyyy"
+                ng-model="volunteer.birthDate"
+                show-weeks="false"
+                is-open="opened"
+                ng-click="opened = true"
+                close-text="Sair"
+                />
               </p>
             </div>
           </div>
