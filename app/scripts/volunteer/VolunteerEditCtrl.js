@@ -84,16 +84,17 @@ app.controller('VolunteerEditCtrl', function($scope, $filter, Auth, Photos, Volu
 
     Volunteer.save($scope.volunteer, function() {
       toastr.success('Perfil salvo!', $scope.volunteer.slug);
+      if ($scope.password && $scope.password === $scope.passwordConfirm) {
+        Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
+          toastr.success('Senha nova salva', $scope.volunteer.slug);
+        }, function () {
+          toastr.error('Não conseguimos atualizar sua senha :(');
+            });
+        }
     }, function () {
       toastr.error('Problema em salvar seu perfil :(');
     });
 
-    if ($scope.password && $scope.password === $scope.passwordConfirm) {
-      Auth.changePassword({email: $scope.volunteer.user.email, password: $scope.password}, function () {
-        toastr.success('Senha nova salva', $scope.volunteer.slug);
-      }, function () {
-        toastr.error('Não conseguimos atualizar sua senha :(');
-      });
-    }
+    
   };
 });
