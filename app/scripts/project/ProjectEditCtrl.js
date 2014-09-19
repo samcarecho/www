@@ -6,23 +6,39 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT, saoPaulo) {
 
-  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
-    $state.transitionTo('root.home');
-    toastr.error('Precisa estar logado como ONG do ato para editar');
-  } else {
-    var foundProject = false;
-    $scope.loggedUser.projects.forEach(function(p) {
-      if (p.slug === $stateParams.slug) {
-        foundProject = true;
-        $scope.project = p;
-        prepareProject();
-      }
-    });
-    if (!foundProject) {
+
+  $scope.$watch('loggedUser', function (user) {
+    if (!user) {
       $state.transitionTo('root.home');
-      toastr.error('A ONG logada não é dona deste ato e não tem acesso de edição.');
+      toastr.error('Nenhum usuário logado.');
+      return;
     }
-  }
+    if (user.user.is_staff) {
+      Project.get($stateParams.slug).then(function(project) {
+        $scope.project = project;
+        prepareProject();
+      });
+      return;
+    }
+
+    if (user.role !== NONPROFIT ) {
+      $state.transitionTo('root.home');
+      toastr.error('Precisa estar logado como ONG do ato para editar');
+    } else {
+      var foundProject = false;
+      $scope.loggedUser.projects.forEach(function(p) {
+        if (p.slug === $stateParams.slug) {
+          foundProject = true;
+          $scope.project = p;
+          prepareProject();
+        }
+      });
+      if (!foundProject) {
+        $state.transitionTo('root.home');
+        toastr.error('A ONG logada não é dona deste ato e não tem acesso de edição.');
+      }
+    }
+  });
 
   function prepareProject() {
     if ($scope.project.job) {
@@ -85,6 +101,9 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
   }
 
   $scope.$watch('short_facebook_event', function (value) {
+    if (!$scope.project) {
+      return;
+    }
     if (value) {
       $scope.project.facebook_event = 'https://www.facebook.com/events/' + value;
     } else {
@@ -144,8 +163,11 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
     Project.save($scope.project, function (project) {
       $scope.project = project;
       toastr.success('Ato salvo.');
-      $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
-    }, function () {
+      if (!$scope.loggedUser.user.is_staff) {
+        $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
+      }
+    }, function (error) {
+      console.error(error);
       toastr.error('Não consigo salvar Ato. Entre em contato com o Atados para resolver o problema.');
     });
   };
