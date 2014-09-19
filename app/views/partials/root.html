@@ -39,7 +39,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ loggedUser.name }}<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a ui-sref="root.nonprofit({slug: loggedUser.slug})">Perfil da ONG</a></li>
-          <li><a ui-sref="root.nonprofitedit">Editar ONG</a></li>
+          <li><a ui-sref="root.nonprofitedit({slug: loggedUser.slug})">Editar ONG</a></li>
           <li><a ui-sref="root.nonprofitadmin({slug: loggedUser.slug})">Painel de controle</a></li>
           <li><a ui-sref="root.newproject">Criar Ato</a></li>
           <li><a ng-click="logout()">Sair</a></li>

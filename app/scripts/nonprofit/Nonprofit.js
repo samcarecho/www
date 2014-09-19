@@ -43,22 +43,23 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
       if (nonprofitCopy.facebook_page_short) {
         nonprofitCopy.facebook_page = 'http://www.facebook.com/' + nonprofitCopy.facebook_page_short;
       } else {
-        nonprofitCopy.facebook_page = null;
+        delete nonprofitCopy.facebook_page;
       }
       if (nonprofitCopy.google_page_short) {
         nonprofitCopy.google_page = 'http://plus.google.com/' + nonprofitCopy.google_page_short;
       } else {
-        nonprofitCopy.google_page = null;
+        delete nonprofitCopy.google_page;
       }
       if (nonprofitCopy.twitter_handle_short) {
         nonprofitCopy.twitter_handle = 'http://twitter.com/' + nonprofitCopy.twitter_handle_short;
       } else {
-        nonprofitCopy.twitter_handle = null;
+        delete nonprofitCopy.twitter_handle;
       }
 
       if (!nonprofitCopy.user.address) {
         nonprofitCopy.user.address = {};
       }
+
       nonprofitCopy.user.address.city = nonprofitCopy.address.city.id;
       
       delete nonprofitCopy.address;
@@ -72,7 +73,8 @@ app.factory('Nonprofit', function(Restangular, $state, $stateParams, Cleanup, $h
       $http.put(api + 'nonprofit/' + nonprofit.slug + '/.json', nonprofitCopy)
         .success(function() {
           toastr.success('Perfil da ONG salva!');
-        }).error(function() {
+        }).error(function(error) {
+          console.error(error);
           toastr.error('Problema ao salvar o perfil da ONG, por favor tente de novo');
         });
     }

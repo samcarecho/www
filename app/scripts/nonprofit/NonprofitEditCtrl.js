@@ -8,11 +8,19 @@ app.controller('NonprofitEditCtrl', function($scope, $http, $state, $stateParams
       Restangular, Photos, Cleanup, api, VOLUNTEER, NONPROFIT, Nonprofit) {
 
   $scope.$watch('loggedUser', function (user) {
+
     if (!user || (user && user.role === VOLUNTEER)) {
-      $state.transitionTo('root.home');
-      toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
-      return;
-    }  else if (user.role === NONPROFIT) {
+      if (user.user.is_staff) {
+        Nonprofit.get($stateParams.slug).then(function(nonprofit) {
+          $scope.nonprofit = nonprofit;
+          Cleanup.currentUser($scope.nonprofit);
+          Cleanup.nonprofitForEdit($scope.nonprofit);
+        });
+      } else {
+        $state.transitionTo('root.home');
+        toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
+      }
+    } else if (user.role === NONPROFIT) {
       $scope.nonprofit = $scope.loggedUser;
       Cleanup.nonprofitForEdit($scope.nonprofit);
     }

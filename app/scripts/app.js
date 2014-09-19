@@ -79,7 +79,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'NonprofitAdminCtrl'
     })
     .state('root.nonprofitedit', {
-      url: '/editar/ong',
+      url: '/editar/ong/:slug',
       templateUrl: '/partials/nonprofitEdit.html',
       controller: 'NonprofitEditCtrl'
     })
