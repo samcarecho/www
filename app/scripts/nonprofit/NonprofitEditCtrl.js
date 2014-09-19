@@ -9,7 +9,13 @@ app.controller('NonprofitEditCtrl', function($scope, $http, $state, $stateParams
 
   $scope.$watch('loggedUser', function (user) {
 
-    if (!user || (user && user.role === VOLUNTEER)) {
+    if (!user) {
+      $state.transitionTo('root.home');
+      toastr.error('Nenhum usuário logado.');
+      return;
+    }
+
+    if (user.role === VOLUNTEER) {
       if (user.user.is_staff) {
         Nonprofit.get($stateParams.slug).then(function(nonprofit) {
           $scope.nonprofit = nonprofit;
