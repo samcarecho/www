@@ -136,9 +136,9 @@
             <div class="form-group" ng-class="{true: 'has-error', false: 'has-success'}[nonprofitForm.details.$error.required || nonprofitForm.details.$invalid]">
               <label class="col-sm-2 control-label">Descrição da ONG</label>
               <div class="col-sm-7">
-                <textarea class="form-control" rows="5" name="details" ng-model='nonprofit.details' ng-minlength="10" ng-maxlength="1024" placeholder="Descrição em detalhe"></textarea>
+                <textarea class="form-control" rows="5" name="details" ng-model='nonprofit.details' ng-minlength="10" ng-maxlength="2048" placeholder="Descrição em detalhe"></textarea>
                 <label class="help-block" ng-show="nonprofitForm.details.$error.minlength">Não pode ter menos de 10 caracteres.</label>
-                <label class="help-block" ng-show="nonprofitForm.details.$error.maxlength">Não pode ter menos de 1024 caracteres.</label>
+                <label class="help-block" ng-show="nonprofitForm.details.$error.maxlength">Não pode ter menos de 2048 caracteres.</label>
               </div>
             </div>
           </fieldset>
