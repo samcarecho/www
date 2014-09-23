@@ -36,7 +36,12 @@ app.controller('NonprofitAdminCtrl', function($scope, $http, $state, $stateParam
   }
 
   $scope.$watch('loggedUser', function (user) {
-    if (!user || (user && user.role === VOLUNTEER && !user.user.is_staff)) {
+    if (!user) {
+      $state.transitionTo('root.home');
+      toastr.error('ONG precisa estar logada para acessar o Painel de Controle.');
+      return;
+    }
+    if (user.role === VOLUNTEER && !user.user.is_staff) {
       $state.transitionTo('root.home');
       toastr.error('Apenas ONGs tem acesso ao Painel de Controle');
       return;
