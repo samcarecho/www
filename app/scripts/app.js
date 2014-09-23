@@ -121,6 +121,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         url: '/site/users/:slug',
         controller: 'LegacyCtrl'
       })
+      .state('root.ligandoospontos', {
+        url: '/ligandopontos',
+        templateUrl: '/partials/ligandoospontos.html'
+      })
      .state('legacyproject', {
         url: '/site/ato/:projectUid',
         controller: 'LegacyCtrl'
