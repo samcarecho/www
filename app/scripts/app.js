@@ -124,10 +124,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
      .state('legacyproject', {
         url: '/site/ato/:projectUid',
         controller: 'LegacyCtrl'
-      })
-     .state('root.ligandoospontos', {
-        url: '/ligandopontos',
-        templateUrl: '/partials/ligandoospontos.html'
       });
 
   $urlRouterProvider.otherwise('/ops');
