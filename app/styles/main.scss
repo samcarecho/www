@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @font-face {
   font-family: 'Noto Sans';
   font-style: normal;
@@ -78,18 +77,6 @@ $screen-lg: 1170px; // desktop lg
 
 $grid-float-breakpoint: 850px;
 
-.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
-  background-color: $orange !important;
-}
-.navbar-inverse .navbar-toggle {
-  border-color: #FFF !important;
-}
-
-.row {
-  margin-right: 0px;
-  margin-left: 0px;
-}
-
 .btn-primary {
   font-weight: bold !important;
   background: linear-gradient($orange, $orange-dark) !important;
@@ -117,6 +104,7 @@ $grid-float-breakpoint: 850px;
   h1 {
     font-weight: bold;
 }
+
 border-bottom: 0;
 }
 
@@ -136,8 +124,6 @@ doubt-atados {
   .jumbotron {
     margin-bottom: 0;
     height: 460px;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.35);
-    
 
     @media screen and (max-width: $screen-xs) {
       h1 {
@@ -1591,65 +1577,6 @@ $card-img-height: 170px;
   margin-right: auto;
 }
 
-#ligando {
-  background-color: #35323a;
-  #pagina-4 {
-    height: 985px;
-  }
-  .pagina {
-    height: 820px;
-    background-color: #e2d9c5;
-    margin-top: 60px;
-    
-    h1, h2, h3, h4, h5, p {
-      color: #766587;
-      font-family: 'Montserrat', sans-serif;
-    }
-    h1 {
-      font-size: 24px;
-      line-height: 40px;
-      margin-bottom: 50px;
-      text-transform: uppercase;
-    }
-    h2 {
-      color: #F8A541;
-      font-size: 20px;
-      line-height: 30px;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-    }
-    h3 {
-      font-size: 20px;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-    h5 {
-      color: #F8A541;
-      font-size: 49px;
-    }
-    .ligando-logo {
-      margin-left: 19%;
-      margin-top: 50px;
-      margin-bottom: 50px;
-    }
-    .inscrevase {
-      font-family: 'Montserrat', sans-serif;
-      &:hover {
-        color: #e2d9c5;
-        background-color: #766587;
-      }
-      padding: 14px 34px;
-      border: 2px solid #766587;
-      text-decoration: none;
-      color: #766587;
-      font-size: 13px;
-      display: table;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-  }
-
-}
 // Plugin CSS overrides
 // -------------------------
 
