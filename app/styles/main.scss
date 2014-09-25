@@ -105,6 +105,19 @@ $grid-float-breakpoint: 850px;
     font-weight: bold;
 }
 
+.center {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:auto;
+  margin-top: auto;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 border-bottom: 0;
 }
 
@@ -120,6 +133,7 @@ doubt-atados {
     margin-top: 20px;
   }
 }
+
 .home {
   .jumbotron {
     margin-bottom: 0;
@@ -945,13 +959,6 @@ a:focus {
   }
 }
 
-.center {
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto;
-  margin-bottom:auto;
-  margin-top: auto;
-}
 
 #atados-explorer-outer {
   .map-outer {
@@ -1571,12 +1578,6 @@ $card-img-height: 170px;
   }
 }
 
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 // Plugin CSS overrides
 // -------------------------
 
@@ -1738,7 +1739,6 @@ $card-img-height: 170px;
   height: 47px;
 }
 
-
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;
@@ -1771,5 +1771,8 @@ $card-img-height: 170px;
   -webkit-transform: translateY(0);
   transform: translateY(0);
 }
+
+// Bootstrap
+// ------------------
 
 @import 'sass-bootstrap/lib/bootstrap';
