@@ -44,26 +44,33 @@
     </form>
   </div>
 
-  <p ng-hide="landing"><small ng-show="search.query || search.city.id > 0 || (search.skill.id > 0 && search.showProjects) || search.cause.id > 0"> Mostrando resultados <span ng-show="search.query">com procura "{{ search.query }}"</span><span ng-show="search.cause.id > 0"><br> com causa "{{ search.cause.name }}"</span><span ng-show="search.skill.id > 0 && search.showProjects"><br> com habilidade "{{ search.skill.name }}"</span><span ng-show="search.city.id > 0"><br> na cidade de "{{ search.city.name }}"</span>.</small></p>
+  <p ng-hide="landing">
+    <small ng-show="search.query || search.city.id > 0 || (search.skill.id > 0 && search.showProjects) || search.cause.id > 0"> Mostrando resultados
+      <span ng-show="search.query">com procura "{{ search.query }}"</span>
+      <span ng-show="search.cause.id > 0"><br> com causa "{{ search.cause.name }}"</span>
+      <span ng-show="search.skill.id > 0 && search.showProjects"><br> com habilidade "{{ search.skill.name }}"</span>
+      <span ng-show="search.city.id > 0"><br> na cidade de "{{ search.city.name }}"</span>.
+    </small>
+  </p>
 
   <div class="row">
     <div class="col-sm-12">
       <div ng-show="search.showProjects" class="clearfix">
         <project-card ng-if="landing" ng-repeat="project in search.highlightedProjects()"></project-card>
         <project-card ng-if="!landing" ng-repeat="project in search.projects()"></project-card>
-        <div class="alert center" ng-show="!search.loading() && !search.projects().length && !landing">Não encontramos projetos para essa busca.</div>
+        <div class="alert" ng-show="!search.loading() && !search.projects().length && !landing">Não encontramos projetos para essa busca.</div>
       </div>
       <div ng-hide="search.showProjects" class="clearfix">
         <nonprofit-card ng-if="landing" ng-repeat="nonprofit in search.highlightedNonprofits()"></nonprofit-card>
         <nonprofit-card ng-if="!landing" ng-repeat="nonprofit in search.nonprofits()"></nonprofit-card>
-        <div class="alert center" ng-show="!search.loading() && !search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
+        <div class="alert" ng-show="!search.loading() && !search.nonprofits().length">Não encontramos ONGs para essa busca.</div>
       </div>
     </div>
   </div>
   <small ng-show="search.showProjects && !landing" class="pull-right"> Mostrando {{search.projects().length}} de {{search.projectCount()}} atos</small>
   <small ng-hide="search.showProjects || landing" class="pull-right"> Mostrando {{search.nonprofits().length}} de {{search.nonprofitCount()}} ONGs</small>
-  <div id="more-button" class="row center">
-    <a class="btn btn-lg btn-info col-sm-4 col-sm-offset-4" ui-sref="root.explore" ng-disabled="searchMoreDisabled">
+  <div style="text-align: center;">
+    <a class="btn btn-lg btn-info" ui-sref="root.explore" ng-disabled="searchMoreDisabled">
       <span ng-show="search.showProjects">{{ searchMoreProjectButtonText }}</span>
       <span ng-hide="search.showProjects">{{ searchMoreNonprofitButtonText }}</span>
     </a>

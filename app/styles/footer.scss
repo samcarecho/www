@@ -1,0 +1,37 @@
+@import "atados";
+
+#footer {
+  padding-top: 20px;
+  background-color: $footer-bg;
+  color: $footer-color;
+  height: $footer-height;
+
+  @media screen and (max-width: $screen-sm) {
+    height: $footer-xs-height;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $footer-color-heading;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  ul {
+    padding-left: 0;
+    li {
+      
+      margin-left: 0;
+      list-style:none;
+      a {
+        color: $white;
+      }
+    }
+  }
+
+  #open-source {
+    i {
+      color: $blue;
+    }
+  }
+}

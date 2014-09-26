@@ -114,6 +114,10 @@ $site-search-breakpoint: 1015px;
   margin-right: auto;
 }
 
+iframe {
+  display: none;
+}
+
 fieldset {
   legend {
     font-weight: bold;
@@ -839,47 +843,6 @@ a:focus {
   }
 }
 
-#footer {
-  padding: 20px 0 0 0;
-  background-color: $footer-bg;
-  color: $footer-color;
-
-  height: $footer-height;
-  @media screen and (max-width: $screen-sm) {
-    height: $footer-xs-height;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    color: $footer-color-heading;
-    font-size: 14px;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  text-shadow: 0 1px 0 rgba(0,0,0,0.8);
-
-  ul {
-    padding-left: 0;
-    li {
-      
-      margin-left: 0;
-      list-style:none;
-      a {
-        color: $white;
-      }
-    }
-  }
-
-  #open-source {
-    margin-top: 20px;
-    margin-bottom: 10px; 
-
-    i {
-      color: $blue;
-    }
-  }
-}
-
 .btn-facebook {
   background-image: linear-gradient(#3F5FA3, #37538D) !important;
   color: $white;
@@ -899,39 +862,6 @@ a:focus {
     background: #fafafa $arrow-down no-repeat 95% 50%;
     color: $gray-light;
     -webkit-appearance: none;
-  }
-}
-
-.filters {
-  background-color: rgba(222, 222, 222, 0.5);
-  border-radius: 5px;
-  padding: 20px 10px;
-  margin: 0 0 20px 0;
-  color: $blue-dark;
-  .form-group {
-    padding: 0px 5px;
-      select {
-        -moz-appearance: none;
-        text-indent: 0.01px;
-        text-overflow: ' ';
-        height: 44px;
-        background: #fafafa $arrow-down no-repeat 95% 50%;
-        color: $gray-light;
-        -webkit-appearance: none;
-      }
-  }
-  #searchInput {
-    height: 44px;
-  }
-  #search-bar {
-    margin-left: 0px;
-    margin-bottom: 10px;
-  }
-  
-  #searchProjects {
-    height: 44px;
-    width: 150px;
-    background: linear-gradient($blue, $blue-dark);
   }
 }
 
