@@ -1,0 +1,59 @@
+@import "atados";
+
+#atados-explorer-outer {
+  .map-outer {
+    #map-message {
+      font-size: 15px;
+      font-weight: 800;
+      position: absolute;
+      width: 100%;
+      top: 150px;
+      margin-left: 30%;
+    }
+    position: relative;
+    box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    .map {
+      width:100%;
+    }
+  }
+}
+
+#atados-explorer {
+  background-color: #efefef;
+  display: table;
+
+  .explanation {
+    margin: 25px 10px;
+    text-align: center;
+
+    h4 {
+      color: #999;
+      font-weight:bold;
+      font-size: 30px;
+      text-shadow: 1px 0 1px rgba(0,0,0,0.2);
+      #atos {
+        color: $orange;
+        cursor: pointer;
+      }
+      #ongs {
+        color: $blue-dark;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .btn-tab {
+    border-radius: 5px 5px 0 0;
+    font-weight: bold;
+    color: #666;
+    background-color: #ececec;
+    padding: 15px;
+    margin-right: -5px;
+    box-shadow: none;
+  }
+  .btn-tab.active {
+    box-shadow: none;
+    background-color: rgba(222, 222, 222, 0.5);
+  }
+}
