@@ -24,15 +24,16 @@ app.controller('ExplorerCtrl', function ($scope, $rootScope, $filter, Search,
 
   function resizeExploreElements () {
     var newSize = window.innerHeight - $('.navbar-header').height() - 5;
-    $('.atados-explorer').height(newSize - 40);
+    console.log(newSize);
+    $('#atados-explorer').height(newSize - 60);
     $('.map-outer .map').height(newSize);
   }
   resizeExploreElements();
   $(window).resize(resizeExploreElements);
 
   // Getting more cards when scrolling to the bottom of the page
-  $('.atados-explorer').scroll(function() {
-    if($('.atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
+  $('#atados-explorer').scroll(function() {
+    if($('#atados-explorer').scrollTop() >= $('#searchSpace').height() - $(window).height()) {
       $scope.getMore();
     }
   });

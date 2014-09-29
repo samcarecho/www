@@ -2,6 +2,9 @@
 
 #atados-explorer-outer {
   .map-outer {
+    padding: 0;
+    box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+
     #map-message {
       font-size: 15px;
       font-weight: 800;
@@ -10,9 +13,6 @@
       top: 150px;
       margin-left: 30%;
     }
-    position: relative;
-    box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
-    padding: 0;
     .map {
       width:100%;
     }
@@ -20,9 +20,9 @@
 }
 
 #atados-explorer {
+  overflow: auto;
   background-color: #efefef;
-  display: table;
-  padding: 30px 0px;
+  padding: 30px 15px;
 
   .explanation {
     text-align: center;
@@ -62,7 +62,7 @@
   background-color: rgba(222, 222, 222, 0.5);
   border-radius: 5px;
   padding: 20px 10px;
-  margin: 0 0 20px 0;
+  margin: 0 10px 20px 10px;
   color: $blue-dark;
   .form-group {
     padding: 0px 5px;
