@@ -162,6 +162,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
 
     Project.save($scope.project, function (project) {
       $scope.project = project;
+      prepareProject();
       toastr.success('Ato salvo.');
       if (!$scope.loggedUser.user.is_staff) {
         $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
