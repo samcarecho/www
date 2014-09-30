@@ -7,9 +7,8 @@
       <h1>Controle de Atos e Voluntários</h1>
     </div>
 
-    <button id="edit-nonprofit-button" class="btn btn-large btn-info" ui-sref="root.nonprofitedit">Editar ONG</button>
+    <button id="edit-nonprofit-button" class="btn btn-large btn-info" ui-sref="root.nonprofitedit({slug: nonprofit.slug})">Editar ONG</button>
     <button id="new-project-button" class="btn btn-info btn-large" ui-sref="root.newproject">Criar Novo Ato</button>
-
 
     <p class="col-xs-12"> Lista de atos <span style="color: #58b957">abertos</span>, <span style="color: #db524b">fechados</span> e <span style="color: #f2ae43">não aprovados</span>.</p>
     <div id="project-management" ng-hide="nonprofit.projects.length === 0">
