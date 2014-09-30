@@ -7,7 +7,7 @@ app.controller('ProjectModalCtrl', function ($scope, $modalInstance, nonprofit, 
   $scope.contractForm = {};
   $scope.contractForm.phone = phone;
   $scope.contractForm.name = name;
-  $scope.contractForm.message = 'Deixe sua mensagem aqui...';
+  $scope.contractForm.message = '';
   $scope.phoneWarningMessage = '';
 
   $scope.ok = function () {
