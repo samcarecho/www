@@ -34,23 +34,11 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
 
   var fixProjects = function (projects) {
     projects.forEach(Cleanup.projectForSearch);
-    if (projects._resultmeta) {
-      _nextUrlProject = toHttps(projects._resultmeta.next);
-      _projectCount = projects._resultmeta.count;
-    } else {
-      _nextUrlProject = '';
-    }
     return projects;
   };
 
   var fixNonprofits = function (nonprofits) {
     nonprofits.forEach(Cleanup.nonprofitForSearch);
-    if (nonprofits._resultmeta) {
-      _nextUrlNonprofit = toHttps(nonprofits._resultmeta.next);
-      _nonprofitCount = nonprofits._resultmeta.count;
-    } else {
-      _nextUrlNonprofit = '';
-    }
     return nonprofits;
   };
 
@@ -68,6 +56,12 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     Restangular.all('projects').getList(urlHeaders).then( function(response) {
       _cardListProjects = response;
       _cardListProjects = fixProjects(response);
+      if (_cardListProjects._resultmeta) {
+        _nextUrlProject = toHttps(_cardListProjects._resultmeta.next);
+        _projectCount = _cardListProjects._resultmeta.count;
+      } else {
+        _nextUrlProject = '';
+      }
       _loading = false;
     }, function () {
       console.error('Não consegui pegar os atos do servidor.');
@@ -88,6 +82,12 @@ app.factory('Search', function (Restangular, ENV, Cleanup) {
     Restangular.all('nonprofits').getList(urlHeaders).then( function (response) {
       _cardListNonprofits = [];
       _cardListNonprofits = fixNonprofits(response);
+      if (_cardListNonprofits._resultmeta) {
+        _nextUrlNonprofit = toHttps(_cardListNonprofits._resultmeta.next);
+        _nonprofitCount = _cardListNonprofits._resultmeta.count;
+      } else {
+        _nextUrlNonprofit = '';
+      }
       _loading = false;
     }, function () {
       console.error('Não consegui pegar ONGs do servidor.');
