@@ -17,7 +17,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
   var oldQuery = '';
 
   var search = function(value, old) {
-    
     if (value !== old) {
       if ($scope.landing) {
         $state.transitionTo('root.explore');
@@ -30,7 +29,6 @@ app.controller('SearchCtrl', function ($scope, $http, $location, $anchorScroll,
       doneTyping = false;
     }
   };
-
 
   $scope.$watch('search.cause', function (value, old) {
     search(value, old);
