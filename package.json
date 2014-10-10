@@ -43,12 +43,13 @@
     "grunt-karma": "~0.9.0",
     "grunt-express-server": "~0.4.19",
     "grunt-open": "~0.2.3",
-    "jshint-stylish": "~1.0.0",
+    "grunt-ng-constant": "0.5.0",
     "load-grunt-tasks": "~0.6.0",
     "time-grunt": "~1.0.0",
-    "karma": "~0.12.23",
+    "jshint-stylish": "~1.0.0",
     "connect-livereload": "~0.4.0",
     "requirejs": "~2.1.15",
+    "karma": "~0.12.23",
     "karma-chrome-launcher": "~0.1.4",
     "karma-html2js-preprocessor": "~0.1.0",
     "karma-jasmine": "~0.2.2",
@@ -57,7 +58,6 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-requirejs": "~0.2.2",
     "karma-script-launcher": "~0.1.0",
-    "grunt-ng-constant": "0.5.0",
     "phantom": "git://github.com/sgentle/phantomjs-node.git#e029778ec4"
   },
   "engines": {
