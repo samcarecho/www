@@ -4,7 +4,7 @@
 
 var app = angular.module('atadosApp');
 
-app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, NONPROFIT) {
+app.controller('ProjectNewCtrl', function($scope, $state, $stateParams, Restangular, Project, NONPROFIT) {
 
   $scope.project = {
     name: '',
@@ -27,7 +27,13 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     roles: [],
   };
 
-  if (!$scope.loggedUser || $scope.loggedUser.role !== NONPROFIT) {
+  if (!$scope.loggedUser) {
+    $state.transitionTo('root.home');
+    toastr.error('Nenhum usuário logado.');
+  } else if ($scope.loggedUser.user.is_staff) {
+    $scope.project.nonprofit = $stateParams.id;
+    $scope.project.address.city.id = $scope.loggedUser.address.city;
+  } else if ($scope.loggedUser.role !== NONPROFIT) {
     $state.transitionTo('root.home');
     toastr.error('Precisa estar logado como ONG para fazer cadastro de um novo ato');
   } else {
@@ -130,8 +136,12 @@ app.controller('ProjectNewCtrl', function($scope, $state, Restangular, Project, 
     Project.create($scope.project, $scope.files, function (response) {
       toastr.success('Ato criado com sucesso. Agora espere o Atados entrar em contato para aprovação');
       $scope.project.slug = response.slug;
-      $scope.loggedUser.projects.push($scope.project);
-      $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
+      if (!$scope.loggedUser.user.is_staff) {
+        $scope.loggedUser.projects.push($scope.project);
+        $state.transitionTo('root.nonprofitadmin' , {slug: $scope.loggedUser.slug});
+      } else {
+        $state.transitionTo('root.home');
+      }
     }, function (error) {
       console.error(error);
       toastr.error('Não consigo criar novo Ato. Entre em contato com o Atados.');

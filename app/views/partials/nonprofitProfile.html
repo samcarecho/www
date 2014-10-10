@@ -78,7 +78,7 @@
 
       <div class="row">
         <div class="col-sm-12 projects">
-          <project-card ng-repeat="project in getProjects()"></project-card>
+          <project-card ng-repeat="project in getProjects() | filter:{published: true}"></project-card>
           <div class="alert center" ng-show="!getProjects().length">ONG não tem atos nessa categoria.</div>
         </div>
       </div>
