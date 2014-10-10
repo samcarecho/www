@@ -2,9 +2,9 @@
   <form novalidate class="form-horizontal" id="nonprofit-edit-form" name="nonprofitForm">
     <div id="nonprofit-page">
       <div  id="cover">
-        <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}"/>
-        <div >
-          <label class="btn cover-edit" for="cover-input"><i class="fa fa-edit"></i>Editar foto</label>
+        <img alt="{{nonprofit.slug}}" ng-src="{{nonprofit.cover_url}}" />
+        <div>
+          <label class="btn cover-edit" for="cover-input"><i class="fa fa-edit"></i>Atualizar foto</label>
           <input class="form-control" id="cover-input" type="file" name="file" onchange="angular.element(this).scope().uploadCoverFile(this.files)"/>
         </div>
       </div>

@@ -1,0 +1,11 @@
+<div>
+    <div class="row">
+    <legend>Aqui você poderá cortar o melhor pedaço da sua imagem</legend>    
+    <input type="button" value="Iniciar corte" ng-click="applyCrop()">
+    <input type="button" value="Finalizar" ng-click="finishCrop()">
+    <div class="row">
+        <div class="bootstrap-modal-cropper">
+            <img alt="{{alt}}" ng-src="{{url}}" height="307" width="408" />
+        </div>
+    </div>
+</div>

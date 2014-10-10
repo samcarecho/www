@@ -41,8 +41,8 @@ app.factory('Photos', function($http, ezfb, api) {
         transformRequest: angular.indenty
       }).success(success).error(error);
     },
-    setNonprofitCoverPhoto: function (file, success, error) {
-      $http.post(api + 'upload_nonprofit_cover_image/', file, {
+    setNonprofitCoverPhoto: function (file,cropSettings, success, error) {
+      $http.post(api + 'upload_nonprofit_cover_image/?x='+cropSettings.x+'&y='+cropSettings.y+'&height='+cropSettings.height+'&width='+cropSettings.width, file, {
         headers: {'Content-Type': undefined },
         transformRequest: angular.indenty
       }).success(success).error(error);
