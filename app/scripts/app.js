@@ -159,8 +159,7 @@ app.config(function ($httpProvider, accessTokenCookie, csrfCookie, sessionIdCook
       return promise.then(success, error);
     };
   }];
-
-  $httpProvider.responseInterceptors.push(securityInterceptor);
+  $httpProvider.interceptors.push(securityInterceptor);
 });
 
 app.config(function(ezfbProvider, locale, facebookClientId) {
