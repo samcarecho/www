@@ -41,13 +41,14 @@
           <li><a ui-sref="root.nonprofit({slug: loggedUser.slug})">Perfil da ONG</a></li>
           <li><a ui-sref="root.nonprofitedit({slug: loggedUser.slug})">Editar ONG</a></li>
           <li><a ui-sref="root.nonprofitadmin({slug: loggedUser.slug})">Painel de controle</a></li>
-          <li><a ui-sref="root.newproject">Criar Ato</a></li>
+          <li><a ui-sref="root.newproject({id: loggedUser.id})">Criar Ato</a></li>
           <li><a ng-click="logout()">Sair</a></li>
         </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a ui-sref="root.about" style="margin-right: 20px;">Conheça o Atados</a></li>
+        <li><a ui-sref="root.about">Conheça o Atados</a></li>
+        <li><a href="http://empresas.atados.com.br" style="margin-right: 20px;">Projetos Empresariais</a></li>
         <li ng-hide="loggedUser"><button class="btn btn-info navbar-btn" ng-click="openLogin('volunteer')">Login</button></li>
       </ul>
     </div>
@@ -74,6 +75,7 @@
             <li><a ui-sref="root.about">Sobre</a></li>
             <li><a target="_blank" href="http://www.atados.com.br/blog/">Blog</a></li>
             <li><a ng-click="openTermsModal()" href="">Termos de Uso e Políticas de Privacidade</a></li>
+            <li><a href="http://empresas.atados.com.br">Projetos Empresariais</a></li>
           </ul>
         </div>
       </div>

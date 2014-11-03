@@ -104,7 +104,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: 'TokenCtrl'
       })
     .state('root.newproject', {
-        url: '/cadastro/ato',
+      url: '/cadastro/ato/:id',
         templateUrl: '/partials/projectNew.html',
         controller: 'ProjectNewCtrl'
       })
@@ -159,8 +159,7 @@ app.config(function ($httpProvider, accessTokenCookie, csrfCookie, sessionIdCook
       return promise.then(success, error);
     };
   }];
-
-  $httpProvider.responseInterceptors.push(securityInterceptor);
+  $httpProvider.interceptors.push(securityInterceptor);
 });
 
 app.config(function(ezfbProvider, locale, facebookClientId) {

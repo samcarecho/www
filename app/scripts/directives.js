@@ -127,7 +127,14 @@ app.directive('phoneInput', function () {
     },
     templateUrl: '/partials/phoneInput.html',
     link: function() {
-      $('#phoneInput').mask('(99) 9999?9-9999');
+      $('#phoneInput').focus(
+        function(){
+          $(this).mask('(99) 9999-9999?9', {
+            completed:function(){
+              $(this).mask('(99) 99999-9999');
+            }
+          });
+        });
     },
   };
 });

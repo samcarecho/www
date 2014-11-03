@@ -6,7 +6,6 @@ var app = angular.module('atadosApp');
 
 app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project, Photos, NONPROFIT, saoPaulo) {
 
-
   $scope.$watch('loggedUser', function (user) {
     if (!user) {
       $state.transitionTo('root.home');
