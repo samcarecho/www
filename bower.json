@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "angular": "~1.3.0",
-    "angular-i18n": "~1.2.26",
+    "angular-i18n": "~1.3.2",
     "angular-sanitize": "~1.3.0",
     "angular-resource": "~1.3.0",
     "angular-ui-router": "~0.2.11",
