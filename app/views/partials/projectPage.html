@@ -126,7 +126,7 @@
 
     <div ng-if="project.work" id="project-availabilities">
       <h3>Horários disponíveis</h3>
-      <p><strong>Horas por semana: </strong>{{project.work.weekly_hours}}</p>
+      <p ng-if="project.work.weekly_hours"><strong>Horas por semana: </strong>{{project.work.weekly_hours}}</p>
       <div class="row">
         <div class="col-sm-3 table-labels">
           <div class="table-label">Manhã</div><span class="triangle"></span>
