@@ -29,7 +29,7 @@
     "json3": "~3.3.2",
     "restangular": "~1.4.0",
     "underscore": "~1.7.0",
-    "toastr": "~2.0.3",
+    "toastr": "~2.1.0",
     "jquery": "~2.1.1",
     "jquery.cookie": "~1.4.1",
     "angular-easyfb": "~1.2.0",
