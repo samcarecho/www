@@ -82,6 +82,7 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
         }
       });
     });
+
     if ($scope.project.work) {
       $scope.project.work.availabilities = availabilities;
     }
@@ -154,6 +155,9 @@ app.controller('ProjectEditCtrl', function($scope, $state, $stateParams, Project
           }
         });
       });
+      if (!$scope.project.work) {
+        $scope.project.work = {};
+      }
       $scope.project.work.availabilities = ava;
 
       delete $scope.project.job;
