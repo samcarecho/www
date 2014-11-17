@@ -114,12 +114,12 @@
     <div ng-bind-html="project.details | noHTML | newlines"></div>
 
     <div ng-if="project.roles" id="project-roles">
-      <h3>Cargos</h3>
+      <h3 ng-if="project.role.length > 0">Cargos</h3>
       <div ng-repeat="role in project.roles" class="role">
         <h4>{{role.name}}</h4>
-        <p>{{role.details}}</p>
-        <p><strong>Pré-requisito:</strong> {{role.prerequisites}}</p>
-        <p><strong>Vagas:</strong> {{role.vacancies}}</p>
+        <p ng-if="role.details">{{role.details}}</p>
+        <p ng-if="role.prerequisites"><strong>Pré-requisito:</strong> {{role.prerequisites}}</p>
+        <p ng-if="role.vacancies"><strong>Vagas:</strong> {{role.vacancies}}</p>
       </div>
     </div>
 
