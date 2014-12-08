@@ -187,7 +187,7 @@
               <p>Ao clicar em "Finalizar", você estará indicando que leu e concorda com os <a class="alert-link" tabindex="-1" ng-click="openTermsModal()" href="">Termos de uso e Políticas de privacidade</a>.</p>
             </div>
 
-          <button type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChosen)">Finalizar cadastro</button>
+            <button ng-disabled="creatingNonprofit" type="submit" class="btn btn-large btn-block btn-info" ng-disabled="signupForm.$invalid || !(imageUploaded && coverUploaded && causeChosen)">{{buttonText}}</button>
 
           </fieldset>
         </div> <!-- 2nd column -->

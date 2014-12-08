@@ -31,6 +31,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
     causes:[]
   };
 
+  $scope.buttonText = 'Finalizar cadastro';
+
   $scope.$watch('nonprofit.user.slug', function (value) {
     // Checking that slug not already used.
     if (value) {
@@ -120,12 +122,17 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
 
     $scope.files.append('nonprofit', angular.toJson($scope.nonprofit));
 
+    $scope.creatingNonprofit = true;
+    $scope.buttonText = 'Finalizando cadastro...';
+
     Auth.nonprofitSignup($scope.files, function () {
       Auth.login({
           username: $scope.nonprofit.user.email,
           password: $scope.nonprofit.user.password,
           remember: true
         }, function (response) {
+          $scope.creatingNonprofit = false;
+          $scope.buttonText = 'Finalizar cadastro';
           Auth.getCurrentUser(response.access_token).then(
             function (user) {
               $rootScope.$emit('userLoggedIn', user, 'Bem vinda ONG ao atados! Sua ONG ainda precisa ser aprovada. Espere pelo nosso email.');
@@ -140,6 +147,8 @@ app.controller('NonprofitSignupCtrl', function($scope, $rootScope, $filter, $sta
         });
     },
     function (error) {
+      $scope.creatingNonprofit = false;
+      $scope.buttonText = 'Finalizar cadastro';
       console.error(error);
       toastr.error('Erro no servidor. Por favor entre em contato.');
     });
