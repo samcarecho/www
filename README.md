@@ -14,3 +14,7 @@ Frontend app para nova versão do atados.com.br programado com AngularJS.
 	npm install
 	bower install
 	grunt serve
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/atados/www/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
